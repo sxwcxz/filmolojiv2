@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>M3U'dan Database Oluşturucu</title>
+    <style>
+        body { background: #141414; color: white; font-family: sans-serif; padding: 20px; display: flex; gap: 20px; height: 90vh; }
+        .container { flex: 1; display: flex; flex-direction: column; }
+        h2 { color: #E50914; margin-bottom: 10px; }
+        textarea { flex: 1; background: #222; color: #0f0; border: 1px solid #444; padding: 15px; border-radius: 8px; font-family: monospace; resize: none; }
+        button { padding: 15px; background: #E50914; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; margin: 10px 0; font-size: 1.2rem; }
+        button:hover { background: #ff0f1f; }
+        .info { font-size: 0.9rem; color: #aaa; margin-bottom: 10px; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>1. M3U Kodunu Buraya Yapıştır</h2>
+        <div class="info">M3U dosyasını not defteriyle aç, hepsini kopyala ve buraya yapıştır.</div>
+        <textarea id="input" placeholder="#EXTM3U..."></textarea>
+        <button onclick="convert()">DATABASE OLUŞTUR &raquo;</button>
+    </div>
+
+    <div class="container">
+        <h2>2. Sonuç (Database.js)</h2>
+        <div class="info">Bu kodu kopyalayıp database.js dosyanın içine yapıştır.</div>
+        <textarea id="output" readonly></textarea>
+        <button onclick="copy()">KOPYALA</button>
+    </div>
+
+    <script>
+        function convert() {
+            const raw = document.getElementById('input').value;
+            const lines = raw.split('\n');
+            const finalDB = [];
+            const seriesMap = {}; // Dizileri gruplamak için geçici hafıza
+
+            let currentInfo = null;
+
+            for (let line of lines) {
+                line = line.trim();
+                
+                if (line.startsWith('#EXTINF')) {
+                    // Metadata satırı
+                    const logoMatch = line.match(/tvg-logo="([^"]*)"/);
+                    const groupMatch = line.match(/group-title="([^"]*)"/);
+                    const titleParts = line.split(',');
+                    const rawTitle = titleParts[titleParts.length - 1].trim(); // "TR: Baba ocagi 48. Bölüm"
+
+                    currentInfo = {
+                        logo: logoMatch ? logoMatch[1] : 'https://via.placeholder.com/300x450?text=Resim+Yok',
+                        group: groupMatch ? groupMatch[1] : 'Genel',
+                        rawTitle: rawTitle
+                    };
+
+                } else if (line.startsWith('http')) {
+                    // Link satırı (Bir önceki metadata ile birleştir)
+                    if (currentInfo) {
+                        
+                        // DİZİ Mİ? (İçinde "Bölüm" geçiyor mu kontrol et)
+                        // Regex: "İsim" + "48" + ". Bölüm" yapısını arar
+                        const seriesMatch = currentInfo.rawTitle.match(/(.*?)\s+(\d+)\.\s*Bölüm/i);
+
+                        if (seriesMatch) {
+                            // --- DİZİ İŞLEMLERİ ---
+                            let seriesName = seriesMatch[1].replace(/^TR:\s*/i, '').trim(); // "Baba ocagi"
+                            const episodeNum = seriesMatch[2]; // "48"
+
+                            // Eğer bu dizi daha önce eklenmediyse şablonu oluştur
+                            if (!seriesMap[seriesName]) {
+                                seriesMap[seriesName] = {
+                                    id: 'ser_' + cleanID(seriesName),
+                                    type: 'series',
+                                    title: seriesName,
+                                    year: 2024,
+                                    genre: currentInfo.group,
+                                    poster: currentInfo.logo,
+                                    backdrop: currentInfo.logo,
+                                    description: `${seriesName} dizisinin tüm bölümleri.`,
+                                    seasons: [
+                                        {
+                                            name: "1. Sezon (Tümü)",
+                                            episodes: []
+                                        }
+                                    ]
+                                };
+                            }
+
+                            // Bölümü ekle
+                            seriesMap[seriesName].seasons[0].episodes.push({
+                                name: `${episodeNum}. Bölüm`,
+                                source: line,
+                                desc: `${seriesName} ${episodeNum}. Bölüm`
+                            });
+
+                        } else {
+                            // --- FİLM / KANAL İŞLEMLERİ ---
+                            const cleanTitle = currentInfo.rawTitle.replace(/^TR:\s*/i, '').trim();
+                            
+                            finalDB.push({
+                                id: 'mov_' + cleanID(cleanTitle) + '_' + Math.floor(Math.random() * 1000),
+                                type: 'movie',
+                                title: cleanTitle,
+                                year: 2024,
+                                genre: currentInfo.group,
+                                poster: currentInfo.logo,
+                                backdrop: currentInfo.logo,
+                                description: `${cleanTitle} yayını.`,
+                                source: line
+                            });
+                        }
+                    }
+                    currentInfo = null; // Sıfırla
+                }
+            }
+
+            // Biriken dizileri ana listeye ekle
+            for (const key in seriesMap) {
+                finalDB.push(seriesMap[key]);
+            }
+
+            // JSON Çıktısı Ver
+            const jsonOutput = JSON.stringify(finalDB, null, 4);
+            document.getElementById('output').value = `const DATABASE = ${jsonOutput};`;
+        }
+
+        function cleanID(str) {
+            return str.toLowerCase()
+                .replace(/ğ/g, 'g').replace(/ü/g, 'u').replace(/ş/g, 's').replace(/ı/g, 'i').replace(/ö/g, 'o').replace(/ç/g, 'c')
+                .replace(/[^a-z0-9]/g, '');
+        }
+
+        function copy() {
+            const copyText = document.getElementById("output");
+            copyText.select();
+            document.execCommand("copy");
+            alert("Kod kopyalandı! database.js dosyasına yapıştır.");
+        }
+    </script>
+
+</body>
+</html>

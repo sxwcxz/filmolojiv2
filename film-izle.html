@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>Film İzle</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23000000'/><text x='50%' y='75%' dominant-baseline='middle' text-anchor='middle' font-family='Arial Black, sans-serif' font-size='80' fill='%23E50914'>F</text></svg>">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
+    <script src="database.js"></script>
+
+    <style>
+        /* --- TEMEL AYARLAR --- */
+        * { box-sizing: border-box; margin: 0; padding: 0; outline: none; }
+        :root { --brand-color: #E50914; --bg-dark: #101010; --glass-bg: rgba(20, 20, 20, 0.9); --blur: blur(20px); }
+        body { background-color: #101010; color: white; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; overflow-x: hidden; }
+        
+        /* NAVBAR */
+        .navbar { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); width: 90%; max-width: 1200px; height: 65px; background: var(--glass-bg); backdrop-filter: var(--blur); -webkit-backdrop-filter: var(--blur); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 35px; display: flex; align-items: center; justify-content: space-between; padding: 0 25px; z-index: 1000; transition: 0.3s; box-shadow: 0 10px 40px rgba(0,0,0,0.5); }
+        .logo-container { cursor: pointer; display: flex; align-items: center; }
+        .logo-text { color: var(--brand-color); font-size: 24px; font-weight: 900; letter-spacing: -0.5px; font-family: 'Arial Black', sans-serif; text-transform: uppercase; display: flex; align-items: center; text-shadow: 0 0 5px rgba(229, 9, 20, 0.3); }
+        .version-badge { background: rgba(255,255,255,0.1); color: #aaa; font-size: 10px; padding: 2px 6px; border-radius: 4px; margin-left: 8px; font-weight: normal; border: 1px solid rgba(255,255,255,0.1); letter-spacing: 0; font-family: sans-serif; text-shadow: none; }
+        .nav-menu { display: flex; gap: 30px; margin-left: 40px; flex-grow: 1; }
+        .nav-item { cursor: pointer; color: #aaa; font-weight: 500; font-size: 15px; transition: 0.3s; text-decoration: none; border: none !important; display: flex; align-items: center; gap: 6px; }
+        .nav-item:hover { color: white; text-shadow: 0 0 10px rgba(255, 255, 255, 0.8); }
+        
+        .search-container { display: flex; align-items: center; width: 40px; height: 40px; border-radius: 30px; background: transparent; transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); overflow: hidden; position: relative; border: 1px solid transparent; cursor: pointer; padding: 0 10px; }
+        .search-container:hover, .search-container.active { width: 260px; background: rgba(0, 0, 0, 0.6); border-color: rgba(255, 255, 255, 0.2); padding: 0 15px; }
+        .search-icon-btn { font-size: 18px; flex-shrink: 0; color: var(--brand-color); filter: drop-shadow(0 0 2px var(--brand-color)); transition: 0.3s; margin-left: 8px; }
+        .search-container:hover .search-icon-btn, .search-container.active .search-icon-btn { margin-left: 0; }
+        .search-input { width: 0; opacity: 0; background: transparent; border: none; color: white; outline: none; font-size: 14px; transition: 0.3s; margin-left: 10px; }
+        .search-container:hover .search-input, .search-container.active .search-input { width: 100%; opacity: 1; }
+        .close-search { font-size: 16px; cursor: pointer; color: #aaa; padding-right: 10px; display: none; margin-left: auto; }
+        .search-container.active .close-search { display: block; }
+        
+        /* HAMBURGER MENU STYLES */
+        .menu-toggle {
+            display: none; 
+            background: none; border: none;
+            color: white; font-size: 24px;
+            cursor: pointer; padding: 5px;
+            z-index: 1001;
+        }
+        .mobile-menu-overlay {
+            position: fixed; top: 0; right: 0;
+            width: 300px; max-width: 80%; 
+            height: 100%;
+            background: var(--bg-dark); 
+            box-shadow: -5px 0 15px rgba(0, 0, 0, 0.5);
+            z-index: 999;
+            display: none; 
+            flex-direction: column;
+            padding-top: 60px; 
+            transform: translateX(100%); 
+            transition: transform 0.3s ease-out; 
+        }
+        .mobile-menu-overlay.open {
+            transform: translateX(0); 
+            display: flex; 
+        }
+        .mobile-nav-menu {
+            display: flex; flex-direction: column;
+            gap: 5px; text-align: left; 
+            padding: 20px;
+        }
+        .mobile-nav-menu .nav-item {
+            font-size: 1.1rem;
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            transition: background 0.2s;
+            color: #aaa; 
+            text-decoration: none;
+        }
+        .mobile-nav-menu .nav-item:last-child {
+            border-bottom: none;
+        }
+        .mobile-nav-menu .nav-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+            padding-left: 10px;
+            color: white;
+        }
+        /* END HAMBURGER MENU STYLES */
+        
+        /* CONTENT */
+        .theater-container { margin-top: 100px; width: 100%; min-height: calc(100vh - 100px); display: flex; flex-direction: column; align-items: center; padding: 20px; }
+        .playing-info { width: 100%; max-width: 800px; margin-bottom: 20px; text-align: center; }
+        .playing-title { font-size: 2rem; font-weight: bold; color: #fff; margin-bottom: 5px; text-shadow: 0 0 20px rgba(255,255,255,0.1); }
+        .video-wrapper { width: 100%; max-width: 800px; aspect-ratio: 16 / 9; background: #000; border-radius: 15px; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.6); border: 1px solid rgba(255,255,255,0.1); }
+        
+        /* PLYR CUSTOM */
+        .plyr { height: 100%; width: 100%; }
+        .plyr--video .plyr__control.plyr__tab-focus, .plyr--video .plyr__control:hover, .plyr--video .plyr__control[aria-expanded=true] { background: var(--brand-color); }
+        .plyr__menu__container .plyr__control--role:hover { background: var(--brand-color); }
+        .plyr--full-ui input[type=range] { color: var(--brand-color); }
+
+        /* FORM */
+        .suggestion-section { padding: 50px 0; display: flex; justify-content: center; border-top: 1px solid #222; margin-top: 50px; background: #111; width: 100%; }
+        .suggestion-box { width: 100%; max-width: 600px; background: rgba(255,255,255,0.05); padding: 30px; border-radius: 15px; border: 1px solid rgba(255,255,255,0.1); }
+        .suggestion-box h3 { color: #fff; margin-bottom: 20px; font-size: 1.5rem; display: flex; align-items: center; gap: 10px; }
+        .suggestion-box h3 i { color: var(--brand-color); }
+        .form-group { margin-bottom: 15px; }
+        .form-control { width: 100%; padding: 12px; background: #1a1a1a; border: 1px solid #333; color: white; border-radius: 8px; font-size: 0.9rem; transition: 0.3s; }
+        .form-control:focus { border-color: var(--brand-color); background: #222; }
+        textarea.form-control { height: 100px; resize: none; }
+        .btn-submit { width: 100%; padding: 12px; background: var(--brand-color); color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; transition: 0.2s; font-size: 1rem; }
+        .btn-submit:hover { background: #c40812; }
+        
+        #search-results-area { display: none; padding: 120px 5% 50px 5%; min-height: 100vh; background-color: var(--bg-dark); position: fixed; top: 0; left: 0; width: 100%; z-index: 900; overflow-y: auto; }
+        .grid-layout { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 40px 20px; }
+        .card-container { width: 100%; cursor: pointer; transition: transform 0.3s; }
+        .card-container:hover { transform: scale(1.05); z-index: 99; }
+        .card-poster img { width: 100%; border-radius: 8px; aspect-ratio: 2/3; object-fit: cover; }
+        .card-title-text { margin-top: 10px; color: #aaa; font-size: 14px; text-align: center; }
+
+        /* MOBİL RESPONSIVE AYARLAR */
+        @media (max-width: 992px) {
+            .navbar { 
+                position: fixed; top: 0; left: 0; transform: none; width: 100%; height: 60px; 
+                border-radius: 0; 
+                padding: 0 15px;
+                background: #141414;
+                backdrop-filter: none;
+                border: none;
+                box-shadow: 0 5px 15px rgba(0,0,0,0.8);
+            }
+            .nav-menu { display: none; }
+            .search-container { order: 2; margin-left: auto; padding: 5px; }
+            .menu-toggle { display: block; order: 3; margin-left: 10px; }
+
+            .search-container.active { 
+                width: calc(100% - 140px); 
+                position: absolute; left: 70px; top: 5px; height: 50px;
+                padding: 0 15px;
+            }
+            .search-container:hover, .search-container.active {
+                width: calc(100% - 140px); 
+            }
+            
+            .theater-container { margin-top: 60px; padding: 10px; }
+            .playing-title { font-size: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar" id="navbar">
+        <div class="logo-container" onclick="window.location.href='index.html'">
+            <div class="logo-text">Filmoloji <span class="version-badge">V2.0</span></div>
+        </div>
+        <div class="nav-menu" id="desktop-nav-menu">
+            <a href="index.html" class="nav-item">Ana Sayfa</a>
+            <a href="index.html?page=series" class="nav-item">Diziler</a>
+            <a href="index.html?page=movies" class="nav-item">Filmler</a>
+            <a onclick="goToSuggestions()" class="nav-item">
+                <i class="fas fa-paper-plane"></i> İstek & Öneri
+            </a>
+        </div>
+        <div class="search-container" id="searchBox">
+            <div class="search-icon-btn" onclick="openSearch()"><i class="fas fa-search"></i></div>
+            <input type="text" class="search-input" id="searchInput" placeholder="Film veya dizi ara..." onkeyup="handleSearchRedirect(event)">
+            <div class="close-search" onclick="closeSearch()">&times;</div>
+        </div>
+        
+        <button class="menu-toggle" id="menuToggle" onclick="toggleMenu()">
+            <i class="fas fa-bars"></i>
+        </button>
+    </nav>
+
+    <div id="mobileBackdrop" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.7); z-index: 998; display: none;" onclick="toggleMenu()"></div>
+
+    <div class="mobile-menu-overlay" id="mobileMenuOverlay">
+        <button class="menu-toggle" style="position: absolute; top: 15px; right: 20px; color: #E50914;" onclick="toggleMenu()">
+            <i class="fas fa-times"></i>
+        </button>
+        <div class="mobile-nav-menu">
+            <a href="index.html" onclick="toggleMenu()" class="nav-item">Ana Sayfa</a>
+            <a href="index.html?page=series" onclick="toggleMenu()" class="nav-item">Diziler</a>
+            <a href="index.html?page=movies" onclick="toggleMenu()" class="nav-item">Filmler</a>
+            <a onclick="goToSuggestions(); toggleMenu()" class="nav-item">
+                <i class="fas fa-paper-plane"></i> İstek & Öneri
+            </a>
+        </div>
+    </div>
+    <div id="search-results-area">
+        <h2 class="section-title">Arama Sonuçları</h2>
+        <div class="grid-layout" id="search-grid"></div>
+    </div>
+
+    <div class="theater-container" id="main-content">
+        <div class="playing-info">
+            <h1 class="playing-title" id="movie-title">Yükleniyor...</h1>
+            </div>
+
+        <div class="video-wrapper">
+            <video id="player" controls crossorigin playsinline></video>
+        </div>
+
+        <div class="suggestion-section" id="suggestions">
+            <div class="suggestion-box">
+                <h3><i class="fas fa-paper-plane"></i> İstek & Öneri Kutusu</h3>
+                <form action="https://formspree.io/f/myzoeepz" method="POST">
+                    <div class="form-group"><input type="text" name="Gonderen" class="form-control" placeholder="Adınız (İsteğe bağlı)"></div>
+                    <div class="form-group">
+                        <select name="Konu" class="form-control">
+                            <option>Film / Dizi İsteği</option>
+                            <option>Hata Bildirimi</option>
+                            <option>Geliştirme Önerisi</option>
+                        </select>
+                    </div>
+                    <div class="form-group"><textarea name="Mesaj" class="form-control" placeholder="Mesajınızı buraya yazın..." required></textarea></div>
+                    <button type="submit" class="btn-submit">GÖNDER</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+    <script src="https://cdn.plyr.io/3.7.8/plyr.js"></script>
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const id = params.get('id');
+        const movie = typeof DATABASE !== 'undefined' ? DATABASE.find(item => item.id === id) : null;
+        let player;
+
+        if(movie && movie.type === 'movie') {
+            document.title = movie.title + " - İzle";
+            document.getElementById('movie-title').innerText = movie.title;
+            // document.getElementById('movie-desc').innerText = `${movie.year} | ${movie.genre}`; <-- BU SATIR KALDIRILDI
+            initPlayer(movie.source);
+        } else { 
+            window.location.href = 'index.html'; 
+        }
+
+        function initPlayer(url) {
+            const video = document.getElementById('player');
+            if (Hls.isSupported() && url.includes('.m3u8')) {
+                const hls = new Hls();
+                hls.loadSource(url);
+                hls.attachMedia(video);
+                hls.on(Hls.Events.MANIFEST_PARSED, () => setupPlyr(video));
+            } else {
+                video.src = url;
+                setupPlyr(video);
+            }
+        }
+
+        function setupPlyr(videoElement) {
+            player = new Plyr(videoElement, {
+                controls: ['play-large', 'play', 'rewind', 'fast-forward', 'progress', 'current-time', 'duration', 'mute', 'volume', 'settings', 'pip', 'airplay', 'fullscreen'],
+                settings: ['quality', 'speed'],
+                keyboard: { focused: true, global: true },
+                seekTime: 10
+            });
+            document.querySelector('.video-wrapper').addEventListener('dblclick', () => player.fullscreen.toggle());
+            player.play();
+        }
+
+        function toggleMenu() {
+            const overlay = document.getElementById('mobileMenuOverlay');
+            const menuIcon = document.getElementById('menuToggle').querySelector('i');
+            const backdrop = document.getElementById('mobileBackdrop');
+            const isOpen = overlay.classList.contains('open');
+
+            if (isOpen) {
+                overlay.classList.remove('open');
+                menuIcon.className = 'fas fa-bars';
+                document.body.style.overflow = 'auto'; 
+                setTimeout(() => {
+                    backdrop.style.display = 'none';
+                    overlay.style.display = 'none';
+                }, 100); 
+            } else {
+                backdrop.style.display = 'block';
+                overlay.style.display = 'flex';
+                setTimeout(() => {
+                    overlay.classList.add('open');
+                }, 10); 
+                menuIcon.className = 'fas fa-times'; 
+                document.body.style.overflow = 'hidden'; 
+            }
+        }
+
+        function openSearch() { 
+            document.getElementById('searchBox').classList.add('active'); 
+            document.getElementById('searchInput').focus(); 
+            if (window.innerWidth <= 992 && document.getElementById('mobileMenuOverlay').classList.contains('open')) {
+                toggleMenu(); 
+            }
+        }
+
+        function closeSearch() {
+            document.getElementById('searchBox').classList.remove('active');
+            document.getElementById('searchInput').value = '';
+            document.getElementById('search-results-area').style.display = 'none';
+            document.getElementById('main-content').style.display = 'flex';
+            document.body.style.overflow = 'auto';
+            if(player) player.play();
+        }
+
+        function handleSearchRedirect(event) {
+            if (event.key === 'Enter') {
+                const query = document.getElementById('searchInput').value;
+                if (query) { 
+                    window.location.href = `index.html?search=${encodeURIComponent(query)}`; 
+                }
+            }
+        }
+        
+        function goToSuggestions() { 
+            if (document.getElementById('mobileMenuOverlay').classList.contains('open')) {
+                toggleMenu(); 
+            }
+            document.getElementById('suggestions').scrollIntoView({ behavior: 'smooth' }); 
+        }
+    </script>
+</body>
+</html>

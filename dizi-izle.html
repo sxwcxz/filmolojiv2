@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>Dizi İzle</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23000000'/><text x='50%' y='75%' dominant-baseline='middle' text-anchor='middle' font-family='Arial Black, sans-serif' font-size='80' fill='%23E50914'>F</text></svg>">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link href="https://vjs.zencdn.net/8.10.0/video-js.css" rel="stylesheet" />
+    
+    <script src="database.js"></script>
+
+    <style>
+        /* --- TEMEL AYARLAR --- */
+        * { box-sizing: border-box; margin: 0; padding: 0; outline: none; }
+        :root { 
+            --brand-color: #E50914; 
+            --bg-dark: #101010; 
+            --sidebar-bg: #181818; 
+            --glass-bg: rgba(20, 20, 20, 0.9); 
+            --glass-form-bg: rgba(30, 30, 30, 0.6); 
+            --blur: blur(20px); 
+            --shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.6); 
+        }
+        body { background-color: var(--bg-dark); color: white; font-family: 'Segoe UI', sans-serif; overflow-y: auto; overflow-x: hidden; }
+        
+        /* SCROLLBAR STİLİ */
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #181818; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb { background: #444; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #555; }
+
+        /* --- NAVBAR STYLES (PC) --- */
+        .navbar { 
+            position: fixed; top: 20px; left: 50%; transform: translateX(-50%); width: 90%; max-width: 1200px; height: 65px; 
+            background: var(--glass-bg); backdrop-filter: var(--blur); -webkit-backdrop-filter: var(--blur); 
+            border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 35px; 
+            display: flex; align-items: center; justify-content: space-between; padding: 0 25px; 
+            z-index: 1000; transition: 0.3s; box-shadow: 0 10px 40px rgba(0,0,0,0.5); 
+        }
+        .logo-text { color: var(--brand-color); font-size: 24px; font-weight: 900; letter-spacing: -0.5px; font-family: 'Arial Black', sans-serif; text-transform: uppercase; display: flex; align-items: center; text-shadow: 0 0 5px rgba(229, 9, 20, 0.3); }
+        .version-badge { background: rgba(255,255,255,0.15); color: #aaa; font-size: 10px; padding: 2px 6px; border-radius: 4px; margin-left: 8px; font-weight: normal; border: 1px solid rgba(255,255,255,0.1); letter-spacing: 0; font-family: sans-serif; text-shadow: none; }
+        .nav-menu { display: flex; gap: 30px; margin-left: 40px; flex-grow: 1; }
+        .nav-item { cursor: pointer; color: #aaa; font-weight: 500; font-size: 15px; transition: 0.2s; text-decoration: none; border: none !important; display: flex; align-items: center; gap: 6px; }
+        .nav-item:hover { color: white; text-shadow: 0 0 10px rgba(255, 255, 255, 0.8); }
+        
+        .search-container { display: flex; align-items: center; width: 40px; height: 40px; border-radius: 30px; background: transparent; transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); overflow: hidden; position: relative; border: 1px solid transparent; cursor: pointer; padding: 0 10px; flex-shrink: 0; }
+        .search-container:hover, .search-container.active { width: 260px; background: rgba(0, 0, 0, 0.6); border-color: rgba(255, 255, 255, 0.2); padding: 0 15px; cursor: default; }
+        .search-icon-btn { font-size: 18px; flex-shrink: 0; color: var(--brand-color); filter: drop-shadow(0 0 2px var(--brand-color)); transition: 0.3s; margin-left: 8px; }
+        .search-container:hover .search-icon-btn, .search-container.active .search-icon-btn { margin-left: 0; }
+        .search-input { width: 0; opacity: 0; background: transparent; border: none; color: white; outline: none; font-size: 14px; transition: 0.3s; margin-left: 10px; }
+        .search-container:hover .search-input, .search-container.active .search-input { width: 100%; opacity: 1; }
+        .close-search { font-size: 16px; cursor: pointer; color: #aaa; padding-right: 10px; display: none; margin-left: auto; }
+        .search-container.active .close-search { display: block; }
+
+        /* --- HAMBURGER MENU STYLES (PC'de gizli) --- */
+        .menu-toggle { display: none; } 
+        
+        /* Mobil Menü Overlay'leri PC'de gizlendi (Varsayılan olarak) */
+        .mobile-menu-overlay, #mobileBackdrop {
+            display: none; 
+        }
+        
+        /* Mobil Menü Panelinin Yeni Görünümü */
+        .mobile-menu-overlay {
+            position: fixed; top: 0; right: 0;
+            width: 300px; max-width: 80%; 
+            height: 100%;
+            background: rgba(30, 30, 30, 0.95); 
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-left: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: -5px 0 15px rgba(229, 9, 20, 0.3); 
+            z-index: 999;
+            flex-direction: column;
+            padding-top: 60px; 
+            transform: translateX(100%); 
+            transition: transform 0.3s ease-out; 
+        }
+        
+        .mobile-menu-overlay.open {
+            transform: translateX(0); 
+        }
+        
+        .mobile-nav-menu {
+            display: flex; flex-direction: column;
+            gap: 0; 
+            text-align: left; 
+            padding: 20px 0;
+        }
+        
+        .mobile-nav-menu .nav-item {
+            font-size: 1.1rem;
+            padding: 15px 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05); 
+            color: #ccc; 
+            transition: background 0.2s;
+        }
+        .mobile-nav-menu .nav-item:hover {
+            background: rgba(229, 9, 20, 0.15); 
+            color: white;
+            padding-left: 25px; 
+        }
+        
+        /* Kapatma Butonu Stili */
+        .mobile-menu-overlay .menu-toggle {
+              display: block !important; 
+              color: var(--brand-color) !important; 
+              font-size: 28px !important;
+              background: transparent !important;
+              border: none !important;
+              padding: 0;
+              cursor: pointer;
+        }
+
+        /* --- CONTENT AREA & VIDEO STYLES --- */
+        .main-container { display: flex; min-height: 100vh; padding-top: 120px; max-width: 1600px; margin: 0 auto; gap: 20px; padding-bottom: 50px; }
+        .content-area { flex: 3; min-width: 600px; display: flex; flex-direction: column; align-items: center; gap: 30px; padding: 0 20px; }
+        
+        .series-title { display: none; }
+        
+        .episode-title { 
+            color: #fff; font-size: 2.5rem; font-weight: 800; text-shadow: 0 0 10px rgba(0,0,0,0.5); margin-top: 5px; 
+        }
+
+        /* Video.js Ekranını Kapsayıcıya Uydurma */
+        .video-wrapper {
+            position: relative;
+            width: 100%;
+            padding-top: 56.25%; /* 16:9 Oran */
+        }
+        .video-js {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* --- SIDEBAR (BÖLÜM SEÇME) STİLLERİ --- */
+        .sidebar { flex: 1; background: var(--glass-form-bg); backdrop-filter: var(--blur); -webkit-backdrop-filter: var(--blur); border: 1px solid rgba(255, 255, 255, 0.18); border-radius: 18px; box-shadow: var(--shadow); display: flex; flex-direction: column; min-width: 350px; max-width: 450px; height: 550px; position: sticky; top: 120px; }
+        .sidebar-header { padding: 15px 20px; border-bottom: 1px solid rgba(255, 255, 255, 0.1); background: rgba(0, 0, 0, 0.4); border-radius: 18px 18px 0 0; }
+        
+        .season-select { width: 100%; padding: 10px 15px; background: rgba(255, 255, 255, 0.1); border: 1px solid var(--brand-color); color: white; border-radius: 10px; font-size: 1rem; font-weight: 600; cursor: pointer; outline: none; transition: all 0.2s; appearance: none; -webkit-appearance: none; background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%23E50914'%3e%3cpath d='M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z'/%3e%3c/svg%3e"); background-repeat: no-repeat; background-position: right 15px center; background-size: 1em; }
+        
+        .episode-list { flex-grow: 1; overflow-y: auto; padding: 0; }
+        .episode-item { 
+            display: flex; 
+            align-items: center; 
+            padding: 12px 15px; 
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05); 
+            cursor: pointer; 
+            transition: 0.2s; 
+        }
+        .episode-item.active { background: rgba(229, 9, 20, 0.2); border-left: 4px solid var(--brand-color); }
+        
+        /* PLAY İKONU YERİ ESKİSİNE ALINDI */
+        .ep-num { font-size: 1.1rem; font-weight: bold; color: #888; margin-right: 15px; min-width: 25px; } /* Eski margin */
+        .ep-info { flex: 1; } /* Eski Flex ayarı */
+        .ep-title { font-weight: 800; font-size: 1.1rem; color: #fff; margin-bottom: 2px; }
+        .ep-desc { font-size: 0.75rem; color: #888; display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden; }
+
+        /* PLAY İKONU ESKİ YERİNDE */
+        .ep-play-icon { 
+            font-size: 1.7rem; 
+            color: white; 
+            margin-right: 20px; /* Eski değer */
+            opacity: 0.5; transition: all 0.3s; 
+            filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.8)); transform: scale(0.8); background: transparent; 
+            order: unset; /* Order ayarı kaldırıldı */
+        }
+        .episode-item:hover .ep-play-icon { opacity: 1; transform: scale(1.1); filter: drop-shadow(0 0 10px #fff); }
+
+        /* --- İSTEK & ÖNERİ KUTUSU --- */
+        .suggestion-section-wrapper { width: 100%; display: flex; justify-content: center; padding: 50px 20px; margin-top: -50px; }
+        .suggestion-section { width: 100%; max-width: 1000px; background: var(--glass-form-bg); backdrop-filter: var(--blur); -webkit-backdrop-filter: var(--blur); border: 1px solid rgba(255, 255, 255, 0.18); border-radius: 18px; box-shadow: var(--shadow); padding: 30px; }
+        
+        .form-control { width: 100%; padding: 12px 15px; background: rgba(0, 0, 0, 0.4); border: 1px solid rgba(255, 255, 255, 0.1); color: white; border-radius: 10px; font-size: 0.95rem; transition: all 0.3s; }
+        .form-control:focus { border-color: var(--brand-color); background: rgba(0, 0, 0, 0.6); box-shadow: 0 0 0 1px var(--brand-color); }
+        .season-select option, select.form-control option { background-color: var(--bg-dark); color: white; }
+        .btn-submit { width: 100%; padding: 14px; background: var(--brand-color); color: white; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; transition: background 0.2s, transform 0.1s; font-size: 1.1rem; box-shadow: 0 4px 10px rgba(229, 9, 20, 0.4); }
+
+        /* --- RESPONSIVE DÜZENLEME (MOBİL) --- */
+        @media (max-width: 1000px) { 
+            /* NAVBAR mobil düzenleme */
+            .navbar { 
+                top: 0; transform: none; width: 100%; left: 0; border-radius: 0; height: 60px; padding: 0 15px; 
+                background: #141414; backdrop-filter: none; border: none; box-shadow: 0 5px 15px rgba(0,0,0,0.8);
+            } 
+            
+            .main-container { flex-direction: column; padding-top: 80px; padding-bottom: 20px; gap: 20px; } 
+
+            .content-area { width: 100%; min-width: unset; padding: 0 15px; order: 1; } 
+            
+            .sidebar { height: 380px; width: calc(100% - 30px); margin: 0 15px; position: static; order: 2; border-left: none; } 
+            
+            .suggestion-section-wrapper { padding: 0 15px 50px 15px; margin-top: 0; }
+
+            /* MOBİLDE HAMBURGER MENÜ İKONUNU GÖSTER */
+            .menu-toggle { 
+                display: block !important; 
+                background: none; border: none;
+                color: white; 
+                font-size: 24px;
+                cursor: pointer; padding: 5px;
+                z-index: 1001;
+                order: 3; 
+                margin-left: 10px;
+            }
+
+            .nav-menu { display: none; } 
+            .search-container { order: 2; margin-left: auto; }
+            
+            .search-container.active { width: calc(100% - 140px); position: absolute; left: 70px; top: 5px; height: 50px; padding: 0 15px; }
+            
+            .episode-title { font-size: 2rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar" id="navbar">
+        <div class="logo-container" onclick="window.location.href='index.html'">
+            <div class="logo-text">Filmoloji <span class="version-badge">V2.0</span></div>
+        </div>
+        <div class="nav-menu" id="desktop-nav-menu">
+            <a href="index.html" class="nav-item">Ana Sayfa</a>
+            <a href="index.html?page=series" class="nav-item">Diziler</a>
+            <a href="index.html?page=movies" class="nav-item">Filmler</a>
+            <a onclick="goToSuggestions()" class="nav-item">
+                <i class="fas fa-paper-plane"></i> İstek & Öneri
+            </a>
+        </div>
+        <div class="search-container" id="searchBox">
+            <div class="search-icon-btn" onclick="openSearch()"><i class="fas fa-search"></i></div>
+            <input type="text" class="search-input" id="searchInput" placeholder="Film veya dizi ara..." onkeyup="handleSearchRedirect(event)">
+            <div class="close-search" onclick="closeSearch()">&times;</div>
+        </div>
+        
+        <button class="menu-toggle" id="menuToggle" onclick="toggleMenu()">
+            <i class="fas fa-bars"></i>
+        </button>
+    </nav>
+    
+    <div id="mobileBackdrop" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.7); z-index: 998; display: none;" onclick="toggleMenu()"></div>
+
+    <div class="mobile-menu-overlay" id="mobileMenuOverlay">
+        <button class="menu-toggle" style="position: absolute; top: 15px; right: 20px;" onclick="toggleMenu()">
+            <i class="fas fa-times"></i>
+        </button>
+        <div class="mobile-nav-menu">
+            <a href="index.html" onclick="toggleMenu()" class="nav-item">Ana Sayfa</a>
+            <a href="index.html?page=series" onclick="toggleMenu()" class="nav-item">Diziler</a>
+            <a href="index.html?page=movies" onclick="toggleMenu()" class="nav-item">Filmler</a>
+            
+            <a onclick="goToSuggestions()" class="nav-item">
+                <i class="fas fa-paper-plane"></i> İstek & Öneri
+            </a>
+        </div>
+    </div>
+
+    <div class="main-container">
+
+        <div class="content-area">
+            <div class="playing-info">
+                <div class="series-title" id="series-name" style="display: none;">Yükleniyor...</div>
+                <div class="episode-title" id="episode-name">Lütfen Bölüm Seçiniz</div>
+            </div>
+
+            <div class="video-wrapper" id="video-container">
+                </div>
+            </div>
+
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <select id="season-select" class="season-select" onchange="loadEpisodes(this.value)"></select>
+            </div>
+            <div id="ep-list" class="episode-list"></div>
+        </div>
+    </div>
+    <div class="suggestion-section-wrapper">
+        <div class="suggestion-section" id="suggestions">
+            <div class="suggestion-box">
+                <h3><i class="fas fa-paper-plane"></i> İstek & Öneri Kutusu</h3>
+                <form action="https://formspree.io/f/myzoeepz" method="POST">
+                    <div class="form-group"><input type="text" name="Gonderen" class="form-control" placeholder="Adınız (İsteğe bağlı)"></div>
+                    <div class="form-group">
+                        <select name="Konu" class="form-control">
+                            <option>Dizi Bölüm Hatası</option>
+                            <option>Film / Dizi İsteği</option>
+                            <option>Geliştirme Önerisi</option>
+                        </select>
+                    </div>
+                    <div class="form-group"><textarea name="Mesaj" class="form-control" placeholder="Mesajınızı buraya yazın..." required></textarea></div>
+                    <button type="submit" class="btn-submit">GÖNDER</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://vjs.zencdn.net/8.10.0/video.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/videojs-contrib-quality-levels/dist/videojs-contrib-quality-levels.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/videojs-hls-quality-selector/dist/videojs-hls-quality-selector.min.js"></script>
+    
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const id = params.get('id');
+        const SERIES_HLS_URL = "https://drakkarhls4.icu/hls/videos/22275/master.m3u8"; // Test için örnek M3U8 adresi
+
+        // NOT: DATABASE değişkeninin "database.js" dosyası tarafından tanımlandığı varsayılmıştır.
+        const series = typeof DATABASE !== 'undefined' ? DATABASE.find(item => item.id === id) : null;
+        let player; // Artık Video.js player objesi olacak
+
+        if(series) {
+            document.title = series.title;
+            
+            const select = document.getElementById('season-select');
+            
+            series.seasons.forEach((s, i) => {
+                const opt = document.createElement('option');
+                opt.value = i;
+                opt.innerText = s.name;
+                select.appendChild(opt);
+            });
+            
+            loadEpisodes(0);
+            
+            if(series.seasons[0] && series.seasons[0].episodes.length > 0) {
+                setTimeout(() => {
+                    playEpisode(series.seasons[0].episodes[0], 0, 0);
+                }, 500);
+            }
+            
+        } else { 
+            if (id) {
+                    console.error("Dizi bulunamadı, index.html'ye yönlendiriliyor.");
+            }
+            // window.location.href = 'index.html'; 
+        }
+
+        function loadEpisodes(seasonIdx) {
+            const list = document.getElementById('ep-list');
+            list.innerHTML = '';
+            if (!series || !series.seasons[seasonIdx]) return;
+
+            series.seasons[seasonIdx].episodes.forEach((ep, index) => {
+                const div = document.createElement('div');
+                div.className = 'episode-item';
+                div.id = `ep-${index}`;
+                div.onclick = () => playEpisode(ep, index, seasonIdx);
+                div.innerHTML = `
+                    <div class="ep-num">${index + 1}</div>
+                    <div class="ep-play-icon"><i class="fas fa-play"></i></div>
+                    <div class="ep-info">
+                        <div class="ep-title">${ep.name}</div>
+                        <div class="ep-desc">${ep.desc || ''}</div>
+                    </div>
+                `;
+                list.appendChild(div);
+            });
+        }
+
+        // 🌟 GÜNCELLENMİŞ PLAYEPISODE FONKSİYONU (Video.js Kullanımı) 🌟
+        function playEpisode(ep, index, seasonIdx) {
+            document.getElementById('episode-name').innerText = `${ep.name}`; 
+            
+            document.querySelectorAll('.episode-item').forEach(el => el.classList.remove('active'));
+            const activeItem = document.getElementById(`ep-${index}`);
+            if(activeItem) activeItem.classList.add('active');
+
+            const container = document.getElementById('video-container');
+            // Bölüm kaynağı yoksa veya m3u8 değilse test linkini kullan
+            const url = ep.source && ep.source.includes('.m3u8') ? ep.source : SERIES_HLS_URL; 
+
+            // Önceki oynatıcı varsa imha et
+            if(player) {
+                player.dispose(); // Video.js'te .destroy() yerine .dispose() kullanılır
+                player = null;
+            }
+
+            // Kapsayıcıyı temizle
+            container.innerHTML = ''; 
+            
+            // Yeni Video.js elementini oluştur
+            const video = document.createElement('video');
+            video.id = 'video-js-player'; // Video.js'in bu ID'yi kullanması gerekiyor
+            video.className = 'video-js vjs-default-skin vjs-big-play-centered';
+            video.controls = true;
+            video.playsInline = true;
+            video.setAttribute('preload', 'auto');
+            video.setAttribute('data-setup', '{}');
+
+            // HLS Kaynağını Ekle
+            const source = document.createElement('source');
+            source.src = url;
+            source.type = 'application/x-mpegURL';
+            video.appendChild(source);
+            
+            // Altyazı/Metin Parçalarını Ekle (ep objesinde "subtitles" varsa)
+            if (ep.subtitles && Array.isArray(ep.subtitles)) {
+                ep.subtitles.forEach(sub => {
+                    const track = document.createElement('track');
+                    track.kind = 'subtitles';
+                    track.label = sub.label;
+                    track.srclang = sub.lang;
+                    track.src = sub.src;
+                    if (sub.default) track.default = true;
+                    video.appendChild(track);
+                });
+            }
+
+            container.appendChild(video);
+            
+            // Video.js'i başlat
+            initVideoJS(video.id);
+
+            // Oynatmaya çalış (Tarayıcı engellerse yakalanır)
+            if (player) {
+                 player.play().catch(e => console.log("Oto oynatma engellendi:", e));
+            }
+        }
+
+        // 🌟 YENİ: initVideoJS FONKSİYONU 🌟
+        function initVideoJS(videoId) {
+            // Player'ı başlat
+            player = videojs(videoId, {
+                fluid: true, // Kapsayıcıya uyum sağlar (video-wrapper)
+                playbackRates: [0.5, 1, 1.25, 1.5, 2], // Hız ayarları
+            });
+
+            // Kalite Seçici eklentisini etkinleştirme
+            // Bu, HLS manifestinden kalite seviyelerini otomatik olarak çeker.
+            player.hlsQualitySelector({
+                displayLabel: 'Kalite',
+            });
+            
+            // Not: Dublaj (Audio Tracks) ve Altyazılar (Captions/Subtitles) 
+            // HLS manifestinde varsa, Video.js bunları otomatik olarak 
+            // ayarlar menüsüne (Settings) ekleyecektir.
+        }
+
+        // --- Diğer Fonksiyonlarınız ---
+
+        function goToSuggestions() { 
+            // ... (Aynı kaldı) ...
+            if (document.getElementById('mobileMenuOverlay').classList.contains('open') && window.innerWidth <= 1000) {
+                 toggleMenu(); 
+            }
+            document.getElementById('suggestions').scrollIntoView({ behavior: 'smooth' }); 
+        }
+        
+        function openSearch() { 
+            // ... (Aynı kaldı) ...
+            document.getElementById('searchBox').classList.add('active'); 
+            document.getElementById('searchInput').focus(); 
+            if (window.innerWidth <= 1000 && document.getElementById('mobileMenuOverlay').classList.contains('open')) {
+                toggleMenu(); 
+            }
+        }
+        function closeSearch() { 
+            // ... (Aynı kaldı) ...
+            document.getElementById('searchBox').classList.remove('active'); 
+            document.getElementById('searchInput').value = ''; 
+        }
+        function handleSearchRedirect(event) { 
+            // ... (Aynı kaldı) ...
+            if (event.key === 'Enter') { 
+                const query = document.getElementById('searchInput').value; 
+                if (query) { window.location.href = `index.html?search=${encodeURIComponent(query)}`; } 
+            } 
+        }
+
+        function toggleMenu() {
+            // ... (Aynı kaldı) ...
+            const overlay = document.getElementById('mobileMenuOverlay');
+            const menuIcon = document.getElementById('menuToggle').querySelector('i');
+            const backdrop = document.getElementById('mobileBackdrop');
+            
+            if (window.innerWidth > 1000) return;
+
+            const isOpen = overlay.classList.contains('open');
+            
+            if (isOpen) {
+                overlay.classList.remove('open');
+                menuIcon.className = 'fas fa-bars';
+                document.body.style.overflow = 'auto'; 
+                setTimeout(() => {
+                    backdrop.style.display = 'none';
+                    overlay.style.display = 'none';
+                }, 300); 
+
+            } else {
+                backdrop.style.display = 'block';
+                overlay.style.display = 'flex';
+                
+                setTimeout(() => {
+                    overlay.classList.add('open');
+                }, 10); 
+
+                menuIcon.className = 'fas fa-times'; 
+                document.body.style.overflow = 'hidden'; 
+            }
+        }
+    </script>
+</body>
+</html>
