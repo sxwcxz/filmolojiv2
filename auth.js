@@ -1,6 +1,6 @@
 // --- AYARLAR ---
-const ADMIN_SIFRE = "1234";    // Yönetici (Panel + Veri Güncelleme)
-const USER_SIFRE = "4321";     // Kullanıcı (Sadece İndirme)
+const ADMIN_SIFRE = "babahepsikerekgecer";    // Yönetici (Panel + Veri Güncelleme)
+const USER_SIFRE = "3131";     // Kullanıcı (Sadece İndirme)
 const OTURUM_SURESI = 30000;   // 30 Saniye (İşlem yapılmazsa atar)
 
 // --- YETKİ KONTROLÜ (Her sayfanın başında çalışır) ---
