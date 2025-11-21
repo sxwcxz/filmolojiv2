@@ -217,6 +217,32 @@
     <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
     <script src="https://cdn.plyr.io/3.7.8/plyr.js"></script>
     <script>
+        // Sağ Tık Engelleme
+    document.addEventListener('contextmenu', function(e) {
+        e.preventDefault();
+    });
+
+    // Klavye Kısayollarını Engelleme (F12, Ctrl+U, Ctrl+S, Ctrl+Shift+I)
+    document.onkeydown = function(e) {
+        if (e.keyCode == 123) { // F12
+            return false;
+        }
+        if (e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) { // Ctrl+Shift+I
+            return false;
+        }
+        if (e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) { // Ctrl+Shift+C
+            return false;
+        }
+        if (e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) { // Ctrl+Shift+J
+            return false;
+        }
+        if (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) { // Ctrl+U
+            return false;
+        }
+        if (e.ctrlKey && e.keyCode == 'S'.charCodeAt(0)) { // Ctrl+S
+            return false;
+        }
+    };
         const params = new URLSearchParams(window.location.search);
         const id = params.get('id');
         const movie = typeof DATABASE !== 'undefined' ? DATABASE.find(item => item.id === id) : null;

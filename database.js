@@ -11467,6 +11467,17 @@ const DATABASE = [
         "source": "https://vidrame.pro/vr/get/807b59b4/master.m3u8"
     },
     {
+        "id": "mov_heart_eyes_590",
+        "type": "movie",
+        "title": "Heart Eyes",
+        "year": 2024,
+        "genre": "Film",
+        "poster": "https://www.hdfilmizle.to/v/501544/poster/watch/heart-eyes.webp",
+        "backdrop": "https://www.hdfilmizle.to/v/501544/poster/watch/heart-eyes.webp",
+        "description": "Heart Eyes filmini şimdi izle.",
+        "source": "https://vidrame.pro/vr/get/0bb4165d/master.m3u8"
+    },
+    {
         "id": "mov_soul_129",
         "type": "movie",
         "title": "Soul",
