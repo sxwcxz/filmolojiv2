@@ -1,0 +1,64 @@
+// --- AYARLAR ---
+const ADMIN_SIFRE = "1234";    // Yönetici (Panel + Veri Güncelleme)
+const USER_SIFRE = "4321";     // Kullanıcı (Sadece İndirme)
+const OTURUM_SURESI = 30000;   // 30 Saniye (İşlem yapılmazsa atar)
+
+// --- YETKİ KONTROLÜ (Her sayfanın başında çalışır) ---
+function checkAuth(requiredLevel) {
+    const bitisZamani = localStorage.getItem('oturum_bitis');
+    const userRole = localStorage.getItem('kullanici_rolu'); // 'admin' veya 'user'
+
+    // 1. Oturum yoksa veya süre dolmuşsa -> LOGIN'E AT
+    if (!bitisZamani || !userRole || Date.now() > parseInt(bitisZamani)) {
+        doLogout(); 
+        return;
+    }
+
+    // 2. Yetki Kontrolü (Sadece Admin sayfaları için)
+    if (requiredLevel === 'admin' && userRole !== 'admin') {
+        alert("Bu sayfaya erişim yetkiniz yok!");
+        window.location.href = "indir.html"; // Yetkisiz ise indirmeye at
+        return;
+    }
+
+    // 3. Süreyi Uzat (Kalp Atışı)
+    suteyiYenile();
+    if (!window.authInterval) {
+        window.authInterval = setInterval(suteyiYenile, 5000);
+    }
+}
+
+// --- SÜREYİ GÜNCELLEME ---
+function suteyiYenile() {
+    localStorage.setItem('oturum_bitis', Date.now() + OTURUM_SURESI);
+}
+
+// --- GİRİŞ İŞLEMİ (Login Sayfasından Çağrılır) ---
+function performLogin(password) {
+    if (password === ADMIN_SIFRE) {
+        // ADMIN GİRİŞİ
+        localStorage.setItem('kullanici_rolu', 'admin');
+        suteyiYenile();
+        return { success: true, redirect: 'dashboard.html' }; // Seçim ekranına git
+    } 
+    else if (password === USER_SIFRE) {
+        // KULLANICI GİRİŞİ
+        localStorage.setItem('kullanici_rolu', 'user');
+        suteyiYenile();
+        return { success: true, redirect: 'indir.html' }; // Direkt indirmeye git
+    } 
+    else {
+        // HATALI ŞİFRE
+        return { success: false };
+    }
+}
+
+// --- ÇIKIŞ YAPMA ---
+function doLogout() {
+    localStorage.removeItem('oturum_bitis');
+    localStorage.removeItem('kullanici_rolu');
+    
+    if (!window.location.href.includes('login.html')) {
+        window.location.href = "login.html";
+    }
+}

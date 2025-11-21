@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>Yönetici Paneli - Seçim</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="auth.js"></script>
+    <script>checkAuth('admin');</script> <style>
+        body {
+            background-color: #0a0a0a; color: white; font-family: 'Segoe UI', sans-serif;
+            display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0;
+            background-image: radial-gradient(circle at center, #1a1a1a 0%, #000 100%);
+        }
+        
+        .dashboard-container { text-align: center; animation: fadeIn 0.8s ease; }
+        
+        h1 { font-size: 2.5rem; margin-bottom: 10px; font-weight: 300; }
+        h1 span { color: #E50914; font-weight: 900; }
+        p { color: #888; margin-bottom: 40px; }
+
+        .card-grid { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; }
+        
+        .card {
+            background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+            width: 160px; height: 160px; border-radius: 20px;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            cursor: pointer; transition: 0.3s; text-decoration: none; color: white;
+        }
+        .card:hover {
+            background: rgba(229, 9, 20, 0.1); border-color: #E50914;
+            transform: translateY(-10px); box-shadow: 0 10px 30px rgba(229, 9, 20, 0.2);
+        }
+        
+        .card i { font-size: 3rem; margin-bottom: 15px; color: #ddd; transition: 0.3s; }
+        .card:hover i { color: #E50914; }
+        
+        .card span { font-weight: 600; font-size: 0.9rem; }
+
+        .logout-btn {
+            margin-top: 50px; background: transparent; border: 1px solid #333;
+            color: #666; padding: 10px 30px; border-radius: 30px; cursor: pointer; transition: 0.3s;
+        }
+        .logout-btn:hover { border-color: #E50914; color: #E50914; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
+    </style>
+</head>
+<body>
+
+    <div class="dashboard-container">
+        <h1>Hoşgeldin, <span>Admin</span></h1>
+        <p>Hangi panele erişmek istersin?</p>
+
+        <div class="card-grid">
+            <a href="admin.html" class="card">
+                <i class="fas fa-chart-line"></i>
+                <span>Yönetici Paneli</span>
+            </a>
+            
+            <a href="dataGuncelle.html" class="card">
+                <i class="fas fa-database"></i>
+                <span>Veri Güncelle</span>
+            </a>
+            
+            <a href="indir.html" class="card">
+                <i class="fas fa-download"></i>
+                <span>İndirme Merkezi</span>
+            </a>
+        </div>
+
+        <button class="logout-btn" onclick="doLogout()">Oturumu Kapat</button>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <script src="auth.js"></script>
+    <script>checkAuth();</script>
+    <meta charset="UTF-8">
+    <title>Filmoloji - Gelişmiş Dizi Paneli</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23000000'/><text x='50%' y='75%' dominant-baseline='middle' text-anchor='middle' font-family='Arial Black, sans-serif' font-size='80' fill='%23E50914'>A</text></svg>">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="database.js"></script>
+
+    <style>
+        /* --- STİL AYARLARI --- */
+        body { background: #121212; color: #e0e0e0; font-family: 'Segoe UI', sans-serif; padding: 20px; min-height: 100vh; }
+        .container { max-width: 900px; margin: 0 auto; background: #1e1e1e; padding: 30px; border-radius: 15px; border: 1px solid #333; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        
+        h2 { color: #E50914; text-align: center; margin-bottom: 30px; border-bottom: 2px solid #333; padding-bottom: 10px; }
+        
+        .section { background: #252525; padding: 20px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #333; }
+        .section-title { color: #fff; font-size: 1.1rem; font-weight: bold; margin-bottom: 15px; display: flex; align-items: center; gap: 10px; }
+        .section-title i { color: #E50914; }
+
+        label { display: block; margin-bottom: 5px; font-size: 0.9rem; color: #aaa; }
+        input, textarea, select { width: 100%; padding: 10px; background: #2c2c2c; border: 1px solid #444; color: white; border-radius: 5px; margin-bottom: 15px; font-size: 1rem; }
+        input:focus, textarea:focus { border-color: #E50914; outline: none; background: #333; }
+        
+        /* Butonlar */
+        .btn { width: 100%; padding: 12px; border: none; border-radius: 5px; font-weight: bold; cursor: pointer; font-size: 1rem; transition: 0.2s; display: flex; align-items: center; justify-content: center; gap: 10px; }
+        .btn-next { background: #007bff; color: white; margin-top: 10px; }
+        .btn-next:hover { background: #0056b3; }
+        .btn-save { background: #28a745; color: white; margin-top: 20px; font-size: 1.2rem; padding: 15px; }
+        .btn-save:hover { background: #218838; transform: translateY(-2px); }
+        .btn-download { background: #17a2b8; color: white; margin-top: 10px; }
+        
+        /* Tip Seçici */
+        .type-selector { display: flex; gap: 10px; margin-bottom: 20px; }
+        .type-btn { flex: 1; padding: 15px; background: #2c2c2c; border: 2px solid #333; color: #777; font-weight: bold; cursor: pointer; border-radius: 8px; transition: 0.3s; }
+        .type-btn.active { border-color: #E50914; color: #E50914; background: rgba(229, 9, 20, 0.1); }
+        .type-btn i { font-size: 1.5rem; display: block; margin-bottom: 5px; }
+
+        /* Dinamik Alanlar */
+        .season-config-box { padding: 15px; background: #222; border-left: 4px solid #E50914; margin-bottom: 10px; }
+        .episode-input-group { display: flex; gap: 10px; margin-bottom: 10px; align-items: center; }
+        .ep-label { width: 80px; font-weight: bold; color: #ddd; font-size: 0.9rem; }
+        
+        .hidden { display: none; }
+        #status { margin-top: 20px; padding: 15px; background: #333; border-radius: 5px; text-align: center; display: none; color: #46d369; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2><i class="fas fa-cogs"></i> İçerik Stüdyosu</h2>
+
+        <div class="type-selector">
+            <button type="button" class="type-btn active" onclick="setType('movie')">
+                <i class="fas fa-film"></i> Film
+            </button>
+            <button type="button" class="type-btn" onclick="setType('series')">
+                <i class="fas fa-tv"></i> Dizi
+            </button>
+        </div>
+
+        <div class="section">
+            <div class="section-title"><i class="fas fa-info-circle"></i> Temel Bilgiler</div>
+            
+            <label>Başlık</label>
+            <input type="text" id="title" placeholder="Örn: Breaking Bad" oninput="generateID()">
+            
+            <div style="display: flex; gap: 10px;">
+                <div style="flex:1">
+                    <label>Otomatik ID</label>
+                    <input type="text" id="id" readonly style="color:#555;">
+                </div>
+                <div style="flex:1">
+                    <label>Yıl</label>
+                    <input type="number" id="year" value="2024">
+                </div>
+            </div>
+
+            <label>Tür</label>
+            <input type="text" id="genre" placeholder="Dram, Suç">
+            
+            <label>Afiş Linki (Dikey)</label>
+            <input type="text" id="poster" placeholder="https://...">
+            
+            <label>Arka Plan Linki (Yatay)</label>
+            <input type="text" id="backdrop" placeholder="https://...">
+            
+            <label>Açıklama</label>
+            <textarea id="description" placeholder="İçerik konusu..."></textarea>
+        </div>
+
+        <div id="movie-section" class="section">
+            <div class="section-title"><i class="fas fa-play-circle"></i> Film Kaynağı</div>
+            <label>Video Linki</label>
+            <input type="text" id="movie_source" placeholder="https://...mp4 veya .m3u8">
+        </div>
+
+        <div id="series-setup-section" class="section hidden">
+            <div class="section-title"><i class="fas fa-layer-group"></i> Sezon Ayarları</div>
+            <label>Toplam Sezon Sayısı Kaç?</label>
+            <input type="number" id="total_seasons" min="1" value="1">
+            
+            <button type="button" class="btn btn-next" onclick="generateSeasonConfigs()">
+                Bölüm Sayılarını Belirle <i class="fas fa-arrow-right"></i>
+            </button>
+        </div>
+
+        <div id="season-counts-section" class="section hidden">
+            <div class="section-title"><i class="fas fa-list-ol"></i> Her Sezonda Kaç Bölüm Var?</div>
+            <div id="season-count-inputs">
+                </div>
+            <button type="button" class="btn btn-next" onclick="generateEpisodeInputs()">
+                Linkleri Girmeye Başla <i class="fas fa-link"></i>
+            </button>
+        </div>
+
+        <div id="episodes-inputs-section" class="section hidden">
+            <div class="section-title"><i class="fas fa-file-video"></i> Bölüm Linkleri</div>
+            <div id="final-link-inputs">
+                </div>
+        </div>
+
+        <button type="button" class="btn btn-save" onclick="saveToMemory()">
+            <i class="fas fa-save"></i> HAFIZAYA KAYDET
+        </button>
+
+        <button type="button" class="btn btn-download" onclick="downloadDB()">
+            <i class="fas fa-download"></i> DATABASE.JS İNDİR
+        </button>
+
+        <div id="status"></div>
+    </div>
+
+    <script>
+        let currentType = 'movie';
+        let localDB = typeof DATABASE !== 'undefined' ? [...DATABASE] : [];
+
+        function setType(type) {
+            currentType = type;
+            // Buton stilleri
+            document.querySelectorAll('.type-btn').forEach(btn => btn.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+
+            // Alanları göster/gizle
+            if (type === 'movie') {
+                document.getElementById('movie-section').classList.remove('hidden');
+                document.getElementById('series-setup-section').classList.add('hidden');
+                document.getElementById('season-counts-section').classList.add('hidden');
+                document.getElementById('episodes-inputs-section').classList.add('hidden');
+            } else {
+                document.getElementById('movie-section').classList.add('hidden');
+                document.getElementById('series-setup-section').classList.remove('hidden');
+            }
+            generateID();
+        }
+
+        function generateID() {
+            const title = document.getElementById('title').value;
+            const prefix = currentType === 'movie' ? 'mov_' : 'ser_';
+            const cleanTitle = title.toLowerCase().replace(/ /g, '_').replace(/[^a-z0-9_]/g, '');
+            const rnd = Math.floor(Math.random() * 1000);
+            document.getElementById('id').value = prefix + cleanTitle + '_' + rnd;
+        }
+
+        // ADIM 1: Sezon sayısı girilince -> Her sezonun bölüm sayısını soran inputları oluştur
+        function generateSeasonConfigs() {
+            const count = parseInt(document.getElementById('total_seasons').value);
+            const container = document.getElementById('season-count-inputs');
+            container.innerHTML = '';
+
+            for (let i = 1; i <= count; i++) {
+                container.innerHTML += `
+                    <div style="display:flex; gap:10px; align-items:center; margin-bottom:10px;">
+                        <label style="width:100px; margin:0; color:white;">${i}. Sezon:</label>
+                        <input type="number" id="ep_count_s${i}" placeholder="Bölüm Sayısı" value="10" style="margin:0;">
+                    </div>
+                `;
+            }
+            document.getElementById('season-counts-section').classList.remove('hidden');
+        }
+
+        // ADIM 2: Bölüm sayıları girilince -> Link kutularını oluştur
+        function generateEpisodeInputs() {
+            const sCount = parseInt(document.getElementById('total_seasons').value);
+            const container = document.getElementById('final-link-inputs');
+            container.innerHTML = '';
+
+            for (let s = 1; s <= sCount; s++) {
+                const epCount = parseInt(document.getElementById(`ep_count_s${s}`).value);
+                
+                let html = `<div class="season-config-box">
+                                <h3 style="color:#E50914; margin-bottom:10px;">${s}. Sezon (${epCount} Bölüm)</h3>`;
+                
+                for (let e = 1; e <= epCount; e++) {
+                    html += `
+                        <div class="episode-input-group">
+                            <span class="ep-label">Bölüm ${e}</span>
+                            <input type="text" id="s${s}_e${e}_name" placeholder="Bölüm Adı (Opsiyonel)" value="${e}. Bölüm" style="margin:0; width:30%;">
+                            <input type="text" id="s${s}_e${e}_url" placeholder="Video Linki (mp4/m3u8)" style="margin:0; flex:1;">
+                        </div>
+                    `;
+                }
+                html += `</div>`;
+                container.innerHTML += html;
+            }
+            document.getElementById('episodes-inputs-section').classList.remove('hidden');
+        }
+
+        // ADIM 3: Hepsini Topla ve Kaydet
+        function saveToMemory() {
+            const item = {
+                id: document.getElementById('id').value,
+                type: currentType,
+                title: document.getElementById('title').value,
+                year: document.getElementById('year').value,
+                genre: document.getElementById('genre').value,
+                poster: document.getElementById('poster').value,
+                backdrop: document.getElementById('backdrop').value,
+                description: document.getElementById('description').value
+            };
+
+            if(!item.title) { alert("Lütfen başlık girin!"); return; }
+
+            if (currentType === 'movie') {
+                item.source = document.getElementById('movie_source').value;
+            } else {
+                // Dizi verilerini topla
+                item.seasons = [];
+                const sCount = parseInt(document.getElementById('total_seasons').value);
+                
+                for(let s=1; s<=sCount; s++) {
+                    const epCount = parseInt(document.getElementById(`ep_count_s${s}`).value);
+                    let episodes = [];
+                    
+                    for(let e=1; e<=epCount; e++) {
+                        episodes.push({
+                            name: document.getElementById(`s${s}_e${e}_name`).value,
+                            source: document.getElementById(`s${s}_e${e}_url`).value,
+                            desc: ""
+                        });
+                    }
+
+                    item.seasons.push({
+                        name: `${s}. Sezon`,
+                        episodes: episodes
+                    });
+                }
+            }
+
+            localDB.push(item);
+            
+            const status = document.getElementById('status');
+            status.style.display = 'block';
+            status.innerHTML = `✅ "${item.title}" başarıyla eklendi!<br>Şimdi "DATABASE.JS İNDİR" butonuna bas.`;
+        }
+
+        function downloadDB() {
+            const content = "const DATABASE = " + JSON.stringify(localDB, null, 4) + ";";
+            const blob = new Blob([content], {type: "text/javascript"});
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = "database.js";
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        }
+    </script>
+
+</body>
+</html>

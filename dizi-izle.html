@@ -45,8 +45,37 @@
         .nav-item { cursor: pointer; color: #aaa; font-weight: 500; font-size: 15px; transition: 0.2s; text-decoration: none; border: none !important; display: flex; align-items: center; gap: 6px; }
         .nav-item:hover { color: white; text-shadow: 0 0 10px rgba(255, 255, 255, 0.8); }
         
+        /* --- PREMIUM STİLLERİ (PC) --- */
+        .nav-menu .nav-item:last-child {
+            color: #FFC107; /* Parlak Sarı */
+            font-weight: 900;
+            text-shadow: 0 0 10px rgba(255, 193, 7, 0.5);
+            padding: 8px 15px;
+            border-radius: 20px;
+            background: rgba(255, 193, 7, 0.1);
+            border: 1px solid rgba(255, 193, 7, 0.3);
+        }
+        .nav-menu .nav-item:last-child i {
+            color: #FFC107;
+            filter: drop-shadow(0 0 5px rgba(255, 193, 7, 0.8));
+        }
+        .nav-menu .nav-item:last-child:hover {
+            color: #FFE082;
+            background: rgba(255, 193, 7, 0.2);
+            text-shadow: 0 0 20px rgba(255, 193, 7, 0.8);
+            transform: scale(1.05);
+            box-shadow: 0 0 15px rgba(255, 193, 7, 0.4);
+        }
+
+        /* --- ARAMA KUTUSU (Genişletilmiş) --- */
         .search-container { display: flex; align-items: center; width: 40px; height: 40px; border-radius: 30px; background: transparent; transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); overflow: hidden; position: relative; border: 1px solid transparent; cursor: pointer; padding: 0 10px; flex-shrink: 0; }
-        .search-container:hover, .search-container.active { width: 260px; background: rgba(0, 0, 0, 0.6); border-color: rgba(255, 255, 255, 0.2); padding: 0 15px; cursor: default; }
+        .search-container:hover, .search-container.active { 
+            width: 180px; /* GENİŞLİK ARTTIRILDI */
+            background: rgba(0, 0, 0, 0.6); 
+            border-color: rgba(255, 255, 255, 0.2); 
+            padding: 0 15px; 
+            cursor: default; 
+        }
         .search-icon-btn { font-size: 18px; flex-shrink: 0; color: var(--brand-color); filter: drop-shadow(0 0 2px var(--brand-color)); transition: 0.3s; margin-left: 8px; }
         .search-container:hover .search-icon-btn, .search-container.active .search-icon-btn { margin-left: 0; }
         .search-input { width: 0; opacity: 0; background: transparent; border: none; color: white; outline: none; font-size: 14px; transition: 0.3s; margin-left: 10px; }
@@ -57,12 +86,9 @@
         /* --- HAMBURGER MENU STYLES (PC'de gizli) --- */
         .menu-toggle { display: none; } 
         
-        /* Mobil Menü Overlay'leri PC'de gizlendi (Varsayılan olarak) */
-        .mobile-menu-overlay, #mobileBackdrop {
-            display: none; 
-        }
+        .mobile-menu-overlay, #mobileBackdrop { display: none; }
         
-        /* Mobil Menü Panelinin Yeni Görünümü */
+        /* Mobil Menü Paneli */
         .mobile-menu-overlay {
             position: fixed; top: 0; right: 0;
             width: 300px; max-width: 80%; 
@@ -79,16 +105,9 @@
             transition: transform 0.3s ease-out; 
         }
         
-        .mobile-menu-overlay.open {
-            transform: translateX(0); 
-        }
+        .mobile-menu-overlay.open { transform: translateX(0); }
         
-        .mobile-nav-menu {
-            display: flex; flex-direction: column;
-            gap: 0; 
-            text-align: left; 
-            padding: 20px 0;
-        }
+        .mobile-nav-menu { display: flex; flex-direction: column; gap: 0; text-align: left; padding: 20px 0; }
         
         .mobile-nav-menu .nav-item {
             font-size: 1.1rem;
@@ -102,18 +121,25 @@
             color: white;
             padding-left: 25px; 
         }
-        
-        /* Kapatma Butonu Stili */
-        .mobile-menu-overlay .menu-toggle {
-              display: block !important; 
-              color: var(--brand-color) !important; 
-              font-size: 28px !important;
-              background: transparent !important;
-              border: none !important;
-              padding: 0;
-              cursor: pointer;
-        }
 
+        /* MOBIL PREMIUM STILI */
+        .mobile-nav-menu .nav-item:last-child {
+            color: #FFC107; 
+            font-weight: 900;
+            text-shadow: 0 0 10px rgba(255, 193, 7, 0.5);
+            background: rgba(255, 193, 7, 0.05);
+            border-bottom: 1px solid rgba(255, 193, 7, 0.2) !important;
+        }
+        .mobile-nav-menu .nav-item:last-child i {
+            color: #FFC107;
+            filter: drop-shadow(0 0 5px rgba(255, 193, 7, 0.8));
+        }
+        .mobile-nav-menu .nav-item:last-child:hover {
+             background: rgba(255, 193, 7, 0.15);
+             color: #FFE082;
+             padding-left: 25px;
+        }
+        
         /* --- CONTENT AREA & VIDEO STYLES --- */
         .main-container { display: flex; min-height: 100vh; padding-top: 120px; max-width: 1600px; margin: 0 auto; gap: 20px; padding-bottom: 50px; }
         .content-area { flex: 3; min-width: 600px; display: flex; flex-direction: column; align-items: center; gap: 30px; padding: 0 20px; }
@@ -157,20 +183,18 @@
         }
         .episode-item.active { background: rgba(229, 9, 20, 0.2); border-left: 4px solid var(--brand-color); }
         
-        /* PLAY İKONU YERİ ESKİSİNE ALINDI */
-        .ep-num { font-size: 1.1rem; font-weight: bold; color: #888; margin-right: 15px; min-width: 25px; } /* Eski margin */
-        .ep-info { flex: 1; } /* Eski Flex ayarı */
+        .ep-num { font-size: 1.1rem; font-weight: bold; color: #888; margin-right: 15px; min-width: 25px; } 
+        .ep-info { flex: 1; } 
         .ep-title { font-weight: 800; font-size: 1.1rem; color: #fff; margin-bottom: 2px; }
         .ep-desc { font-size: 0.75rem; color: #888; display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden; }
 
-        /* PLAY İKONU ESKİ YERİNDE */
         .ep-play-icon { 
             font-size: 1.7rem; 
             color: white; 
-            margin-right: 20px; /* Eski değer */
+            margin-right: 20px; 
             opacity: 0.5; transition: all 0.3s; 
             filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.8)); transform: scale(0.8); background: transparent; 
-            order: unset; /* Order ayarı kaldırıldı */
+            order: unset; 
         }
         .episode-item:hover .ep-play-icon { opacity: 1; transform: scale(1.1); filter: drop-shadow(0 0 10px #fff); }
 
@@ -185,7 +209,6 @@
 
         /* --- RESPONSIVE DÜZENLEME (MOBİL) --- */
         @media (max-width: 1000px) { 
-            /* NAVBAR mobil düzenleme */
             .navbar { 
                 top: 0; transform: none; width: 100%; left: 0; border-radius: 0; height: 60px; padding: 0 15px; 
                 background: #141414; backdrop-filter: none; border: none; box-shadow: 0 5px 15px rgba(0,0,0,0.8);
@@ -199,7 +222,6 @@
             
             .suggestion-section-wrapper { padding: 0 15px 50px 15px; margin-top: 0; }
 
-            /* MOBİLDE HAMBURGER MENÜ İKONUNU GÖSTER */
             .menu-toggle { 
                 display: block !important; 
                 background: none; border: none;
@@ -227,11 +249,20 @@
             <div class="logo-text">Filmoloji <span class="version-badge">V2.0</span></div>
         </div>
         <div class="nav-menu" id="desktop-nav-menu">
-            <a href="index.html" class="nav-item">Ana Sayfa</a>
-            <a href="index.html?page=series" class="nav-item">Diziler</a>
-            <a href="index.html?page=movies" class="nav-item">Filmler</a>
+            <a href="index.html" class="nav-item">
+                <i class="fas fa-home"></i> Ana Sayfa
+            </a>
+            <a href="index.html?page=series" class="nav-item">
+                <i class="fas fa-tv"></i> Diziler
+            </a>
+            <a href="index.html?page=movies" class="nav-item">
+                <i class="fas fa-film"></i> Filmler
+            </a>
             <a onclick="goToSuggestions()" class="nav-item">
                 <i class="fas fa-paper-plane"></i> İstek & Öneri
+            </a>
+            <a href="login.html" class="nav-item">
+                <i class="fas fa-crown"></i> Premium
             </a>
         </div>
         <div class="search-container" id="searchBox">
@@ -252,12 +283,20 @@
             <i class="fas fa-times"></i>
         </button>
         <div class="mobile-nav-menu">
-            <a href="index.html" onclick="toggleMenu()" class="nav-item">Ana Sayfa</a>
-            <a href="index.html?page=series" onclick="toggleMenu()" class="nav-item">Diziler</a>
-            <a href="index.html?page=movies" onclick="toggleMenu()" class="nav-item">Filmler</a>
-            
-            <a onclick="goToSuggestions()" class="nav-item">
+            <a href="index.html" onclick="toggleMenu()" class="nav-item">
+                <i class="fas fa-home"></i> Ana Sayfa
+            </a>
+            <a href="index.html?page=series" onclick="toggleMenu()" class="nav-item">
+                <i class="fas fa-tv"></i> Diziler
+            </a>
+            <a href="index.html?page=movies" onclick="toggleMenu()" class="nav-item">
+                <i class="fas fa-film"></i> Filmler
+            </a>
+            <a onclick="goToSuggestions(); toggleMenu()" class="nav-item">
                 <i class="fas fa-paper-plane"></i> İstek & Öneri
+            </a>
+            <a href="login.html" onclick="toggleMenu()" class="nav-item">
+                <i class="fas fa-crown"></i> Premium
             </a>
         </div>
     </div>
@@ -471,7 +510,6 @@
         // --- Diğer Fonksiyonlarınız ---
 
         function goToSuggestions() { 
-            // ... (Aynı kaldı) ...
             if (document.getElementById('mobileMenuOverlay').classList.contains('open') && window.innerWidth <= 1000) {
                  toggleMenu(); 
             }
@@ -479,7 +517,6 @@
         }
         
         function openSearch() { 
-            // ... (Aynı kaldı) ...
             document.getElementById('searchBox').classList.add('active'); 
             document.getElementById('searchInput').focus(); 
             if (window.innerWidth <= 1000 && document.getElementById('mobileMenuOverlay').classList.contains('open')) {
@@ -487,12 +524,10 @@
             }
         }
         function closeSearch() { 
-            // ... (Aynı kaldı) ...
             document.getElementById('searchBox').classList.remove('active'); 
             document.getElementById('searchInput').value = ''; 
         }
         function handleSearchRedirect(event) { 
-            // ... (Aynı kaldı) ...
             if (event.key === 'Enter') { 
                 const query = document.getElementById('searchInput').value; 
                 if (query) { window.location.href = `index.html?search=${encodeURIComponent(query)}`; } 
@@ -500,7 +535,6 @@
         }
 
         function toggleMenu() {
-            // ... (Aynı kaldı) ...
             const overlay = document.getElementById('mobileMenuOverlay');
             const menuIcon = document.getElementById('menuToggle').querySelector('i');
             const backdrop = document.getElementById('mobileBackdrop');

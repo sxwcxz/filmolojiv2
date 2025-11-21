@@ -24,8 +24,31 @@
         .nav-item { cursor: pointer; color: #aaa; font-weight: 500; font-size: 15px; transition: 0.3s; text-decoration: none; border: none !important; display: flex; align-items: center; gap: 6px; }
         .nav-item:hover { color: white; text-shadow: 0 0 10px rgba(255, 255, 255, 0.8); }
         
+        /* --- PREMIUM STİLLERİ --- */
+        /* Masaüstü */
+        .nav-menu .nav-item:last-child {
+            color: #FFC107; /* Parlak Sarı Renk */
+            font-weight: 900; /* Kalın Yazı Tipi */
+            text-shadow: 0 0 10px rgba(255, 193, 7, 0.5); /* Sarı Parlama Efekti */
+            padding: 8px 15px;
+            border-radius: 20px;
+            background: rgba(255, 193, 7, 0.1); /* Hafif sarı arka plan */
+            border: 1px solid rgba(255, 193, 7, 0.3); /* İnce sarı kenarlık */
+        }
+        .nav-menu .nav-item:last-child i {
+            color: #FFC107;
+            filter: drop-shadow(0 0 5px rgba(255, 193, 7, 0.8)); /* İkon Parlaması */
+        }
+        .nav-menu .nav-item:last-child:hover {
+            color: #FFE082; /* Daha açık sarı */
+            background: rgba(255, 193, 7, 0.2); /* Arka planı koyulaştır */
+            text-shadow: 0 0 20px rgba(255, 193, 7, 0.8); /* Daha güçlü parlama */
+            transform: scale(1.05); /* Hafifçe büyüt */
+            box-shadow: 0 0 15px rgba(255, 193, 7, 0.4); /* Kutu parlaması */
+        }
+
         .search-container { display: flex; align-items: center; width: 40px; height: 40px; border-radius: 30px; background: transparent; transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); overflow: hidden; position: relative; border: 1px solid transparent; cursor: pointer; padding: 0 10px; }
-        .search-container:hover, .search-container.active { width: 260px; background: rgba(0, 0, 0, 0.6); border-color: rgba(255, 255, 255, 0.2); padding: 0 15px; }
+        .search-container:hover, .search-container.active { width: 180px; background: rgba(0, 0, 0, 0.6); border-color: rgba(255, 255, 255, 0.2); padding: 0 15px; }
         .search-icon-btn { font-size: 18px; flex-shrink: 0; color: var(--brand-color); filter: drop-shadow(0 0 2px var(--brand-color)); transition: 0.3s; margin-left: 8px; }
         .search-container:hover .search-icon-btn, .search-container.active .search-icon-btn { margin-left: 0; }
         .search-input { width: 0; opacity: 0; background: transparent; border: none; color: white; outline: none; font-size: 14px; transition: 0.3s; margin-left: 10px; }
@@ -79,6 +102,25 @@
             padding-left: 10px;
             color: white;
         }
+
+        /* MOBIL PREMIUM STILI */
+        .mobile-nav-menu .nav-item:last-child {
+            color: #FFC107; /* Parlak Sarı Renk */
+            font-weight: 900;
+            text-shadow: 0 0 10px rgba(255, 193, 7, 0.5);
+            background: rgba(255, 193, 7, 0.05); /* Çok hafif sarı arka plan */
+            border-bottom: 1px solid rgba(255, 193, 7, 0.2) !important;
+        }
+        .mobile-nav-menu .nav-item:last-child i {
+            color: #FFC107;
+            filter: drop-shadow(0 0 5px rgba(255, 193, 7, 0.8));
+        }
+        .mobile-nav-menu .nav-item:last-child:hover {
+             background: rgba(255, 193, 7, 0.15); /* Hover'da biraz daha belirgin */
+             color: #FFE082;
+             padding-left: 15px; /* Diğerlerinden biraz daha fazla kayma */
+        }
+
         /* END HAMBURGER MENU STYLES */
         
         /* CONTENT */
@@ -148,11 +190,20 @@
             <div class="logo-text">Filmoloji <span class="version-badge">V2.0</span></div>
         </div>
         <div class="nav-menu" id="desktop-nav-menu">
-            <a href="index.html" class="nav-item">Ana Sayfa</a>
-            <a href="index.html?page=series" class="nav-item">Diziler</a>
-            <a href="index.html?page=movies" class="nav-item">Filmler</a>
+            <a href="index.html" class="nav-item">
+                <i class="fas fa-home"></i> Ana Sayfa
+            </a>
+            <a href="index.html?page=series" class="nav-item">
+                <i class="fas fa-tv"></i> Diziler
+            </a>
+            <a href="index.html?page=movies" class="nav-item">
+                <i class="fas fa-film"></i> Filmler
+            </a>
             <a onclick="goToSuggestions()" class="nav-item">
                 <i class="fas fa-paper-plane"></i> İstek & Öneri
+            </a>
+            <a href="login.html" class="nav-item">
+                <i class="fas fa-crown"></i> Premium
             </a>
         </div>
         <div class="search-container" id="searchBox">
@@ -173,11 +224,20 @@
             <i class="fas fa-times"></i>
         </button>
         <div class="mobile-nav-menu">
-            <a href="index.html" onclick="toggleMenu()" class="nav-item">Ana Sayfa</a>
-            <a href="index.html?page=series" onclick="toggleMenu()" class="nav-item">Diziler</a>
-            <a href="index.html?page=movies" onclick="toggleMenu()" class="nav-item">Filmler</a>
+            <a href="index.html" onclick="toggleMenu()" class="nav-item">
+                <i class="fas fa-home"></i> Ana Sayfa
+            </a>
+            <a href="index.html?page=series" onclick="toggleMenu()" class="nav-item">
+                <i class="fas fa-tv"></i> Diziler
+            </a>
+            <a href="index.html?page=movies" onclick="toggleMenu()" class="nav-item">
+                <i class="fas fa-film"></i> Filmler
+            </a>
             <a onclick="goToSuggestions(); toggleMenu()" class="nav-item">
                 <i class="fas fa-paper-plane"></i> İstek & Öneri
+            </a>
+            <a href="login.html" onclick="toggleMenu()" class="nav-item">
+                <i class="fas fa-crown"></i> Premium
             </a>
         </div>
     </div>
