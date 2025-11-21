@@ -179,8 +179,8 @@ const DATABASE = [
         title: "Squid Game",
         year: 2021,
         genre: "Gerilim, Dram, Gizem",
-        poster: "https://image.tmdb.org/t/p/original/A20e67rz2aWcrvXYUsB8Q63D1aK.jpg",
-        backdrop: "https://image.tmdb.org/t/p/original/A20e67rz2aWcrvXYUsB8Q63D1aK.jpg",
+        poster: "https://upload.wikimedia.org/wikipedia/tr/6/68/Squid_Game_2._sezon_posteri.png",
+        backdrop: "http://www.impawards.com/intl/south_korea/tv/posters/squid_game_xlg.jpg",
         description: "Para sıkıntısı çeken yüzlerce oyuncu, tuhaf bir daveti kabul eder. Ödül büyüktür ancak oyunlar ölümcüldür.",
         seasons: [
             // --- 1. SEZON ---
