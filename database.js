@@ -417,29 +417,29 @@ const DATABASE = [
                 name: "4. Sezon",
                 episodes: [
                     { name: "1. Bölüm: Oyun Bitti", source: "https://storage.diziyou.to/episodes/10531_tr/play.m3u8" },
-                    { name: "2. Bölüm: Berlin'in Düğünü", source: "https://storage.diziyou.to/episodes/10532/play.m3u8" },
-                    { name: "3. Bölüm: Anatomi Dersi", source: "https://storage.diziyou.to/episodes/10533/play.m3u8" },
-                    { name: "4. Bölüm: Paso Doble", source: "https://storage.diziyou.to/episodes/10534/play.m3u8" },
-                    { name: "5. Bölüm: 5 Dakika Önce", source: "https://storage.diziyou.to/episodes/10535/play.m3u8" },
-                    { name: "6. Bölüm: Teknik Nakavt", source: "https://storage.diziyou.to/episodes/10536/play.m3u8" },
-                    { name: "7. Bölüm: Çadırı Vurmak", source: "https://storage.diziyou.to/episodes/10537/play.m3u8" },
-                    { name: "8. Bölüm: Paris Planı", source: "https://storage.diziyou.to/episodes/10538/play.m3u8" }
+                    { name: "2. Bölüm: Berlin'in Düğünü", source: "https://storage.diziyou.to/episodes/10532_tr/play.m3u8" },
+                    { name: "3. Bölüm: Anatomi Dersi", source: "https://storage.diziyou.to/episodes/10533_tr/play.m3u8" },
+                    { name: "4. Bölüm: Paso Doble", source: "https://storage.diziyou.to/episodes/10534_tr/play.m3u8" },
+                    { name: "5. Bölüm: 5 Dakika Önce", source: "https://storage.diziyou.to/episodes/10535_tr/play.m3u8" },
+                    { name: "6. Bölüm: Teknik Nakavt", source: "https://storage.diziyou.to/episodes/10536_tr/play.m3u8" },
+                    { name: "7. Bölüm: Çadırı Vurmak", source: "https://storage.diziyou.to/episodes/10537_tr/play.m3u8" },
+                    { name: "8. Bölüm: Paris Planı", source: "https://storage.diziyou.to/episodes/10538_tr/play.m3u8" }
                 ]
             },
             // --- 5. SEZON ---
             {
                 name: "5. Sezon",
                 episodes: [
-                    { name: "1. Bölüm: Yolun Sonu", source: "https://storage.diziyou.to/episodes/10539/play.m3u8" },
-                    { name: "2. Bölüm: Reenkarnasyona İnanır mısın?", source: "https://storage.diziyou.to/episodes/10540/play.m3u8" },
-                    { name: "3. Bölüm: Hayat Gösterisine Hoş Geldiniz", source: "https://storage.diziyou.to/episodes/10541/play.m3u8" },
-                    { name: "4. Bölüm: Cennette Bir Yer", source: "https://storage.diziyou.to/episodes/10542/play.m3u8" },
-                    { name: "5. Bölüm: Birçok Hayat Yaşamak", source: "https://storage.diziyou.to/episodes/10543/play.m3u8" },
-                    { name: "6. Bölüm: Egzoz Valfleri", source: "https://storage.diziyou.to/episodes/10544/play.m3u8" },
-                    { name: "7. Bölüm: Dilek Kutusu", source: "https://storage.diziyou.to/episodes/10545/play.m3u8" },
-                    { name: "8. Bölüm: Zarafet Teorisi", source: "https://storage.diziyou.to/episodes/10546/play.m3u8" },
-                    { name: "9. Bölüm: Yastık Sohbeti", source: "https://storage.diziyou.to/episodes/10547/play.m3u8" },
-                    { name: "10. Bölüm: Bir Aile Geleneği", source: "https://storage.diziyou.to/episodes/10548/play.m3u8" }
+                    { name: "1. Bölüm: Yolun Sonu", source: "https://storage.diziyou.to/episodes/10539_tr/play.m3u8" },
+                    { name: "2. Bölüm: Reenkarnasyona İnanır mısın?", source: "https://storage.diziyou.to/episodes/10540_tr/play.m3u8" },
+                    { name: "3. Bölüm: Hayat Gösterisine Hoş Geldiniz", source: "https://storage.diziyou.to/episodes/10541_tr/play.m3u8" },
+                    { name: "4. Bölüm: Cennette Bir Yer", source: "https://storage.diziyou.to/episodes/10542_tr/play.m3u8" },
+                    { name: "5. Bölüm: Birçok Hayat Yaşamak", source: "https://storage.diziyou.to/episodes/10543_tr/play.m3u8" },
+                    { name: "6. Bölüm: Egzoz Valfleri", source: "https://storage.diziyou.to/episodes/10544_tr/play.m3u8" },
+                    { name: "7. Bölüm: Dilek Kutusu", source: "https://storage.diziyou.to/episodes/10545_tr/play.m3u8" },
+                    { name: "8. Bölüm: Zarafet Teorisi", source: "https://storage.diziyou.to/episodes/10546_tr/play.m3u8" },
+                    { name: "9. Bölüm: Yastık Sohbeti", source: "https://storage.diziyou.to/episodes/10547_tr/play.m3u8" },
+                    { name: "10. Bölüm: Bir Aile Geleneği", source: "https://storage.diziyou.to/episodes/10548_tr/play.m3u8" }
                 ]
             }
         ]
