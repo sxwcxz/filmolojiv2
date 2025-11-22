@@ -6,8 +6,8 @@ const DATABASE = [
         title: "Breaking Bad",
         year: 2008,
         genre: "Suç, Dram, Gerilim",
-        poster: "https://dizipal27.plus/uploads/series/original/breaking-bad-7265.webp",
-        backdrop: "https://image.tmdb.org/t/p/original/tsRy63Mu5CU8etx134mp141TsPI.jpg",
+        poster: "https://m.media-amazon.com/images/I/51fWOBx3agL._AC_.jpg",
+        backdrop: "https://m.media-amazon.com/images/I/51fWOBx3agL._AC_.jpg",
         description: "Kimya öğretmeni Walter White, akciğer kanseri teşhisi konduktan sonra ailesinin geleceğini güvence altına almak için eski öğrencisi Jesse Pinkman ile birlikte metamfetamin üretip satmaya başlar.",
         seasons: [
             {
