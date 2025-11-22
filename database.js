@@ -931,8 +931,8 @@ const DATABASE = [
         title: "Erşan Kuneri",
         year: 2022,
         genre: "Komedi",
-        poster: "https://dizipal27.plus/uploads/series/original/ersan-kuneri-7595.webp",
-        backdrop: "https://image.tmdb.org/t/p/original/1rO4xoCUwxQpt3g6wT738yK7u8V.jpg",
+        poster: "https://m.media-amazon.com/images/M/MV5BYWFhYmU1YzctZTBiNi00YjBmLWI4MmItMTZiMTkxZDVmYTNmXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
+        backdrop: "https://m.media-amazon.com/images/M/MV5BYWFhYmU1YzctZTBiNi00YjBmLWI4MmItMTZiMTkxZDVmYTNmXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
         description: "Erotik sinemanın ünlü yapımcısı ve yönetmeni Erşan Kuneri, 80'lerin başında hapishaneden çıktıktan sonra farklı türlerde filmler çekerek sinema tarihine damga vurmayı hedefler.",
         seasons: [
             // --- 1. SEZON ---
@@ -972,8 +972,8 @@ const DATABASE = [
         title: "Loki",
         year: 2021,
         genre: "Bilim Kurgu, Fantastik, Macera",
-        poster: "https://dizipal27.plus/uploads/series/original/loki-5720.webp",
-        backdrop: "https://image.tmdb.org/t/p/original/voHuTlDwt9TaUllgriDRRHbvxfo.jpg",
+        poster: "https://m.media-amazon.com/images/M/MV5BM2JiMjhiMGEtYjE2YS00YTMxLTkyYmEtYmNkZjYyNDgyOGI0XkEyXkFqcGc@._V1_.jpg",
+        backdrop: "https://m.media-amazon.com/images/M/MV5BM2JiMjhiMGEtYjE2YS00YTMxLTkyYmEtYmNkZjYyNDgyOGI0XkEyXkFqcGc@._V1_.jpg",
         description: "Fesatlık Tanrısı Loki, 'Avengers: Endgame' olaylarından sonra zamanın akışını değiştirdiği için gizemli Zaman Değişimi Otoritesi (TVA) tarafından yakalanır.",
         seasons: [
             // --- 1. SEZON ---
@@ -1009,8 +1009,8 @@ const DATABASE = [
         title: "Mahsun J",
         year: 2024,
         genre: "Komedi",
-        poster: "https://dizipal27.plus/uploads/series/original/mahsun-j-8397.webp",
-        backdrop: "https://image.tmdb.org/t/p/original/4w2B78y5a2g55191a7185.jpg", // Temsili backdrop, daha iyisi bulunabilir
+        poster: "https://m.media-amazon.com/images/M/MV5BYzlmMzY5MzMtNGZmOS00YjU1LTk2ZDMtMDZkMzM4ZTE5MDVkXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
+        backdrop: "https://m.media-amazon.com/images/M/MV5BYzlmMzY5MzMtNGZmOS00YjU1LTk2ZDMtMDZkMzM4ZTE5MDVkXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg", // Temsili backdrop, daha iyisi bulunabilir
         description: "Kimsenin umursamadığı sıradan bir motokurye olan Mahsun'un, bir anda kendisini büyük bir karmaşanın ve komedinin içinde bulduğu hikaye.",
         seasons: [
             // --- 1. SEZON ---
@@ -1050,8 +1050,8 @@ const DATABASE = [
         title: "Gibi",
         year: 2021,
         genre: "Komedi",
-        poster: "https://dizipal27.plus/uploads/series/original/gibi-8226.webp",
-        backdrop: "https://image.tmdb.org/t/p/original/q8EEk0g5w0H0q8r0q8r0q8r0.jpg", // Gibi için uygun bir backdrop linki (yoksa bu placeholder'ı değiştir)
+        poster: "https://m.media-amazon.com/images/M/MV5BNGY2Y2M2Y2YtMzMyYy00NTk4LWI1MGQtY2ZkY2VhOGZmNzVhXkEyXkFqcGc@._V1_.jpg",
+        backdrop: "https://m.media-amazon.com/images/M/MV5BNGY2Y2M2Y2YtMzMyYy00NTk4LWI1MGQtY2ZkY2VhOGZmNzVhXkEyXkFqcGc@._V1_.jpg", // Gibi için uygun bir backdrop linki (yoksa bu placeholder'ı değiştir)
         description: "Yılmaz ve İlkkan, sürekli olarak birbiriyle atışan iki arkadaştır. Sıradan hayatlarını altüst edecek küçücük olayları inanılmaz bir beceriyle büyüterek işleri içinden çıkılmaz bir hale getirirler.",
         seasons: [
             // --- 1. SEZON ---
@@ -1167,8 +1167,8 @@ const DATABASE = [
         title: "Prens",
         year: 2023,
         genre: "Komedi, Tarih",
-        poster: "https://dizipal27.plus/uploads/series/original/prens-8513.webp",
-        backdrop: "https://image.tmdb.org/t/p/original/w0y5j7g5k7f3a5a5a5a5a5a5.jpg", // Temsili, daha iyi bir backdrop bulunabilir
+        poster: "https://m.media-amazon.com/images/M/MV5BODU0YzIwMWItYmI3Ni00NWMyLTg2NTItODBkZDBkNDZkNDljXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
+        backdrop: "https://m.media-amazon.com/images/M/MV5BODU0YzIwMWItYmI3Ni00NWMyLTg2NTItODBkZDBkNDZkNDljXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg", // Temsili, daha iyi bir backdrop bulunabilir
         description: "Ailesinin isim verme zahmetine bile girmediği, herkesin 'Prens' diye seslendiği, kimsenin ciddiye almadığı bir ortanca prensin trajikomik hikayesi.",
         seasons: [
             // --- 1. SEZON ---
@@ -1221,8 +1221,8 @@ const DATABASE = [
         title: "Çekiç ve Gül: Bir Behzat Ç. Hikayesi",
         year: 2022,
         genre: "Polisiye, Dram, Aksiyon",
-        poster: "https://dizipal27.plus/uploads/series/original/cekic-ve-gul-bir-behzat-c-hikayesi-5701.webp",
-        backdrop: "https://image.tmdb.org/t/p/original/7o62a9w84T152563652141.jpg", // Temsili backdrop
+        poster: "https://m.media-amazon.com/images/M/MV5BODQwZTEyN2UtOTM5ZS00ZTZjLWIwNzYtM2ZhNDA2YjIyNGUwXkEyXkFqcGc@._V1_.jpg",
+        backdrop: "https://m.media-amazon.com/images/M/MV5BODQwZTEyN2UtOTM5ZS00ZTZjLWIwNzYtM2ZhNDA2YjIyNGUwXkEyXkFqcGc@._V1_.jpg", // Temsili backdrop
         description: "Behzat Ç. ve ekibi, Ankara sokaklarındaki suçlarla ve kendi içsel çatışmalarıyla mücadele etmeye devam ediyor.",
         seasons: [
             // --- 1. SEZON ---
@@ -1274,8 +1274,8 @@ const DATABASE = [
         title: "Lucifer",
         year: 2016,
         genre: "Fantastik, Polisiye, Dram",
-        poster: "https://dizipal27.plus/uploads/series/original/lucifer-7601.webp",
-        backdrop: "https://image.tmdb.org/t/p/original/aDBRtunw49UF4XmqeBeCNjBb9Nj.jpg",
+        poster: "https://m.media-amazon.com/images/M/MV5BYzMwNzI3MWItZTIzYi00YjkxLThhOWQtYmUwYjg4NWM0ZWI1XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
+        backdrop: "https://m.media-amazon.com/images/M/MV5BYzMwNzI3MWItZTIzYi00YjkxLThhOWQtYmUwYjg4NWM0ZWI1XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
         description: "Cehennemin Efendisi olmaktan sıkılan Lucifer, tahtını bırakıp Los Angeles'a yerleşir ve burada bir gece kulübü işletirken bir yandan da LAPD dedektifi Chloe Decker ile suçları çözer.",
         seasons: [
             // --- 1. SEZON ---
@@ -1416,8 +1416,8 @@ const DATABASE = [
         title: "The Walking Dead",
         year: 2010,
         genre: "Korku, Dram, Gerilim",
-        poster: "https://dizipal27.plus/uploads/series/original/the-walking-dead-5796.webp",
-        backdrop: "https://image.tmdb.org/t/p/original/wxxshOrFGEwLvbQ943hD6e7lXF.jpg",
+        poster: "https://m.media-amazon.com/images/M/MV5BYWQwMGRhNGEtZTNhMy00MzVjLWJhMjItYjcwMDljMTkyNTg2XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
+        backdrop: "https://m.media-amazon.com/images/M/MV5BYWQwMGRhNGEtZTNhMy00MzVjLWJhMjItYjcwMDljMTkyNTg2XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
         description: "Şerif Yardımcısı Rick Grimes komadan uyanır ve dünyanın zombi kıyametiyle altüst olduğunu keşfeder. Hayatta kalan bir grup insanla birlikte güvenli bir yer ararken hayatta kalma mücadelesi verirler.",
         seasons: [
             // --- 1. SEZON ---
@@ -1671,8 +1671,8 @@ const DATABASE = [
         title: "Game of Thrones",
         year: 2011,
         genre: "Fantastik, Dram, Aksiyon",
-        poster: "https://dizipal27.plus/uploads/series/original/game-of-thrones-9896.webp",
-        backdrop: "https://image.tmdb.org/t/p/original/ogGI60C9XwL6L27730t803T5z1T.jpg", // Temsili backdrop
+        poster: "https://m.media-amazon.com/images/M/MV5BMTNhMDJmNmYtNDQ5OS00ODdlLWE0ZDAtZTgyYTIwNDY3OTU3XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
+        backdrop: "https://m.media-amazon.com/images/M/MV5BMTNhMDJmNmYtNDQ5OS00ODdlLWE0ZDAtZTgyYTIwNDY3OTU3XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg", // Temsili backdrop
         description: "Yedi Krallık'ın Demir Tahtı için asil aileler arasında yaşanan kanlı mücadeleyi ve kuzeyden gelen kadim bir tehdidi konu alan epik bir fantezi dizisi.",
         seasons: [
             // --- 1. SEZON ---
@@ -1804,8 +1804,8 @@ const DATABASE = [
         title: "The Boys",
         year: 2019,
         genre: "Aksiyon, Suç, Bilim Kurgu",
-        poster: "https://dizipal27.plus/uploads/series/original/the-boys-6587.webp",
-        backdrop: "https://image.tmdb.org/t/p/original/nVMm1QtZ83IKdM8L7oWdb2y07cR.jpg",
+        poster: "https://m.media-amazon.com/images/M/MV5BMWJlN2U5MzItNjU4My00NTM2LWFjOWUtOWFiNjg3ZTMxZDY1XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
+        backdrop: "https://m.media-amazon.com/images/M/MV5BODQwZTEyN2UtOTM5ZS00ZTZjLWIwNzYtM2ZhNDA2YjIyNGUwXkEyXkFqcGc@._V1_.jpg",
         description: "Süper kahramanların güçlerini ve şöhretlerini kötüye kullandığı bir evrende, onları durdurmak ve yozlaşmışlıklarını açığa çıkarmak için kurulan 'The Boys' adlı bir grubun hikayesi.",
         seasons: [
             // --- 1. SEZON ---
@@ -1872,8 +1872,8 @@ const DATABASE = [
         title: "Rick and Morty",
         year: 2013,
         genre: "Animasyon, Bilim Kurgu, Komedi",
-        poster: "https://dizipal27.plus/uploads/series/original/rick-and-morty-2006.webp",
-        backdrop: "https://image.tmdb.org/t/p/original/mBJ995JUssgh2hhm4JxNj8hy9M.jpg",
+        poster: "https://m.media-amazon.com/images/M/MV5BZGQyZjk2MzMtMTcyNC00NGU3LTlmNjItNDExMWM4ZDFhYmQ2XkEyXkFqcGc@._V1_.jpg",
+        backdrop: "https://m.media-amazon.com/images/M/MV5BZGQyZjk2MzMtMTcyNC00NGU3LTlmNjItNDExMWM4ZDFhYmQ2XkEyXkFqcGc@._V1_.jpg",
         description: "Dahi ama alkolik bilim adamı Rick Sanchez ve torunu Morty Smith'in boyutlar arası maceraları.",
         seasons: [
             // --- 1. SEZON ---
@@ -2013,8 +2013,8 @@ const DATABASE = [
         title: "Sherlock",
         year: 2010,
         genre: "Suç, Gizem, Dram",
-        poster: "https://dizipal27.plus/uploads/series/original/sherlock-7002.webp",
-        backdrop: "https://image.tmdb.org/t/p/original/s9O7t67e1h6b5F3t7e7l7f7.jpg",
+        poster: "https://m.media-amazon.com/images/M/MV5BNTQzNGZjNDEtOTMwYi00MzFjLWE2ZTYtYzYxYzMwMjZkZDc5XkEyXkFqcGc@._V1_.jpg",
+        backdrop: "https://m.media-amazon.com/images/M/MV5BNTQzNGZjNDEtOTMwYi00MzFjLWE2ZTYtYzYxYzMwMjZkZDc5XkEyXkFqcGc@._V1_.jpg",
         description: "Sir Arthur Conan Doyle'un ünlü dedektif hikayelerinin modern günümüz Londra'sına uyarlandığı, dahi dedektif Sherlock Holmes ve ortağı Dr. John Watson'ın maceraları.",
         seasons: [
             // --- 1. SEZON ---
@@ -2061,8 +2061,8 @@ const DATABASE = [
         title: "Vikings",
         year: 2013,
         genre: "Tarih, Aksiyon, Dram",
-        poster: "https://dizipal27.plus/uploads/series/original/vikingler-8184.webp",
-        backdrop: "https://image.tmdb.org/t/p/original/lHe8iwM4Cdm6RSEiara4PN8ZcBd.jpg",
+        poster: "https://m.media-amazon.com/images/M/MV5BOTFmZmExYTEtYmE0Mi00MzRmLWE4ZDYtOThiNzNlOTIyODljXkEyXkFqcGc@._V1_FMjpg_UY3000_.jpg",
+        backdrop: "https://m.media-amazon.com/images/M/MV5BOTFmZmExYTEtYmE0Mi00MzRmLWE4ZDYtOThiNzNlOTIyODljXkEyXkFqcGc@._V1_FMjpg_UY3000_.jpg",
         description: "Efsanevi Viking kahramanı Ragnar Lothbrok'un, basit bir çiftçiden İngiltere ve Fransa'ya korku salan bir krala dönüşümünün destansı hikayesi.",
         seasons: [
             // --- 1. SEZON ---
@@ -2198,8 +2198,8 @@ const DATABASE = [
         title: "The Sopranos",
         year: 1999,
         genre: "Suç, Dram",
-        poster: "https://dizipal27.plus/uploads/series/original/the-sopranos-3666.webp",
-        backdrop: "https://image.tmdb.org/t/p/original/rinkO65eT6XwkaL4Tq0E78674g8.jpg",
+        poster: "https://m.media-amazon.com/images/M/MV5BMjRmMTNiMTQtMDg1ZS00MGM1LWE1MGUtYjEzMGFjNWUzOWRkXkEyXkFqcGc@._V1_FMjpg_UY2048_.jpg",
+        backdrop: "https://m.media-amazon.com/images/M/MV5BMjRmMTNiMTQtMDg1ZS00MGM1LWE1MGUtYjEzMGFjNWUzOWRkXkEyXkFqcGc@._V1_FMjpg_UY2048_.jpg",
         description: "New Jersey'li mafya babası Tony Soprano, hem suç örgütünü yönetmeye çalışırken hem de ailesiyle yaşadığı sorunlar yüzünden panik ataklar geçirir ve bir psikiyatriste gitmeye başlar.",
         seasons: [
             // --- 1. SEZON ---
@@ -2332,8 +2332,8 @@ const DATABASE = [
         title: "Dexter",
         year: 2006,
         genre: "Suç, Dram, Gizem",
-        poster: "https://image.tmdb.org/t/p/original/q8dWfc4JwQuv3HayIZeO84jAXED.jpg",
-        backdrop: "https://image.tmdb.org/t/p/original/e78tM32n46qK1yYxQd96i58l1.jpg", // Temsili backdrop
+        poster: "https://m.media-amazon.com/images/M/MV5BNWYyYTk0MDEtMjU3OS00MzIyLTkxMGItNzc3NDdlNjAyM2U2XkEyXkFqcGc@._V1_.jpg",
+        backdrop: "https://m.media-amazon.com/images/M/MV5BNWYyYTk0MDEtMjU3OS00MzIyLTkxMGItNzc3NDdlNjAyM2U2XkEyXkFqcGc@._V1_.jpg", // Temsili backdrop
         description: "Gündüzleri Miami Metro Polis Departmanı için kan sıçraması analisti olarak çalışan, geceleri ise bir seri katil olan Dexter Morgan'ın hikayesi.",
         seasons: [
             // --- 1. SEZON ---
@@ -2488,8 +2488,8 @@ const DATABASE = [
         title: "Euphoria",
         year: 2019,
         genre: "Dram",
-        poster: "https://dizipal27.plus/uploads/series/original/euphoria-2621.webp",
-        backdrop: "https://image.tmdb.org/t/p/original/9m161GawbY3cCRpxxN6rW9F4cRl.jpg",
+        poster: "https://m.media-amazon.com/images/M/MV5BZjVlN2M2N2MtOWViZC00MzIxLTlhZWEtMTIwNDIwMzE3ZWJiXkEyXkFqcGc@._V1_.jpg",
+        backdrop: "https://m.media-amazon.com/images/M/MV5BZjVlN2M2N2MtOWViZC00MzIxLTlhZWEtMTIwNDIwMzE3ZWJiXkEyXkFqcGc@._V1_.jpg",
         description: "Doğu Highland'de bir grup lise öğrencisi; aşk, arkadaşlık ve travmalarla dolu dünyalarında kimliklerini ararken uyuşturucu, seks ve şiddetle yüzleşir.",
         seasons: [
             // --- 1. SEZON ---
@@ -2528,8 +2528,8 @@ const DATABASE = [
         title: "Mr. Robot",
         year: 2015,
         genre: "Dram, Gerilim, Suç",
-        poster: "https://image.tmdb.org/t/p/original/b3xyTelIbIFmzD2CpTWrKkS1cFX.jpg",
-        backdrop: "https://image.tmdb.org/t/p/original/2H1TmgdfNtsKlU9jKdeNyYL5y8T.jpg",
+        poster: "https://m.media-amazon.com/images/M/MV5BOTg4NTBiZDAtZTc0YS00NzZlLTg4Y2ItNGQ3M2ZlMDM5MWQzXkEyXkFqcGc@._V1_FMjpg_UY2160_.jpg",
+        backdrop: "https://m.media-amazon.com/images/M/MV5BOTg4NTBiZDAtZTc0YS00NzZlLTg4Y2ItNGQ3M2ZlMDM5MWQzXkEyXkFqcGc@._V1_FMjpg_UY2160_.jpg",
         description: "Gündüzleri siber güvenlik mühendisi, geceleri ise kanunsuz bir hacker olan Elliot Alderson, yeraltı bir hacker grubu tarafından işe alınır.",
         seasons: [
             // --- 1. SEZON ---
@@ -2609,8 +2609,8 @@ const DATABASE = [
         title: "Alice in Borderland",
         year: 2020,
         genre: "Bilim Kurgu, Gerilim, Aksiyon",
-        poster: "https://dizipal27.plus/uploads/series/original/alice-in-borderland-523.webp",
-        backdrop: "https://image.tmdb.org/t/p/original/uDgy6hyPd82kOHh6I95FLtLnj6p.jpg",
+        poster: "https://m.media-amazon.com/images/M/MV5BNzNlNzVlOWYtM2EzYy00M2QyLWI2NjYtMGRjYTkyNDE0ODNiXkEyXkFqcGc@._V1_.jpg",
+        backdrop: "https://m.media-amazon.com/images/M/MV5BNzNlNzVlOWYtM2EzYy00M2QyLWI2NjYtMGRjYTkyNDE0ODNiXkEyXkFqcGc@._V1_.jpg",
         description: "Amaçsız bir bilgisayar oyuncusu ve iki arkadaşı, kendilerini paralel bir Tokyo'da bulurlar. Burada hayatta kalmak için sadistçe oyunlara katılmak zorundadırlar.",
         seasons: [
             // --- 1. SEZON ---
@@ -2661,8 +2661,8 @@ const DATABASE = [
         title: "The 100",
         year: 2014,
         genre: "Bilim Kurgu, Dram, Macera",
-        poster: "https://dizipal27.plus/uploads/series/original/the-100-6320.webp",
-        backdrop: "https://image.tmdb.org/t/p/original/wT57WjX4x4z5w8q1g5X5j2y5g.jpg", // Temsili backdrop
+        poster: "https://m.media-amazon.com/images/M/MV5BNDdmZGYwOWEtN2FkZC00Y2ExLWJkY2UtNzFlODVlNzc3MGIzXkEyXkFqcGc@._V1_.jpg",
+        backdrop: "https://m.media-amazon.com/images/M/MV5BNDdmZGYwOWEtN2FkZC00Y2ExLWJkY2UtNzFlODVlNzc3MGIzXkEyXkFqcGc@._V1_.jpg", // Temsili backdrop
         description: "Nükleer bir kıyametin dünyayı yok etmesinden 97 yıl sonra, insanlığın hayatta kalan tek üyelerinin yaşadığı uzay istasyonundan 100 genç mahkum, yeryüzünün tekrar yaşanabilir olup olmadığını test etmek için dünyaya gönderilir.",
         seasons: [
             // --- 1. SEZON ---
@@ -2815,8 +2815,8 @@ const DATABASE = [
         title: "Gossip Girl",
         year: 2007,
         genre: "Dram, Romantik",
-        poster: "https://dizipal27.plus/uploads/series/original/gossip-girl-4489.webp",
-        backdrop: "https://image.tmdb.org/t/p/original/v7aQ7Rz3B7r7L5J2i5t0g7k9w.jpg",
+        poster: "https://m.media-amazon.com/images/M/MV5BZDljNzZmMGMtM2FmNC00ZTkzLTg2OTctNDAxZGViYjVlYjAxXkEyXkFqcGc@._V1_.jpg",
+        backdrop: "https://m.media-amazon.com/images/M/MV5BZDljNzZmMGMtM2FmNC00ZTkzLTg2OTctNDAxZGViYjVlYjAxXkEyXkFqcGc@._V1_.jpg",
         description: "New York'un Yukarı Doğu Yakası'ndaki ayrıcalıklı gençlerin skandallarla dolu yaşamları, her şeyi bilen ve herkesin sırrını ifşa eden gizemli bir blogger tarafından takip edilmektedir.",
         seasons: [
             // --- 1. SEZON ---
@@ -2984,8 +2984,8 @@ const DATABASE = [
         "title": "Lost",
         "year": 2023,
         "genre": "tum-diziler",
-        "poster": "https://dizipal27.plus/uploads/series/original/lost-7243.webp",
-        "backdrop": "https://dizipal27.plus/uploads/series/original/lost-7243.webp",
+        "poster": "https://m.media-amazon.com/images/M/MV5BZmZhY2ViYzYtMTQ0NS00NDcyLWIxZTYtMGUyODE0NDA0NmNkXkEyXkFqcGc@._V1_FMjpg_UX1184_.jpg",
+        "backdrop": "https://m.media-amazon.com/images/M/MV5BZmZhY2ViYzYtMTQ0NS00NDcyLWIxZTYtMGUyODE0NDA0NmNkXkEyXkFqcGc@._V1_FMjpg_UX1184_.jpg",
         "description": "Lost dizisinin tüm bölümleri.",
         "seasons": [
             {
@@ -3943,8 +3943,8 @@ const DATABASE = [
         "title": "Chernobyl",
         "year": 2023,
         "genre": "HD-Film-izle-Dizi",
-        "poster": "https://www.hdfilmizle.to/v/501973/poster/thumb/chernobyl.webp",
-        "backdrop": "https://www.hdfilmizle.to/v/501973/poster/thumb/chernobyl.webp",
+        "poster": "https://m.media-amazon.com/images/M/MV5BYzJkOWMwY2QtZDQ3YS00YzA4LWFjZDYtMWMwYzA4YTU3ODUyXkEyXkFqcGc@._V1_.jpg",
+        "backdrop": "https://m.media-amazon.com/images/M/MV5BYzJkOWMwY2QtZDQ3YS00YzA4LWFjZDYtMWMwYzA4YTU3ODUyXkEyXkFqcGc@._V1_.jpg",
         "description": "Chernobyl dizisinin tüm bölümleri.",
         "seasons": [
             {
@@ -3980,8 +3980,8 @@ const DATABASE = [
         "title": "Prison Break Izle",
         "year": 2023,
         "genre": "HD-Film-izle-Dizi",
-        "poster": "https://www.hdfilmizle.to/v/500522/poster/thumb/prison-break.webp",
-        "backdrop": "https://www.hdfilmizle.to/v/500522/poster/thumb/prison-break.webp",
+        "poster": "https://m.media-amazon.com/images/M/MV5BMTg3NTkwNzAxOF5BMl5BanBnXkFtZTcwMjM1NjI5MQ@@._V1_FMjpg_UX1000_.jpg",
+        "backdrop": "https://m.media-amazon.com/images/M/MV5BMTg3NTkwNzAxOF5BMl5BanBnXkFtZTcwMjM1NjI5MQ@@._V1_FMjpg_UX1000_.jpg",
         "description": "Prison Break Izle dizisinin tüm bölümleri.",
         "seasons": [
             {
@@ -4369,8 +4369,8 @@ const DATABASE = [
         "title": "House Of The Dragon",
         "year": 2023,
         "genre": "tum-diziler",
-        "poster": "https://dizipal27.plus/uploads/series/original/house-of-the-dragon-9209.webp",
-        "backdrop": "https://dizipal27.plus/uploads/series/original/house-of-the-dragon-9209.webp",
+        "poster": "https://m.media-amazon.com/images/M/MV5BM2QzMGVkNjUtN2Y4Yi00ODMwLTg3YzktYzUxYjJlNjFjNDY1XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
+        "backdrop": "https://m.media-amazon.com/images/M/MV5BM2QzMGVkNjUtN2Y4Yi00ODMwLTg3YzktYzUxYjJlNjFjNDY1XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
         "description": "Dizipal House Of The Dragon dizisinin tüm bölümleri.",
         "seasons": [
             {
@@ -4463,8 +4463,8 @@ const DATABASE = [
         "title": "The Last Of Us",
         "year": 2023,
         "genre": "tum-diziler",
-        "poster": "https://dizipal27.plus/uploads/series/original/the-last-of-us-579.webp",
-        "backdrop": "https://dizipal27.plus/uploads/series/original/the-last-of-us-579.webp",
+        "poster": "https://m.media-amazon.com/images/M/MV5BYWI3ODJlMzktY2U5NC00ZjdlLWE1MGItNWQxZDk3NWNjN2RhXkEyXkFqcGc@._V1_.jpg",
+        "backdrop": "https://m.media-amazon.com/images/M/MV5BYWI3ODJlMzktY2U5NC00ZjdlLWE1MGItNWQxZDk3NWNjN2RhXkEyXkFqcGc@._V1_.jpg",
         "description": "The Last Of Us dizisinin tüm bölümleri.",
         "seasons": [
             {
@@ -4549,8 +4549,8 @@ const DATABASE = [
         "title": "How I Met Your Mother ",
         "year": 2023,
         "genre": "tum-diziler",
-        "poster": "https://dizipal27.plus/uploads/series/original/how-i-met-your-mother-8429.webp",
-        "backdrop": "https://dizipal27.plus/uploads/series/original/how-i-met-your-mother-8429.webp",
+        "poster": "https://m.media-amazon.com/images/M/MV5BN2RiMDMzYzYtYmYwZi00ZWVkLWI1ZDUtMDMyODIzZWMzMThmXkEyXkFqcGc@._V1_.jpg",
+        "backdrop": "https://m.media-amazon.com/images/M/MV5BN2RiMDMzYzYtYmYwZi00ZWVkLWI1ZDUtMDMyODIzZWMzMThmXkEyXkFqcGc@._V1_.jpg",
         "description": "How I Met Your Mother Yabancı Dizi dizisinin tüm bölümleri.",
         "seasons": [
             {
@@ -5438,8 +5438,8 @@ const DATABASE = [
         "title": "Suits",
         "year": 2023,
         "genre": "tum-diziler",
-        "poster": "https://dizipal27.plus/uploads/series/original/suits-514.webp",
-        "backdrop": "https://dizipal27.plus/uploads/series/original/suits-514.webp",
+        "poster": "https://m.media-amazon.com/images/M/MV5BYmE4MmNjZjUtNTEyNy00NTZiLWE4NTktYjM2NjBhYzQ1N2IzXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
+        "backdrop": "https://m.media-amazon.com/images/M/MV5BYmE4MmNjZjUtNTEyNy00NTZiLWE4NTktYjM2NjBhYzQ1N2IzXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
         "description": "Suits dizisinin tüm bölümleri.",
         "seasons": [
             {
@@ -6567,8 +6567,8 @@ const DATABASE = [
         "title": "Avatar The Last Airbender",
         "year": 2023,
         "genre": "HD-Film-izle-Dizi",
-        "poster": "https://www.hdfilmizle.to/v/500256/poster/thumb/avatar-the-last-airbender.webp",
-        "backdrop": "https://www.hdfilmizle.to/v/500256/poster/thumb/avatar-the-last-airbender.webp",
+        "poster": "https://m.media-amazon.com/images/M/MV5BZjQ1YTZmMjItZmZkMC00MGVmLTk1OTUtNzQzZTJjZGM1NjVlXkEyXkFqcGc@._V1_.jpg",
+        "backdrop": "https://m.media-amazon.com/images/M/MV5BZjQ1YTZmMjItZmZkMC00MGVmLTk1OTUtNzQzZTJjZGM1NjVlXkEyXkFqcGc@._V1_.jpg",
         "description": "Avatar The Last Airbender dizisinin tüm bölümleri.",
         "seasons": [
             {
@@ -6616,8 +6616,8 @@ const DATABASE = [
         "title": "The Bear",
         "year": 2023,
         "genre": "tum-diziler",
-        "poster": "https://dizipal27.plus/uploads/series/original/the-bear-9567.webp",
-        "backdrop": "https://dizipal27.plus/uploads/series/original/the-bear-9567.webp",
+        "poster": "https://m.media-amazon.com/images/M/MV5BYWZhNDZiMzAtZmZlYS00MWFmLWE2MWEtNDAxZTZiN2U4Y2U2XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
+        "backdrop": "https://m.media-amazon.com/images/M/MV5BYWZhNDZiMzAtZmZlYS00MWFmLWE2MWEtNDAxZTZiN2U4Y2U2XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
         "description": "The Bear dizisinin tüm bölümleri.",
         "seasons": [
             {
@@ -6768,8 +6768,8 @@ const DATABASE = [
         "title": "Doctor Who",
         "year": 2023,
         "genre": "tum-diziler",
-        "poster": "https://dizipal27.plus/uploads/series/original/doctor-who-2590.webp",
-        "backdrop": "https://dizipal27.plus/uploads/series/original/doctor-who-2590.webp",
+        "poster": "https://m.media-amazon.com/images/M/MV5BZGVmY2RkZjAtZDAwMC00MmZhLThhMGItZmVlNzE4MTgyMWRkXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
+        "backdrop": "https://m.media-amazon.com/images/M/MV5BZGVmY2RkZjAtZDAwMC00MmZhLThhMGItZmVlNzE4MTgyMWRkXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
         "description": "Doctor Who dizisinin tüm bölümleri.",
         "seasons": [
             {
@@ -6906,8 +6906,8 @@ const DATABASE = [
         "title": "The Punisher",
         "year": 2023,
         "genre": "tum-diziler",
-        "poster": "https://dizipal27.plus/uploads/series/original/marvel-s-the-punisher-4878.webp",
-        "backdrop": "https://dizipal27.plus/uploads/series/original/marvel-s-the-punisher-4878.webp",
+        "poster": "https://m.media-amazon.com/images/M/MV5BZTI2NDllMjgtOWEyYi00Y2YxLThhYjQtNTQ0NTgwNDE1YmYzXkEyXkFqcGc@._V1_.jpg",
+        "backdrop": "https://m.media-amazon.com/images/M/MV5BZTI2NDllMjgtOWEyYi00Y2YxLThhYjQtNTQ0NTgwNDE1YmYzXkEyXkFqcGc@._V1_.jpg",
         "description": "The Punisher dizisinin tüm bölümleri.",
         "seasons": [
             {
@@ -7032,8 +7032,8 @@ const DATABASE = [
         "title": "Smoke",
         "year": 2023,
         "genre": "tum-diziler",
-        "poster": "https://dizipal27.plus/uploads/series/original/smoke-9801.webp",
-        "backdrop": "https://dizipal27.plus/uploads/series/original/smoke-9801.webp",
+        "poster": "https://m.media-amazon.com/images/M/MV5BMzMwMTQ0NmYtOTc3MC00YzE2LWEwYTQtMjg1OGU0YmM3NWU3XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
+        "backdrop": "https://m.media-amazon.com/images/M/MV5BMzMwMTQ0NmYtOTc3MC00YzE2LWEwYTQtMjg1OGU0YmM3NWU3XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
         "description": "Smoke dizisinin tüm bölümleri.",
         "seasons": [
             {
@@ -7081,8 +7081,8 @@ const DATABASE = [
         "title": "Wandavision",
         "year": 2023,
         "genre": "HD-Film-izle-Dizi",
-        "poster": "https://www.hdfilmizle.to/v/502096/poster/thumb/wandavision.webp",
-        "backdrop": "https://www.hdfilmizle.to/v/502096/poster/thumb/wandavision.webp",
+        "poster": "https://m.media-amazon.com/images/M/MV5BZTMxMmM1ODItMTZiMS00NjI1LWEwODctMjQ4ZjY4ODliNDI0XkEyXkFqcGc@._V1_.jpg",
+        "backdrop": "https://m.media-amazon.com/images/M/MV5BZTMxMmM1ODItMTZiMS00NjI1LWEwODctMjQ4ZjY4ODliNDI0XkEyXkFqcGc@._V1_.jpg",
         "description": "Wandavision dizisinin tüm bölümleri.",
         "seasons": [
             {
@@ -7134,8 +7134,8 @@ const DATABASE = [
         "title": "Moon Knight",
         "year": 2023,
         "genre": "tum-diziler",
-        "poster": "https://dizipal27.plus/uploads/series/original/moon-knight-7012.webp",
-        "backdrop": "https://dizipal27.plus/uploads/series/original/moon-knight-7012.webp",
+        "poster": "https://m.media-amazon.com/images/M/MV5BNDAzNmYwZjgtNDc3YS00ZDMyLTk0MjktMTg4MGNmNGU3MjlhXkEyXkFqcGc@._V1_.jpg",
+        "backdrop": "https://m.media-amazon.com/images/M/MV5BNDAzNmYwZjgtNDc3YS00ZDMyLTk0MjktMTg4MGNmNGU3MjlhXkEyXkFqcGc@._V1_.jpg",
         "description": "Moon Knight dizisinin tüm bölümleri.",
         "seasons": [
             {
@@ -7175,8 +7175,8 @@ const DATABASE = [
         "title": "Hawkeye",
         "year": 2023,
         "genre": "tum-diziler",
-        "poster": "https://dizipal27.plus/uploads/series/original/hawkeye-6546.webp",
-        "backdrop": "https://dizipal27.plus/uploads/series/original/hawkeye-6546.webp",
+        "poster": "https://m.media-amazon.com/images/M/MV5BOGU5ZDBlOTAtOTZmYS00MWE0LTg0NzktNDcxZGJhN2FhZmM2XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
+        "backdrop": "https://m.media-amazon.com/images/M/MV5BOGU5ZDBlOTAtOTZmYS00MWE0LTg0NzktNDcxZGJhN2FhZmM2XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
         "description": "Hawkeye dizisinin tüm bölümleri.",
         "seasons": [
             {
@@ -7240,8 +7240,8 @@ const DATABASE = [
         "title": "What If...?",
         "year": 2023,
         "genre": "tum-diziler",
-        "poster": "https://dizipal27.plus/uploads/series/original/what-if-7705.webp",
-        "backdrop": "https://dizipal27.plus/uploads/series/original/what-if-7705.webp",
+        "poster": "https://m.media-amazon.com/images/M/MV5BOTNkNDRhNmMtY2Q3Mi00NWFiLTlhN2QtODcyMmVmMWVlZTc1XkEyXkFqcGc@._V1_.jpg",
+        "backdrop": "https://m.media-amazon.com/images/M/MV5BOTNkNDRhNmMtY2Q3Mi00NWFiLTlhN2QtODcyMmVmMWVlZTc1XkEyXkFqcGc@._V1_.jpg",
         "description": "What If dizisinin tüm bölümleri.",
         "seasons": [
             {
@@ -7475,8 +7475,8 @@ const DATABASE = [
         "title": "Arcane",
         "year": 2023,
         "genre": "HD-Film-izle-Dizi",
-        "poster": "https://www.hdfilmizle.to/v/500489/poster/thumb/arcane.webp",
-        "backdrop": "https://www.hdfilmizle.to/v/500489/poster/thumb/arcane.webp",
+        "poster": "https://m.media-amazon.com/images/M/MV5BYjA2NzhlMDItNWRmZC00MzRjLWE3ZjAtZjBlZDAwOWY2ODdjXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
+        "backdrop": "https://m.media-amazon.com/images/M/MV5BYjA2NzhlMDItNWRmZC00MzRjLWE3ZjAtZjBlZDAwOWY2ODdjXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
         "description": "Arcane Izle dizisinin tüm bölümleri.",
         "seasons": [
             {
@@ -7569,8 +7569,8 @@ const DATABASE = [
         "title": "Invincible",
         "year": 2023,
         "genre": "tum-diziler",
-        "poster": "https://dizipal27.plus/uploads/series/original/invincible-7161.webp",
-        "backdrop": "https://dizipal27.plus/uploads/series/original/invincible-7161.webp",
+        "poster": "https://m.media-amazon.com/images/M/MV5BNzQ5MGMyYjAtZWMzYS00YmVlLThkYjgtOTJmMWUyMjk3MjhlXkEyXkFqcGc@._V1_.jpg",
+        "backdrop": "https://m.media-amazon.com/images/M/MV5BNzQ5MGMyYjAtZWMzYS00YmVlLThkYjgtOTJmMWUyMjk3MjhlXkEyXkFqcGc@._V1_.jpg",
         "description": "Invincible dizisinin tüm bölümleri.",
         "seasons": [
             {
@@ -7760,8 +7760,8 @@ const DATABASE = [
         "title": "Hannibal",
         "year": 2023,
         "genre": "tum-diziler",
-        "poster": "https://dizipal27.plus/uploads/series/original/hannibal-7255.webp",
-        "backdrop": "https://dizipal27.plus/uploads/series/original/hannibal-7255.webp",
+        "poster": "https://m.media-amazon.com/images/M/MV5BMTIzMTA0NTM4NF5BMl5BanBnXkFtZTcwNjY3ODM0MQ@@._V1_.jpg",
+        "backdrop": "https://m.media-amazon.com/images/M/MV5BMTIzMTA0NTM4NF5BMl5BanBnXkFtZTcwNjY3ODM0MQ@@._V1_.jpg",
         "description": "Hannibal dizisinin tüm bölümleri.",
         "seasons": [
             {
@@ -7943,8 +7943,8 @@ const DATABASE = [
         "title": "The Originals",
         "year": 2023,
         "genre": "HD-Film-izle-Dizi",
-        "poster": "https://www.hdfilmizle.to/v/502191/poster/thumb/the-originals.webp",
-        "backdrop": "https://www.hdfilmizle.to/v/502191/poster/thumb/the-originals.webp",
+        "poster": "https://m.media-amazon.com/images/M/MV5BZDJkYjg3MDItMjhiMi00NjhjLThlM2EtNzUxNzcyNDJjN2ZhXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
+        "backdrop": "https://m.media-amazon.com/images/M/MV5BZDJkYjg3MDItMjhiMi00NjhjLThlM2EtNzUxNzcyNDJjN2ZhXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
         "description": "The Originals dizisinin tüm bölümleri.",
         "seasons": [
             {
@@ -8348,8 +8348,8 @@ const DATABASE = [
         "title": "Gotham",
         "year": 2023,
         "genre": "tum-diziler",
-        "poster": "https://dizipal27.plus/uploads/series/original/gotham-1317.webp",
-        "backdrop": "https://dizipal27.plus/uploads/series/original/gotham-1317.webp",
+        "poster": "https://m.media-amazon.com/images/M/MV5BMTg0ZmM3N2QtYmFiMy00YzUzLWE1M2QtZWVhMzBiNGZjMmVjXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
+        "backdrop": "https://m.media-amazon.com/images/M/MV5BMTg0ZmM3N2QtYmFiMy00YzUzLWE1M2QtZWVhMzBiNGZjMmVjXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
         "description": "Gotham dizisinin tüm bölümleri.",
         "seasons": [
             {
@@ -9169,8 +9169,8 @@ const DATABASE = [
         "title": "Titans",
         "year": 2023,
         "genre": "HD-Film-izle-Dizi",
-        "poster": "https://www.hdfilmizle.to/v/502108/poster/thumb/titans.webp",
-        "backdrop": "https://www.hdfilmizle.to/v/502108/poster/thumb/titans.webp",
+        "poster": "https://m.media-amazon.com/images/M/MV5BNTJlNGQ3YmUtMGNjNC00OTE5LWFmYzEtNjJiMDNmZjk0ZjU0XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
+        "backdrop": "https://m.media-amazon.com/images/M/MV5BNTJlNGQ3YmUtMGNjNC00OTE5LWFmYzEtNjJiMDNmZjk0ZjU0XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
         "description": "Titans dizisinin tüm bölümleri.",
         "seasons": [
             {
@@ -9397,8 +9397,8 @@ const DATABASE = [
         "title": "Dexter New Blood",
         "year": 2023,
         "genre": "HD-Film-izle-Dizi",
-        "poster": "https://www.hdfilmizle.to/v/501417/poster/thumb/dexter-new-blood.webp",
-        "backdrop": "https://www.hdfilmizle.to/v/501417/poster/thumb/dexter-new-blood.webp",
+        "poster": "https://m.media-amazon.com/images/M/MV5BZGY4YjY5MGItNzM2NS00Y2M1LWFkYTYtZjI0ZDk3NTE0NmE0XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
+        "backdrop": "https://m.media-amazon.com/images/M/MV5BZGY4YjY5MGItNzM2NS00Y2M1LWFkYTYtZjI0ZDk3NTE0NmE0XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
         "description": "Dexter New Blood dizisinin tüm bölümleri.",
         "seasons": [
             {
@@ -9454,8 +9454,8 @@ const DATABASE = [
         "title": "The Mentalist",
         "year": 2023,
         "genre": "HD-Film-izle-Dizi",
-        "poster": "https://www.hdfilmizle.to/v/501369/poster/thumb/the-mentalist.webp",
-        "backdrop": "https://www.hdfilmizle.to/v/501369/poster/thumb/the-mentalist.webp",
+        "poster": "https://m.media-amazon.com/images/M/MV5BMTQ5OTgzOTczM15BMl5BanBnXkFtZTcwMDM2OTY4MQ@@._V1_FMjpg_UX1000_.jpg",
+        "backdrop": "https://m.media-amazon.com/images/M/MV5BMTQ5OTgzOTczM15BMl5BanBnXkFtZTcwMDM2OTY4MQ@@._V1_FMjpg_UX1000_.jpg",
         "description": "The Mentalist dizisinin tüm bölümleri.",
         "seasons": [
             {
@@ -10089,8 +10089,8 @@ const DATABASE = [
         "title": "911 Lone Star",
         "year": 2023,
         "genre": "tum-diziler",
-        "poster": "https://dizipal27.plus/uploads/series/original/9-1-1-lone-star-7733.webp",
-        "backdrop": "https://dizipal27.plus/uploads/series/original/9-1-1-lone-star-7733.webp",
+        "poster": "https://m.media-amazon.com/images/M/MV5BNDcxZjUwOWMtMGViYi00ZDY2LWE3ODAtNzNmZDAxOTY0NjkyXkEyXkFqcGc@._V1_.jpg",
+        "backdrop": "https://m.media-amazon.com/images/M/MV5BNDcxZjUwOWMtMGViYi00ZDY2LWE3ODAtNzNmZDAxOTY0NjkyXkEyXkFqcGc@._V1_.jpg",
         "description": "911 Lone Star dizisinin tüm bölümleri.",
         "seasons": [
             {
@@ -10414,8 +10414,8 @@ const DATABASE = [
         "title": "Ragnarok",
         "year": 2023,
         "genre": "HD-Film-izle-Dizi",
-        "poster": "https://www.hdfilmizle.to/v/500529/poster/thumb/ragnarok.webp",
-        "backdrop": "https://www.hdfilmizle.to/v/500529/poster/thumb/ragnarok.webp",
+        "poster": "https://m.media-amazon.com/images/M/MV5BYzhlZTU4MTgtMTViNS00OWJhLTg2N2QtYmVhZmNhZjJmOTkxXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
+        "backdrop": "https://m.media-amazon.com/images/M/MV5BYzhlZTU4MTgtMTViNS00OWJhLTg2N2QtYmVhZmNhZjJmOTkxXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
         "description": "Ragnarok dizisinin tüm bölümleri.",
         "seasons": [
             {
@@ -10513,8 +10513,8 @@ const DATABASE = [
         "title": "The Vampire Diaries",
         "year": 2023,
         "genre": "tum-diziler",
-        "poster": "https://dizipal27.plus/uploads/series/original/the-vampire-diaries-1844.webp",
-        "backdrop": "https://dizipal27.plus/uploads/series/original/the-vampire-diaries-1844.webp",
+        "poster": "https://m.media-amazon.com/images/M/MV5BMmNjOWQzYmYtNGYxOS00MjVkLTg1MWUtMTkzMGE0MDgwNzQ5XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
+        "backdrop": "https://m.media-amazon.com/images/M/MV5BMmNjOWQzYmYtNGYxOS00MjVkLTg1MWUtMTkzMGE0MDgwNzQ5XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
         "description": "The Vampire Diaries dizisinin tüm bölümleri.",
         "seasons": [
             {
