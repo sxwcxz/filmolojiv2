@@ -232,8 +232,8 @@ const DATABASE = [
         title: "Wednesday",
         year: 2022,
         genre: "Fantastik, Komedi, Gizem",
-        poster: "https://dizipal27.plus/uploads/series/original/wednesday-6980.webp",
-        backdrop: "https://image.tmdb.org/t/p/original/iHSwvRVsRyxpX7FE7GbviaDvgGZ.jpg",
+        poster: "https://m.media-amazon.com/images/I/712iUgQM16L._AC_SL1500_.jpg",
+        backdrop: "https://m.media-amazon.com/images/I/712iUgQM16L._AC_SL1500_.jpg",
         description: "Zeki, alaycı ve azıcık içi geçmiş bir kız olan Wednesday Addams, Nevermore Akademisinde yeni dostlar ve düşmanlar edinirken art arda gerçekleşen cinayetleri araştırmaya başlar.",
         seasons: [
             // --- 1. SEZON ---
@@ -273,8 +273,8 @@ const DATABASE = [
         title: "Black Mirror",
         year: 2011,
         genre: "Bilim Kurgu, Dram, Gerilim",
-        poster: "https://dizipal27.plus/uploads/series/original/black-mirror-8649.webp",
-        backdrop: "https://image.tmdb.org/t/p/original/57vVjteucIF3bGnZj6Pimp-tO2A.jpg",
+        poster: "https://i.ebayimg.com/images/g/otUAAOSw~~1ki5Tl/s-l1600.jpg",
+        backdrop: "https://i.ebayimg.com/images/g/otUAAOSw~~1ki5Tl/s-l1600.jpg",
         description: "Modern dünyanın kolektif huzursuzluğuna dair, her biri farklı bir hikaye anlatan ve teknolojinin getirdiği paranoyayı ele alan bir antoloji dizisi.",
         seasons: [
             // --- 1. SEZON ---
@@ -360,8 +360,8 @@ const DATABASE = [
         title: "La Casa de Papel",
         year: 2017,
         genre: "Suç, Gerilim, Dram",
-        poster: "https://dizipal27.plus/uploads/series/original/la-casa-de-papel-8798.webp",
-        backdrop: "https://image.tmdb.org/t/p/original/gKkl37BQuKTanygYQG1pyYgLVgf.jpg",
+        poster: "https://i5.walmartimages.com/asr/183ce085-097d-4d17-b927-d23a254194a1.b61386f035aea25a4ef77b3623cac29e.jpeg",
+        backdrop: "https://i5.walmartimages.com/asr/183ce085-097d-4d17-b927-d23a254194a1.b61386f035aea25a4ef77b3623cac29e.jpeg",
         description: "Bir suç dehası planını gerçekleştirmek üzere polisi ustalıkla yönlendirirken sekiz hırsız, rehinelerle birlikte kendilerini İspanya Kraliyet Darphanesine kilitler.",
         seasons: [
             // --- 1. SEZON ---
@@ -451,8 +451,8 @@ const DATABASE = [
         title: "The Witcher",
         year: 2019,
         genre: "Fantastik, Aksiyon, Macera",
-        poster: "https://dizipal27.plus/uploads/series/original/the-witcher-1933.webp",
-        backdrop: "https://image.tmdb.org/t/p/original/jBJWaqoSCiARWtfV0GlqHrcdidd.jpg",
+        poster: "https://m.media-amazon.com/images/I/81RTbibf9FL._AC_SL1417_.jpg",
+        backdrop: "https://m.media-amazon.com/images/I/81RTbibf9FL._AC_SL1417_.jpg",
         description: "Yalnız bir canavar avcısı olan Rivialı Geralt, insanların canavarlardan daha kötü olabildiği bir dünyada yerini bulmaya çalışıyor.",
         seasons: [
             // --- 1. SEZON ---
@@ -506,8 +506,8 @@ const DATABASE = [
         title: "Narcos",
         year: 2015,
         genre: "Suç, Biyografi, Dram",
-        poster: "https://dizipal27.plus/uploads/series/original/narcos-8698.webp",
-        backdrop: "https://image.tmdb.org/t/p/original/r87jWeWSTl4aPe2q1lAdN4f4uN0.jpg",
+        poster: "https://m.media-amazon.com/images/I/91jkF8kLQqL._SL1500_.jpg",
+        backdrop: "https://m.media-amazon.com/images/I/91jkF8kLQqL._SL1500_.jpg",
         description: "Kolombiya'daki uyuşturucu kartellerinin yükselişini ve düşüşünü, özellikle Pablo Escobar'ın hikayesi üzerinden anlatan gerçek olaylara dayalı suç draması.",
         seasons: [
             // --- 1. SEZON ---
@@ -567,8 +567,8 @@ const DATABASE = [
         title: "Dark",
         year: 2017,
         genre: "Bilim Kurgu, Gizem, Gerilim",
-        poster: "https://dizipal27.plus/uploads/series/original/dark-9321.webp",
-        backdrop: "https://image.tmdb.org/t/p/original/3lBDg3i6nn5R2NKkxJ6UnoMVOGa.jpg",
+        poster: "https://i0.wp.com/www.yeniyeniseyler.com/wp-content/uploads/2020/06/Dark-3.Sezon-Poster-02.jpg",
+        backdrop: "https://i0.wp.com/www.yeniyeniseyler.com/wp-content/uploads/2020/06/Dark-3.Sezon-Poster-02.jpg",
         description: "Bir çocuğun kaybolması, dört aileyi hummalı bir cevap arayışına iter. Bu arayışları, üç nesli kapsayan akıl almaz bir gizemi ortaya çıkarır.",
         seasons: [
             // --- 1. SEZON ---
@@ -624,8 +624,8 @@ const DATABASE = [
         title: "Peaky Blinders",
         year: 2013,
         genre: "Suç, Dram",
-        poster: "https://dizipal27.plus/uploads/series/original/peaky-blinders-1189.webp",
-        backdrop: "https://image.tmdb.org/t/p/original/9pr859d334j2D91l91h3K5r55o2.jpg",
+        poster: "https://i.ebayimg.com/images/g/LCwAAOSwzzNl2Iva/s-l1600.jpg",
+        backdrop: "https://i.ebayimg.com/images/g/LCwAAOSwzzNl2Iva/s-l1600.jpg",
         description: "1919 Birmingham'ında geçen dizi, acımasız Tommy Shelby liderliğindeki Peaky Blinders çetesinin yükselişini ve karşılaştığı zorlukları konu alıyor.",
         seasons: [
             // --- 1. SEZON ---
@@ -709,8 +709,8 @@ const DATABASE = [
         title: "Better Call Saul",
         year: 2015,
         genre: "Suç, Dram, Kara Mizah",
-        poster: "https://dizipal27.plus/uploads/series/original/better-call-saul-3665.webp",
-        backdrop: "https://image.tmdb.org/t/p/original/w0y5j7g5k7f3a5a5a5a5a5a5.jpg", // Eğer yoksa Breaking Bad'in bir resmini veya Better Call Saul'un başka bir resmini kullanabiliriz
+        poster: "https://upload.wikimedia.org/wikipedia/tr/2/2f/Better_Call_Saul_season_3.jpg",
+        backdrop: "https://upload.wikimedia.org/wikipedia/tr/2/2f/Better_Call_Saul_season_3.jpg", // Eğer yoksa Breaking Bad'in bir resmini veya Better Call Saul'un başka bir resmini kullanabiliriz
         description: "Breaking Bad'den önceki olayları konu alan dizi, Jimmy McGill'in ahlak yoksunu bir avukat olan Saul Goodman'a dönüşümünü anlatıyor.",
         seasons: [
             // --- 1. SEZON ---
@@ -821,8 +821,8 @@ const DATABASE = [
         title: "Sex Education",
         year: 2019,
         genre: "Komedi, Dram",
-        poster: "https://dizipal27.plus/uploads/series/original/sex-education-1528.webp",
-        backdrop: "https://image.tmdb.org/t/p/original/3r3tZgKTw1554931d3383t78h8.jpg",
+        poster: "https://m.media-amazon.com/images/M/MV5BOTE0MjQ1NDU3OV5BMl5BanBnXkFtZTgwNTI4MTgwNzM@._V1_.jpg",
+        backdrop: "https://m.media-amazon.com/images/M/MV5BOTE0MjQ1NDU3OV5BMl5BanBnXkFtZTgwNTI4MTgwNzM@._V1_.jpg",
         description: "Güvensiz bir genç olan Otis, terapist annesi sayesinde cinsellik konusunda her şeyi bilmektedir. Okulda bir seks terapisi kliniği açmaya karar verir.",
         seasons: [
             // --- 1. SEZON ---
