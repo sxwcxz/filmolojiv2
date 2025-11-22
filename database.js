@@ -6,8 +6,8 @@ const DATABASE = [
         title: "Breaking Bad",
         year: 2008,
         genre: "Suç, Dram, Gerilim",
-        poster: "https://m.media-amazon.com/images/I/51fWOBx3agL._AC_.jpg",
-        backdrop: "https://m.media-amazon.com/images/I/51fWOBx3agL._AC_.jpg",
+        poster: "https://m.media-amazon.com/images/M/MV5BMzU5ZGYzNmQtMTdhYy00OGRiLTg0NmQtYjVjNzliZTg1ZGE4XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
+        backdrop: "https://m.media-amazon.com/images/M/MV5BMzU5ZGYzNmQtMTdhYy00OGRiLTg0NmQtYjVjNzliZTg1ZGE4XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
         description: "Kimya öğretmeni Walter White, akciğer kanseri teşhisi konduktan sonra ailesinin geleceğini güvence altına almak için eski öğrencisi Jesse Pinkman ile birlikte metamfetamin üretip satmaya başlar.",
         seasons: [
             {
@@ -273,8 +273,8 @@ const DATABASE = [
         title: "Black Mirror",
         year: 2011,
         genre: "Bilim Kurgu, Dram, Gerilim",
-        poster: "https://i.ebayimg.com/images/g/otUAAOSw~~1ki5Tl/s-l1600.jpg",
-        backdrop: "https://i.ebayimg.com/images/g/otUAAOSw~~1ki5Tl/s-l1600.jpg",
+        poster: "https://m.media-amazon.com/images/M/MV5BODcxMWI2NDMtYTc3NC00OTZjLWFmNmUtM2NmY2I1ODkxYzczXkEyXkFqcGc@._V1_.jpg",
+        backdrop: "https://m.media-amazon.com/images/M/MV5BODcxMWI2NDMtYTc3NC00OTZjLWFmNmUtM2NmY2I1ODkxYzczXkEyXkFqcGc@._V1_.jpg",
         description: "Modern dünyanın kolektif huzursuzluğuna dair, her biri farklı bir hikaye anlatan ve teknolojinin getirdiği paranoyayı ele alan bir antoloji dizisi.",
         seasons: [
             // --- 1. SEZON ---
@@ -567,8 +567,8 @@ const DATABASE = [
         title: "Dark",
         year: 2017,
         genre: "Bilim Kurgu, Gizem, Gerilim",
-        poster: "https://i0.wp.com/www.yeniyeniseyler.com/wp-content/uploads/2020/06/Dark-3.Sezon-Poster-02.jpg",
-        backdrop: "https://i0.wp.com/www.yeniyeniseyler.com/wp-content/uploads/2020/06/Dark-3.Sezon-Poster-02.jpg",
+        poster: "https://m.media-amazon.com/images/M/MV5BOWJjMGViY2UtNTAzNS00ZGFjLWFkNTMtMDBiMDMyZTM1NTY3XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
+        backdrop: "https://m.media-amazon.com/images/M/MV5BOWJjMGViY2UtNTAzNS00ZGFjLWFkNTMtMDBiMDMyZTM1NTY3XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
         description: "Bir çocuğun kaybolması, dört aileyi hummalı bir cevap arayışına iter. Bu arayışları, üç nesli kapsayan akıl almaz bir gizemi ortaya çıkarır.",
         seasons: [
             // --- 1. SEZON ---
@@ -624,8 +624,8 @@ const DATABASE = [
         title: "Peaky Blinders",
         year: 2013,
         genre: "Suç, Dram",
-        poster: "https://i.ebayimg.com/images/g/LCwAAOSwzzNl2Iva/s-l1600.jpg",
-        backdrop: "https://i.ebayimg.com/images/g/LCwAAOSwzzNl2Iva/s-l1600.jpg",
+        poster: "https://m.media-amazon.com/images/M/MV5BOGM0NGY3ZmItOGE2ZC00OWIxLTk0N2EtZWY4Yzg3ZDlhNGI3XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
+        backdrop: "https://m.media-amazon.com/images/M/MV5BOGM0NGY3ZmItOGE2ZC00OWIxLTk0N2EtZWY4Yzg3ZDlhNGI3XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
         description: "1919 Birmingham'ında geçen dizi, acımasız Tommy Shelby liderliğindeki Peaky Blinders çetesinin yükselişini ve karşılaştığı zorlukları konu alıyor.",
         seasons: [
             // --- 1. SEZON ---
@@ -709,8 +709,8 @@ const DATABASE = [
         title: "Better Call Saul",
         year: 2015,
         genre: "Suç, Dram, Kara Mizah",
-        poster: "https://upload.wikimedia.org/wikipedia/tr/2/2f/Better_Call_Saul_season_3.jpg",
-        backdrop: "https://upload.wikimedia.org/wikipedia/tr/2/2f/Better_Call_Saul_season_3.jpg", // Eğer yoksa Breaking Bad'in bir resmini veya Better Call Saul'un başka bir resmini kullanabiliriz
+        poster: "https://m.media-amazon.com/images/M/MV5BNDdjNTEzMjMtYjM3Mi00NzQ3LWFlNWMtZjdmYWU3ZDkzMjk1XkEyXkFqcGc@._V1_.jpg",
+        backdrop: "https://m.media-amazon.com/images/M/MV5BNDdjNTEzMjMtYjM3Mi00NzQ3LWFlNWMtZjdmYWU3ZDkzMjk1XkEyXkFqcGc@._V1_.jpg", // Eğer yoksa Breaking Bad'in bir resmini veya Better Call Saul'un başka bir resmini kullanabiliriz
         description: "Breaking Bad'den önceki olayları konu alan dizi, Jimmy McGill'in ahlak yoksunu bir avukat olan Saul Goodman'a dönüşümünü anlatıyor.",
         seasons: [
             // --- 1. SEZON ---
@@ -890,8 +890,8 @@ const DATABASE = [
         title: "Aşk 101",
         year: 2020,
         genre: "Gençlik, Dram, Komedi",
-        poster: "https://dizipal27.plus/uploads/series/original/ask-101-3595.webp",
-        backdrop: "https://image.tmdb.org/t/p/original/A17F13z73f253f10241.jpg", // Veya uygun bir backdrop linki
+        poster: "https://m.media-amazon.com/images/M/MV5BOTE2MmU3ZTQtNGY4Ny00MWZmLThhYzctOWNjZDEzOTJkYTQ2XkEyXkFqcGc@._V1_.jpg",
+        backdrop: "https://m.media-amazon.com/images/M/MV5BOTE2MmU3ZTQtNGY4Ny00MWZmLThhYzctOWNjZDEzOTJkYTQ2XkEyXkFqcGc@._V1_.jpg", // Veya uygun bir backdrop linki
         description: "1990'lar Türkiye'sinde, dışlanmış bir grup genç, sevdikleri bir öğretmeni okulda tutmak için bir plan yaparlar ve bu süreçte aşkı, dostluğu ve kendilerini keşfederler.",
         seasons: [
             // --- 1. SEZON ---
