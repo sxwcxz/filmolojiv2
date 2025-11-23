@@ -11750,7 +11750,7 @@ const DATABASE = [
         "poster": "https://m.media-amazon.com/images/M/MV5BYzdjMDAxZGItMjI2My00ODA1LTlkNzItOWFjMDU5ZDJlYWY3XkEyXkFqcGc@._V1_.jpg",
         "backdrop": "https://m.media-amazon.com/images/M/MV5BYzdjMDAxZGItMjI2My00ODA1LTlkNzItOWFjMDU5ZDJlYWY3XkEyXkFqcGc@._V1_.jpg",
         "description": "Yıldızlararası filmini şimdi izle.",
-        "source": "https://vidmody.com/vs/tt0816692"
+        "source": "https://c3.df856-54hilsnz.xyz/storage/media/a9cba1794f9f9ade350ef6f5831ddee9-720.mp4/gomindex.m3u8"
     }
     
 ];
