@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>Puan Durumu - Süper Lig</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root { --brand: #E50914; --bg: #101010; --panel: #1a1a1a; --text: #fff; }
+        * { box-sizing: border-box; margin: 0; padding: 0; outline: none; }
+        body { background-color: var(--bg); color: var(--text); font-family: 'Segoe UI', sans-serif; margin: 0; }
+
+        /* NAVBAR */
+        .navbar { 
+            position: fixed; top: 0; width: 100%; height: 60px; 
+            background: rgba(16,16,16,0.95); border-bottom: 1px solid rgba(255,255,255,0.1); 
+            display: flex; align-items: center; padding: 0 20px; z-index: 100; backdrop-filter: blur(10px);
+        }
+        .back-btn { text-decoration: none; color: white; font-weight: 600; display: flex; align-items: center; gap: 10px; font-size: 14px; }
+        .back-btn:hover { color: var(--brand); }
+        .page-title { margin-left: auto; font-weight: 900; font-size: 18px; letter-spacing: 1px; }
+        .page-title span { color: var(--brand); }
+
+        /* İÇERİK */
+        .container { max-width: 800px; margin: 80px auto 40px auto; padding: 20px; }
+        
+        /* Widget Kutusu */
+        .widget-box {
+            background: var(--panel); border-radius: 12px; 
+            border: 1px solid rgba(255,255,255,0.05); padding: 10px;
+        }
+
+        /* Iframe Ayarları */
+        iframe { width: 100%; border: none; min-height: 850px; border-radius: 8px; }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <a href="canli-mac.html" class="back-btn"><i class="fas fa-arrow-left"></i> Canlı Maçlara Dön</a>
+        <div class="page-title">PUAN<span>DURUMU</span></div>
+    </nav>
+
+    <div class="container">
+        <div class="widget-box">
+            <iframe 
+                src="https://www.scoreaxis.com/widget/standings-widget/8?autoHeight=1&bodyBackground=%23101010&font=arial&textColor=%23ffffff&header=0&links=0&instat=0&stripes=1&stripeColor=%231a1a1a" 
+                style="width:100%; height:850px; border:none;">
+            </iframe>
+        </div>
+        <div style="text-align: center; font-size: 10px; color: #444; margin-top: 10px;">Veriler ScoreAxis tarafından sağlanmaktadır.</div>
+    </div>
+
+</body>
+</html>
