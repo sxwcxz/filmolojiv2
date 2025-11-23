@@ -6,7 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="auth.js"></script>
-    <script>checkAuth('admin');</script> <style>
+    <link rel="icon" href="logo.png">
+    <script>checkAuth('admin');</script> 
+    <style>
         body {
             background-color: #0a0a0a; color: white; font-family: 'Segoe UI', sans-serif;
             display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0;
@@ -19,7 +21,7 @@
         h1 span { color: #E50914; font-weight: 900; }
         p { color: #888; margin-bottom: 40px; }
 
-        .card-grid { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; }
+        .card-grid { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; max-width: 800px; margin: 0 auto; }
         
         .card {
             background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
@@ -67,7 +69,12 @@
                 <i class="fas fa-download"></i>
                 <span>İndirme Merkezi</span>
             </a>
-        </div>
+
+            <a href="donusturucu.html" class="card">
+                <i class="fas fa-exchange-alt"></i>
+                <span>Dönüştürücü</span>
+            </a>
+            </div>
 
         <button class="logout-btn" onclick="doLogout()">Oturumu Kapat</button>
     </div>

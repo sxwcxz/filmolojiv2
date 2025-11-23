@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>Canlı Maç İzle - Filmoloji Spor</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23000000'/><text x='50%' y='75%' dominant-baseline='middle' text-anchor='middle' font-family='Arial Black, sans-serif' font-size='80' fill='%23E50914'>F</text></svg>">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://vjs.zencdn.net/8.10.0/video-js.css" rel="stylesheet" />
+
+    <script src="mac.js"></script>
+
+    <style>
+        /* --- GENEL AYARLAR --- */
+        :root { --brand: #E50914; --bg: #101010; --panel: #1a1a1a; --text: #fff; --live: #ff0000; }
+        * { box-sizing: border-box; margin: 0; padding: 0; outline: none; }
+        body { background-color: var(--bg); color: var(--text); font-family: 'Segoe UI', sans-serif; overflow-x: hidden; }
+
+        /* --- NAVBAR --- */
+        .navbar { 
+            position: fixed; top: 0; left: 0; width: 100%; height: 60px; 
+            background: rgba(16, 16, 16, 0.95); border-bottom: 1px solid rgba(255,255,255,0.1); 
+            display: flex; align-items: center; justify-content: space-between; padding: 0 20px; 
+            z-index: 100; backdrop-filter: blur(10px);
+        }
+        .logo { font-size: 22px; font-weight: 900; color: var(--brand); letter-spacing: -0.5px; text-transform: uppercase; text-decoration: none; }
+        .logo span { color: white; font-size: 12px; background: var(--brand); padding: 2px 6px; border-radius: 4px; margin-left: 5px; vertical-align: middle; }
+        
+        .nav-menu { display: flex; gap: 20px; }
+        .nav-item { color: #aaa; text-decoration: none; font-size: 14px; font-weight: 600; transition: 0.3s; display: flex; align-items: center; gap: 5px; }
+        .nav-item:hover, .nav-item.active { color: white; }
+        .nav-item.active { color: var(--brand); }
+
+        /* --- ANA DÜZEN (GRID) --- */
+        .main-container {
+            display: grid;
+            grid-template-columns: 1fr 350px; /* Sol: Player, Sağ: Liste */
+            gap: 20px;
+            max-width: 1600px;
+            margin: 80px auto 20px auto;
+            padding: 0 20px;
+            height: calc(100vh - 100px);
+        }
+
+        /* --- PLAYER ALANI --- */
+        .player-section {
+            display: flex; flex-direction: column; gap: 15px;
+        }
+        
+        .video-wrapper {
+            position: relative; width: 100%; padding-top: 56.25%; /* 16:9 */
+            background: #000; border-radius: 12px; overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.1);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        .video-js { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+
+        .match-info {
+            background: var(--panel); padding: 20px; border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.05);
+            display: flex; align-items: center; justify-content: space-between;
+        }
+        .channel-details { display: flex; align-items: center; gap: 15px; }
+        .current-logo { width: 50px; height: 50px; object-fit: contain; background: rgba(255,255,255,0.05); border-radius: 50%; padding: 5px; }
+        .match-title { font-size: 1.5rem; font-weight: bold; }
+        
+        .live-badge { 
+            background: rgba(255,0,0,0.1); color: var(--live); 
+            padding: 5px 15px; border-radius: 20px; font-weight: bold; font-size: 14px;
+            display: flex; align-items: center; gap: 8px; border: 1px solid rgba(255,0,0,0.3);
+        }
+        .pulse { width: 8px; height: 8px; background: var(--live); border-radius: 50%; animation: pulse 1.5s infinite; }
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
+
+        .alert-box {
+            display: none; /* JS ile açılacak */
+            background: rgba(255, 193, 7, 0.1); border: 1px solid rgba(255, 193, 7, 0.3);
+            color: #ffc107; font-size: 13px; padding: 10px; border-radius: 8px; margin-top: 5px;
+        }
+
+        /* --- LİSTE ALANI (SIDEBAR) --- */
+        .sidebar {
+            background: var(--panel); border-radius: 12px; 
+            border: 1px solid rgba(255,255,255,0.05);
+            display: flex; flex-direction: column; overflow: hidden;
+        }
+        .sidebar-header {
+            padding: 15px; border-bottom: 1px solid rgba(255,255,255,0.1);
+            font-weight: bold; background: rgba(0,0,0,0.2);
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .search-bar {
+            padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .search-input {
+            width: 100%; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1);
+            color: white; padding: 8px 12px; border-radius: 6px; font-size: 13px;
+        }
+
+        .match-list { overflow-y: auto; flex: 1; }
+        
+        .match-item {
+            display: flex; align-items: center; gap: 15px;
+            padding: 12px 15px; cursor: pointer; transition: 0.2s;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .match-item:hover { background: rgba(255,255,255,0.05); }
+        .match-item.active { background: rgba(229, 9, 20, 0.1); border-left: 4px solid var(--brand); }
+        
+        .channel-logo { 
+            width: 40px; height: 40px; object-fit: contain; 
+            background: rgba(255,255,255,0.03); border-radius: 6px; padding: 2px;
+        }
+        
+        .teams { display: flex; flex-direction: column; gap: 2px; flex: 1; }
+        .team-name { font-size: 14px; font-weight: 500; }
+        .league-name { font-size: 11px; color: #666; margin-top: 2px; text-transform: uppercase; font-weight: bold; }
+        
+        .play-btn-icon { 
+            width: 30px; height: 30px; background: rgba(255,255,255,0.1); 
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-size: 12px; color: var(--brand);
+        }
+
+        /* --- MOBİL UYUMU --- */
+        @media (max-width: 1000px) {
+            .main-container { grid-template-columns: 1fr; height: auto; margin-top: 70px; }
+            .sidebar { height: 500px; }
+            .match-title { font-size: 1.2rem; }
+            .current-logo { width: 40px; height: 40px; }
+            .nav-menu { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <a href="index.html" class="logo">Filmoloji <span>SPOR</span></a>
+        <div class="nav-menu">
+            <a href="index.html" class="nav-item"><i class="fas fa-home"></i> Ana Sayfa</a>
+        </div>
+    </nav>
+
+    <div class="main-container">
+        <div class="player-section">
+            <div class="video-wrapper">
+                <video id="match-player" class="video-js vjs-default-skin vjs-big-play-centered" controls preload="auto"></video>
+            </div>
+            
+            <div class="match-info">
+                <div class="channel-details">
+                    <img src="" id="main-logo" class="current-logo" style="display:none;">
+                    <div>
+                        <div class="match-title" id="current-match-title">Kanal Seçiniz</div>
+                        <div style="font-size: 13px; color:#888; margin-top:5px;">Yayın Kaynağı: <span style="color:white;" id="source-name">---</span></div>
+                    </div>
+                </div>
+                <div class="live-badge"><div class="pulse"></div> CANLI</div>
+            </div>
+
+            <div id="ua-alert" class="alert-box">
+                <i class="fas fa-exclamation-triangle"></i> 
+                Bu yayın (BeIN) tarayıcı üzerinden çalışmayabilir. VLC Player veya harici bir oynatıcı kullanmanız gerekebilir.
+            </div>
+        </div>
+
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <span>KANAL LİSTESİ</span>
+                <i class="fas fa-tv" style="color:#666;"></i>
+            </div>
+            <div class="search-bar">
+                <input type="text" id="channelSearch" class="search-input" placeholder="Kanal Ara..." onkeyup="filterChannels()">
+            </div>
+            <div class="match-list" id="match-list-container">
+                </div>
+        </div>
+    </div>
+
+    <script src="https://vjs.zencdn.net/8.10.0/video.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/videojs-contrib-quality-levels/dist/videojs-contrib-quality-levels.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/videojs-hls-quality-selector/dist/videojs-hls-quality-selector.min.js"></script>
+    
+    <script>
+        let player;
+        let allChannels = [];
+
+        window.onload = function() {
+            // Player Başlat
+            player = videojs('match-player', {
+                fill: true,
+                responsive: true,
+                autoplay: 'muted', 
+            });
+            // Kalite seçiciyi ekle
+            player.hlsQualitySelector({ displayLabel: 'Kalite' });
+
+            // Database.js'den veriyi çek
+            if (typeof MATCH_DATABASE !== 'undefined') {
+                allChannels = MATCH_DATABASE;
+                renderChannels(allChannels);
+                
+                // İlk kanalı aç (TRT Spor gibi sorunsuz olanlardan birini seçelim)
+                const firstSafeChannel = allChannels.findIndex(c => c.id === 'spor_trtspor');
+                if(firstSafeChannel !== -1) {
+                    playMatch(firstSafeChannel);
+                } else if (allChannels.length > 0) {
+                    playMatch(0);
+                }
+            } else {
+                document.getElementById('match-list-container').innerHTML = '<div style="padding:20px; color:red;">Kanal listesi yüklenemedi (database.js kontrol edin).</div>';
+            }
+        };
+
+        function renderChannels(channels) {
+            const container = document.getElementById('match-list-container');
+            container.innerHTML = '';
+
+            channels.forEach((channel, index) => {
+                const div = document.createElement('div');
+                div.className = 'match-item';
+                div.id = `match-${channel.id}`; // ID'ye göre seçiyoruz
+                div.onclick = () => playMatch(allChannels.indexOf(channel)); // Orijinal listedeki indexini bul
+
+                // Logo yoksa varsayılan ikon
+                const logoSrc = channel.logo ? channel.logo : 'https://via.placeholder.com/50x50?text=TV';
+
+                div.innerHTML = `
+                    <img src="${logoSrc}" class="channel-logo" onerror="this.src='https://via.placeholder.com/50x50?text=TV'">
+                    <div class="teams">
+                        <div class="team-name">${channel.name}</div>
+                        <div class="league-name">${channel.category}</div>
+                    </div>
+                    <div class="play-btn-icon"><i class="fas fa-play"></i></div>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        function playMatch(index) {
+            const channel = allChannels[index];
+            
+            // Başlık ve Logo Güncelleme
+            document.getElementById('current-match-title').innerText = channel.name;
+            document.getElementById('source-name').innerText = channel.category;
+            
+            const mainLogo = document.getElementById('main-logo');
+            if(channel.logo) {
+                mainLogo.src = channel.logo;
+                mainLogo.style.display = 'block';
+            } else {
+                mainLogo.style.display = 'none';
+            }
+            
+            // Aktif Sınıfı İşleme
+            document.querySelectorAll('.match-item').forEach(el => el.classList.remove('active'));
+            const activeItem = document.getElementById(`match-${channel.id}`);
+            if(activeItem) activeItem.classList.add('active');
+
+            // User-Agent Uyarısı
+            const alertBox = document.getElementById('ua-alert');
+            if(channel.userAgent) {
+                alertBox.style.display = 'block';
+                alertBox.innerHTML = `<i class="fas fa-exclamation-triangle"></i> <b>${channel.name}</b> tarayıcıda çalışmayabilir. Harici oynatıcı gerekebilir.`;
+            } else {
+                alertBox.style.display = 'none';
+            }
+
+            // Videoyu Değiştir
+            player.src({
+                src: channel.source,
+                type: 'application/x-mpegURL'
+            });
+            
+            player.play().catch(e => console.log("Oto oynatma engellendi."));
+        }
+
+        // Arama Fonksiyonu
+        function filterChannels() {
+            const query = document.getElementById('channelSearch').value.toLowerCase();
+            const filtered = allChannels.filter(ch => ch.name.toLowerCase().includes(query));
+            
+            // Sadece render yap, indexleri bozmamak için global allChannels kullanıyoruz
+            // Ancak tıklama eventinde doğru objeyi bulmak için küçük bir trick:
+            const container = document.getElementById('match-list-container');
+            container.innerHTML = '';
+            
+            filtered.forEach(channel => {
+                const originalIndex = allChannels.indexOf(channel);
+                const div = document.createElement('div');
+                div.className = 'match-item';
+                div.id = `match-${channel.id}`;
+                div.onclick = () => playMatch(originalIndex); // Orijinal indexi kullan
+
+                const logoSrc = channel.logo ? channel.logo : 'https://via.placeholder.com/50x50?text=TV';
+
+                div.innerHTML = `
+                    <img src="${logoSrc}" class="channel-logo" onerror="this.src='https://via.placeholder.com/50x50?text=TV'">
+                    <div class="teams">
+                        <div class="team-name">${channel.name}</div>
+                        <div class="league-name">${channel.category}</div>
+                    </div>
+                    <div class="play-btn-icon"><i class="fas fa-play"></i></div>
+                `;
+                container.appendChild(div);
+            });
+        }
+    </script>
+
+</body>
+</html>
