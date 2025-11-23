@@ -47,7 +47,7 @@
         
         /* --- PREMIUM STİLLERİ (PC) --- */
         .nav-menu .nav-item:last-child {
-            color: #FFC107; /* Parlak Sarı */
+            color: #FFC107; 
             font-weight: 900;
             text-shadow: 0 0 10px rgba(255, 193, 7, 0.5);
             padding: 8px 15px;
@@ -67,10 +67,10 @@
             box-shadow: 0 0 15px rgba(255, 193, 7, 0.4);
         }
 
-        /* --- ARAMA KUTUSU (Genişletilmiş) --- */
+        /* --- ARAMA KUTUSU --- */
         .search-container { display: flex; align-items: center; width: 40px; height: 40px; border-radius: 30px; background: transparent; transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); overflow: hidden; position: relative; border: 1px solid transparent; cursor: pointer; padding: 0 10px; flex-shrink: 0; }
         .search-container:hover, .search-container.active { 
-            width: 180px; /* GENİŞLİK ARTTIRILDI */
+            width: 350px; 
             background: rgba(0, 0, 0, 0.6); 
             border-color: rgba(255, 255, 255, 0.2); 
             padding: 0 15px; 
@@ -85,7 +85,6 @@
 
         /* --- HAMBURGER MENU STYLES (PC'de gizli) --- */
         .menu-toggle { display: none; } 
-        
         .mobile-menu-overlay, #mobileBackdrop { display: none; }
         
         /* Mobil Menü Paneli */
@@ -104,11 +103,8 @@
             transform: translateX(100%); 
             transition: transform 0.3s ease-out; 
         }
-        
         .mobile-menu-overlay.open { transform: translateX(0); }
-        
         .mobile-nav-menu { display: flex; flex-direction: column; gap: 0; text-align: left; padding: 20px 0; }
-        
         .mobile-nav-menu .nav-item {
             font-size: 1.1rem;
             padding: 15px 20px;
@@ -121,7 +117,6 @@
             color: white;
             padding-left: 25px; 
         }
-
         /* MOBIL PREMIUM STILI */
         .mobile-nav-menu .nav-item:last-child {
             color: #FFC107; 
@@ -143,27 +138,40 @@
         /* --- CONTENT AREA & VIDEO STYLES --- */
         .main-container { display: flex; min-height: 100vh; padding-top: 120px; max-width: 1600px; margin: 0 auto; gap: 20px; padding-bottom: 50px; }
         .content-area { flex: 3; min-width: 600px; display: flex; flex-direction: column; align-items: center; gap: 30px; padding: 0 20px; }
-        
         .series-title { display: none; }
-        
         .episode-title { 
             color: #fff; font-size: 2.5rem; font-weight: 800; text-shadow: 0 0 10px rgba(0,0,0,0.5); margin-top: 5px; 
         }
 
-        /* Video.js Ekranını Kapsayıcıya Uydurma */
+        /* --- PLAYER KAPSAYICISI (SABİT 16:9 KUTU) --- */
+        /* Burası zıplamayı önleyen kilit noktadır */
         .video-wrapper {
             position: relative;
             width: 100%;
-            padding-top: 56.25%; /* 16:9 Oran */
+            /* 16:9 Oranını sabitlemek için padding-top kullanıyoruz (9/16 = %56.25) */
+            padding-top: 56.25%; 
+            background-color: #000; /* Video gelmeden siyah fon */
+            border-radius: 15px; 
+            overflow: hidden; /* Köşeleri yuvarlat */
+            box-shadow: 0 20px 60px rgba(0,0,0,0.6); 
+            border: 1px solid rgba(255,255,255,0.1);
+            z-index: 1;
         }
+
+        /* Video.js Player'ı Kapsayıcıya Zorla Sığdır */
         .video-js {
-            position: absolute;
+            position: absolute !important; /* Kapsayıcının sol üstüne yapıştır */
             top: 0;
-            right: 0;
-            bottom: 0;
             left: 0;
+            width: 100% !important;
+            height: 100% !important;
+            display: block !important;
+        }
+
+        /* Kontrol Çubuğu Ayarları */
+        .video-js .vjs-control-bar {
+            z-index: 2;
             width: 100%;
-            height: 100%;
         }
 
         /* --- SIDEBAR (BÖLÜM SEÇME) STİLLERİ --- */
@@ -173,35 +181,18 @@
         .season-select { width: 100%; padding: 10px 15px; background: rgba(255, 255, 255, 0.1); border: 1px solid var(--brand-color); color: white; border-radius: 10px; font-size: 1rem; font-weight: 600; cursor: pointer; outline: none; transition: all 0.2s; appearance: none; -webkit-appearance: none; background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%23E50914'%3e%3cpath d='M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z'/%3e%3c/svg%3e"); background-repeat: no-repeat; background-position: right 15px center; background-size: 1em; }
         
         .episode-list { flex-grow: 1; overflow-y: auto; padding: 0; }
-        .episode-item { 
-            display: flex; 
-            align-items: center; 
-            padding: 12px 15px; 
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05); 
-            cursor: pointer; 
-            transition: 0.2s; 
-        }
+        .episode-item { display: flex; align-items: center; padding: 12px 15px; border-bottom: 1px solid rgba(255, 255, 255, 0.05); cursor: pointer; transition: 0.2s; }
         .episode-item.active { background: rgba(229, 9, 20, 0.2); border-left: 4px solid var(--brand-color); }
-        
         .ep-num { font-size: 1.1rem; font-weight: bold; color: #888; margin-right: 15px; min-width: 25px; } 
         .ep-info { flex: 1; } 
         .ep-title { font-weight: 800; font-size: 1.1rem; color: #fff; margin-bottom: 2px; }
         .ep-desc { font-size: 0.75rem; color: #888; display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden; }
-
-        .ep-play-icon { 
-            font-size: 1.7rem; 
-            color: white; 
-            margin-right: 20px; 
-            opacity: 0.5; transition: all 0.3s; 
-            filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.8)); transform: scale(0.8); background: transparent; 
-            order: unset; 
-        }
+        .ep-play-icon { font-size: 1.7rem; color: white; margin-right: 20px; opacity: 0.5; transition: all 0.3s; filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.8)); transform: scale(0.8); background: transparent; order: unset; }
         .episode-item:hover .ep-play-icon { opacity: 1; transform: scale(1.1); filter: drop-shadow(0 0 10px #fff); }
 
         /* --- İSTEK & ÖNERİ KUTUSU --- */
         .suggestion-section-wrapper { width: 100%; display: flex; justify-content: center; padding: 50px 20px; margin-top: -50px; }
         .suggestion-section { width: 100%; max-width: 1000px; background: var(--glass-form-bg); backdrop-filter: var(--blur); -webkit-backdrop-filter: var(--blur); border: 1px solid rgba(255, 255, 255, 0.18); border-radius: 18px; box-shadow: var(--shadow); padding: 30px; }
-        
         .form-control { width: 100%; padding: 12px 15px; background: rgba(0, 0, 0, 0.4); border: 1px solid rgba(255, 255, 255, 0.1); color: white; border-radius: 10px; font-size: 0.95rem; transition: all 0.3s; }
         .form-control:focus { border-color: var(--brand-color); background: rgba(0, 0, 0, 0.6); box-shadow: 0 0 0 1px var(--brand-color); }
         .season-select option, select.form-control option { background-color: var(--bg-dark); color: white; }
@@ -209,41 +200,22 @@
 
         /* --- RESPONSIVE DÜZENLEME (MOBİL) --- */
         @media (max-width: 1000px) { 
-            .navbar { 
-                top: 0; transform: none; width: 100%; left: 0; border-radius: 0; height: 60px; padding: 0 15px; 
-                background: #141414; backdrop-filter: none; border: none; box-shadow: 0 5px 15px rgba(0,0,0,0.8);
-            } 
-            
+            .navbar { top: 0; transform: none; width: 100%; left: 0; border-radius: 0; height: 60px; padding: 0 15px; background: #141414; backdrop-filter: none; border: none; box-shadow: 0 5px 15px rgba(0,0,0,0.8); } 
             .main-container { flex-direction: column; padding-top: 80px; padding-bottom: 20px; gap: 20px; } 
-
             .content-area { width: 100%; min-width: unset; padding: 0 15px; order: 1; } 
-
-            /* --- MOBİLDE PLAYER KÜÇÜLTME AYARI --- */
+            
+            /* MOBİLDE PLAYER KÜÇÜLTME */
             .video-wrapper {
-                width: 94% !important; /* Ekranın tamamını kaplamasın, bir tık küçülsün */
-                margin: 0 auto; /* Ortala */
+                width: 94% !important; 
+                margin: 0 auto; 
             }
             
             .sidebar { height: 380px; width: calc(100% - 30px); margin: 0 15px; position: static; order: 2; border-left: none; } 
-            
             .suggestion-section-wrapper { padding: 0 15px 50px 15px; margin-top: 0; }
-
-            .menu-toggle { 
-                display: block !important; 
-                background: none; border: none;
-                color: white; 
-                font-size: 24px;
-                cursor: pointer; padding: 5px;
-                z-index: 1001;
-                order: 3; 
-                margin-left: 10px;
-            }
-
+            .menu-toggle { display: block !important; background: none; border: none; color: white; font-size: 24px; cursor: pointer; padding: 5px; z-index: 1001; order: 3; margin-left: 10px; }
             .nav-menu { display: none; } 
             .search-container { order: 2; margin-left: auto; }
-            
             .search-container.active { width: calc(100% - 140px); position: absolute; left: 70px; top: 5px; height: 50px; padding: 0 15px; }
-            
             .episode-title { font-size: 2rem; }
         }
     </style>
@@ -255,70 +227,41 @@
             <div class="logo-text">Filmoloji <span class="version-badge">V2.0</span></div>
         </div>
         <div class="nav-menu" id="desktop-nav-menu">
-            <a href="index.html" class="nav-item">
-                <i class="fas fa-home"></i> Ana Sayfa
-            </a>
-            <a href="index.html?page=series" class="nav-item">
-                <i class="fas fa-tv"></i> Diziler
-            </a>
-            <a href="index.html?page=movies" class="nav-item">
-                <i class="fas fa-film"></i> Filmler
-            </a>
-            <a onclick="goToSuggestions()" class="nav-item">
-                <i class="fas fa-paper-plane"></i> İstek & Öneri
-            </a>
-            <a href="login.html" class="nav-item">
-                <i class="fas fa-crown"></i> Premium
-            </a>
+            <a href="index.html" class="nav-item"><i class="fas fa-home"></i> Ana Sayfa</a>
+            <a href="index.html?page=series" class="nav-item"><i class="fas fa-tv"></i> Diziler</a>
+            <a href="index.html?page=movies" class="nav-item"><i class="fas fa-film"></i> Filmler</a>
+            <a onclick="goToSuggestions()" class="nav-item"><i class="fas fa-paper-plane"></i> İstek & Öneri</a>
+            <a href="login.html" class="nav-item"><i class="fas fa-crown"></i> Premium</a>
         </div>
         <div class="search-container" id="searchBox">
             <div class="search-icon-btn" onclick="openSearch()"><i class="fas fa-search"></i></div>
             <input type="text" class="search-input" id="searchInput" placeholder="Film veya dizi ara..." onkeyup="handleSearchRedirect(event)">
             <div class="close-search" onclick="closeSearch()">&times;</div>
         </div>
-        
-        <button class="menu-toggle" id="menuToggle" onclick="toggleMenu()">
-            <i class="fas fa-bars"></i>
-        </button>
+        <button class="menu-toggle" id="menuToggle" onclick="toggleMenu()"><i class="fas fa-bars"></i></button>
     </nav>
     
     <div id="mobileBackdrop" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.7); z-index: 998; display: none;" onclick="toggleMenu()"></div>
 
     <div class="mobile-menu-overlay" id="mobileMenuOverlay">
-        <button class="menu-toggle" style="position: absolute; top: 15px; right: 20px;" onclick="toggleMenu()">
-            <i class="fas fa-times"></i>
-        </button>
+        <button class="menu-toggle" style="position: absolute; top: 15px; right: 20px;" onclick="toggleMenu()"><i class="fas fa-times"></i></button>
         <div class="mobile-nav-menu">
-            <a href="index.html" onclick="toggleMenu()" class="nav-item">
-                <i class="fas fa-home"></i> Ana Sayfa
-            </a>
-            <a href="index.html?page=series" onclick="toggleMenu()" class="nav-item">
-                <i class="fas fa-tv"></i> Diziler
-            </a>
-            <a href="index.html?page=movies" onclick="toggleMenu()" class="nav-item">
-                <i class="fas fa-film"></i> Filmler
-            </a>
-            <a onclick="goToSuggestions(); toggleMenu()" class="nav-item">
-                <i class="fas fa-paper-plane"></i> İstek & Öneri
-            </a>
-            <a href="login.html" onclick="toggleMenu()" class="nav-item">
-                <i class="fas fa-crown"></i> Premium
-            </a>
+            <a href="index.html" onclick="toggleMenu()" class="nav-item"><i class="fas fa-home"></i> Ana Sayfa</a>
+            <a href="index.html?page=series" onclick="toggleMenu()" class="nav-item"><i class="fas fa-tv"></i> Diziler</a>
+            <a href="index.html?page=movies" onclick="toggleMenu()" class="nav-item"><i class="fas fa-film"></i> Filmler</a>
+            <a onclick="goToSuggestions(); toggleMenu()" class="nav-item"><i class="fas fa-paper-plane"></i> İstek & Öneri</a>
+            <a href="login.html" onclick="toggleMenu()" class="nav-item"><i class="fas fa-crown"></i> Premium</a>
         </div>
     </div>
 
     <div class="main-container">
-
         <div class="content-area">
             <div class="playing-info">
                 <div class="series-title" id="series-name" style="display: none;">Yükleniyor...</div>
                 <div class="episode-title" id="episode-name">Lütfen Bölüm Seçiniz</div>
             </div>
-
-            <div class="video-wrapper" id="video-container">
-                </div>
-            </div>
-
+            <div class="video-wrapper" id="video-container"></div>
+        </div>
         <div class="sidebar">
             <div class="sidebar-header">
                 <select id="season-select" class="season-select" onchange="loadEpisodes(this.value)"></select>
@@ -326,6 +269,7 @@
             <div id="ep-list" class="episode-list"></div>
         </div>
     </div>
+    
     <div class="suggestion-section-wrapper">
         <div class="suggestion-section" id="suggestions">
             <div class="suggestion-box">
@@ -351,126 +295,89 @@
     <script src="https://cdn.jsdelivr.net/npm/videojs-hls-quality-selector/dist/videojs-hls-quality-selector.min.js"></script>
     
     <script>
-        // Sağ Tık Engelleme
-    document.addEventListener('contextmenu', function(e) {
-        e.preventDefault();
-    });
+        document.addEventListener('contextmenu', function(e) { e.preventDefault(); });
+        document.onkeydown = function(e) {
+            if (e.keyCode == 123) return false;
+            if (e.ctrlKey && e.shiftKey && (e.keyCode == 'I'.charCodeAt(0) || e.keyCode == 'C'.charCodeAt(0) || e.keyCode == 'J'.charCodeAt(0))) return false;
+            if (e.ctrlKey && (e.keyCode == 'U'.charCodeAt(0) || e.keyCode == 'S'.charCodeAt(0))) return false;
+        };
 
-    // Klavye Kısayollarını Engelleme (F12, Ctrl+U, Ctrl+S, Ctrl+Shift+I)
-    document.onkeydown = function(e) {
-        if (e.keyCode == 123) { // F12
-            return false;
-        }
-        if (e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) { // Ctrl+Shift+I
-            return false;
-        }
-        if (e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) { // Ctrl+Shift+C
-            return false;
-        }
-        if (e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) { // Ctrl+Shift+J
-            return false;
-        }
-        if (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) { // Ctrl+U
-            return false;
-        }
-        if (e.ctrlKey && e.keyCode == 'S'.charCodeAt(0)) { // Ctrl+S
-            return false;
-        }
-    };
         const params = new URLSearchParams(window.location.search);
         const id = params.get('id');
-        const SERIES_HLS_URL = "https://drakkarhls4.icu/hls/videos/22275/master.m3u8"; // Test için örnek M3U8 adresi
+        const SERIES_HLS_URL = "https://drakkarhls4.icu/hls/videos/22275/master.m3u8"; 
 
-        // NOT: DATABASE değişkeninin "database.js" dosyası tarafından tanımlandığı varsayılmıştır.
         const series = typeof DATABASE !== 'undefined' ? DATABASE.find(item => item.id === id) : null;
-        let player; // Artık Video.js player objesi olacak
+        let player;
+
+        // --- SEO FONKSİYONU ---
+        function updateSEO(seriesName, episodeName, episodeDesc) {
+            document.title = `${seriesName} - ${episodeName} İzle | Filmoloji`;
+            let metaDesc = document.querySelector('meta[name="description"]');
+            if (!metaDesc) {
+                metaDesc = document.createElement('meta');
+                metaDesc.name = "description";
+                document.head.appendChild(metaDesc);
+            }
+            let cleanDesc = episodeDesc ? episodeDesc.substring(0, 150) + "..." : "Bu bölümü full HD kalitede izle.";
+            metaDesc.content = `${seriesName} dizisinin ${episodeName} bölümünü kesintisiz, donmadan Full HD izle. Konusu: ${cleanDesc}`;
+        }
 
         if(series) {
             document.title = series.title;
-            
             const select = document.getElementById('season-select');
-            
             series.seasons.forEach((s, i) => {
                 const opt = document.createElement('option');
                 opt.value = i;
                 opt.innerText = s.name;
                 select.appendChild(opt);
             });
-            
             loadEpisodes(0);
-            
             if(series.seasons[0] && series.seasons[0].episodes.length > 0) {
-                setTimeout(() => {
-                    playEpisode(series.seasons[0].episodes[0], 0, 0);
-                }, 500);
+                setTimeout(() => { playEpisode(series.seasons[0].episodes[0], 0, 0); }, 500);
             }
-            
         } else { 
-            if (id) {
-                    console.error("Dizi bulunamadı, index.html'ye yönlendiriliyor.");
-            }
-            // window.location.href = 'index.html'; 
+            if (id) console.error("Dizi bulunamadı.");
         }
 
         function loadEpisodes(seasonIdx) {
             const list = document.getElementById('ep-list');
             list.innerHTML = '';
             if (!series || !series.seasons[seasonIdx]) return;
-
             series.seasons[seasonIdx].episodes.forEach((ep, index) => {
                 const div = document.createElement('div');
                 div.className = 'episode-item';
                 div.id = `ep-${index}`;
                 div.onclick = () => playEpisode(ep, index, seasonIdx);
-                div.innerHTML = `
-                    <div class="ep-num">${index + 1}</div>
-                    <div class="ep-play-icon"><i class="fas fa-play"></i></div>
-                    <div class="ep-info">
-                        <div class="ep-title">${ep.name}</div>
-                        <div class="ep-desc">${ep.desc || ''}</div>
-                    </div>
-                `;
+                div.innerHTML = `<div class="ep-num">${index + 1}</div><div class="ep-play-icon"><i class="fas fa-play"></i></div><div class="ep-info"><div class="ep-title">${ep.name}</div><div class="ep-desc">${ep.desc || ''}</div></div>`;
                 list.appendChild(div);
             });
         }
 
-        // 🌟 GÜNCELLENMİŞ PLAYEPISODE FONKSİYONU (Video.js Kullanımı) 🌟
         function playEpisode(ep, index, seasonIdx) {
+            if(series) { updateSEO(series.title, ep.name, ep.desc || "Heyecan dolu yeni bölümü hemen izle."); }
             document.getElementById('episode-name').innerText = `${ep.name}`; 
-            
             document.querySelectorAll('.episode-item').forEach(el => el.classList.remove('active'));
             const activeItem = document.getElementById(`ep-${index}`);
             if(activeItem) activeItem.classList.add('active');
 
             const container = document.getElementById('video-container');
-            // Bölüm kaynağı yoksa veya m3u8 değilse test linkini kullan
             const url = ep.source && ep.source.includes('.m3u8') ? ep.source : SERIES_HLS_URL; 
 
-            // Önceki oynatıcı varsa imha et
-            if(player) {
-                player.dispose(); // Video.js'te .destroy() yerine .dispose() kullanılır
-                player = null;
-            }
-
-            // Kapsayıcıyı temizle
+            if(player) { player.dispose(); player = null; }
             container.innerHTML = ''; 
             
-            // Yeni Video.js elementini oluştur
             const video = document.createElement('video');
-            video.id = 'video-js-player'; // Video.js'in bu ID'yi kullanması gerekiyor
+            video.id = 'video-js-player';
             video.className = 'video-js vjs-default-skin vjs-big-play-centered';
             video.controls = true;
             video.playsInline = true;
             video.setAttribute('preload', 'auto');
-            video.setAttribute('data-setup', '{}');
-
-            // HLS Kaynağını Ekle
+            
             const source = document.createElement('source');
             source.src = url;
             source.type = 'application/x-mpegURL';
             video.appendChild(source);
             
-            // Altyazı/Metin Parçalarını Ekle (ep objesinde "subtitles" varsa)
             if (ep.subtitles && Array.isArray(ep.subtitles)) {
                 ep.subtitles.forEach(sub => {
                     const track = document.createElement('track');
@@ -482,52 +389,29 @@
                     video.appendChild(track);
                 });
             }
-
             container.appendChild(video);
-            
-            // Video.js'i başlat
             initVideoJS(video.id);
-
-            // Oynatmaya çalış (Tarayıcı engellerse yakalanır)
-            if (player) {
-                 player.play().catch(e => console.log("Oto oynatma engellendi:", e));
-            }
+            if (player) { player.play().catch(e => console.log("Oto oynatma engellendi:", e)); }
         }
 
-        // 🌟 YENİ: initVideoJS FONKSİYONU 🌟
         function initVideoJS(videoId) {
-            // Player'ı başlat
+            // FLUID KAPATILDI, FILL AÇILDI (ZIPLAMAYI ÖNLER)
             player = videojs(videoId, {
-                fluid: true, // Kapsayıcıya uyum sağlar (video-wrapper)
-                playbackRates: [0.5, 1, 1.25, 1.5, 2], // Hız ayarları
+                fill: true,   
+                responsive: true,
+                playbackRates: [0.5, 1, 1.25, 1.5, 2], 
             });
-
-            // Kalite Seçici eklentisini etkinleştirme
-            // Bu, HLS manifestinden kalite seviyelerini otomatik olarak çeker.
-            player.hlsQualitySelector({
-                displayLabel: 'Kalite',
-            });
-            
-            // Not: Dublaj (Audio Tracks) ve Altyazılar (Captions/Subtitles) 
-            // HLS manifestinde varsa, Video.js bunları otomatik olarak 
-            // ayarlar menüsüne (Settings) ekleyecektir.
+            player.hlsQualitySelector({ displayLabel: 'Kalite' });
         }
-
-        // --- Diğer Fonksiyonlarınız ---
 
         function goToSuggestions() { 
-            if (document.getElementById('mobileMenuOverlay').classList.contains('open') && window.innerWidth <= 1000) {
-                 toggleMenu(); 
-            }
+            if (document.getElementById('mobileMenuOverlay').classList.contains('open') && window.innerWidth <= 1000) toggleMenu(); 
             document.getElementById('suggestions').scrollIntoView({ behavior: 'smooth' }); 
         }
-        
         function openSearch() { 
             document.getElementById('searchBox').classList.add('active'); 
             document.getElementById('searchInput').focus(); 
-            if (window.innerWidth <= 1000 && document.getElementById('mobileMenuOverlay').classList.contains('open')) {
-                toggleMenu(); 
-            }
+            if (window.innerWidth <= 1000 && document.getElementById('mobileMenuOverlay').classList.contains('open')) toggleMenu(); 
         }
         function closeSearch() { 
             document.getElementById('searchBox').classList.remove('active'); 
@@ -536,36 +420,24 @@
         function handleSearchRedirect(event) { 
             if (event.key === 'Enter') { 
                 const query = document.getElementById('searchInput').value; 
-                if (query) { window.location.href = `index.html?search=${encodeURIComponent(query)}`; } 
+                if (query) window.location.href = `index.html?search=${encodeURIComponent(query)}`; 
             } 
         }
-
         function toggleMenu() {
             const overlay = document.getElementById('mobileMenuOverlay');
             const menuIcon = document.getElementById('menuToggle').querySelector('i');
             const backdrop = document.getElementById('mobileBackdrop');
-            
             if (window.innerWidth > 1000) return;
-
             const isOpen = overlay.classList.contains('open');
-            
             if (isOpen) {
                 overlay.classList.remove('open');
                 menuIcon.className = 'fas fa-bars';
                 document.body.style.overflow = 'auto'; 
-                setTimeout(() => {
-                    backdrop.style.display = 'none';
-                    overlay.style.display = 'none';
-                }, 300); 
-
+                setTimeout(() => { backdrop.style.display = 'none'; overlay.style.display = 'none'; }, 300); 
             } else {
                 backdrop.style.display = 'block';
                 overlay.style.display = 'flex';
-                
-                setTimeout(() => {
-                    overlay.classList.add('open');
-                }, 10); 
-
+                setTimeout(() => { overlay.classList.add('open'); }, 10); 
                 menuIcon.className = 'fas fa-times'; 
                 document.body.style.overflow = 'hidden'; 
             }
