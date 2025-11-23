@@ -1,6 +1,6 @@
 // --- AYARLAR ---
 const ADMIN_SIFRE = "babahepsikerekgecer";    // Yönetici (Panel + Veri Güncelleme)
-const USER_SIFRE = "3131";     // Kullanıcı (Sadece İndirme)
+const USER_SIFRE = "3131";     // Kullanıcı (Sadece Premium)
 const OTURUM_SURESI = 30000;   // 30 Saniye (İşlem yapılmazsa atar)
 
 // --- YETKİ KONTROLÜ (Her sayfanın başında çalışır) ---
@@ -17,7 +17,7 @@ function checkAuth(requiredLevel) {
     // 2. Yetki Kontrolü (Sadece Admin sayfaları için)
     if (requiredLevel === 'admin' && userRole !== 'admin') {
         alert("Bu sayfaya erişim yetkiniz yok!");
-        window.location.href = "indir.html"; // Yetkisiz ise indirmeye at
+        window.location.href = "premium.html"; // Yetkisiz ise kullanıcı sayfasına at
         return;
     }
 
@@ -39,13 +39,14 @@ function performLogin(password) {
         // ADMIN GİRİŞİ
         localStorage.setItem('kullanici_rolu', 'admin');
         suteyiYenile();
-        return { success: true, redirect: 'dashboard.html' }; // Seçim ekranına git
+        return { success: true, redirect: 'dashboard.html' }; // Yönetici paneline git
     } 
     else if (password === USER_SIFRE) {
-        // KULLANICI GİRİŞİ
+        // KULLANICI GİRİŞİ (3131)
         localStorage.setItem('kullanici_rolu', 'user');
         suteyiYenile();
-        return { success: true, redirect: 'indir.html' }; // Direkt indirmeye git
+        // DEĞİŞİKLİK BURADA YAPILDI:
+        return { success: true, redirect: 'premium.html' }; // Premium sayfasına git
     } 
     else {
         // HATALI ŞİFRE
