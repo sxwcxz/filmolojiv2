@@ -571,18 +571,60 @@
         }
     };
 
-    function setRandomHero() {
-        const heroCandidates = DATABASE.filter(item => item.backdrop && item.backdrop.length > 10);
-        if(heroCandidates.length === 0) return;
-        const randomItem = heroCandidates[Math.floor(Math.random() * heroCandidates.length)];
-        
-        document.getElementById('hero-title').innerText = randomItem.title;
-        document.getElementById('hero-desc').innerText = randomItem.description;
-        document.getElementById('hero-bg').style.backgroundImage = `url('${randomItem.backdrop}')`;
-        
-        const targetPage = randomItem.type === 'movie' ? 'film-izle.html' : 'dizi-izle.html';
-        document.getElementById('hero-play-btn').onclick = () => window.location.href = `${targetPage}?id=${randomItem.id}`;
+    // --- YENİ KOD: SADECE BU DİZİ ID'LERİ KULLANILACAK ---
+const HERO_WHITELIST_IDS = [
+    "ser_breaking_bad",
+    "ser_stranger_things",
+    "ser_squid_game",
+    "ser_wednesday",
+    "ser_black_mirror",
+    "ser_la_casa_de_papel",
+    "ser_the_witcher",
+    "ser_narcos",
+    "ser_dark",
+    "ser_peaky_blinders",
+    "ser_better_call_saul",
+    "ser_sex_education",
+    "ser_ask_101",
+    "ser_ersan_kuneri",
+    "ser_loki",
+    "ser_mahsun_j",
+    "ser_gibi",
+    "ser_prens",
+    "ser_cekic_ve_gul",
+    "ser_lucifer"
+];
+// ----------------------------------------------------
+
+
+function setRandomHero() {
+    // HERO_WHITELIST_IDS listesindeki ID'lere sahip olan içerikleri filtrele
+    const heroCandidates = DATABASE.filter(item => {
+        // Sadece WHITELIST'te olan ve backdrop'ı olan öğeleri seç
+        return HERO_WHITELIST_IDS.includes(item.id) && item.backdrop && item.backdrop.length > 10;
+    });
+
+    // Filtrelenen listeden rastgele bir öğe seçme kontrolü
+    if(heroCandidates.length === 0) {
+        // Eğer filtrelenen içerik yoksa, placeholder gösterilir.
+        document.getElementById('hero-title').innerText = "Filmoloji";
+        document.getElementById('hero-desc').innerText = "En yeni filmleri ve popüler dizileri Full HD kalitesinde izleyebileceğiniz ücretsiz bir platformdur.";
+        document.getElementById('hero-bg').style.backgroundImage = 'none';
+        return;
     }
+    
+    // Kısıtlanmış listeden rastgele bir öğe seç
+    const randomIndex = Math.floor(Math.random() * heroCandidates.length);
+    const randomItem = heroCandidates[randomIndex];
+    
+    // Hero bölümünü güncelleyen kısım
+    document.getElementById('hero-title').innerText = randomItem.title;
+    document.getElementById('hero-desc').innerText = randomItem.description;
+    document.getElementById('hero-bg').style.backgroundImage = `url('${randomItem.backdrop}')`;
+    
+    const targetPage = randomItem.type === 'movie' ? 'film-izle.html' : 'dizi-izle.html';
+    document.getElementById('hero-play-btn').onclick = () => window.location.href = `${targetPage}?id=${randomItem.id}`;
+}
 
     function loadContinueWatching() {
         const container = document.getElementById('continue-watching-list');
