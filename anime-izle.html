@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>Anime İzle - Animoloji</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    
+    <link rel="icon" href="anime.png" type="image/png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://vjs.zencdn.net/8.10.0/video-js.css" rel="stylesheet" />
+    <script src="database.js"></script>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Exo+2:wght@400;700;900&display=swap');
+
+        * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; outline: none; }
+        html { scroll-behavior: auto; }
+
+        body {
+            background-color: #0f0518;
+            background-image: radial-gradient(circle at 50% 0%, #2b1055 0%, #0f0518 80%);
+            color: white;
+            font-family: 'Exo 2', sans-serif;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* --- NAVBAR --- */
+        .anime-navbar {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 0 3%; /* Dikey padding kaldırıldı, height ile ortalanacak */
+            background: rgba(15, 5, 24, 0.95);
+            backdrop-filter: blur(15px);
+            border-bottom: 2px solid #d600ff;
+            position: sticky; top: 0; z-index: 2000;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.6);
+            height: 80px;
+            position: relative; /* Hamburger referansı için */
+        }
+
+        .anime-logo {
+            font-size: 24px; font-weight: 900; color: #fff; 
+            text-transform: uppercase;
+            text-shadow: 0 0 10px #d600ff;
+            cursor: pointer; letter-spacing: 1px;
+            display: flex; align-items: center; gap: 10px;
+            z-index: 2001;
+        }
+        .anime-logo i { color: #fff; font-size: 32px; text-shadow: 0 0 15px #d600ff; }
+
+        /* ORTA VE SAĞ (Masaüstü) */
+        .nav-center { flex: 1; display: flex; justify-content: center; align-items: center; gap: 20px; }
+        .nav-right { display: flex; align-items: center; gap: 15px; }
+
+        /* HAMBURGER BUTONU (Mobilde Görünür - SAĞ ÜST KÖŞE SABİT) */
+        .menu-toggle {
+            display: none; 
+            background: none; border: none; color: white;
+            font-size: 28px; cursor: pointer; z-index: 2002;
+            /* KESİN KONUMLANDIRMA */
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        /* --- MOBİL MENÜ (YAN PANEL) --- */
+        .mobile-menu-overlay {
+            position: fixed; top: 0; right: -100%; /* Gizli */
+            width: 280px; height: 100vh;
+            background: #150a25;
+            border-left: 2px solid #d600ff;
+            display: flex; flex-direction: column; gap: 20px;
+            padding: 20px;
+            transition: 0.4s ease-in-out;
+            z-index: 3000; /* En üstte */
+            box-shadow: -10px 0 30px rgba(0,0,0,0.9);
+            overflow-y: auto;
+        }
+        .mobile-menu-overlay.active { right: 0; }
+
+        /* Mobil Menü Kapatma Butonu */
+        .close-menu-btn {
+            align-self: flex-end;
+            background: none; border: none; color: #d600ff;
+            font-size: 30px; cursor: pointer;
+            margin-bottom: 20px;
+        }
+
+        .mobile-backdrop {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.8); z-index: 2999; /* Menünün bir altı */
+            display: none; opacity: 0; transition: opacity 0.3s;
+        }
+        .mobile-backdrop.active { display: block; opacity: 1; }
+
+        /* ARAMA ALANI */
+        .search-wrapper { position: relative; width: 100%; max-width: 400px; }
+        .search-input {
+            width: 100%; padding: 10px 40px 10px 15px;
+            border-radius: 25px; border: 2px solid rgba(214, 0, 255, 0.3);
+            background: rgba(255, 255, 255, 0.05);
+            color: white; font-size: 14px; outline: none; transition: 0.3s;
+        }
+        .search-input:focus { border-color: #d600ff; background: rgba(0,0,0,0.6); }
+        .search-icon-btn { position: absolute; right: 15px; top: 50%; transform: translateY(-50%); color: #d600ff; pointer-events: none; }
+
+        .live-search-results {
+            position: absolute; top: 110%; left: 0; width: 100%;
+            background: #1a0b2e; border: 1px solid #d600ff;
+            border-radius: 10px; overflow: hidden; display: none; flex-direction: column;
+            z-index: 2002; max-height: 300px; overflow-y: auto;
+        }
+        .live-search-results.active { display: flex; }
+        .live-item { display: flex; align-items: center; gap: 10px; padding: 10px; cursor: pointer; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .live-item:hover { background: rgba(214, 0, 255, 0.2); }
+        .live-item img { width: 40px; height: 55px; object-fit: cover; border-radius: 4px; }
+        .live-info h4 { font-size: 14px; color: #fff; margin: 0; }
+        .live-info span { font-size: 11px; color: #aaa; }
+
+        /* BUTONLAR & DROPDOWN */
+        .custom-select { position: relative; cursor: pointer; width: 100%; }
+        .select-btn {
+            background: rgba(255,255,255,0.05); border: 1px solid rgba(0, 210, 255, 0.3);
+            padding: 10px 15px; border-radius: 20px; color: #fff; font-size: 13px;
+            display: flex; align-items: center; justify-content: space-between; white-space: nowrap;
+        }
+        
+        .dropdown-menu {
+            position: absolute; top: 120%; left: 0; width: 100%;
+            background: #150a25; border: 1px solid #00d2ff; border-radius: 8px;
+            display: none; flex-direction: column; z-index: 1002; max-height: 300px; overflow-y: auto;
+        }
+        .dropdown-menu.show { display: flex; }
+        .dropdown-item { padding: 10px 15px; color: #ccc; font-size: 13px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .dropdown-item:hover { background: #00d2ff; color: #000; font-weight: bold; }
+
+        .request-btn {
+            background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(214, 0, 255, 0.5);
+            padding: 8px 15px; border-radius: 20px; color: #fff; font-size: 13px; 
+            display: flex; align-items: center; gap: 8px; cursor: pointer; flex-shrink: 0;
+            justify-content: center;
+        }
+        .request-btn:hover { background: rgba(214, 0, 255, 0.2); border-color: #d600ff; }
+        .request-btn i { color: #d600ff; font-size: 16px; }
+
+        .return-btn {
+            text-decoration: none; color: #00d2ff; border: 1px solid #00d2ff;
+            padding: 8px 20px; border-radius: 4px; font-weight: bold; font-size: 14px;
+            display: flex; align-items: center; gap: 8px; white-space: nowrap; flex-shrink: 0;
+            justify-content: center;
+        }
+
+        /* PLAYER ALANI */
+        .watch-container {
+            display: flex; gap: 20px; max-width: 1600px; margin: 30px auto; padding: 0 3%;
+            align-items: stretch; 
+        }
+        .watch-container.movie-mode .sidebar-column { display: none !important; }
+        .watch-container.movie-mode .player-column { flex: 1; max-width: 1200px; margin: 0 auto; }
+        .watch-container.movie-mode .episode-subtitle { display: none; }
+
+        .player-column { flex: 3; display: flex; flex-direction: column; }
+        .anime-info-header { margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid rgba(214, 0, 255, 0.3); }
+        .anime-title { font-size: 2.2rem; font-weight: 900; color: #fff; text-shadow: 0 0 15px #d600ff; margin-bottom: 5px; }
+        .episode-subtitle { font-size: 1.1rem; color: #00d2ff; font-weight: 600; display: flex; align-items: center; gap: 10px; }
+
+        .video-wrapper {
+            position: relative; width: 100%; padding-top: 56.25%; 
+            background-color: #000; border-radius: 12px; overflow: hidden;
+            border: 1px solid #d600ff; box-shadow: 0 0 40px rgba(214, 0, 255, 0.2);
+        }
+        .video-js { position: absolute !important; top: 0; left: 0; width: 100% !important; height: 100% !important; }
+        .video-js .vjs-big-play-button {
+            background-color: rgba(214, 0, 255, 0.7); border-color: #fff;
+            border-radius: 50%; width: 80px; height: 80px; line-height: 80px; font-size: 40px;
+            position: absolute !important; left: 50% !important; top: 50% !important;
+            transform: translate(-50%, -50%) !important; margin: 0 !important;
+        }
+
+        .sidebar-column {
+            flex: 1; min-width: 300px; 
+            background: rgba(21, 10, 37, 0.8); 
+            border: 1px solid #d600ff; border-radius: 12px; 
+            display: flex; flex-direction: column; margin-top: 92px;
+        }
+        .sidebar-header { padding: 10px; border-bottom: 1px solid rgba(214, 0, 255, 0.2); }
+        .season-select { width: 100%; padding: 10px; background: #0f0518; color: white; border: 1px solid #d600ff; border-radius: 8px; }
+        
+        .episode-list { flex: 1; overflow-y: auto; padding: 0; }
+        .episode-list::-webkit-scrollbar { width: 6px; }
+        .episode-list::-webkit-scrollbar-thumb { background: #d600ff; border-radius: 3px; }
+
+        .episode-item { display: flex; align-items: center; padding: 12px; border-bottom: 1px solid rgba(255, 255, 255, 0.05); cursor: pointer; }
+        .episode-item:hover { background: rgba(214, 0, 255, 0.15); }
+        .episode-item.active { background: rgba(214, 0, 255, 0.25); border-left: 4px solid #d600ff; }
+        .ep-num { font-size: 1.1rem; font-weight: 900; color: #d600ff; margin-right: 10px; min-width: 25px; text-align: center; }
+        .ep-title { font-weight: 700; font-size: 0.95rem; color: #fff; }
+        
+        /* İSTEK FORMU */
+        .suggestion-section-wrapper { width: 100%; display: flex; justify-content: center; padding: 40px 20px; margin-top: 50px; background: rgba(0,0,0,0.3); }
+        .suggestion-section { width: 100%; max-width: 800px; background: rgba(21, 10, 37, 0.8); border: 1px solid #d600ff; border-radius: 15px; padding: 30px; text-align: center; }
+        .form-group { margin-bottom: 15px; }
+        .form-control { width: 100%; padding: 12px; background: rgba(0,0,0,0.4); border: 1px solid rgba(214, 0, 255, 0.3); color: white; border-radius: 8px; }
+        .btn-submit { width: 100%; padding: 12px; background: #d600ff; color: white; border: none; border-radius: 50px; font-weight: bold; cursor: pointer; }
+
+        .toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: #d600ff; color: #fff; padding: 10px 30px; border-radius: 50px; font-weight: bold; opacity: 0; pointer-events: none; transition: 0.3s; z-index: 3000; }
+        .toast.show { opacity: 1; bottom: 50px; }
+
+        /* MOBİL UYUM */
+        @media (max-width: 1000px) {
+            .nav-center, .nav-right { display: none; } /* Masaüstü öğelerini gizle */
+            .menu-toggle { display: block; } /* Hamburgeri göster */
+            
+            .watch-container { flex-direction: column; margin-top: 20px; }
+            .player-column, .sidebar-column { width: 100%; margin-top: 0; }
+            .sidebar-column { height: 400px !important; }
+            .anime-title { font-size: 1.8rem; }
+            
+            /* Mobilde Buton Metinleri */
+            .nav-request-btn span, .return-btn span { display: inline; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="anime-navbar">
+        <div class="anime-logo" onclick="forceReload()">
+            <i class="fas fa-dragon"></i> ANİMOLOJİ
+        </div>
+
+        <div class="nav-center">
+            <div class="custom-select" id="category-dropdown">
+                <div class="select-btn" onclick="toggleDropdown('cat-list')">
+                    <i class="fas fa-layer-group"></i> <span id="selected-cat">Kategoriler</span> <i class="fas fa-caret-down"></i>
+                </div>
+                <div class="dropdown-menu" id="cat-list">
+                    <div class="dropdown-item active" onclick="selectCategory('all', 'Tümü')">Tümü</div>
+                </div>
+            </div>
+
+            <div class="search-wrapper">
+                <input type="text" class="search-input" id="search-input" placeholder="Anime ara..." autocomplete="off">
+                <i class="fas fa-search search-icon-btn"></i>
+                <div class="live-search-results" id="live-results"></div>
+            </div>
+
+            <div class="custom-select" id="sort-dropdown">
+                <div class="select-btn" onclick="toggleDropdown('sort-list')">
+                    <i class="fas fa-sort-amount-down"></i> <span id="selected-sort">Sıralama</span> <i class="fas fa-caret-down"></i>
+                </div>
+                <div class="dropdown-menu" id="sort-list">
+                    <div class="dropdown-item" onclick="selectSort('newest', 'En Yeni')">En Yeni</div>
+                    <div class="dropdown-item" onclick="selectSort('oldest', 'En Eski')">En Eski</div>
+                    <div class="dropdown-item" onclick="selectSort('rating_high', 'Puan (Yüksek)')">Puan Yüksek</div>
+                    <div class="dropdown-item" onclick="selectSort('rating_low', 'Puan (Düşük)')">Puan Düşük</div>
+                    <div class="dropdown-item" onclick="selectSort('az', 'İsim (A-Z)')">A-Z</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="nav-right">
+            <div class="request-btn" onclick="scrollToSuggestions()">
+                <i class="fas fa-paper-plane"></i> <span>İstek & Öneri</span>
+            </div>
+            <a href="animoloji.html" class="return-btn"><i class="fas fa-arrow-left"></i> Geri Dön</a>
+        </div>
+
+        <button class="menu-toggle" onclick="toggleMobileMenu()">
+            <i class="fas fa-bars"></i>
+        </button>
+    </nav>
+
+    <div class="mobile-backdrop" id="mobile-backdrop" onclick="toggleMobileMenu()"></div>
+    <div class="mobile-menu-overlay" id="mobile-menu">
+        <button class="close-menu-btn" onclick="toggleMobileMenu()"><i class="fas fa-times"></i></button>
+
+        <div class="search-wrapper" style="width:100%;">
+            <input type="text" class="search-input" id="mobile-search-input" placeholder="Anime ara..." autocomplete="off">
+            <i class="fas fa-search search-icon-btn"></i>
+            <div class="live-search-results" id="mobile-live-results"></div>
+        </div>
+
+        <div class="custom-select">
+            <div class="select-btn" onclick="toggleDropdown('mob-cat-list')">
+                <i class="fas fa-layer-group"></i> <span id="mob-selected-cat">Kategoriler</span> <i class="fas fa-caret-down"></i>
+            </div>
+            <div class="dropdown-menu" id="mob-cat-list" style="position:relative; top:0; margin-top:5px;">
+                <div class="dropdown-item active" onclick="selectCategory('all', 'Tümü'); toggleMobileMenu()">Tümü</div>
+            </div>
+        </div>
+
+        <div class="custom-select">
+            <div class="select-btn" onclick="toggleDropdown('mob-sort-list')">
+                <i class="fas fa-sort-amount-down"></i> <span id="mob-selected-sort">Sıralama</span> <i class="fas fa-caret-down"></i>
+            </div>
+            <div class="dropdown-menu" id="mob-sort-list" style="position:relative; top:0; margin-top:5px;">
+                <div class="dropdown-item" onclick="selectSort('newest', 'En Yeni'); toggleMobileMenu()">En Yeni</div>
+                <div class="dropdown-item" onclick="selectSort('oldest', 'En Eski'); toggleMobileMenu()">En Eski</div>
+            </div>
+        </div>
+
+        <div class="request-btn" onclick="scrollToSuggestions(); toggleMobileMenu()">
+            <i class="fas fa-paper-plane"></i> <span>İstek & Öneri</span>
+        </div>
+        
+        <a href="index.html" class="return-btn" style="justify-content:center;">
+            <i class="fas fa-arrow-left"></i> Geri Dön
+        </a>
+    </div>
+
+    <div class="watch-container" id="watch-container">
+        <div class="player-column">
+            <div class="anime-info-header">
+                <div class="anime-title" id="anime-title">Yükleniyor...</div>
+                <div class="episode-subtitle" id="episode-subtitle">
+                    <i class="fas fa-play-circle"></i> <span id="episode-name">Bölüm Seçiniz</span>
+                </div>
+            </div>
+            <div class="video-wrapper" id="video-container"></div>
+        </div>
+
+        <div class="sidebar-column" id="sidebar">
+            <div class="sidebar-header">
+                <select id="season-select" class="season-select" onchange="loadEpisodes(this.value)"></select>
+            </div>
+            <div id="ep-list" class="episode-list"></div>
+        </div>
+    </div>
+
+    <div class="suggestion-section-wrapper" id="suggestions">
+        <div class="suggestion-section">
+            <h3><i class="fas fa-paper-plane"></i> İstek & Öneri Kutusu</h3>
+            <form action="https://formspree.io/f/myzoeepz" method="POST">
+                <div class="form-group"><input type="text" name="Gonderen" class="form-control" placeholder="Adınız"></div>
+                <div class="form-group">
+                    <select name="Konu" class="form-control">
+                        <option>Anime İsteği</option><option>Bölüm Açılmıyor / Hata</option><option>Çeviri Hatası</option>
+                    </select>
+                </div>
+                <div class="form-group"><textarea name="Mesaj" class="form-control" placeholder="Mesajınız..." required></textarea></div>
+                <button type="submit" class="btn-submit"><i class="fas fa-paper-plane"></i> GÖNDER</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="toast" class="toast"></div>
+
+    <script src="https://vjs.zencdn.net/8.10.0/video.js"></script>
+    
+    <script>
+        // --- KORUMA VE KISAYOL ENGELLEME MANTIĞI ---
+
+// (1) Sağ Tık ve Sürüklemeyi Engelleme
+document.addEventListener('contextmenu', event => event.preventDefault());
+
+// (2) Klavye Kısayollarını Engelleme (F12, Ctrl+Shift+I, Ctrl+U, Ctrl+S)
+document.onkeydown = function(e) {
+    // F12 Engeli
+    if (e.keyCode == 123) return false;
+
+    // Ctrl + (U, S) Engeli
+    if (e.ctrlKey && (e.keyCode == 'U'.charCodeAt(0) || e.keyCode == 'S'.charCodeAt(0))) {
+        return false;
+    }
+
+    // Ctrl + Shift + (I, C, J) Engeli
+    if (e.ctrlKey && e.shiftKey && (e.keyCode == 'I'.charCodeAt(0) || e.keyCode == 'C'.charCodeAt(0) || e.keyCode == 'J'.charCodeAt(0))) {
+        return false;
+    }
+    
+    // (Ayrıca, tarayıcının resim sürükleme özelliğini CSS ile engellemek daha temizdir, onu da aşağıda belirtiyorum.)
+};
+        // SCROLL SIFIRLAMA
+        if ('scrollRestoration' in history) { history.scrollRestoration = 'manual'; }
+        window.onbeforeunload = function () { window.scrollTo(0, 0); }
+
+        window.onload = function() {
+            window.scrollTo(0, 0);
+            if (typeof DATABASE === 'undefined') { alert("Hata: Veritabanı bulunamadı!"); return; }
+            
+            initCategories();
+            if(series) {
+                if(series.type === 'movie') loadMovieData();
+                else loadSeriesData();
+            } else {
+                showError();
+            }
+            
+            window.addEventListener('resize', syncSidebarHeight);
+            setTimeout(() => { document.documentElement.style.scrollBehavior = 'smooth'; }, 500);
+
+            // Klavye Kısayolları
+            document.addEventListener('keydown', (e) => {
+                if (!player || document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA') return;
+                switch(e.key.toLowerCase()) {
+                    case ' ': case 'k': e.preventDefault(); player.paused() ? player.play() : player.pause(); break;
+                    case 'f': player.isFullscreen() ? player.exitFullscreen() : player.requestFullscreen(); break;
+                    case 'm': player.muted(!player.muted()); showToast(player.muted() ? "Ses Kapalı" : "Ses Açık"); break;
+                    case 'arrowright': player.currentTime(player.currentTime() + 10); showToast("+10 Sn"); break;
+                    case 'arrowleft': player.currentTime(player.currentTime() - 10); showToast("-10 Sn"); break;
+                    case 'arrowup': e.preventDefault(); player.volume(player.volume() + 0.1); showToast(`Ses: %${Math.round(player.volume() * 100)}`); break;
+                    case 'arrowdown': e.preventDefault(); player.volume(player.volume() - 0.1); showToast(`Ses: %${Math.round(player.volume() * 100)}`); break;
+                }
+            });
+
+            // Dropdown Kapatma
+            document.addEventListener('click', function(e) {
+                if (!e.target.closest('.custom-select')) {
+                    document.querySelectorAll('.dropdown-menu').forEach(m => { if(!m.id.startsWith('mob')) m.classList.remove('show'); });
+                }
+                if (!e.target.closest('.search-wrapper')) {
+                    document.querySelectorAll('.live-search-results').forEach(r => r.classList.remove('show'));
+                }
+            });
+        };
+
+        const params = new URLSearchParams(window.location.search);
+        const id = params.get('id');
+        const series = typeof DATABASE !== 'undefined' ? DATABASE.find(item => item.id === id) : null;
+        let player;
+        const DEFAULT_VIDEO = "https://drakkarhls4.icu/hls/videos/22275/master.m3u8";
+
+        // MOBİL MENÜ İŞLEVLERİ
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            const backdrop = document.getElementById('mobile-backdrop');
+            menu.classList.toggle('active');
+            backdrop.classList.toggle('active');
+        }
+
+        function forceReload() { window.location.href = 'animoloji.html'; }
+        function scrollToSuggestions() { document.getElementById('suggestions').scrollIntoView({ behavior: 'smooth' }); }
+        function showError() { document.getElementById('anime-title').innerText = "İçerik Bulunamadı"; document.querySelector('.watch-container').innerHTML = "<h2 style='text-align:center; width:100%; color:#aaa; margin-top:50px;'>İçerik bulunamadı.</h2>"; }
+
+        function initCategories() {
+            const allGenres = new Set();
+            DATABASE.forEach(item => { if(item.genre) item.genre.split(',').forEach(g => allGenres.add(g.trim())); });
+            const list = document.getElementById('cat-list');
+            const mobList = document.getElementById('mob-cat-list');
+            const sortedGenres = Array.from(allGenres).sort();
+            sortedGenres.forEach(genre => {
+                const itemHTML = `<div class="dropdown-item" onclick="goMainPage()">${genre}</div>`;
+                list.innerHTML += itemHTML;
+                mobList.innerHTML += `<div class="dropdown-item" onclick="goMainPage(); toggleMobileMenu()">${genre}</div>`;
+            });
+        }
+
+        function toggleDropdown(id) {
+             if(!id.startsWith('mob')) {
+                 document.querySelectorAll('.dropdown-menu').forEach(m => { if(m.id !== id && !m.id.startsWith('mob')) m.classList.remove('show'); });
+             }
+             document.getElementById(id).classList.toggle('show');
+        }
+
+        function goMainPage() { window.location.href = 'animoloji.html'; }
+        function selectCategory() { goMainPage(); }
+        function selectSort() { goMainPage(); }
+
+        function loadMovieData() {
+            document.title = `${series.title} İzle - Animoloji`;
+            document.getElementById('anime-title').innerText = series.title;
+            document.getElementById('watch-container').classList.add('movie-mode');
+            const videoUrl = (series.source && series.source.includes('.m3u8')) ? series.source : DEFAULT_VIDEO;
+            initPlayer(videoUrl, `movie_resume_${series.id}`);
+        }
+
+        function loadSeriesData() {
+            document.title = `${series.title} İzle`;
+            document.getElementById('anime-title').innerText = series.title;
+            const select = document.getElementById('season-select');
+            series.seasons.forEach((s, i) => {
+                const opt = document.createElement('option');
+                opt.value = i;
+                opt.innerText = s.name;
+                select.appendChild(opt);
+            });
+            const lastKey = 'animoloji_last_' + series.id;
+            let sIdx = 0, eIdx = 0;
+            const saved = localStorage.getItem(lastKey);
+            if(saved) [sIdx, eIdx] = saved.split('|').map(Number);
+            select.value = sIdx;
+            loadEpisodes(sIdx);
+            if(series.seasons[sIdx] && series.seasons[sIdx].episodes[eIdx]) {
+                setTimeout(() => { playEpisode(series.seasons[sIdx].episodes[eIdx], eIdx, sIdx, false); }, 300);
+            }
+        }
+
+        function loadEpisodes(seasonIdx) {
+            const list = document.getElementById('ep-list');
+            list.innerHTML = '';
+            if (!series || !series.seasons[seasonIdx]) return;
+            series.seasons[seasonIdx].episodes.forEach((ep, index) => {
+                const div = document.createElement('div');
+                div.className = 'episode-item';
+                div.id = `ep-${index}`;
+                div.onclick = () => playEpisode(ep, index, seasonIdx, true);
+                div.innerHTML = `<div class="ep-num">${index + 1}</div><div class="ep-info"><div class="ep-title">${ep.name}</div><div class="ep-desc">${ep.desc || ''}</div></div><div class="ep-icon"><i class="fas fa-play"></i></div>`;
+                list.appendChild(div);
+            });
+        }
+
+        function playEpisode(ep, index, seasonIdx, shouldScroll) {
+            document.getElementById('episode-name').innerText = ep.name;
+            document.querySelectorAll('.episode-item').forEach(e => e.classList.remove('active'));
+            const activeItem = document.getElementById(`ep-${index}`);
+            if(activeItem) { 
+                activeItem.classList.add('active'); 
+                if(shouldScroll) activeItem.scrollIntoView({ behavior: "smooth", block: "center" });
+            }
+            localStorage.setItem('animoloji_last_' + series.id, `${seasonIdx}|${index}`);
+            const videoUrl = (ep.source && ep.source.includes('.m3u8')) ? ep.source : DEFAULT_VIDEO;
+            const resumeKey = `resume_${series.id}_s${seasonIdx}_e${index}`;
+            initPlayer(videoUrl, resumeKey);
+        }
+
+        function initPlayer(url, resumeKey) {
+            const container = document.getElementById('video-container');
+            if(player) { player.dispose(); player = null; }
+            container.innerHTML = '';
+            const videoEl = document.createElement('video');
+            videoEl.id = 'my-video';
+            videoEl.className = 'video-js vjs-default-skin vjs-big-play-centered';
+            videoEl.controls = true;
+            videoEl.setAttribute('playsinline', 'true');
+            const sourceEl = document.createElement('source');
+            sourceEl.src = url;
+            sourceEl.type = 'application/x-mpegURL';
+            videoEl.appendChild(sourceEl);
+            container.appendChild(videoEl);
+            player = videojs('my-video', { fluid: true, playbackRates: [0.5, 1, 1.25, 1.5, 2] });
+            player.ready(() => { if(series.type !== 'movie') syncSidebarHeight(); });
+            player.on('loadedmetadata', () => {
+                const savedTime = parseFloat(localStorage.getItem(resumeKey));
+                if(savedTime > 0) { player.currentTime(savedTime); showToast('Kaldığınız yerden devam ediliyor...'); }
+                player.play().catch(() => {});
+            });
+            player.on('timeupdate', () => { if(!player.paused()) localStorage.setItem(resumeKey, player.currentTime()); });
+        }
+
+        function syncSidebarHeight() {
+            const videoWrapper = document.getElementById('video-container');
+            const sidebar = document.getElementById('sidebar');
+            if(videoWrapper && sidebar && window.innerWidth > 1000 && series.type !== 'movie') {
+                const height = videoWrapper.offsetHeight;
+                if(height > 0) sidebar.style.height = height + 'px';
+            } else if(sidebar) { sidebar.style.height = '400px'; }
+        }
+
+        // Arama (Masaüstü & Mobil)
+        ['search-input', 'mobile-search-input'].forEach(id => {
+            const input = document.getElementById(id);
+            const resultsId = id === 'search-input' ? 'live-results' : 'mobile-live-results';
+            if(input) {
+                input.addEventListener('input', function() {
+                    const term = this.value.toLowerCase();
+                    const resultsBox = document.getElementById(resultsId);
+                    if(term.length < 2) { resultsBox.classList.remove('show'); return; }
+                    const matches = DATABASE.filter(item => item.title.toLowerCase().includes(term));
+                    let html = '';
+                    if(matches.length > 0) {
+                        matches.slice(0, 5).forEach(item => {
+                            html += `<div class="live-item" onclick="window.location.href='anime-izle.html?id=${item.id}'"><img src="${item.poster}" onerror="this.src='https://via.placeholder.com/40x60'"><div class="live-info"><h4>${item.title}</h4><span>${item.year || ''}</span></div></div>`;
+                        });
+                    } else { html = '<div style="padding:15px; color:#aaa; text-align:center;">Sonuç yok.</div>'; }
+                    resultsBox.innerHTML = html;
+                    resultsBox.classList.add('show');
+                });
+            }
+        });
+
+        function showToast(msg) {
+            const t = document.getElementById('toast');
+            t.innerText = msg;
+            t.classList.add('show');
+            setTimeout(() => t.classList.remove('show'), 3000);
+        }
+    </script>
+</body>
+</html>

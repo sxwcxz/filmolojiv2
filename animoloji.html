@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>Animoloji</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    
+    <link rel="icon" href="anime.png" type="image/png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="animeData.js"></script>
+
+    <style>
+        /* --- TEMEL AYARLAR --- */
+        @import url('https://fonts.googleapis.com/css2?family=Exo+2:wght@400;700;900&display=swap');
+
+        * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; outline: none; }
+        
+        html { scroll-behavior: auto; }
+
+        body {
+            background-color: #0f0518;
+            background-image: radial-gradient(circle at 50% 0%, #2b1055 0%, #0f0518 80%);
+            color: white;
+            font-family: 'Exo 2', sans-serif;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* --- NAVBAR --- */
+        .anime-navbar {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 10px 3%;
+            background: rgba(15, 5, 24, 0.95);
+            backdrop-filter: blur(15px);
+            border-bottom: 2px solid #d600ff;
+            position: sticky; top: 0; z-index: 2000;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.6);
+            height: 80px;
+            gap: 20px;
+        }
+
+        .anime-logo {
+            font-size: 24px; font-weight: 900; color: #fff; 
+            text-transform: uppercase;
+            text-shadow: 0 0 10px #d600ff;
+            cursor: pointer; letter-spacing: 1px;
+            display: flex; align-items: center; gap: 10px;
+            flex-shrink: 0; z-index: 2001;
+        }
+        .anime-logo i {
+            color: #fff; font-size: 30px;
+            text-shadow: 0 0 15px #d600ff; transition: 0.3s;
+        }
+        .anime-logo:hover i { transform: rotate(-10deg) scale(1.1); }
+
+        /* --- DESKTOP NAV GRUPLARI --- */
+        .nav-center {
+            display: flex; gap: 15px; align-items: center; flex: 1; 
+            justify-content: center; position: relative; min-width: 0;
+        }
+        .nav-right {
+            display: flex; align-items: center; gap: 15px; flex-shrink: 0; min-width: max-content;
+        }
+
+        /* HAMBURGER BUTONU (Mobilde Görünür) */
+        .menu-toggle {
+            display: none; /* Masaüstünde gizli */
+            background: none; border: none; color: white;
+            font-size: 28px; cursor: pointer; z-index: 2002;
+        }
+
+        /* --- MOBİL MENÜ OVERLAY (Yan Panel) --- */
+        .mobile-menu-overlay {
+            position: fixed; top: 0; right: -100%; /* Başlangıçta gizli */
+            width: 280px; height: 100vh;
+            background: rgba(15, 5, 24, 0.98);
+            border-left: 2px solid #d600ff;
+            backdrop-filter: blur(20px);
+            display: flex; flex-direction: column; gap: 20px;
+            padding: 80px 20px 20px 20px;
+            transition: 0.4s ease-in-out;
+            z-index: 2000;
+            box-shadow: -10px 0 30px rgba(0,0,0,0.8);
+            overflow-y: auto;
+        }
+        .mobile-menu-overlay.active { right: 0; }
+
+        /* Mobile Backdrop (Arka planı karartma) */
+        .mobile-backdrop {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.7); z-index: 1999;
+            display: none; opacity: 0; transition: opacity 0.3s;
+        }
+        .mobile-backdrop.active { display: block; opacity: 1; }
+
+
+        /* --- ORTAK BİLEŞENLER --- */
+        
+        /* Dropdownlar */
+        .custom-select { position: relative; cursor: pointer; flex-shrink: 0; }
+        .select-btn {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(0, 210, 255, 0.3);
+            padding: 8px 15px; border-radius: 20px;
+            color: #fff; font-size: 13px; display: flex; align-items: center; gap: 8px;
+            transition: 0.3s; white-space: nowrap;
+            width: 100%; justify-content: space-between; /* Mobilde tam genişlik */
+        }
+        .select-btn:hover { border-color: #00d2ff; box-shadow: 0 0 10px rgba(0, 210, 255, 0.3); }
+        
+        .dropdown-menu {
+            position: absolute; top: 120%; left: 0;
+            background: #150a25; border: 1px solid #00d2ff;
+            border-radius: 8px; min-width: 180px; width: 100%;
+            display: none; flex-direction: column;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.8);
+            z-index: 1002; max-height: 300px; overflow-y: auto; 
+        }
+        .dropdown-menu::-webkit-scrollbar { width: 6px; }
+        .dropdown-menu::-webkit-scrollbar-thumb { background: #d600ff; border-radius: 3px; }
+        .dropdown-item { padding: 10px 15px; color: #ccc; font-size: 13px; border-bottom: 1px solid rgba(255,255,255,0.05); transition: 0.2s; }
+        .dropdown-item:hover { background: #00d2ff; color: #000; font-weight: bold; }
+        .show { display: flex !important; }
+
+        /* Arama */
+        .search-wrapper { position: relative; width: 100%; max-width: 350px; z-index: 2001; }
+        .search-input {
+            width: 100%; padding: 10px 40px 10px 15px;
+            border-radius: 25px; border: 2px solid rgba(214, 0, 255, 0.3);
+            background: rgba(255, 255, 255, 0.05);
+            color: white; font-size: 14px; outline: none; transition: 0.3s;
+        }
+        .search-input:focus { border-color: #d600ff; box-shadow: 0 0 15px rgba(214, 0, 255, 0.3); background: rgba(0,0,0,0.6); }
+        .search-icon-btn { position: absolute; right: 15px; top: 50%; transform: translateY(-50%); color: #d600ff; pointer-events: none; }
+
+        /* Canlı Sonuçlar */
+        .live-search-results {
+            position: absolute; top: 110%; left: 0; width: 100%;
+            background: #1a0b2e; border: 1px solid #d600ff;
+            border-radius: 10px; overflow: hidden;
+            display: none; flex-direction: column;
+            z-index: 1001; box-shadow: 0 10px 30px rgba(0,0,0,0.9);
+            max-height: 400px; overflow-y: auto;
+        }
+        .live-search-results.active { display: flex; }
+        .live-item { display: flex; align-items: center; gap: 10px; padding: 10px; cursor: pointer; border-bottom: 1px solid rgba(255,255,255,0.05); transition:0.2s;}
+        .live-item:hover { background: rgba(214, 0, 255, 0.2); }
+        .live-item img { width: 40px; height: 55px; object-fit: cover; border-radius: 4px; }
+        .live-info h4 { font-size: 14px; color: #fff; margin: 0; }
+        .live-info span { font-size: 11px; color: #aaa; }
+
+        /* Butonlar */
+        .request-btn {
+            background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(214, 0, 255, 0.5);
+            padding: 8px 15px; border-radius: 20px; color: #fff; font-size: 13px; 
+            display: flex; align-items: center; gap: 8px; transition: 0.3s; cursor: pointer; flex-shrink: 0;
+            justify-content: center; /* Mobil için */
+        }
+        .request-btn:hover { background: rgba(214, 0, 255, 0.2); box-shadow: 0 0 15px rgba(214, 0, 255, 0.4); border-color: #d600ff; }
+        .request-btn i { color: #d600ff; }
+
+        .return-btn {
+            text-decoration: none; color: #00d2ff; border: 1px solid #00d2ff;
+            padding: 8px 20px; border-radius: 4px; font-weight: bold;
+            transition: 0.3s; text-transform: uppercase; font-size: 14px;
+            display: flex; align-items: center; gap: 8px; white-space: nowrap; flex-shrink: 0;
+            justify-content: center; /* Mobil için */
+        }
+        .return-btn:hover { background: #00d2ff; color: #000; box-shadow: 0 0 15px #00d2ff; }
+
+        /* --- HERO BÖLÜMÜ --- */
+        .hero-section {
+            position: relative; width: 100%; height: 60vh;
+            display: flex; align-items: flex-end; padding-bottom: 60px;
+            overflow: hidden; margin-bottom: 40px;
+            border-bottom: 4px solid #d600ff;
+            background: #000;
+        }
+        .hero-bg {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background-size: cover; background-position: center center; background-repeat: no-repeat;
+            mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 60%, rgba(0,0,0,0) 100%);
+            -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 60%, rgba(0,0,0,0) 100%);
+            z-index: 1; opacity: 0.7; transition: 0.5s;
+        }
+        .hero-content { position: relative; z-index: 5; padding-left: 5%; width: 100%; max-width: 800px; }
+        .badge { background: #d600ff; color: #fff; padding: 5px 12px; font-size: 12px; font-weight: bold; border-radius: 2px; display: inline-block; margin-bottom: 15px; box-shadow: 0 0 10px #d600ff; letter-spacing: 1px; }
+        .hero-title { font-size: 3.5rem; line-height: 1; margin-bottom: 15px; text-shadow: 3px 3px 0 #2b1055, 0 0 20px rgba(214, 0, 255, 0.5); }
+        .hero-desc { font-size: 1.1rem; color: #ccc; margin-bottom: 25px; max-width: 600px; line-height: 1.5; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+        .play-btn { background: #d600ff; color: white; border: none; padding: 12px 40px; font-size: 18px; font-weight: bold; border-radius: 4px; cursor: pointer; display: inline-flex; align-items: center; gap: 10px; clip-path: polygon(10% 0, 100% 0, 100% 80%, 90% 100%, 0 100%, 0 20%); transition: 0.3s; }
+        .play-btn:hover { background: #f05aff; transform: scale(1.05); box-shadow: 0 0 20px #d600ff; }
+
+        /* --- GRID LİSTE --- */
+        .container { padding: 0 5% 50px 5%; }
+        .section-header { font-size: 24px; font-weight: bold; margin-bottom: 25px; display: flex; align-items: center; gap: 10px; color: #00d2ff; text-shadow: 0 0 10px rgba(0, 210, 255, 0.4); }
+        .anime-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 25px; }
+        .anime-card { background: #150a25; border-radius: 8px; overflow: hidden; position: relative; transition: 0.3s; cursor: pointer; border: 1px solid rgba(255,255,255,0.05); }
+        .anime-card:hover { transform: translateY(-10px); box-shadow: 0 0 20px rgba(214, 0, 255, 0.3); border-color: #d600ff; }
+        .poster-wrapper { width: 100%; height: 260px; overflow: hidden; position: relative; }
+        .poster-wrapper img { width: 100%; height: 100%; object-fit: cover; transition: 0.4s; }
+        .anime-card:hover .poster-wrapper img { transform: scale(1.1); }
+        .card-info { padding: 15px; position: relative; z-index: 2; }
+        .card-title { font-size: 15px; font-weight: 700; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .card-meta { display: flex; justify-content: space-between; margin-top: 8px; font-size: 12px; color: #aaa; }
+        .rating { color: #ffd700; font-weight: bold; }
+
+        /* --- İSTEK KUTUSU --- */
+        .suggestion-section-wrapper { width: 100%; display: flex; justify-content: center; padding: 40px 20px; margin-top: 50px; background: rgba(0,0,0,0.3); border-top: 1px solid rgba(214,0,255,0.1); }
+        .suggestion-section { width: 100%; max-width: 800px; background: rgba(21, 10, 37, 0.8); border: 1px solid #d600ff; border-radius: 15px; padding: 30px; text-align: center; backdrop-filter: blur(10px); box-shadow: 0 0 30px rgba(214, 0, 255, 0.15); }
+        .suggestion-section h3 { color: #fff; margin-bottom: 20px; font-size: 1.8rem; text-shadow: 0 0 10px #d600ff; }
+        .form-group { margin-bottom: 15px; }
+        .form-control { width: 100%; padding: 12px; background: rgba(0,0,0,0.4); border: 1px solid rgba(214, 0, 255, 0.3); color: white; border-radius: 8px; font-family: 'Exo 2', sans-serif; font-size: 14px; transition: 0.3s; }
+        .form-control:focus { border-color: #d600ff; box-shadow: 0 0 10px rgba(214, 0, 255, 0.3); background: rgba(0,0,0,0.6); }
+        select.form-control option { background-color: #0f0518; color: white; }
+        textarea.form-control { min-height: 100px; resize: vertical; }
+        .btn-submit { width: 100%; padding: 12px; background: #d600ff; color: white; border: none; border-radius: 50px; font-weight: bold; font-size: 16px; cursor: pointer; transition: 0.3s; box-shadow: 0 0 15px rgba(214, 0, 255, 0.4); display: inline-flex; align-items: center; justify-content: center; gap: 10px; }
+        .btn-submit:hover { background: #f05aff; transform: scale(1.02); box-shadow: 0 0 25px rgba(214, 0, 255, 0.6); }
+
+        /* --- MEDIA QUERY (MOBİL UYUM) --- */
+        @media (max-width: 1000px) {
+            /* Masaüstü Nav Elemanlarını Gizle */
+            .nav-center, .nav-right { display: none; }
+            /* Hamburger Menü Butonunu Göster */
+            .menu-toggle { display: block; }
+            
+            .hero-title { font-size: 2rem; }
+            .hero-section { height: 50vh; }
+            .anime-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 15px; }
+            .poster-wrapper { height: 200px; }
+            .anime-navbar { padding: 10px 5%; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="anime-navbar">
+        <div class="anime-logo" onclick="forceReload()">
+            <i class="fas fa-dragon"></i> ANİMOLOJİ
+        </div>
+
+        <div class="nav-center">
+            <div class="custom-select" id="category-dropdown">
+                <div class="select-btn" onclick="toggleDropdown('cat-list')">
+                    <i class="fas fa-layer-group"></i> <span id="selected-cat">Kategoriler</span> <i class="fas fa-caret-down"></i>
+                </div>
+                <div class="dropdown-menu" id="cat-list">
+                    <div class="dropdown-item active" onclick="selectCategory('all', 'Tümü')">Tümü</div>
+                </div>
+            </div>
+
+            <div class="search-wrapper">
+                <input type="text" class="search-input" id="search-input" placeholder="İçerik ara..." autocomplete="off">
+                <i class="fas fa-search search-icon-btn"></i>
+                <div class="live-search-results" id="live-results"></div>
+            </div>
+
+            <div class="custom-select" id="sort-dropdown">
+                <div class="select-btn" onclick="toggleDropdown('sort-list')">
+                    <i class="fas fa-sort-amount-down"></i> <span id="selected-sort">Sıralama</span> <i class="fas fa-caret-down"></i>
+                </div>
+                <div class="dropdown-menu" id="sort-list">
+                    <div class="dropdown-item" onclick="selectSort('newest', 'En Yeni')"><i class="fas fa-calendar-plus"></i> En Yeni</div>
+                    <div class="dropdown-item" onclick="selectSort('oldest', 'En Eski')"><i class="fas fa-history"></i> En Eski</div>
+                    <div class="dropdown-item" onclick="selectSort('rating_high', 'Puan (Yüksek)')"><i class="fas fa-star"></i> Puan (Yüksek)</div>
+                    <div class="dropdown-item" onclick="selectSort('rating_low', 'Puan (Düşük)')"><i class="fas fa-star-half-alt"></i> Puan (Düşük)</div>
+                    <div class="dropdown-item" onclick="selectSort('az', 'İsim (A-Z)')"><i class="fas fa-font"></i> İsim (A-Z)</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="nav-right">
+            <div class="request-btn" onclick="scrollToSuggestions()">
+                <i class="fas fa-paper-plane"></i> <span>İstek & Öneri</span>
+            </div>
+            <a href="index.html" class="return-btn"><i class="fas fa-arrow-left"></i> Filmoloji</a>
+        </div>
+
+        <button class="menu-toggle" onclick="toggleMobileMenu()">
+            <i class="fas fa-bars"></i>
+        </button>
+    </nav>
+
+    <div class="mobile-backdrop" id="mobile-backdrop" onclick="toggleMobileMenu()"></div>
+    <div class="mobile-menu-overlay" id="mobile-menu">
+        <div class="search-wrapper" style="width:100%; max-width:none;">
+            <input type="text" class="search-input" id="mobile-search-input" placeholder="Anime ara..." autocomplete="off">
+            <i class="fas fa-search search-icon-btn"></i>
+            <div class="live-search-results" id="mobile-live-results"></div>
+        </div>
+
+        <div class="custom-select">
+            <div class="select-btn" onclick="toggleDropdown('mob-cat-list')">
+                <i class="fas fa-layer-group"></i> <span id="mob-selected-cat">Kategoriler</span> <i class="fas fa-caret-down"></i>
+            </div>
+            <div class="dropdown-menu" id="mob-cat-list" style="position:relative; top:0; margin-top:5px;">
+                <div class="dropdown-item active" onclick="selectCategory('all', 'Tümü'); toggleMobileMenu()">Tümü</div>
+            </div>
+        </div>
+
+        <div class="custom-select">
+            <div class="select-btn" onclick="toggleDropdown('mob-sort-list')">
+                <i class="fas fa-sort-amount-down"></i> <span id="mob-selected-sort">Sıralama</span> <i class="fas fa-caret-down"></i>
+            </div>
+            <div class="dropdown-menu" id="mob-sort-list" style="position:relative; top:0; margin-top:5px;">
+                <div class="dropdown-item" onclick="selectSort('newest', 'En Yeni'); toggleMobileMenu()">En Yeni</div>
+                <div class="dropdown-item" onclick="selectSort('oldest', 'En Eski'); toggleMobileMenu()">En Eski</div>
+                <div class="dropdown-item" onclick="selectSort('rating_high', 'Puan (Yüksek)'); toggleMobileMenu()">Puan Yüksek</div>
+                <div class="dropdown-item" onclick="selectSort('rating_low', 'Puan (Düşük)'); toggleMobileMenu()">Puan Düşük</div>
+                <div class="dropdown-item" onclick="selectSort('az', 'İsim (A-Z)'); toggleMobileMenu()">A-Z</div>
+            </div>
+        </div>
+
+        <div class="request-btn" onclick="scrollToSuggestions(); toggleMobileMenu()">
+            <i class="fas fa-paper-plane"></i> <span>İstek & Öneri</span>
+        </div>
+        
+        <a href="index.html" class="return-btn">
+            <i class="fas fa-arrow-left"></i> Filmoloji
+        </a>
+    </div>
+
+    <div class="hero-section">
+        <div class="hero-bg" id="hero-bg"></div>
+        <div class="hero-content">
+            <span class="badge">HAFTANIN ÖNERİSİ</span>
+            <h1 class="hero-title" id="hero-title">Yükleniyor...</h1>
+            <p class="hero-desc" id="hero-desc">Veriler veritabanından çekiliyor...</p>
+            <button class="play-btn" id="hero-btn"><i class="fas fa-play"></i> İZLE</button>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="section-header">
+            <i class="fas fa-bolt"></i> 
+            <span id="grid-title">Tüm İçerikler</span> 
+            <span style="font-size: 14px; color: #666; margin-left: 10px;" id="count-label"></span>
+        </div>
+        <div class="anime-grid" id="anime-grid"></div>
+    </div>
+
+    <div class="suggestion-section-wrapper" id="suggestions">
+        <div class="suggestion-section">
+            <h3><i class="fas fa-paper-plane"></i> İstek & Öneri Kutusu</h3>
+            <form action="https://formspree.io/f/myzoeepz" method="POST">
+                <div class="form-group"><input type="text" name="Gonderen" class="form-control" placeholder="Adınız (İsteğe bağlı)"></div>
+                <div class="form-group">
+                    <select name="Konu" class="form-control">
+                        <option>Anime İsteği</option><option>Bölüm Açılmıyor / Hata</option><option>Çeviri Hatası</option><option>Diğer</option>
+                    </select>
+                </div>
+                <div class="form-group"><textarea name="Mesaj" class="form-control" placeholder="Mesajınızı buraya yazın..." required></textarea></div>
+                <button type="submit" class="btn-submit"><i class="fas fa-paper-plane"></i> GÖNDER</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // --- KORUMA VE KISAYOL ENGELLEME MANTIĞI ---
+
+// (1) Sağ Tık ve Sürüklemeyi Engelleme
+document.addEventListener('contextmenu', event => event.preventDefault());
+
+// (2) Klavye Kısayollarını Engelleme (F12, Ctrl+Shift+I, Ctrl+U, Ctrl+S)
+document.onkeydown = function(e) {
+    // F12 Engeli
+    if (e.keyCode == 123) return false;
+
+    // Ctrl + (U, S) Engeli
+    if (e.ctrlKey && (e.keyCode == 'U'.charCodeAt(0) || e.keyCode == 'S'.charCodeAt(0))) {
+        return false;
+    }
+
+    // Ctrl + Shift + (I, C, J) Engeli
+    if (e.ctrlKey && e.shiftKey && (e.keyCode == 'I'.charCodeAt(0) || e.keyCode == 'C'.charCodeAt(0) || e.keyCode == 'J'.charCodeAt(0))) {
+        return false;
+    }
+    
+    // (Ayrıca, tarayıcının resim sürükleme özelliğini CSS ile engellemek daha temizdir, onu da aşağıda belirtiyorum.)
+};
+        // Scroll Reset
+        if ('scrollRestoration' in history) { history.scrollRestoration = 'manual'; }
+
+        let activeCategory = 'all';
+        let activeSort = 'newest';
+
+        window.onload = function() {
+            window.scrollTo(0, 0);
+            if (typeof DATABASE === 'undefined') { alert("Hata: Veritabanı bulunamadı!"); return; }
+            initCategories();
+            initHero();
+            filterAndSort();
+            setTimeout(() => { document.documentElement.style.scrollBehavior = 'smooth'; }, 500);
+
+            document.addEventListener('click', function(e) {
+                if (!e.target.closest('.custom-select')) {
+                    document.querySelectorAll('.dropdown-menu').forEach(m => {
+                        // Mobil menü içindeki statik dropdownları kapatma
+                        if(m.id !== 'mob-cat-list' && m.id !== 'mob-sort-list') m.classList.remove('show');
+                    });
+                }
+                if (!e.target.closest('.search-wrapper')) {
+                    document.querySelectorAll('.live-search-results').forEach(r => r.classList.remove('show'));
+                }
+            });
+        };
+
+        function forceReload() { window.location.href = 'animoloji.html'; }
+        function scrollToSuggestions() { document.getElementById('suggestions').scrollIntoView({ behavior: 'smooth' }); }
+
+        // Mobil Menü Aç/Kapa
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            const backdrop = document.getElementById('mobile-backdrop');
+            menu.classList.toggle('active');
+            backdrop.classList.toggle('active');
+        }
+
+        function initCategories() {
+            const allGenres = new Set();
+            DATABASE.forEach(item => { if(item.genre) item.genre.split(',').forEach(g => allGenres.add(g.trim())); });
+            
+            const list = document.getElementById('cat-list');
+            const mobList = document.getElementById('mob-cat-list'); // Mobil Liste
+            const sortedGenres = Array.from(allGenres).sort();
+
+            sortedGenres.forEach(genre => {
+                const itemHTML = `<div class="dropdown-item" onclick="selectCategory('${genre}', '${genre}')">${genre}</div>`;
+                list.innerHTML += itemHTML;
+                // Mobilde tıklandığında menüyü de kapat
+                mobList.innerHTML += `<div class="dropdown-item" onclick="selectCategory('${genre}', '${genre}'); toggleMobileMenu()">${genre}</div>`;
+            });
+        }
+
+        function toggleDropdown(id) {
+            // Mobildekiler relative olduğu için diğerlerini kapatmaya gerek yok
+            if(!id.startsWith('mob')) {
+                document.querySelectorAll('.dropdown-menu').forEach(m => { if(m.id !== id && !m.id.startsWith('mob')) m.classList.remove('show'); });
+            }
+            document.getElementById(id).classList.toggle('show');
+        }
+
+        function selectCategory(val, text) {
+            activeCategory = val;
+            document.getElementById('selected-cat').innerText = text;
+            document.getElementById('mob-selected-cat').innerText = text;
+            filterAndSort(); 
+        }
+
+        function selectSort(val, text) {
+            activeSort = val;
+            document.getElementById('selected-sort').innerText = text;
+            document.getElementById('mob-selected-sort').innerText = text;
+            filterAndSort();
+        }
+
+        // Arama (Hem masaüstü hem mobil inputu dinle)
+        ['search-input', 'mobile-search-input'].forEach(id => {
+            const input = document.getElementById(id);
+            const resultsId = id === 'search-input' ? 'live-results' : 'mobile-live-results';
+            
+            if(input) {
+                input.addEventListener('input', function() {
+                    const term = this.value.toLowerCase();
+                    const resultsBox = document.getElementById(resultsId);
+                    
+                    if(term.length < 2) { resultsBox.classList.remove('show'); return; }
+
+                    const matches = DATABASE.filter(item => item.title.toLowerCase().includes(term));
+                    let html = '';
+                    if(matches.length > 0) {
+                        matches.slice(0, 5).forEach(item => {
+                            html += `<div class="live-item" onclick="window.location.href='anime-izle.html?id=${item.id}'"><img src="${item.poster}" onerror="this.src='https://via.placeholder.com/40x60'"><div class="live-info"><h4>${item.title}</h4><span>${item.year || ''}</span></div></div>`;
+                        });
+                    } else { html = '<div style="padding:15px; color:#aaa; text-align:center;">Sonuç yok.</div>'; }
+                    resultsBox.innerHTML = html;
+                    resultsBox.classList.add('show');
+                });
+            }
+        });
+
+        function filterAndSort() {
+            let filtered = DATABASE.filter(item => {
+                const catMatch = activeCategory === 'all' || (item.genre && item.genre.includes(activeCategory));
+                return catMatch;
+            });
+
+            filtered.sort((a, b) => {
+                let pA = parseFloat((a.puan || '0').replace('IMDB ', ''));
+                let pB = parseFloat((b.puan || '0').replace('IMDB ', ''));
+                let yA = parseInt(a.year || 0);
+                let yB = parseInt(b.year || 0);
+
+                if (activeSort === 'newest') return yB - yA;
+                if (activeSort === 'oldest') return yA - yB;
+                if (activeSort === 'rating_high') return pB - pA;
+                if (activeSort === 'rating_low') return pA - pB;
+                if (activeSort === 'az') return a.title.localeCompare(b.title);
+            });
+
+            renderGrid(filtered);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function renderGrid(data) {
+            const grid = document.getElementById('anime-grid');
+            const countLabel = document.getElementById('count-label');
+            grid.innerHTML = '';
+            countLabel.innerText = `(${data.length})`;
+
+            if (data.length === 0) {
+                grid.innerHTML = '<div style="width:100%; text-align:center; color:#666; padding:50px;">Bu kategoride içerik yok.</div>';
+                return;
+            }
+
+            data.forEach(item => {
+                const page = 'anime-izle.html';
+                const year = item.year || '2023';
+                const puan = item.puan ? item.puan.replace('IMDB ', '') : '8.5';
+                grid.innerHTML += `
+                    <div class="anime-card" onclick="window.location.href='${page}?id=${item.id}'">
+                        <div class="poster-wrapper"><img src="${item.poster}" loading="lazy" onerror="this.src='https://via.placeholder.com/200x300'"></div>
+                        <div class="card-info"><div class="card-title">${item.title}</div><div class="card-meta"><span class="rating"><i class="fas fa-star"></i> ${puan}</span></div></div>
+                    </div>
+                `;
+            });
+        }
+
+        function initHero() {
+            const heroItem = DATABASE[Math.floor(Math.random() * DATABASE.length)];
+            if(heroItem) {
+                document.getElementById('hero-title').innerText = heroItem.title;
+                document.getElementById('hero-desc').innerText = heroItem.description;
+                document.getElementById('hero-bg').style.backgroundImage = `url('${heroItem.backdrop || heroItem.poster}')`;
+                document.getElementById('hero-btn').onclick = () => window.location.href = `anime-izle.html?id=${heroItem.id}`;
+            }
+        }
+    </script>
+</body>
+</html>

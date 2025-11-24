@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>Ne İzlesem? - Filmoloji</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="icon" href="logo.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script src="database.js"></script>
+
+    <style>
+        :root { --brand: #E50914; --bg: #101010; --text: #fff; }
+        * { box-sizing: border-box; margin: 0; padding: 0; outline: none; font-family: 'Segoe UI', sans-serif; }
+        body { 
+            background-color: var(--bg); color: var(--text); 
+            height: 100vh; display: flex; flex-direction: column; 
+            align-items: center; justify-content: center; text-align: center;
+            overflow: hidden;
+            background-image: radial-gradient(circle at center, #222 0%, #000 100%);
+        }
+
+        .navbar { position: fixed; top: 20px; left: 20px; z-index: 100; }
+        .back-btn { 
+            text-decoration: none; color: white; font-size: 14px; font-weight: bold; 
+            background: rgba(255,255,255,0.1); padding: 8px 15px; border-radius: 30px; 
+            backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1); transition: 0.3s;
+        }
+        .back-btn:hover { background: var(--brand); border-color: var(--brand); }
+
+        /* Kapsayıcıyı biraz küçülttük */
+        .container { max-width: 600px; padding: 20px; z-index: 10; }
+        
+        /* Başlıkları küçülttük */
+        h1 { font-size: 2rem; margin-bottom: 5px; font-weight: 900; text-shadow: 0 0 20px rgba(255,255,255,0.1); }
+        h1 span { color: var(--brand); }
+        p { color: #aaa; font-size: 1rem; margin-bottom: 30px; }
+
+        /* MOOD GRID (Daha kompakt) */
+        .mood-grid { 
+            display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; 
+            transition: opacity 0.3s ease;
+        }
+        
+        .mood-btn {
+            background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+            color: white; padding: 10px 20px; border-radius: 10px; cursor: pointer;
+            font-size: 0.95rem; font-weight: 600; transition: 0.2s;
+            display: flex; align-items: center; gap: 8px;
+        }
+        .mood-btn:hover { 
+            background: var(--brand); border-color: var(--brand); 
+            transform: scale(1.05); 
+            box-shadow: 0 5px 15px rgba(229, 9, 20, 0.3);
+        }
+        .mood-emoji { font-size: 1.2rem; }
+
+        /* SONUÇ KARTI (Küçültüldü) */
+        .result-card {
+            display: none; 
+            background: #1a1a1a; border-radius: 15px; padding: 15px;
+            max-width: 280px; /* Kart genişliği düşürüldü */
+            margin: 0 auto;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+            border: 1px solid rgba(255,255,255,0.1);
+            animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        
+        .poster-wrapper { 
+            position: relative; border-radius: 10px; overflow: hidden; 
+            margin-bottom: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            aspect-ratio: 2/3;
+            background-color: #222;
+        }
+        .poster-wrapper img { width: 100%; height: 100%; display: block; object-fit: cover; }
+        
+        .movie-title { font-size: 1.2rem; font-weight: bold; margin-bottom: 5px; color: white; line-height: 1.2; }
+        .movie-genre { font-size: 0.8rem; color: #888; margin-bottom: 15px; }
+        
+        .watch-btn {
+            display: block; width: 100%; padding: 10px; 
+            background: var(--brand); color: white; text-decoration: none;
+            font-weight: bold; border-radius: 8px; transition: 0.2s; font-size: 0.9rem;
+        }
+        .watch-btn:hover { background: #b0060e; transform: scale(1.02); }
+        
+        .retry-btn {
+            margin-top: 10px; background: none; border: none; 
+            color: #aaa; cursor: pointer; font-size: 0.8rem; text-decoration: underline;
+        }
+        .retry-btn:hover { color: white; }
+
+        /* YÜKLENİYOR ANİMASYONU */
+        .loader { 
+            display: none; font-size: 2.5rem; color: var(--brand); 
+            animation: spin 0.8s linear infinite; margin: 50px auto;
+        }
+
+        @keyframes popIn { from { opacity: 0; transform: scale(0.8); } to { opacity: 1; transform: scale(1); } }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+
+        @media (max-width: 600px) {
+            h1 { font-size: 1.8rem; }
+            .mood-btn { width: 48%; justify-content: center; font-size: 0.85rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="navbar">
+        <a href="index.html" class="back-btn"><i class="fas fa-arrow-left"></i> Ana Sayfa</a>
+    </div>
+
+    <div class="container">
+        <div id="intro-section">
+            <h1>Bugün Nasıl <span>Hissediyorsun?</span></h1>
+            <p>Modunu seç, yapay zeka sana uygun filmi bulsun.</p>
+            
+            <div class="mood-grid">
+                <button class="mood-btn" onclick="findMovie('Komedi')">
+                    <span class="mood-emoji">😂</span> Komedi
+                </button>
+                <button class="mood-btn" onclick="findMovie('Aksiyon')">
+                    <span class="mood-emoji">🔥</span> Aksiyon
+                </button>
+                <button class="mood-btn" onclick="findMovie('Korku')">
+                    <span class="mood-emoji">😱</span> Korku
+                </button>
+                <button class="mood-btn" onclick="findMovie('Dram')">
+                    <span class="mood-emoji">😭</span> Dram
+                </button>
+                <button class="mood-btn" onclick="findMovie('Bilim')">
+                    <span class="mood-emoji">👽</span> Bilim Kurgu
+                </button>
+                <button class="mood-btn" onclick="findMovie('Ask')">
+                    <span class="mood-emoji">❤️</span> Romantik
+                </button>
+                <button class="mood-btn" onclick="findMovie('random')" style="width: 100%; background: rgba(229,9,20,0.2); border-color: #E50914;">
+                    <span class="mood-emoji">🎲</span> Rastgele Getir
+                </button>
+            </div>
+        </div>
+
+        <div id="loader" class="loader"><i class="fas fa-film"></i></div>
+
+        <div id="result-card" class="result-card">
+            <div class="poster-wrapper">
+                <img id="res-img" src="" alt="Poster">
+            </div>
+            <div class="movie-title" id="res-title">Film Adı</div>
+            <div class="movie-genre" id="res-genre">Tür</div>
+            
+            <a id="res-link" href="#" class="watch-btn"><i class="fas fa-play"></i> HEMEN İZLE</a>
+            <button class="retry-btn" onclick="reset()">🔄 Başka Bir Şey Öner</button>
+        </div>
+    </div>
+
+    <script>
+        // --- GELİŞMİŞ FİLTRELEME ANAHTAR KELİMELERİ ---
+        const moodKeywords = {
+            'Komedi': ['komedi', 'eğlence', 'güldürü', 'aile', 'animasyon'],
+            'Aksiyon': ['aksiyon', 'macera', 'savaş', 'suç', 'polisiye', 'vurdulu'],
+            'Korku': ['korku', 'gerilim', 'gizem', 'korkunç', 'cin', 'lanet'],
+            'Dram': ['dram', 'hüzün', 'biyografi', 'hayat', 'ağla'],
+            'Bilim': ['bilim', 'uzay', 'fantastik', 'gelecek', 'teknoloji', 'robot'],
+            'Ask': ['aşk', 'romantik', 'sevgi', 'duygusal', 'ilişki']
+        };
+
+        function findMovie(mood) {
+            // Arayüz Geçişi
+            document.getElementById('intro-section').style.display = 'none';
+            document.getElementById('result-card').style.display = 'none';
+            document.getElementById('loader').style.display = 'block';
+
+            const allContent = (typeof DATABASE !== 'undefined') ? DATABASE : [];
+            let filtered = [];
+
+            if (mood === 'random') {
+                filtered = allContent;
+            } else {
+                // --- AKILLI FİLTRELEME ---
+                const keywords = moodKeywords[mood] || [];
+                
+                filtered = allContent.filter(item => {
+                    // Başlık, Açıklama (varsa) veya Tür içinde arama yap
+                    const textToSearch = (item.title + " " + (item.desc || "") + " " + (item.genre || "")).toLowerCase();
+                    
+                    // Anahtar kelimelerden en az biri geçiyor mu?
+                    return keywords.some(key => textToSearch.includes(key));
+                });
+
+                // Eğer o türde hiç film bulamazsa, yine de boş dönmesin, rastgele getirsin (Kullanıcı üzülmesin)
+                if (filtered.length === 0) {
+                    console.log("Bu türde film bulunamadı, rastgele getiriliyor...");
+                    filtered = allContent;
+                }
+            }
+
+            // Hızlandırılmış Bekleme (0.6 saniye)
+            setTimeout(() => {
+                document.getElementById('loader').style.display = 'none';
+                
+                if (filtered.length > 0) {
+                    const randomItem = filtered[Math.floor(Math.random() * filtered.length)];
+                    showResult(randomItem);
+                } else {
+                    alert("Veritabanı boş veya erişilemiyor.");
+                    reset();
+                }
+            }, 600);
+        }
+
+        function showResult(item) {
+            const card = document.getElementById('result-card');
+            
+            // Resim Yükleme (Direkt Link)
+            let posterSource = item.poster;
+            if (!posterSource || posterSource.trim() === "") {
+                posterSource = 'https://via.placeholder.com/300x450?text=Afis+Yok';
+            }
+
+            const imgElement = document.getElementById('res-img');
+            imgElement.src = posterSource;
+            imgElement.onerror = function() { this.src = 'https://via.placeholder.com/300x450?text=Resim+Yok'; };
+
+            document.getElementById('res-title').innerText = item.title;
+            
+            const typeText = item.type === 'series' ? 'Dizi' : 'Film';
+            document.getElementById('res-genre').innerText = typeText; // + (item.year ? ` • ${item.year}` : '');
+
+            const targetPage = item.type === 'series' ? 'dizi-izle.html' : 'film-izle.html';
+            document.getElementById('res-link').href = `${targetPage}?id=${item.id}`;
+
+            card.style.display = 'block';
+        }
+
+        function reset() {
+            document.getElementById('result-card').style.display = 'none';
+            document.getElementById('intro-section').style.display = 'block';
+        }
+    </script>
+
+</body>
+</html>

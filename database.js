@@ -231,6 +231,7 @@ const DATABASE = [
         type: "series",
         title: "Wednesday",
         year: 2022,
+        puan: "IMDB 9.5",
         genre: "Fantastik, Komedi, Gizem",
         poster: "https://m.media-amazon.com/images/I/712iUgQM16L._AC_SL1500_.jpg",
         backdrop: "https://m.media-amazon.com/images/I/712iUgQM16L._AC_SL1500_.jpg",
@@ -11747,8 +11748,8 @@ const DATABASE = [
         "title": "Yıldızlararası",
         "year": 2024,
         "genre": "Film",
-        "poster": "https://m.media-amazon.com/images/M/MV5BYzdjMDAxZGItMjI2My00ODA1LTlkNzItOWFjMDU5ZDJlYWY3XkEyXkFqcGc@._V1_.jpg",
-        "backdrop": "https://m.media-amazon.com/images/M/MV5BYzdjMDAxZGItMjI2My00ODA1LTlkNzItOWFjMDU5ZDJlYWY3XkEyXkFqcGc@._V1_.jpg",
+        "poster": "https://webteizle3.xyz/i/afis/b/a3551.jpg",
+        "backdrop": "https://webteizle3.xyz/i/afis/b/a3551.jpg",
         "description": "Yıldızlararası filmini şimdi izle.",
         "source": "https://do-pc3-ed.getromes.space/hls/xqx2ouktpbokjiqbthscpiibwzgd4734ih4mnhpg7,srsmsw7dplv63y5yiba,3dsmsw7dply4xyrkdrq,.urlset/master.m3u8"
     }

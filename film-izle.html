@@ -5,11 +5,8 @@
     <title>Film İzle</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <link rel="icon" href="logo.png">
-    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
     <link href="https://vjs.zencdn.net/8.10.0/video-js.css" rel="stylesheet" />
-    
     <script src="database.js"></script>
 
     <style>
@@ -19,28 +16,45 @@
             --brand-color: #E50914; 
             --bg-dark: #101010; 
             --glass-bg: rgba(20, 20, 20, 0.9); 
+            --glass-form-bg: rgba(30, 30, 30, 0.6); 
             --blur: blur(20px); 
+            --shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.6); 
         }
         body { background-color: #101010; color: white; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; overflow-x: hidden; }
         
+        /* SCROLLBAR */
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #181818; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb { background: #444; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #555; }
+
         /* NAVBAR */
-        .navbar { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); width: 90%; max-width: 1200px; height: 65px; background: var(--glass-bg); backdrop-filter: var(--blur); -webkit-backdrop-filter: var(--blur); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 35px; display: flex; align-items: center; justify-content: space-between; padding: 0 25px; z-index: 1000; transition: 0.3s; box-shadow: 0 10px 40px rgba(0,0,0,0.5); }
+        .navbar { 
+            position: fixed; top: 20px; left: 50%; transform: translateX(-50%); 
+            width: 90%; max-width: 1200px; height: 65px; 
+            background: var(--glass-bg); backdrop-filter: var(--blur); -webkit-backdrop-filter: var(--blur); 
+            border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 35px; 
+            display: flex; align-items: center; justify-content: space-between; padding: 0 25px; 
+            z-index: 1000; transition: 0.3s; box-shadow: 0 10px 40px rgba(0,0,0,0.5); 
+        }
         .logo-container { cursor: pointer; display: flex; align-items: center; }
         .logo-text { color: var(--brand-color); font-size: 24px; font-weight: 900; letter-spacing: -0.5px; font-family: 'Arial Black', sans-serif; text-transform: uppercase; display: flex; align-items: center; text-shadow: 0 0 5px rgba(229, 9, 20, 0.3); }
         .version-badge { background: rgba(255,255,255,0.1); color: #aaa; font-size: 10px; padding: 2px 6px; border-radius: 4px; margin-left: 8px; font-weight: normal; border: 1px solid rgba(255,255,255,0.1); letter-spacing: 0; font-family: sans-serif; text-shadow: none; }
-        .nav-menu { display: flex; gap: 30px; margin-left: 40px; flex-grow: 1; }
+        
+        .nav-menu { display: flex; gap: 20px; margin-left: 40px; flex-grow: 1; }
         .nav-item { cursor: pointer; color: #aaa; font-weight: 500; font-size: 15px; transition: 0.3s; text-decoration: none; border: none !important; display: flex; align-items: center; gap: 6px; }
         .nav-item:hover { color: white; text-shadow: 0 0 10px rgba(255, 255, 255, 0.8); }
         
-        /* PREMIUM STİLLERİ */
+        /* PREMIUM STİLİ */
         .nav-menu .nav-item:last-child {
             color: #FFC107; font-weight: 900; text-shadow: 0 0 10px rgba(255, 193, 7, 0.5); padding: 8px 15px; border-radius: 20px; background: rgba(255, 193, 7, 0.1); border: 1px solid rgba(255, 193, 7, 0.3);
         }
         .nav-menu .nav-item:last-child i { color: #FFC107; filter: drop-shadow(0 0 5px rgba(255, 193, 7, 0.8)); }
         .nav-menu .nav-item:last-child:hover { color: #FFE082; background: rgba(255, 193, 7, 0.2); text-shadow: 0 0 20px rgba(255, 193, 7, 0.8); transform: scale(1.05); box-shadow: 0 0 15px rgba(255, 193, 7, 0.4); }
 
+        /* ARAMA KUTUSU (Genişlik Düzenlendi: 160px) */
         .search-container { display: flex; align-items: center; width: 40px; height: 40px; border-radius: 30px; background: transparent; transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); overflow: hidden; position: relative; border: 1px solid transparent; cursor: pointer; padding: 0 10px; }
-        .search-container:hover, .search-container.active { width: 180px; background: rgba(0, 0, 0, 0.6); border-color: rgba(255, 255, 255, 0.2); padding: 0 15px; }
+        .search-container:hover, .search-container.active { width: 140px; background: rgba(0, 0, 0, 0.6); border-color: rgba(255, 255, 255, 0.2); padding: 0 15px; }
         .search-icon-btn { font-size: 18px; flex-shrink: 0; color: var(--brand-color); filter: drop-shadow(0 0 2px var(--brand-color)); transition: 0.3s; margin-left: 8px; }
         .search-container:hover .search-icon-btn, .search-container.active .search-icon-btn { margin-left: 0; }
         .search-input { width: 0; opacity: 0; background: transparent; border: none; color: white; outline: none; font-size: 14px; transition: 0.3s; margin-left: 10px; }
@@ -70,8 +84,9 @@
         .video-wrapper {
             position: relative;
             width: 100%;
-            max-width: 1000px;
-            padding-top: 56.25%; /* 16:9 */
+            max-width: 800px;
+            margin: 0 auto;
+            padding-top: 42.85%; /* 16:9 */
             background: #000;
             border-radius: 15px;
             overflow: hidden;
@@ -87,13 +102,28 @@
         /* Kontrol çubuğunun taşmasını engelle */
         .video-js .vjs-control-bar { z-index: 2; width: 100%; }
 
+        /* TOAST BİLDİRİM */
+        .toast-notification {
+            position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%);
+            background: rgba(229, 9, 20, 0.95); color: white; padding: 12px 30px;
+            border-radius: 30px; font-weight: bold; font-size: 14px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.7); z-index: 9999; opacity: 0;
+            transition: all 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+            pointer-events: none; border: 1px solid rgba(255,255,255,0.2);
+            display: flex; align-items: center; gap: 10px;
+        }
+        .toast-notification.show { opacity: 1; bottom: 120px; }
+
         /* FORM */
-        .suggestion-section { padding: 50px 0; display: flex; justify-content: center; border-top: 1px solid #222; margin-top: 50px; background: #111; width: 100%; }
-        .suggestion-box { width: 100%; max-width: 600px; background: rgba(255,255,255,0.05); padding: 30px; border-radius: 15px; border: 1px solid rgba(255,255,255,0.1); }
-        .form-control { width: 100%; padding: 12px; background: #1a1a1a; border: 1px solid #333; color: white; border-radius: 8px; font-size: 0.9rem; transition: 0.3s; }
-        .form-control:focus { border-color: var(--brand-color); background: #222; }
-        .btn-submit { width: 100%; padding: 12px; background: var(--brand-color); color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; transition: 0.2s; font-size: 1rem; }
-        .btn-submit:hover { background: #c40812; }
+        .suggestion-section-wrapper { width: 100%; display: flex; justify-content: center; padding: 50px 20px; margin-top: 20px; }
+        .suggestion-section { width: 100%; max-width: 800px; background: var(--glass-form-bg); backdrop-filter: var(--blur); -webkit-backdrop-filter: var(--blur); border: 1px solid rgba(255, 255, 255, 0.18); border-radius: 18px; box-shadow: var(--shadow); padding: 30px; }
+        .suggestion-box h3 { color: #fff; margin-bottom: 20px; font-size: 1.5rem; display: flex; align-items: center; gap: 10px; }
+        .form-group { margin-bottom: 15px; }
+        .form-control { width: 100%; padding: 12px 15px; background: rgba(0, 0, 0, 0.4); border: 1px solid rgba(255, 255, 255, 0.1); color: white; border-radius: 10px; font-size: 0.95rem; transition: all 0.3s; }
+        .form-control:focus { border-color: var(--brand-color); background: rgba(0, 0, 0, 0.6); box-shadow: 0 0 0 1px var(--brand-color); }
+        select.form-control option { background-color: var(--bg-dark); color: white; }
+        textarea.form-control { height: 100px; resize: none; }
+        .btn-submit { width: 100%; padding: 14px; background: var(--brand-color); color: white; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; transition: background 0.2s, transform 0.1s; font-size: 1.1rem; box-shadow: 0 4px 10px rgba(229, 9, 20, 0.4); }
         
         #search-results-area { display: none; padding: 120px 5% 50px 5%; min-height: 100vh; background-color: var(--bg-dark); position: fixed; top: 0; left: 0; width: 100%; z-index: 900; overflow-y: auto; }
         .grid-layout { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 40px 20px; }
@@ -103,14 +133,13 @@
 
         /* MOBİL RESPONSIVE AYARLAR */
         @media (max-width: 992px) {
-            .navbar { position: fixed; top: 0; left: 0; transform: none; width: 100%; height: 60px; border-radius: 0; padding: 0 15px; background: #141414; backdrop-filter: none; border: none; box-shadow: 0 5px 15px rgba(0,0,0,0.8); }
+            .navbar { top: 0; transform: none; width: 100%; left: 0; border-radius: 0; height: 60px; padding: 0 15px; background: #141414; backdrop-filter: none; border: none; box-shadow: 0 5px 15px rgba(0,0,0,0.8); } 
             .nav-menu { display: none; }
             .search-container { order: 2; margin-left: auto; padding: 5px; }
             .menu-toggle { display: block; order: 3; margin-left: 10px; }
             .search-container.active { width: calc(100% - 140px); position: absolute; left: 70px; top: 5px; height: 50px; padding: 0 15px; }
             .theater-container { margin-top: 60px; padding: 10px; }
             .playing-title { font-size: 1.5rem; }
-            /* Mobilde video boyutlandırma */
             .video-wrapper { width: 94%; margin: 0 auto; }
         }
     </style>
@@ -125,6 +154,7 @@
             <a href="index.html" class="nav-item"><i class="fas fa-home"></i> Ana Sayfa</a>
             <a href="index.html?page=series" class="nav-item"><i class="fas fa-tv"></i> Diziler</a>
             <a href="index.html?page=movies" class="nav-item"><i class="fas fa-film"></i> Filmler</a>
+            <a href="index.html?page=mylist" class="nav-item"><i class="fas fa-plus-circle"></i> Listem</a>
             <a onclick="goToSuggestions()" class="nav-item"><i class="fas fa-paper-plane"></i> İstek & Öneri</a>
             <a href="login.html" class="nav-item"><i class="fas fa-crown"></i> Premium</a>
         </div>
@@ -144,10 +174,12 @@
             <a href="index.html" onclick="toggleMenu()" class="nav-item"><i class="fas fa-home"></i> Ana Sayfa</a>
             <a href="index.html?page=series" onclick="toggleMenu()" class="nav-item"><i class="fas fa-tv"></i> Diziler</a>
             <a href="index.html?page=movies" onclick="toggleMenu()" class="nav-item"><i class="fas fa-film"></i> Filmler</a>
+            <a href="index.html?page=mylist" onclick="toggleMenu()" class="nav-item"><i class="fas fa-plus-circle"></i> Listem</a>
             <a onclick="goToSuggestions(); toggleMenu()" class="nav-item"><i class="fas fa-paper-plane"></i> İstek & Öneri</a>
             <a href="login.html" onclick="toggleMenu()" class="nav-item"><i class="fas fa-crown"></i> Premium</a>
         </div>
     </div>
+    
     <div id="search-results-area">
         <h2 class="section-title">Arama Sonuçları</h2>
         <div class="grid-layout" id="search-grid"></div>
@@ -161,21 +193,25 @@
         <div class="video-wrapper" id="video-container">
             </div>
 
-        <div class="suggestion-section" id="suggestions">
-            <div class="suggestion-box">
-                <h3><i class="fas fa-paper-plane"></i> İstek & Öneri Kutusu</h3>
-                <form action="https://formspree.io/f/myzoeepz" method="POST">
-                    <div class="form-group"><input type="text" name="Gonderen" class="form-control" placeholder="Adınız (İsteğe bağlı)"></div>
-                    <div class="form-group">
-                        <select name="Konu" class="form-control">
-                            <option>Film / Dizi İsteği</option>
-                            <option>Hata Bildirimi</option>
-                            <option>Geliştirme Önerisi</option>
-                        </select>
-                    </div>
-                    <div class="form-group"><textarea name="Mesaj" class="form-control" placeholder="Mesajınızı buraya yazın..." required></textarea></div>
-                    <button type="submit" class="btn-submit">GÖNDER</button>
-                </form>
+        <div id="toast" class="toast-notification"></div>
+
+        <div class="suggestion-section-wrapper">
+            <div class="suggestion-section" id="suggestions">
+                <div class="suggestion-box">
+                    <h3><i class="fas fa-paper-plane"></i> İstek & Öneri Kutusu</h3>
+                    <form action="https://formspree.io/f/myzoeepz" method="POST">
+                        <div class="form-group"><input type="text" name="Gonderen" class="form-control" placeholder="Adınız (İsteğe bağlı)"></div>
+                        <div class="form-group">
+                            <select name="Konu" class="form-control">
+                                <option>Film / Dizi İsteği</option>
+                                <option>Hata Bildirimi</option>
+                                <option>Geliştirme Önerisi</option>
+                            </select>
+                        </div>
+                        <div class="form-group"><textarea name="Mesaj" class="form-control" placeholder="Mesajınızı buraya yazın..." required></textarea></div>
+                        <button type="submit" class="btn-submit">GÖNDER</button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
@@ -185,10 +221,7 @@
     <script src="https://cdn.jsdelivr.net/npm/videojs-hls-quality-selector/dist/videojs-hls-quality-selector.min.js"></script>
 
     <script>
-        // Sağ Tık Engelleme
         document.addEventListener('contextmenu', function(e) { e.preventDefault(); });
-        
-        // Klavye Kısayollarını Engelleme
         document.onkeydown = function(e) {
             if (e.keyCode == 123) return false;
             if (e.ctrlKey && e.shiftKey && (e.keyCode == 'I'.charCodeAt(0) || e.keyCode == 'C'.charCodeAt(0) || e.keyCode == 'J'.charCodeAt(0))) return false;
@@ -204,7 +237,6 @@
             document.title = movie.title + " - İzle";
             document.getElementById('movie-title').innerText = movie.title;
             
-            // SEO ve Meta Güncelleme
             let metaDesc = document.querySelector('meta[name="description"]');
             if (!metaDesc) {
                 metaDesc = document.createElement('meta');
@@ -220,9 +252,8 @@
 
         function initVideoJS(url, subtitles) {
             const container = document.getElementById('video-container');
-            container.innerHTML = ''; // Temizle
+            container.innerHTML = ''; 
 
-            // Video Elementi Oluştur
             const video = document.createElement('video');
             video.id = 'video-js-player';
             video.className = 'video-js vjs-default-skin vjs-big-play-centered';
@@ -230,17 +261,15 @@
             video.playsInline = true;
             video.setAttribute('preload', 'auto');
             
-            // Kaynak Ekle
             const source = document.createElement('source');
             source.src = url;
             source.type = url.includes('.m3u8') ? 'application/x-mpegURL' : 'video/mp4';
             video.appendChild(source);
 
-            // Altyazı Ekle (Eğer varsa)
             if (subtitles && Array.isArray(subtitles)) {
                 subtitles.forEach(sub => {
                     const track = document.createElement('track');
-                    track.kind = 'subtitles'; // veya 'captions'
+                    track.kind = 'subtitles'; 
                     track.label = sub.label;
                     track.srclang = sub.lang;
                     track.src = sub.src;
@@ -251,27 +280,58 @@
 
             container.appendChild(video);
 
-            // Player'ı Başlat
             player = videojs('video-js-player', {
-                fill: true, // Kapsayıcıyı doldur
+                fill: true,
                 responsive: true,
-                playbackRates: [0.5, 1, 1.25, 1.5, 2], // Hız Seçenekleri
+                playbackRates: [0.5, 1, 1.25, 1.5, 2],
                 html5: {
-                    vhs: {
-                        overrideNative: true // HLS için native oynatıcıyı ez
-                    },
+                    vhs: { overrideNative: true },
                     nativeAudioTracks: false,
                     nativeVideoTracks: false
                 }
             });
 
-            // Kalite Seçici Eklentisi
-            player.hlsQualitySelector({
-                displayLabel: 'Kalite',
+            player.hlsQualitySelector({ displayLabel: 'Kalite' });
+
+            // --- 🌟 KALDIĞIN YERDEN DEVAM ET (AKILLI FORMAT) 🌟 ---
+            const storageKey = 'resume_' + id; 
+
+            player.on('timeupdate', function() {
+                if (!player.paused()) {
+                    localStorage.setItem(storageKey, player.currentTime());
+                }
             });
 
-            // Oynat
+            player.on('loadedmetadata', function() {
+                const savedTime = parseFloat(localStorage.getItem(storageKey));
+                
+                if (savedTime > 0 && savedTime < (player.duration() - 10)) {
+                    player.currentTime(savedTime);
+                    const hours = Math.floor(savedTime / 3600);
+                    const minutes = Math.floor((savedTime % 3600) / 60);
+                    const seconds = Math.floor(savedTime % 60);
+                    let timeStr = "";
+                    if (hours > 0) {
+                        timeStr = `${hours} saat ${minutes} dakika`;
+                    } else {
+                        timeStr = `${minutes} dakika ${seconds} saniye`;
+                    }
+                    showToast(`<i class="fas fa-history"></i> Kaldığınız yerden devam ediliyor (${timeStr})`);
+                }
+            });
+            
+            player.on('ended', function() {
+                localStorage.removeItem(storageKey);
+            });
+
             player.play().catch(e => console.log("Oto oynatma engellendi:", e));
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.innerHTML = message;
+            toast.classList.add('show');
+            setTimeout(() => { toast.classList.remove('show'); }, 4000);
         }
 
         function toggleMenu() {
@@ -284,16 +344,11 @@
                 overlay.classList.remove('open');
                 menuIcon.className = 'fas fa-bars';
                 document.body.style.overflow = 'auto'; 
-                setTimeout(() => {
-                    backdrop.style.display = 'none';
-                    overlay.style.display = 'none';
-                }, 100); 
+                setTimeout(() => { backdrop.style.display = 'none'; overlay.style.display = 'none'; }, 100); 
             } else {
                 backdrop.style.display = 'block';
                 overlay.style.display = 'flex';
-                setTimeout(() => {
-                    overlay.classList.add('open');
-                }, 10); 
+                setTimeout(() => { overlay.classList.add('open'); }, 10); 
                 menuIcon.className = 'fas fa-times'; 
                 document.body.style.overflow = 'hidden'; 
             }
@@ -331,6 +386,29 @@
             }
             document.getElementById('suggestions').scrollIntoView({ behavior: 'smooth' }); 
         }
+
+        document.addEventListener('keydown', function(event) {
+            if (!player || document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA') return;
+            const key = event.key.toLowerCase();
+            switch(key) {
+                case ' ': case 'k': 
+                    event.preventDefault(); 
+                    if (player.paused()) { player.play(); showToast('<i class="fas fa-play"></i> Oynatılıyor'); } 
+                    else { player.pause(); showToast('<i class="fas fa-pause"></i> Duraklatıldı'); }
+                    break;
+                case 'f': 
+                    if (player.isFullscreen()) player.exitFullscreen(); else player.requestFullscreen();
+                    break;
+                case 'm': 
+                    player.muted(!player.muted());
+                    if(player.muted()) showToast('<i class="fas fa-volume-mute"></i> Sessiz'); else showToast('<i class="fas fa-volume-up"></i> Ses Açık');
+                    break;
+                case 'arrowright': player.currentTime(player.currentTime() + 10); showToast('<i class="fas fa-forward"></i> +10 Sn'); break;
+                case 'arrowleft': player.currentTime(player.currentTime() - 10); showToast('<i class="fas fa-backward"></i> -10 Sn'); break;
+                case 'arrowup': event.preventDefault(); let volUp = player.volume() + 0.1; if(volUp > 1) volUp = 1; player.volume(volUp); showToast(`<i class="fas fa-volume-up"></i> %${Math.round(volUp*100)}`); break;
+                case 'arrowdown': event.preventDefault(); let volDown = player.volume() - 0.1; if(volDown < 0) volDown = 0; player.volume(volDown); showToast(`<i class="fas fa-volume-down"></i> %${Math.round(volDown*100)}`); break;
+            }
+        });
     </script>
 </body>
 </html>
