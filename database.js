@@ -5,9 +5,10 @@ const DATABASE = [
         type: "series",
         title: "Breaking Bad",
         year: 2008,
+        puan: "9.5",
         genre: "Suç, Dram, Gerilim",
         poster: "https://m.media-amazon.com/images/M/MV5BMzU5ZGYzNmQtMTdhYy00OGRiLTg0NmQtYjVjNzliZTg1ZGE4XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
-        backdrop: "https://m.media-amazon.com/images/M/MV5BMzU5ZGYzNmQtMTdhYy00OGRiLTg0NmQtYjVjNzliZTg1ZGE4XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
+        backdrop: "Hero.jpg",
         description: "Kimya öğretmeni Walter White, akciğer kanseri teşhisi konduktan sonra ailesinin geleceğini güvence altına almak için eski öğrencisi Jesse Pinkman ile birlikte metamfetamin üretip satmaya başlar.",
         seasons: [
             {
@@ -106,10 +107,11 @@ const DATABASE = [
         type: "series",
         title: "Stranger Things",
         year: 2016,
+        puan: "8.6",
         genre: "Bilim Kurgu, Korku, Gizem",
         // YENİ POSTER BURADA GÜNCELLENDİ
         poster: "https://media-cache.cinematerial.com/p/500x/o8q4k25c/stranger-things-movie-poster.jpg?v=1653505842",
-        backdrop: "https://image.tmdb.org/t/p/original/56v2KjBlU4XaOv9rVYkJu64COjr.jpg",
+        backdrop: "https://m.media-amazon.com/images/M/MV5BZmJiNWY0YTYtM2YwOC00OGQ0LWJhYmQtMzQ5ZjFkNWJmNTAyXkEyXkFqcGc@._V1_FMjpg_UX2160_.jpg",
         description: "Ufak bir kasabada küçük bir çocuk kaybolunca, gizli deneyler, korkutucu doğaüstü güçler ve tuhaf bir küçük kızın da dahil olduğu bir gizem ortaya çıkar.",
         seasons: [
             // --- 1. SEZON ---
@@ -178,9 +180,10 @@ const DATABASE = [
         type: "series",
         title: "Squid Game",
         year: 2021,
+        puan: "8.0",
         genre: "Gerilim, Dram, Gizem",
         poster: "https://upload.wikimedia.org/wikipedia/tr/6/68/Squid_Game_2._sezon_posteri.png",
-        backdrop: "http://www.impawards.com/intl/south_korea/tv/posters/squid_game_xlg.jpg",
+        backdrop: "https://m.media-amazon.com/images/M/MV5BMjQzMmU4MDktNDZjYy00MjE4LThkYTMtMzA3NjBlOTk0Y2NjXkEyXkFqcGc@._V1_FMjpg_UX2160_.jpg",
         description: "Para sıkıntısı çeken yüzlerce oyuncu, tuhaf bir daveti kabul eder. Ödül büyüktür ancak oyunlar ölümcüldür.",
         seasons: [
             // --- 1. SEZON ---
@@ -231,10 +234,10 @@ const DATABASE = [
         type: "series",
         title: "Wednesday",
         year: 2022,
-        puan: "IMDB 9.5",
+        puan: "8.0",
         genre: "Fantastik, Komedi, Gizem",
         poster: "https://m.media-amazon.com/images/I/712iUgQM16L._AC_SL1500_.jpg",
-        backdrop: "https://m.media-amazon.com/images/I/712iUgQM16L._AC_SL1500_.jpg",
+        backdrop: "https://m.media-amazon.com/images/M/MV5BYjgxYTZkNTktN2Q0Zi00NTlmLThjODUtOWM4YmQ3YTE3OTFhXkEyXkFqcGc@._V1_FMjpg_UX2160_.jpg",
         description: "Zeki, alaycı ve azıcık içi geçmiş bir kız olan Wednesday Addams, Nevermore Akademisinde yeni dostlar ve düşmanlar edinirken art arda gerçekleşen cinayetleri araştırmaya başlar.",
         seasons: [
             // --- 1. SEZON ---
@@ -273,9 +276,10 @@ const DATABASE = [
         type: "series",
         title: "Black Mirror",
         year: 2011,
+        puan: "8.7",
         genre: "Bilim Kurgu, Dram, Gerilim",
         poster: "https://m.media-amazon.com/images/M/MV5BODcxMWI2NDMtYTc3NC00OTZjLWFmNmUtM2NmY2I1ODkxYzczXkEyXkFqcGc@._V1_.jpg",
-        backdrop: "https://m.media-amazon.com/images/M/MV5BODcxMWI2NDMtYTc3NC00OTZjLWFmNmUtM2NmY2I1ODkxYzczXkEyXkFqcGc@._V1_.jpg",
+        backdrop: "https://m.media-amazon.com/images/M/MV5BN2UzMWJjOTgtZDRlYi00YjBhLTg3YmItMGY1YzJmYTIzYzcwXkEyXkFqcGc@._V1_.jpg",
         description: "Modern dünyanın kolektif huzursuzluğuna dair, her biri farklı bir hikaye anlatan ve teknolojinin getirdiği paranoyayı ele alan bir antoloji dizisi.",
         seasons: [
             // --- 1. SEZON ---
@@ -360,9 +364,10 @@ const DATABASE = [
         type: "series",
         title: "La Casa de Papel",
         year: 2017,
+        puan: "8.2",
         genre: "Suç, Gerilim, Dram",
         poster: "https://i5.walmartimages.com/asr/183ce085-097d-4d17-b927-d23a254194a1.b61386f035aea25a4ef77b3623cac29e.jpeg",
-        backdrop: "https://i5.walmartimages.com/asr/183ce085-097d-4d17-b927-d23a254194a1.b61386f035aea25a4ef77b3623cac29e.jpeg",
+        backdrop: "https://m.media-amazon.com/images/M/MV5BMmVmZGVkMTMtOWM0NC00MzJjLWI4NWYtOGZjYTM3ZDJlYzY3XkEyXkFqcGc@._V1_.jpg",
         description: "Bir suç dehası planını gerçekleştirmek üzere polisi ustalıkla yönlendirirken sekiz hırsız, rehinelerle birlikte kendilerini İspanya Kraliyet Darphanesine kilitler.",
         seasons: [
             // --- 1. SEZON ---
@@ -451,9 +456,10 @@ const DATABASE = [
         type: "series",
         title: "The Witcher",
         year: 2019,
+        puan: "7.9",
         genre: "Fantastik, Aksiyon, Macera",
         poster: "https://m.media-amazon.com/images/I/81RTbibf9FL._AC_SL1417_.jpg",
-        backdrop: "https://m.media-amazon.com/images/I/81RTbibf9FL._AC_SL1417_.jpg",
+        backdrop: "https://m.media-amazon.com/images/M/MV5BN2U3NzNmNjYtZTM0MC00MjAyLWEyODYtMGY4ZjdhNjliNTQ5XkEyXkFqcGc@._V1_.jpg",
         description: "Yalnız bir canavar avcısı olan Rivialı Geralt, insanların canavarlardan daha kötü olabildiği bir dünyada yerini bulmaya çalışıyor.",
         seasons: [
             // --- 1. SEZON ---
@@ -506,9 +512,10 @@ const DATABASE = [
         type: "series",
         title: "Narcos",
         year: 2015,
+        puan: "8.7",
         genre: "Suç, Biyografi, Dram",
         poster: "https://m.media-amazon.com/images/I/91jkF8kLQqL._SL1500_.jpg",
-        backdrop: "https://m.media-amazon.com/images/I/91jkF8kLQqL._SL1500_.jpg",
+        backdrop: "https://m.media-amazon.com/images/M/MV5BMTkxNjQzODI3Ml5BMl5BanBnXkFtZTgwODg0Mzc3OTE@._V1_.jpg",
         description: "Kolombiya'daki uyuşturucu kartellerinin yükselişini ve düşüşünü, özellikle Pablo Escobar'ın hikayesi üzerinden anlatan gerçek olaylara dayalı suç draması.",
         seasons: [
             // --- 1. SEZON ---
@@ -567,9 +574,10 @@ const DATABASE = [
         type: "series",
         title: "Dark",
         year: 2017,
+        puan: "8.7",
         genre: "Bilim Kurgu, Gizem, Gerilim",
         poster: "https://m.media-amazon.com/images/M/MV5BOWJjMGViY2UtNTAzNS00ZGFjLWFkNTMtMDBiMDMyZTM1NTY3XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
-        backdrop: "https://m.media-amazon.com/images/M/MV5BOWJjMGViY2UtNTAzNS00ZGFjLWFkNTMtMDBiMDMyZTM1NTY3XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
+        backdrop: "https://m.media-amazon.com/images/M/MV5BMTU3MTE2Nzc2OV5BMl5BanBnXkFtZTgwMzc1OTgyNDM@._V1_.jpg",
         description: "Bir çocuğun kaybolması, dört aileyi hummalı bir cevap arayışına iter. Bu arayışları, üç nesli kapsayan akıl almaz bir gizemi ortaya çıkarır.",
         seasons: [
             // --- 1. SEZON ---
@@ -624,9 +632,10 @@ const DATABASE = [
         type: "series",
         title: "Peaky Blinders",
         year: 2013,
+        puan: "8.7",
         genre: "Suç, Dram",
         poster: "https://m.media-amazon.com/images/M/MV5BOGM0NGY3ZmItOGE2ZC00OWIxLTk0N2EtZWY4Yzg3ZDlhNGI3XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
-        backdrop: "https://m.media-amazon.com/images/M/MV5BOGM0NGY3ZmItOGE2ZC00OWIxLTk0N2EtZWY4Yzg3ZDlhNGI3XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
+        backdrop: "https://m.media-amazon.com/images/M/MV5BNjc4MzgyODQxNF5BMl5BanBnXkFtZTgwNDIwODM4MjE@._V1_.jpg",
         description: "1919 Birmingham'ında geçen dizi, acımasız Tommy Shelby liderliğindeki Peaky Blinders çetesinin yükselişini ve karşılaştığı zorlukları konu alıyor.",
         seasons: [
             // --- 1. SEZON ---
@@ -709,9 +718,10 @@ const DATABASE = [
         type: "series",
         title: "Better Call Saul",
         year: 2015,
+        puan: "9.0",
         genre: "Suç, Dram, Kara Mizah",
         poster: "https://m.media-amazon.com/images/M/MV5BNDdjNTEzMjMtYjM3Mi00NzQ3LWFlNWMtZjdmYWU3ZDkzMjk1XkEyXkFqcGc@._V1_.jpg",
-        backdrop: "https://m.media-amazon.com/images/M/MV5BNDdjNTEzMjMtYjM3Mi00NzQ3LWFlNWMtZjdmYWU3ZDkzMjk1XkEyXkFqcGc@._V1_.jpg", // Eğer yoksa Breaking Bad'in bir resmini veya Better Call Saul'un başka bir resmini kullanabiliriz
+        backdrop: "https://m.media-amazon.com/images/M/MV5BMDEyMjg3ZGItYWEwNy00NTM1LWExMjMtZTM0MTVjNjdmZDhmXkEyXkFqcGc@._V1_.jpg", // Eğer yoksa Breaking Bad'in bir resmini veya Better Call Saul'un başka bir resmini kullanabiliriz
         description: "Breaking Bad'den önceki olayları konu alan dizi, Jimmy McGill'in ahlak yoksunu bir avukat olan Saul Goodman'a dönüşümünü anlatıyor.",
         seasons: [
             // --- 1. SEZON ---
@@ -821,9 +831,10 @@ const DATABASE = [
         type: "series",
         title: "Sex Education",
         year: 2019,
+        puan: "8.2",
         genre: "Komedi, Dram",
         poster: "https://m.media-amazon.com/images/M/MV5BOTE0MjQ1NDU3OV5BMl5BanBnXkFtZTgwNTI4MTgwNzM@._V1_.jpg",
-        backdrop: "https://m.media-amazon.com/images/M/MV5BOTE0MjQ1NDU3OV5BMl5BanBnXkFtZTgwNTI4MTgwNzM@._V1_.jpg",
+        backdrop: "https://m.media-amazon.com/images/M/MV5BYzBiMjYxZGUtYzY5Zi00ZTc5LWIzZWMtNDUzZDBhZmYzZTE2XkEyXkFqcGc@._V1_.jpg",
         description: "Güvensiz bir genç olan Otis, terapist annesi sayesinde cinsellik konusunda her şeyi bilmektedir. Okulda bir seks terapisi kliniği açmaya karar verir.",
         seasons: [
             // --- 1. SEZON ---
@@ -890,9 +901,10 @@ const DATABASE = [
         type: "series",
         title: "Aşk 101",
         year: 2020,
+        puan: "7.4",
         genre: "Gençlik, Dram, Komedi",
         poster: "https://m.media-amazon.com/images/M/MV5BOTE2MmU3ZTQtNGY4Ny00MWZmLThhYzctOWNjZDEzOTJkYTQ2XkEyXkFqcGc@._V1_.jpg",
-        backdrop: "https://m.media-amazon.com/images/M/MV5BOTE2MmU3ZTQtNGY4Ny00MWZmLThhYzctOWNjZDEzOTJkYTQ2XkEyXkFqcGc@._V1_.jpg", // Veya uygun bir backdrop linki
+        backdrop: "https://m.media-amazon.com/images/M/MV5BYzQ3YWY0ZTQtZmRmYi00M2FjLWIyNjMtMWQwZmUwNDNhN2NjXkEyXkFqcGc@._V1_.jpg", // Veya uygun bir backdrop linki
         description: "1990'lar Türkiye'sinde, dışlanmış bir grup genç, sevdikleri bir öğretmeni okulda tutmak için bir plan yaparlar ve bu süreçte aşkı, dostluğu ve kendilerini keşfederler.",
         seasons: [
             // --- 1. SEZON ---
@@ -931,9 +943,10 @@ const DATABASE = [
         type: "series",
         title: "Erşan Kuneri",
         year: 2022,
+        puan: "6.6",
         genre: "Komedi",
         poster: "https://m.media-amazon.com/images/M/MV5BYWFhYmU1YzctZTBiNi00YjBmLWI4MmItMTZiMTkxZDVmYTNmXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
-        backdrop: "https://m.media-amazon.com/images/M/MV5BYWFhYmU1YzctZTBiNi00YjBmLWI4MmItMTZiMTkxZDVmYTNmXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
+        backdrop: "https://m.media-amazon.com/images/M/MV5BYWQ3OWIwOTktNzdiNC00NWU3LWJhYzctMGYwZjQyZTBiY2Y5XkEyXkFqcGc@._V1_.jpg",
         description: "Erotik sinemanın ünlü yapımcısı ve yönetmeni Erşan Kuneri, 80'lerin başında hapishaneden çıktıktan sonra farklı türlerde filmler çekerek sinema tarihine damga vurmayı hedefler.",
         seasons: [
             // --- 1. SEZON ---
@@ -972,9 +985,10 @@ const DATABASE = [
         type: "series",
         title: "Loki",
         year: 2021,
+        puan: "8.2",
         genre: "Bilim Kurgu, Fantastik, Macera",
         poster: "https://m.media-amazon.com/images/M/MV5BM2JiMjhiMGEtYjE2YS00YTMxLTkyYmEtYmNkZjYyNDgyOGI0XkEyXkFqcGc@._V1_.jpg",
-        backdrop: "https://m.media-amazon.com/images/M/MV5BM2JiMjhiMGEtYjE2YS00YTMxLTkyYmEtYmNkZjYyNDgyOGI0XkEyXkFqcGc@._V1_.jpg",
+        backdrop: "https://m.media-amazon.com/images/M/MV5BNmNmMmI3NDEtOTE4YS00Nzc3LWIzYjMtNTBmZWRlYTY3NWQ1XkEyXkFqcGc@._V1_.jpg",
         description: "Fesatlık Tanrısı Loki, 'Avengers: Endgame' olaylarından sonra zamanın akışını değiştirdiği için gizemli Zaman Değişimi Otoritesi (TVA) tarafından yakalanır.",
         seasons: [
             // --- 1. SEZON ---
@@ -1009,9 +1023,10 @@ const DATABASE = [
         type: "series",
         title: "Mahsun J",
         year: 2024,
+        puan: "8.2",
         genre: "Komedi",
         poster: "https://m.media-amazon.com/images/M/MV5BYzlmMzY5MzMtNGZmOS00YjU1LTk2ZDMtMDZkMzM4ZTE5MDVkXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
-        backdrop: "https://m.media-amazon.com/images/M/MV5BYzlmMzY5MzMtNGZmOS00YjU1LTk2ZDMtMDZkMzM4ZTE5MDVkXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg", // Temsili backdrop, daha iyisi bulunabilir
+        backdrop: "https://m.media-amazon.com/images/M/MV5BN2VjNDcyMTUtMGNjOS00YTAxLWFiNjItOGYwOWU1NjEzMThiXkEyXkFqcGc@._V1_.jpg", // Temsili backdrop, daha iyisi bulunabilir
         description: "Kimsenin umursamadığı sıradan bir motokurye olan Mahsun'un, bir anda kendisini büyük bir karmaşanın ve komedinin içinde bulduğu hikaye.",
         seasons: [
             // --- 1. SEZON ---
@@ -1050,9 +1065,10 @@ const DATABASE = [
         type: "series",
         title: "Gibi",
         year: 2021,
+        puan: "9.0",
         genre: "Komedi",
         poster: "https://m.media-amazon.com/images/M/MV5BNGY2Y2M2Y2YtMzMyYy00NTk4LWI1MGQtY2ZkY2VhOGZmNzVhXkEyXkFqcGc@._V1_.jpg",
-        backdrop: "https://m.media-amazon.com/images/M/MV5BNGY2Y2M2Y2YtMzMyYy00NTk4LWI1MGQtY2ZkY2VhOGZmNzVhXkEyXkFqcGc@._V1_.jpg", // Gibi için uygun bir backdrop linki (yoksa bu placeholder'ı değiştir)
+        backdrop: "https://m.media-amazon.com/images/M/MV5BZmYyYmNiNWQtMzc2Yi00MDgzLTk1NzktNGJjNDQzNmYzZjA4XkEyXkFqcGc@._V1_.jpg", // Gibi için uygun bir backdrop linki (yoksa bu placeholder'ı değiştir)
         description: "Yılmaz ve İlkkan, sürekli olarak birbiriyle atışan iki arkadaştır. Sıradan hayatlarını altüst edecek küçücük olayları inanılmaz bir beceriyle büyüterek işleri içinden çıkılmaz bir hale getirirler.",
         seasons: [
             // --- 1. SEZON ---
@@ -1167,9 +1183,10 @@ const DATABASE = [
         type: "series",
         title: "Prens",
         year: 2023,
+        puan: "8.5",
         genre: "Komedi, Tarih",
         poster: "https://m.media-amazon.com/images/M/MV5BODU0YzIwMWItYmI3Ni00NWMyLTg2NTItODBkZDBkNDZkNDljXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
-        backdrop: "https://m.media-amazon.com/images/M/MV5BODU0YzIwMWItYmI3Ni00NWMyLTg2NTItODBkZDBkNDZkNDljXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg", // Temsili, daha iyi bir backdrop bulunabilir
+        backdrop: "https://m.media-amazon.com/images/M/MV5BOGE0NWViYTEtYmRlZi00N2FmLWEzODAtYjVjNmYyNWMyMGEyXkEyXkFqcGc@._V1_.jpg", // Temsili, daha iyi bir backdrop bulunabilir
         description: "Ailesinin isim verme zahmetine bile girmediği, herkesin 'Prens' diye seslendiği, kimsenin ciddiye almadığı bir ortanca prensin trajikomik hikayesi.",
         seasons: [
             // --- 1. SEZON ---
@@ -1221,9 +1238,10 @@ const DATABASE = [
         type: "series",
         title: "Çekiç ve Gül: Bir Behzat Ç. Hikayesi",
         year: 2022,
+        puan: "8.5",
         genre: "Polisiye, Dram, Aksiyon",
         poster: "https://m.media-amazon.com/images/M/MV5BODQwZTEyN2UtOTM5ZS00ZTZjLWIwNzYtM2ZhNDA2YjIyNGUwXkEyXkFqcGc@._V1_.jpg",
-        backdrop: "https://m.media-amazon.com/images/M/MV5BODQwZTEyN2UtOTM5ZS00ZTZjLWIwNzYtM2ZhNDA2YjIyNGUwXkEyXkFqcGc@._V1_.jpg", // Temsili backdrop
+        backdrop: "https://m.media-amazon.com/images/M/MV5BNjQ2OTE5NmUtY2RjMi00YWUwLWE5OTItN2EzYzJhNTU5NGFjXkEyXkFqcGc@._V1_.jpg", // Temsili backdrop
         description: "Behzat Ç. ve ekibi, Ankara sokaklarındaki suçlarla ve kendi içsel çatışmalarıyla mücadele etmeye devam ediyor.",
         seasons: [
             // --- 1. SEZON ---
@@ -1274,9 +1292,10 @@ const DATABASE = [
         type: "series",
         title: "Lucifer",
         year: 2016,
+        puan: "8.0",
         genre: "Fantastik, Polisiye, Dram",
         poster: "https://m.media-amazon.com/images/M/MV5BYzMwNzI3MWItZTIzYi00YjkxLThhOWQtYmUwYjg4NWM0ZWI1XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
-        backdrop: "https://m.media-amazon.com/images/M/MV5BYzMwNzI3MWItZTIzYi00YjkxLThhOWQtYmUwYjg4NWM0ZWI1XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
+        backdrop: "https://m.media-amazon.com/images/M/MV5BM2MxMjc0ZjEtMzkyZi00MWU2LTliMDMtYzg3MzFjMGI4NzQ4XkEyXkFqcGc@._V1_.jpg",
         description: "Cehennemin Efendisi olmaktan sıkılan Lucifer, tahtını bırakıp Los Angeles'a yerleşir ve burada bir gece kulübü işletirken bir yandan da LAPD dedektifi Chloe Decker ile suçları çözer.",
         seasons: [
             // --- 1. SEZON ---
@@ -1416,6 +1435,7 @@ const DATABASE = [
         type: "series",
         title: "The Walking Dead",
         year: 2010,
+        puan: "8.1",
         genre: "Korku, Dram, Gerilim",
         poster: "https://m.media-amazon.com/images/M/MV5BYWQwMGRhNGEtZTNhMy00MzVjLWJhMjItYjcwMDljMTkyNTg2XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
         backdrop: "https://m.media-amazon.com/images/M/MV5BYWQwMGRhNGEtZTNhMy00MzVjLWJhMjItYjcwMDljMTkyNTg2XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
@@ -1671,6 +1691,7 @@ const DATABASE = [
         type: "series",
         title: "Game of Thrones",
         year: 2011,
+        puan: "9.2",
         genre: "Fantastik, Dram, Aksiyon",
         poster: "https://m.media-amazon.com/images/M/MV5BMTNhMDJmNmYtNDQ5OS00ODdlLWE0ZDAtZTgyYTIwNDY3OTU3XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
         backdrop: "https://m.media-amazon.com/images/M/MV5BMTNhMDJmNmYtNDQ5OS00ODdlLWE0ZDAtZTgyYTIwNDY3OTU3XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg", // Temsili backdrop
@@ -1804,6 +1825,7 @@ const DATABASE = [
         type: "series",
         title: "The Boys",
         year: 2019,
+        puan:"8.6",
         genre: "Aksiyon, Suç, Bilim Kurgu",
         poster: "https://m.media-amazon.com/images/M/MV5BMWJlN2U5MzItNjU4My00NTM2LWFjOWUtOWFiNjg3ZTMxZDY1XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
         backdrop: "https://m.media-amazon.com/images/M/MV5BODQwZTEyN2UtOTM5ZS00ZTZjLWIwNzYtM2ZhNDA2YjIyNGUwXkEyXkFqcGc@._V1_.jpg",
@@ -1872,6 +1894,7 @@ const DATABASE = [
         type: "series",
         title: "Rick and Morty",
         year: 2013,
+        puan: "9.0",
         genre: "Animasyon, Bilim Kurgu, Komedi",
         poster: "https://m.media-amazon.com/images/M/MV5BZGQyZjk2MzMtMTcyNC00NGU3LTlmNjItNDExMWM4ZDFhYmQ2XkEyXkFqcGc@._V1_.jpg",
         backdrop: "https://m.media-amazon.com/images/M/MV5BZGQyZjk2MzMtMTcyNC00NGU3LTlmNjItNDExMWM4ZDFhYmQ2XkEyXkFqcGc@._V1_.jpg",
@@ -2013,6 +2036,7 @@ const DATABASE = [
         type: "series",
         title: "Sherlock",
         year: 2010,
+        puan: "9.0",
         genre: "Suç, Gizem, Dram",
         poster: "https://m.media-amazon.com/images/M/MV5BNTQzNGZjNDEtOTMwYi00MzFjLWE2ZTYtYzYxYzMwMjZkZDc5XkEyXkFqcGc@._V1_.jpg",
         backdrop: "https://m.media-amazon.com/images/M/MV5BNTQzNGZjNDEtOTMwYi00MzFjLWE2ZTYtYzYxYzMwMjZkZDc5XkEyXkFqcGc@._V1_.jpg",
@@ -2061,6 +2085,7 @@ const DATABASE = [
         type: "series",
         title: "Vikings",
         year: 2013,
+        puan: "8.5",
         genre: "Tarih, Aksiyon, Dram",
         poster: "https://m.media-amazon.com/images/M/MV5BOTFmZmExYTEtYmE0Mi00MzRmLWE4ZDYtOThiNzNlOTIyODljXkEyXkFqcGc@._V1_FMjpg_UY3000_.jpg",
         backdrop: "https://m.media-amazon.com/images/M/MV5BOTFmZmExYTEtYmE0Mi00MzRmLWE4ZDYtOThiNzNlOTIyODljXkEyXkFqcGc@._V1_FMjpg_UY3000_.jpg",
@@ -2198,6 +2223,7 @@ const DATABASE = [
         type: "series",
         title: "The Sopranos",
         year: 1999,
+        puan: "8.5",
         genre: "Suç, Dram",
         poster: "https://m.media-amazon.com/images/M/MV5BMjRmMTNiMTQtMDg1ZS00MGM1LWE1MGUtYjEzMGFjNWUzOWRkXkEyXkFqcGc@._V1_FMjpg_UY2048_.jpg",
         backdrop: "https://m.media-amazon.com/images/M/MV5BMjRmMTNiMTQtMDg1ZS00MGM1LWE1MGUtYjEzMGFjNWUzOWRkXkEyXkFqcGc@._V1_FMjpg_UY2048_.jpg",
@@ -2332,6 +2358,7 @@ const DATABASE = [
         type: "series",
         title: "Dexter",
         year: 2006,
+        puan: "8.6",
         genre: "Suç, Dram, Gizem",
         poster: "https://m.media-amazon.com/images/M/MV5BNWYyYTk0MDEtMjU3OS00MzIyLTkxMGItNzc3NDdlNjAyM2U2XkEyXkFqcGc@._V1_.jpg",
         backdrop: "https://m.media-amazon.com/images/M/MV5BNWYyYTk0MDEtMjU3OS00MzIyLTkxMGItNzc3NDdlNjAyM2U2XkEyXkFqcGc@._V1_.jpg", // Temsili backdrop
@@ -2488,6 +2515,7 @@ const DATABASE = [
         type: "series",
         title: "Euphoria",
         year: 2019,
+        puan: "8.2",
         genre: "Dram",
         poster: "https://m.media-amazon.com/images/M/MV5BZjVlN2M2N2MtOWViZC00MzIxLTlhZWEtMTIwNDIwMzE3ZWJiXkEyXkFqcGc@._V1_.jpg",
         backdrop: "https://m.media-amazon.com/images/M/MV5BZjVlN2M2N2MtOWViZC00MzIxLTlhZWEtMTIwNDIwMzE3ZWJiXkEyXkFqcGc@._V1_.jpg",
@@ -2528,6 +2556,7 @@ const DATABASE = [
         type: "series",
         title: "Mr. Robot",
         year: 2015,
+        puan: "8.5",
         genre: "Dram, Gerilim, Suç",
         poster: "https://m.media-amazon.com/images/M/MV5BOTg4NTBiZDAtZTc0YS00NzZlLTg4Y2ItNGQ3M2ZlMDM5MWQzXkEyXkFqcGc@._V1_FMjpg_UY2160_.jpg",
         backdrop: "https://m.media-amazon.com/images/M/MV5BOTg4NTBiZDAtZTc0YS00NzZlLTg4Y2ItNGQ3M2ZlMDM5MWQzXkEyXkFqcGc@._V1_FMjpg_UY2160_.jpg",
@@ -2609,6 +2638,7 @@ const DATABASE = [
         type: "series",
         title: "Alice in Borderland",
         year: 2020,
+        puan: "7.8",
         genre: "Bilim Kurgu, Gerilim, Aksiyon",
         poster: "https://m.media-amazon.com/images/M/MV5BNzNlNzVlOWYtM2EzYy00M2QyLWI2NjYtMGRjYTkyNDE0ODNiXkEyXkFqcGc@._V1_.jpg",
         backdrop: "https://m.media-amazon.com/images/M/MV5BNzNlNzVlOWYtM2EzYy00M2QyLWI2NjYtMGRjYTkyNDE0ODNiXkEyXkFqcGc@._V1_.jpg",
@@ -2661,6 +2691,7 @@ const DATABASE = [
         type: "series",
         title: "The 100",
         year: 2014,
+        puan: "7.5",
         genre: "Bilim Kurgu, Dram, Macera",
         poster: "https://m.media-amazon.com/images/M/MV5BNDdmZGYwOWEtN2FkZC00Y2ExLWJkY2UtNzFlODVlNzc3MGIzXkEyXkFqcGc@._V1_.jpg",
         backdrop: "https://m.media-amazon.com/images/M/MV5BNDdmZGYwOWEtN2FkZC00Y2ExLWJkY2UtNzFlODVlNzc3MGIzXkEyXkFqcGc@._V1_.jpg", // Temsili backdrop
@@ -2815,6 +2846,7 @@ const DATABASE = [
         type: "series",
         title: "Gossip Girl",
         year: 2007,
+        puan: "7.5",
         genre: "Dram, Romantik",
         poster: "https://m.media-amazon.com/images/M/MV5BZDljNzZmMGMtM2FmNC00ZTkzLTg2OTctNDAxZGViYjVlYjAxXkEyXkFqcGc@._V1_.jpg",
         backdrop: "https://m.media-amazon.com/images/M/MV5BZDljNzZmMGMtM2FmNC00ZTkzLTg2OTctNDAxZGViYjVlYjAxXkEyXkFqcGc@._V1_.jpg",
@@ -2980,969 +3012,11 @@ const DATABASE = [
         ]
     },
     {
-        "id": "ser_lost87",
-        "type": "series",
-        "title": "Lost",
-        "year": 2023,
-        "genre": "tum-diziler",
-        "poster": "https://m.media-amazon.com/images/M/MV5BZmZhY2ViYzYtMTQ0NS00NDcyLWIxZTYtMGUyODE0NDA0NmNkXkEyXkFqcGc@._V1_FMjpg_UX1184_.jpg",
-        "backdrop": "https://m.media-amazon.com/images/M/MV5BZmZhY2ViYzYtMTQ0NS00NDcyLWIxZTYtMGUyODE0NDA0NmNkXkEyXkFqcGc@._V1_FMjpg_UX1184_.jpg",
-        "description": "Lost dizisinin tüm bölümleri.",
-        "seasons": [
-            {
-                "name": "1. Sezon",
-                "episodes": [
-                    {
-                        "name": "1. Bölüm: 1 Bölüm",
-                        "source": "https://drinkfromwisdomwell.top/hls/videos/4719/master.m3u8"
-                    },
-                    {
-                        "name": "1. Bölüm",
-                        "source": "https://vidrame.pro/vr/get/8fc97df1/master.m3u8"
-                    },
-                    {
-                        "name": "2. Bölüm: 2 Bölüm",
-                        "source": "https://drinkfromwisdomwell.top/hls/videos/4704/master.m3u8"
-                    },
-                    {
-                        "name": "2. Bölüm",
-                        "source": "https://vidrame.pro/vr/get/f42baf24/master.m3u8"
-                    },
-                    {
-                        "name": "3. Bölüm: 3 Bölüm",
-                        "source": "https://drinkfromwisdomwell.top/hls/videos/4707/master.m3u8"
-                    },
-                    {
-                        "name": "3. Bölüm",
-                        "source": "https://vidrame.pro/vr/get/521567e6/master.m3u8"
-                    },
-                    {
-                        "name": "4. Bölüm: Avustralya Yürüyüşü",
-                        "source": "https://drinkfromwisdomwell.top/hls/videos/4711/master.m3u8"
-                    },
-                    {
-                        "name": "4. Bölüm",
-                        "source": "https://vidrame.pro/vr/get/6597a3a3/master.m3u8"
-                    },
-                    {
-                        "name": "5. Bölüm: Beyaz Tavşan",
-                        "source": "https://drinkfromwisdomwell.top/hls/videos/4718/master.m3u8"
-                    },
-                    {
-                        "name": "5. Bölüm",
-                        "source": "https://vidrame.pro/vr/get/43652268/master.m3u8"
-                    },
-                    {
-                        "name": "6. Bölüm: Güneşin Doğduğu Ev",
-                        "source": "https://drinkfromwisdomwell.top/hls/videos/4705/master.m3u8"
-                    },
-                    {
-                        "name": "6. Bölüm",
-                        "source": "https://vidrame.pro/vr/get/3ffdbadf/master.m3u8"
-                    },
-                    {
-                        "name": "7. Bölüm: Güve",
-                        "source": "https://drinkfromwisdomwell.top/hls/videos/4702/master.m3u8"
-                    },
-                    {
-                        "name": "7. Bölüm",
-                        "source": "https://vidrame.pro/vr/get/d004ae6f/master.m3u8"
-                    },
-                    {
-                        "name": "8. Bölüm: Üçkağıtçı",
-                        "source": "https://drinkfromwisdomwell.top/hls/videos/4701/master.m3u8"
-                    },
-                    {
-                        "name": "8. Bölüm",
-                        "source": "https://vidrame.pro/vr/get/3213d7f5/master.m3u8"
-                    },
-                    {
-                        "name": "9. Bölüm: Yalnız",
-                        "source": "https://drinkfromwisdomwell.top/hls/videos/4724/master.m3u8"
-                    },
-                    {
-                        "name": "9. Bölüm",
-                        "source": "https://vidrame.pro/vr/get/d6cf879e/master.m3u8"
-                    },
-                    {
-                        "name": "10. Bölüm: Başka Biri Tarafından Yetiştirildi",
-                        "source": "https://drinkfromwisdomwell.top/hls/videos/4721/master.m3u8"
-                    },
-                    {
-                        "name": "10. Bölüm",
-                        "source": "https://vidrame.pro/vr/get/7bec0c78/master.m3u8"
-                    },
-                    {
-                        "name": "11. Bölüm: En İyi Kovboyların Bile Babalarıyla Sorunları",
-                        "source": "https://drinkfromwisdomwell.top/hls/videos/4697/master.m3u8"
-                    },
-                    {
-                        "name": "11. Bölüm",
-                        "source": "https://vidrame.pro/vr/get/a40de6e5/master.m3u8"
-                    },
-                    {
-                        "name": "12. Bölüm: Ne Olursa Olsun",
-                        "source": "https://drinkfromwisdomwell.top/hls/videos/4713/master.m3u8"
-                    },
-                    {
-                        "name": "12. Bölüm",
-                        "source": "https://vidrame.pro/vr/get/67ccefbe/master.m3u8"
-                    },
-                    {
-                        "name": "13. Bölüm: Kalpler ve Zihinler",
-                        "source": "https://drinkfromwisdomwell.top/hls/videos/4715/master.m3u8"
-                    },
-                    {
-                        "name": "13. Bölüm",
-                        "source": "https://vidrame.pro/vr/get/ae0ace0f/master.m3u8"
-                    },
-                    {
-                        "name": "14. Bölüm: Özel",
-                        "source": "https://drinkfromwisdomwell.top/hls/videos/4723/master.m3u8"
-                    },
-                    {
-                        "name": "14. Bölüm",
-                        "source": "https://vidrame.pro/vr/get/4bf1e4e6/master.m3u8"
-                    },
-                    {
-                        "name": "15. Bölüm: Eve Dönüş",
-                        "source": "https://drinkfromwisdomwell.top/hls/videos/4717/master.m3u8"
-                    },
-                    {
-                        "name": "15. Bölüm",
-                        "source": "https://vidrame.pro/vr/get/a30ad740/master.m3u8"
-                    },
-                    {
-                        "name": "16. Bölüm: Haydutlar",
-                        "source": "https://drinkfromwisdomwell.top/hls/videos/4720/master.m3u8"
-                    },
-                    {
-                        "name": "16. Bölüm",
-                        "source": "https://vidrame.pro/vr/get/70045252/master.m3u8"
-                    },
-                    {
-                        "name": "17. Bölüm: Çeviride",
-                        "source": "https://drinkfromwisdomwell.top/hls/videos/4712/master.m3u8"
-                    },
-                    {
-                        "name": "17. Bölüm",
-                        "source": "https://vidrame.pro/vr/get/db455f6a/master.m3u8"
-                    },
-                    {
-                        "name": "18. Bölüm: Numaralar",
-                        "source": "https://drinkfromwisdomwell.top/hls/videos/4709/master.m3u8"
-                    },
-                    {
-                        "name": "18. Bölüm",
-                        "source": "https://vidrame.pro/vr/get/f50b3260/master.m3u8"
-                    },
-                    {
-                        "name": "19. Bölüm: 19 Bölüm",
-                        "source": "https://drinkfromwisdomwell.top/hls/videos/4714/master.m3u8"
-                    },
-                    {
-                        "name": "19. Bölüm",
-                        "source": "https://vidrame.pro/vr/get/1398a404/master.m3u8"
-                    },
-                    {
-                        "name": "20. Bölüm: Zarar Verme",
-                        "source": "https://drinkfromwisdomwell.top/hls/videos/4716/master.m3u8"
-                    },
-                    {
-                        "name": "20. Bölüm",
-                        "source": "https://vidrame.pro/vr/get/4e430e49/master.m3u8"
-                    },
-                    {
-                        "name": "21. Bölüm: Yüce Amaç",
-                        "source": "https://drinkfromwisdomwell.top/hls/videos/4706/master.m3u8"
-                    },
-                    {
-                        "name": "21. Bölüm",
-                        "source": "https://vidrame.pro/vr/get/8deaa73f/master.m3u8"
-                    },
-                    {
-                        "name": "22. Bölüm: Kaçmak İçin Doğmuş",
-                        "source": "https://drinkfromwisdomwell.top/hls/videos/4703/master.m3u8"
-                    },
-                    {
-                        "name": "22. Bölüm",
-                        "source": "https://vidrame.pro/vr/get/66baad06/master.m3u8"
-                    },
-                    {
-                        "name": "23. Bölüm: 23 Bölüm",
-                        "source": "https://drinkfromwisdomwell.top/hls/videos/4710/master.m3u8"
-                    },
-                    {
-                        "name": "23. Bölüm",
-                        "source": "https://vidrame.pro/vr/get/41d3ab99/master.m3u8"
-                    },
-                    {
-                        "name": "24. Bölüm: 24 Bölüm",
-                        "source": "https://drinkfromwisdomwell.top/hls/videos/4722/master.m3u8"
-                    },
-                    {
-                        "name": "24. Bölüm",
-                        "source": "https://vidrame.pro/vr/get/e9de9665/master.m3u8"
-                    }
-                ]
-            },
-            {
-                "name": "2. Sezon",
-                "episodes": [
-                    {
-                        "name": "1. Bölüm",
-                        "source": "https://vidrame.pro/vr/get/998dfe3c/master.m3u8"
-                    },
-                    {
-                        "name": "2. Bölüm",
-                        "source": "https://vidrame.pro/vr/get/d54db05c/master.m3u8"
-                    },
-                    {
-                        "name": "3. Bölüm",
-                        "source": "https://vidrame.pro/vr/get/bad93827/master.m3u8"
-                    },
-                    {
-                        "name": "4. Bölüm: 4 Bölüm",
-                        "source": "https://drinkfromwisdomwell.top/hls/videos/4679/master.m3u8"
-                    },
-                    {
-                        "name": "4. Bölüm",
-                        "source": "https://vidrame.pro/vr/get/6b5f93d9/master.m3u8"
-                    },
-                    {
-                        "name": "5. Bölüm: 5 Bölüm",
-                        "source": "https://drinkfromwisdomwell.top/hls/videos/4677/master.m3u8"
-                    },
-                    {
-                        "name": "5. Bölüm",
-                        "source": "https://vidrame.pro/vr/get/e1a8cd71/master.m3u8"
-                    },
-                    {
-                        "name": "6. Bölüm: 6 Bölüm",
-                        "source": "https://drinkfromwisdomwell.top/hls/videos/4691/master.m3u8"
-                    },
-                    {
-                        "name": "6. Bölüm",
-                        "source": "https://vidrame.pro/vr/get/0b239ac3/master.m3u8"
-                    },
-                    {
-                        "name": "7. Bölüm: 7 Bölüm",
-                        "source": "https://drinkfromwisdomwell.top/hls/videos/4678/master.m3u8"
-                    },
-                    {
-                        "name": "7. Bölüm",
-                        "source": "https://vidrame.pro/vr/get/f39437ae/master.m3u8"
-                    },
-                    {
-                        "name": "8. Bölüm: 8 Bölüm",
-                        "source": "https://drinkfromwisdomwell.top/hls/videos/4694/master.m3u8"
-                    },
-                    {
-                        "name": "8. Bölüm",
-                        "source": "https://vidrame.pro/vr/get/9eed26f8/master.m3u8"
-                    },
-                    {
-                        "name": "9. Bölüm: 9 Bölüm",
-                        "source": "https://drinkfromwisdomwell.top/hls/videos/4698/master.m3u8"
-                    },
-                    {
-                        "name": "9. Bölüm",
-                        "source": "https://vidrame.pro/vr/get/c5838a4d/master.m3u8"
-                    },
-                    {
-                        "name": "10. Bölüm: 10 Bölüm",
-                        "source": "https://drinkfromwisdomwell.top/hls/videos/4680/master.m3u8"
-                    },
-                    {
-                        "name": "10. Bölüm",
-                        "source": "https://vidrame.pro/vr/get/e3754699/master.m3u8"
-                    },
-                    {
-                        "name": "11. Bölüm: 11 Bölüm",
-                        "source": "https://drinkfromwisdomwell.top/hls/videos/4700/master.m3u8"
-                    },
-                    {
-                        "name": "11. Bölüm",
-                        "source": "https://vidrame.pro/vr/get/fe1a10ce/master.m3u8"
-                    },
-                    {
-                        "name": "12. Bölüm: 12 Bölüm",
-                        "source": "https://drinkfromwisdomwell.top/hls/videos/4695/master.m3u8"
-                    },
-                    {
-                        "name": "12. Bölüm",
-                        "source": "https://vidrame.pro/vr/get/b4b9b8a3/master.m3u8"
-                    },
-                    {
-                        "name": "13. Bölüm: 13 Bölüm",
-                        "source": "https://drinkfromwisdomwell.top/hls/videos/4693/master.m3u8"
-                    },
-                    {
-                        "name": "13. Bölüm",
-                        "source": "https://vidrame.pro/vr/get/a042829c/master.m3u8"
-                    },
-                    {
-                        "name": "14. Bölüm: 14 Bölüm",
-                        "source": "https://drinkfromwisdomwell.top/hls/videos/4687/master.m3u8"
-                    },
-                    {
-                        "name": "14. Bölüm",
-                        "source": "https://vidrame.pro/vr/get/be8844a8/master.m3u8"
-                    },
-                    {
-                        "name": "15. Bölüm",
-                        "source": "https://vidrame.pro/vr/get/acde2dfc/master.m3u8"
-                    },
-                    {
-                        "name": "16. Bölüm: 16 Bölüm",
-                        "source": "https://drinkfromwisdomwell.top/hls/videos/4696/master.m3u8"
-                    },
-                    {
-                        "name": "16. Bölüm",
-                        "source": "https://vidrame.pro/vr/get/218e7b6b/master.m3u8"
-                    },
-                    {
-                        "name": "17. Bölüm: 17 Bölüm",
-                        "source": "https://drinkfromwisdomwell.top/hls/videos/4692/master.m3u8"
-                    },
-                    {
-                        "name": "17. Bölüm",
-                        "source": "https://vidrame.pro/vr/get/bc99ffb7/master.m3u8"
-                    },
-                    {
-                        "name": "18. Bölüm: 18 Bölüm",
-                        "source": "https://drinkfromwisdomwell.top/hls/videos/4682/master.m3u8"
-                    },
-                    {
-                        "name": "18. Bölüm",
-                        "source": "https://vidrame.pro/vr/get/775cfb35/master.m3u8"
-                    },
-                    {
-                        "name": "19. Bölüm: 19 Bölüm",
-                        "source": "https://drinkfromwisdomwell.top/hls/videos/4676/master.m3u8"
-                    },
-                    {
-                        "name": "19. Bölüm",
-                        "source": "https://vidrame.pro/vr/get/4e855aa4/master.m3u8"
-                    },
-                    {
-                        "name": "20. Bölüm: 20 Bölüm",
-                        "source": "https://drinkfromwisdomwell.top/hls/videos/4699/master.m3u8"
-                    },
-                    {
-                        "name": "20. Bölüm",
-                        "source": "https://vidrame.pro/vr/get/81d31b35/master.m3u8"
-                    },
-                    {
-                        "name": "21. Bölüm",
-                        "source": "https://vidrame.pro/vr/get/9183a95d/master.m3u8"
-                    },
-                    {
-                        "name": "22. Bölüm",
-                        "source": "https://vidrame.pro/vr/get/05a99120/master.m3u8"
-                    },
-                    {
-                        "name": "23. Bölüm: 23 Bölüm",
-                        "source": "https://drinkfromwisdomwell.top/hls/videos/4690/master.m3u8"
-                    },
-                    {
-                        "name": "23. Bölüm",
-                        "source": "https://vidrame.pro/vr/get/fc52a2a5/master.m3u8"
-                    },
-                    {
-                        "name": "24. Bölüm: 24 Bölüm",
-                        "source": "https://drinkfromwisdomwell.top/hls/videos/4681/master.m3u8"
-                    },
-                    {
-                        "name": "24. Bölüm",
-                        "source": "https://vidrame.pro/vr/get/08015f65/master.m3u8"
-                    }
-                ]
-            },
-            {
-                "name": "3. Sezon",
-                "episodes": [
-                    {
-                        "name": "1. Bölüm: 1 Bölüm",
-                        "source": "https://drinkfromwisdomwell.top/hls/videos/4752/master.m3u8"
-                    },
-                    {
-                        "name": "1. Bölüm",
-                        "source": "https://vidrame.pro/vr/get/1bdf816a/master.m3u8"
-                    },
-                    {
-                        "name": "2. Bölüm: 2 Bölüm",
-                        "source": "https://drinkfromwisdomwell.top/hls/videos/4755/master.m3u8"
-                    },
-                    {
-                        "name": "2. Bölüm",
-                        "source": "https://vidrame.pro/vr/get/ad1e181d/master.m3u8"
-                    },
-                    {
-                        "name": "3. Bölüm: 3 Bölüm",
-                        "source": "https://drinkfromwisdomwell.top/hls/videos/4749/master.m3u8"
-                    },
-                    {
-                        "name": "3. Bölüm",
-                        "source": "https://vidrame.pro/vr/get/dffb6aa2/master.m3u8"
-                    },
-                    {
-                        "name": "4. Bölüm: 4 Bölüm",
-                        "source": "https://drinkfromwisdomwell.top/hls/videos/4753/master.m3u8"
-                    },
-                    {
-                        "name": "4. Bölüm",
-                        "source": "https://vidrame.pro/vr/get/b4565658/master.m3u8"
-                    },
-                    {
-                        "name": "5. Bölüm: 5 Bölüm",
-                        "source": "https://drinkfromwisdomwell.top/hls/videos/4742/master.m3u8"
-                    },
-                    {
-                        "name": "5. Bölüm",
-                        "source": "https://vidrame.pro/vr/get/b780779e/master.m3u8"
-                    },
-                    {
-                        "name": "6. Bölüm: 6 Bölüm",
-                        "source": "https://drinkfromwisdomwell.top/hls/videos/4760/master.m3u8"
-                    },
-                    {
-                        "name": "6. Bölüm",
-                        "source": "https://vidrame.pro/vr/get/c305bd63/master.m3u8"
-                    },
-                    {
-                        "name": "7. Bölüm: 7 Bölüm",
-                        "source": "https://drinkfromwisdomwell.top/hls/videos/4761/master.m3u8"
-                    },
-                    {
-                        "name": "7. Bölüm",
-                        "source": "https://vidrame.pro/vr/get/f5883442/master.m3u8"
-                    },
-                    {
-                        "name": "8. Bölüm: 8 Bölüm",
-                        "source": "https://drinkfromwisdomwell.top/hls/videos/4744/master.m3u8"
-                    },
-                    {
-                        "name": "8. Bölüm",
-                        "source": "https://vidrame.pro/vr/get/7965389e/master.m3u8"
-                    },
-                    {
-                        "name": "9. Bölüm: 9 Bölüm",
-                        "source": "https://drinkfromwisdomwell.top/hls/videos/4762/master.m3u8"
-                    },
-                    {
-                        "name": "9. Bölüm",
-                        "source": "https://vidrame.pro/vr/get/76d719f2/master.m3u8"
-                    },
-                    {
-                        "name": "10. Bölüm: 10 Bölüm",
-                        "source": "https://drinkfromwisdomwell.top/hls/videos/4745/master.m3u8"
-                    },
-                    {
-                        "name": "10. Bölüm",
-                        "source": "https://vidrame.pro/vr/get/5ae350eb/master.m3u8"
-                    },
-                    {
-                        "name": "11. Bölüm: 11 Bölüm",
-                        "source": "https://drinkfromwisdomwell.top/hls/videos/4758/master.m3u8"
-                    },
-                    {
-                        "name": "11. Bölüm",
-                        "source": "https://vidrame.pro/vr/get/da7656c3/master.m3u8"
-                    },
-                    {
-                        "name": "12. Bölüm: 12 Bölüm",
-                        "source": "https://drinkfromwisdomwell.top/hls/videos/4750/master.m3u8"
-                    },
-                    {
-                        "name": "12. Bölüm",
-                        "source": "https://vidrame.pro/vr/get/0b93d1e3/master.m3u8"
-                    },
-                    {
-                        "name": "13. Bölüm: 13 Bölüm",
-                        "source": "https://drinkfromwisdomwell.top/hls/videos/4759/master.m3u8"
-                    },
-                    {
-                        "name": "13. Bölüm",
-                        "source": "https://vidrame.pro/vr/get/aa39ab20/master.m3u8"
-                    },
-                    {
-                        "name": "14. Bölüm: 14 Bölüm",
-                        "source": "https://drinkfromwisdomwell.top/hls/videos/4757/master.m3u8"
-                    },
-                    {
-                        "name": "14. Bölüm",
-                        "source": "https://vidrame.pro/vr/get/9a9bc68b/master.m3u8"
-                    },
-                    {
-                        "name": "15. Bölüm: 15 Bölüm",
-                        "source": "https://drinkfromwisdomwell.top/hls/videos/4754/master.m3u8"
-                    },
-                    {
-                        "name": "15. Bölüm",
-                        "source": "https://vidrame.pro/vr/get/758d150e/master.m3u8"
-                    },
-                    {
-                        "name": "16. Bölüm: 16 Bölüm",
-                        "source": "https://drinkfromwisdomwell.top/hls/videos/4743/master.m3u8"
-                    },
-                    {
-                        "name": "16. Bölüm",
-                        "source": "https://vidrame.pro/vr/get/34a10b31/master.m3u8"
-                    },
-                    {
-                        "name": "17. Bölüm: 17 Bölüm",
-                        "source": "https://drinkfromwisdomwell.top/hls/videos/4746/master.m3u8"
-                    },
-                    {
-                        "name": "17. Bölüm",
-                        "source": "https://vidrame.pro/vr/get/d54812c0/master.m3u8"
-                    },
-                    {
-                        "name": "18. Bölüm: 18 Bölüm",
-                        "source": "https://drinkfromwisdomwell.top/hls/videos/4747/master.m3u8"
-                    },
-                    {
-                        "name": "18. Bölüm",
-                        "source": "https://vidrame.pro/vr/get/906dcc86/master.m3u8"
-                    },
-                    {
-                        "name": "19. Bölüm: 19 Bölüm",
-                        "source": "https://drinkfromwisdomwell.top/hls/videos/4756/master.m3u8"
-                    },
-                    {
-                        "name": "19. Bölüm",
-                        "source": "https://vidrame.pro/vr/get/0df9980c/master.m3u8"
-                    },
-                    {
-                        "name": "20. Bölüm: 20 Bölüm",
-                        "source": "https://drinkfromwisdomwell.top/hls/videos/4751/master.m3u8"
-                    },
-                    {
-                        "name": "20. Bölüm",
-                        "source": "https://vidrame.pro/vr/get/6455b07d/master.m3u8"
-                    },
-                    {
-                        "name": "21. Bölüm: 21 Bölüm",
-                        "source": "https://drinkfromwisdomwell.top/hls/videos/4764/master.m3u8"
-                    },
-                    {
-                        "name": "21. Bölüm",
-                        "source": "https://vidrame.pro/vr/get/f7268f70/master.m3u8"
-                    },
-                    {
-                        "name": "22. Bölüm: 22 Bölüm",
-                        "source": "https://drinkfromwisdomwell.top/hls/videos/4748/master.m3u8"
-                    },
-                    {
-                        "name": "22. Bölüm",
-                        "source": "https://vidrame.pro/vr/get/72a59e9a/master.m3u8"
-                    },
-                    {
-                        "name": "23. Bölüm: 23 Bölüm",
-                        "source": "https://drinkfromwisdomwell.top/hls/videos/4763/master.m3u8"
-                    },
-                    {
-                        "name": "23. Bölüm",
-                        "source": "https://vidrame.pro/vr/get/640e8434/master.m3u8"
-                    }
-                ]
-            },
-            {
-                "name": "4. Sezon",
-                "episodes": [
-                    {
-                        "name": "1. Bölüm: 1 Bölüm",
-                        "source": "https://drinkfromwisdomwell.top/hls/videos/4655/master.m3u8"
-                    },
-                    {
-                        "name": "1. Bölüm",
-                        "source": "https://vidrame.pro/vr/get/675f1c15/master.m3u8"
-                    },
-                    {
-                        "name": "2. Bölüm: 2 Bölüm",
-                        "source": "https://drinkfromwisdomwell.top/hls/videos/4660/master.m3u8"
-                    },
-                    {
-                        "name": "2. Bölüm",
-                        "source": "https://vidrame.pro/vr/get/296f8b19/master.m3u8"
-                    },
-                    {
-                        "name": "3. Bölüm: 3 Bölüm",
-                        "source": "https://drinkfromwisdomwell.top/hls/videos/4672/master.m3u8"
-                    },
-                    {
-                        "name": "3. Bölüm",
-                        "source": "https://vidrame.pro/vr/get/79f72aa5/master.m3u8"
-                    },
-                    {
-                        "name": "4. Bölüm: 4 Bölüm",
-                        "source": "https://drinkfromwisdomwell.top/hls/videos/4653/master.m3u8"
-                    },
-                    {
-                        "name": "4. Bölüm",
-                        "source": "https://vidrame.pro/vr/get/0a51958b/master.m3u8"
-                    },
-                    {
-                        "name": "5. Bölüm: 5 Bölüm",
-                        "source": "https://drinkfromwisdomwell.top/hls/videos/4661/master.m3u8"
-                    },
-                    {
-                        "name": "5. Bölüm",
-                        "source": "https://vidrame.pro/vr/get/65e1e3f9/master.m3u8"
-                    },
-                    {
-                        "name": "6. Bölüm: 6 Bölüm",
-                        "source": "https://drinkfromwisdomwell.top/hls/videos/4659/master.m3u8"
-                    },
-                    {
-                        "name": "6. Bölüm",
-                        "source": "https://vidrame.pro/vr/get/92123dee/master.m3u8"
-                    },
-                    {
-                        "name": "7. Bölüm: 7 Bölüm",
-                        "source": "https://drinkfromwisdomwell.top/hls/videos/4666/master.m3u8"
-                    },
-                    {
-                        "name": "7. Bölüm",
-                        "source": "https://vidrame.pro/vr/get/5e44112a/master.m3u8"
-                    },
-                    {
-                        "name": "8. Bölüm: 8 Bölüm",
-                        "source": "https://drinkfromwisdomwell.top/hls/videos/4657/master.m3u8"
-                    },
-                    {
-                        "name": "8. Bölüm",
-                        "source": "https://vidrame.pro/vr/get/d2a955f4/master.m3u8"
-                    },
-                    {
-                        "name": "9. Bölüm: 9 Bölüm",
-                        "source": "https://drinkfromwisdomwell.top/hls/videos/4673/master.m3u8"
-                    },
-                    {
-                        "name": "9. Bölüm",
-                        "source": "https://vidrame.pro/vr/get/23ed3ec5/master.m3u8"
-                    },
-                    {
-                        "name": "10. Bölüm: 10 Bölüm",
-                        "source": "https://drinkfromwisdomwell.top/hls/videos/4658/master.m3u8"
-                    },
-                    {
-                        "name": "10. Bölüm",
-                        "source": "https://vidrame.pro/vr/get/555b36d5/master.m3u8"
-                    },
-                    {
-                        "name": "11. Bölüm: 11 Bölüm",
-                        "source": "https://drinkfromwisdomwell.top/hls/videos/4670/master.m3u8"
-                    },
-                    {
-                        "name": "11. Bölüm",
-                        "source": "https://vidrame.pro/vr/get/f3c28a62/master.m3u8"
-                    },
-                    {
-                        "name": "12. Bölüm: 12 Bölüm",
-                        "source": "https://drinkfromwisdomwell.top/hls/videos/4664/master.m3u8"
-                    },
-                    {
-                        "name": "12. Bölüm",
-                        "source": "https://vidrame.pro/vr/get/45c5d913/master.m3u8"
-                    },
-                    {
-                        "name": "13. Bölüm: 13 Bölüm",
-                        "source": "https://drinkfromwisdomwell.top/hls/videos/4675/master.m3u8"
-                    },
-                    {
-                        "name": "13. Bölüm",
-                        "source": "https://vidrame.pro/vr/get/432d130a/master.m3u8"
-                    }
-                ]
-            },
-            {
-                "name": "5. Sezon",
-                "episodes": [
-                    {
-                        "name": "1. Bölüm: 1 Bölüm",
-                        "source": "https://drinkfromwisdomwell.top/hls/videos/4732/master.m3u8"
-                    },
-                    {
-                        "name": "1. Bölüm",
-                        "source": "https://vidrame.pro/vr/get/f2a1a4ab/master.m3u8"
-                    },
-                    {
-                        "name": "2. Bölüm: 2 Bölüm",
-                        "source": "https://drinkfromwisdomwell.top/hls/videos/4736/master.m3u8"
-                    },
-                    {
-                        "name": "2. Bölüm",
-                        "source": "https://vidrame.pro/vr/get/ffa27883/master.m3u8"
-                    },
-                    {
-                        "name": "3. Bölüm: 3 Bölüm",
-                        "source": "https://drinkfromwisdomwell.top/hls/videos/4729/master.m3u8"
-                    },
-                    {
-                        "name": "3. Bölüm",
-                        "source": "https://vidrame.pro/vr/get/5bc098ea/master.m3u8"
-                    },
-                    {
-                        "name": "4. Bölüm: 4 Bölüm",
-                        "source": "https://drinkfromwisdomwell.top/hls/videos/4735/master.m3u8"
-                    },
-                    {
-                        "name": "4. Bölüm",
-                        "source": "https://vidrame.pro/vr/get/50fc9df5/master.m3u8"
-                    },
-                    {
-                        "name": "5. Bölüm: 5 Bölüm",
-                        "source": "https://drinkfromwisdomwell.top/hls/videos/4737/master.m3u8"
-                    },
-                    {
-                        "name": "5. Bölüm",
-                        "source": "https://vidrame.pro/vr/get/6b97db12/master.m3u8"
-                    },
-                    {
-                        "name": "6. Bölüm: 6 Bölüm",
-                        "source": "https://drinkfromwisdomwell.top/hls/videos/4734/master.m3u8"
-                    },
-                    {
-                        "name": "6. Bölüm",
-                        "source": "https://vidrame.pro/vr/get/43bc0d62/master.m3u8"
-                    },
-                    {
-                        "name": "7. Bölüm: 7 Bölüm",
-                        "source": "https://drinkfromwisdomwell.top/hls/videos/4728/master.m3u8"
-                    },
-                    {
-                        "name": "7. Bölüm",
-                        "source": "https://vidrame.pro/vr/get/1c40c2e0/master.m3u8"
-                    },
-                    {
-                        "name": "8. Bölüm: 8 Bölüm",
-                        "source": "https://drinkfromwisdomwell.top/hls/videos/4740/master.m3u8"
-                    },
-                    {
-                        "name": "8. Bölüm",
-                        "source": "https://vidrame.pro/vr/get/4eadfc22/master.m3u8"
-                    },
-                    {
-                        "name": "9. Bölüm: 9 Bölüm",
-                        "source": "https://drinkfromwisdomwell.top/hls/videos/4727/master.m3u8"
-                    },
-                    {
-                        "name": "9. Bölüm",
-                        "source": "https://vidrame.pro/vr/get/6f7f4a58/master.m3u8"
-                    },
-                    {
-                        "name": "10. Bölüm: 10 Bölüm",
-                        "source": "https://drinkfromwisdomwell.top/hls/videos/4726/master.m3u8"
-                    },
-                    {
-                        "name": "10. Bölüm",
-                        "source": "https://vidrame.pro/vr/get/709e88a2/master.m3u8"
-                    },
-                    {
-                        "name": "11. Bölüm: 11 Bölüm",
-                        "source": "https://drinkfromwisdomwell.top/hls/videos/4738/master.m3u8"
-                    },
-                    {
-                        "name": "11. Bölüm",
-                        "source": "https://vidrame.pro/vr/get/d71f99ed/master.m3u8"
-                    },
-                    {
-                        "name": "12. Bölüm: 12 Bölüm",
-                        "source": "https://drinkfromwisdomwell.top/hls/videos/4733/master.m3u8"
-                    },
-                    {
-                        "name": "12. Bölüm",
-                        "source": "https://vidrame.pro/vr/get/f4e9cba6/master.m3u8"
-                    },
-                    {
-                        "name": "13. Bölüm: 13 Bölüm",
-                        "source": "https://drinkfromwisdomwell.top/hls/videos/4741/master.m3u8"
-                    },
-                    {
-                        "name": "13. Bölüm",
-                        "source": "https://vidrame.pro/vr/get/fb2e4ceb/master.m3u8"
-                    },
-                    {
-                        "name": "14. Bölüm: 14 Bölüm",
-                        "source": "https://drinkfromwisdomwell.top/hls/videos/4730/master.m3u8"
-                    },
-                    {
-                        "name": "14. Bölüm",
-                        "source": "https://vidrame.pro/vr/get/dba7a9c9/master.m3u8"
-                    },
-                    {
-                        "name": "15. Bölüm: 15 Bölüm",
-                        "source": "https://drinkfromwisdomwell.top/hls/videos/4725/master.m3u8"
-                    },
-                    {
-                        "name": "15. Bölüm",
-                        "source": "https://vidrame.pro/vr/get/32bf4dc2/master.m3u8"
-                    },
-                    {
-                        "name": "16. Bölüm: 16 Bölüm",
-                        "source": "https://drinkfromwisdomwell.top/hls/videos/4731/master.m3u8"
-                    },
-                    {
-                        "name": "16. Bölüm",
-                        "source": "https://vidrame.pro/vr/get/3a828890/master.m3u8"
-                    },
-                    {
-                        "name": "17. Bölüm: 17 Bölüm",
-                        "source": "https://drinkfromwisdomwell.top/hls/videos/4739/master.m3u8"
-                    },
-                    {
-                        "name": "17. Bölüm",
-                        "source": "https://vidrame.pro/vr/get/6b3769f0/master.m3u8"
-                    }
-                ]
-            },
-            {
-                "name": "6. Sezon",
-                "episodes": [
-                    {
-                        "name": "1. Bölüm: 1 Bölüm",
-                        "source": "https://drinkfromwisdomwell.top/hls/videos/4787/master.m3u8"
-                    },
-                    {
-                        "name": "1. Bölüm",
-                        "source": "https://vidrame.pro/vr/get/6535fc4f/master.m3u8"
-                    },
-                    {
-                        "name": "2. Bölüm",
-                        "source": "https://vidrame.pro/vr/get/28bbb0c1/master.m3u8"
-                    },
-                    {
-                        "name": "3. Bölüm: 3 Bölüm",
-                        "source": "https://drinkfromwisdomwell.top/hls/videos/4774/master.m3u8"
-                    },
-                    {
-                        "name": "3. Bölüm",
-                        "source": "https://vidrame.pro/vr/get/2b6261e5/master.m3u8"
-                    },
-                    {
-                        "name": "4. Bölüm: 4 Bölüm",
-                        "source": "https://drinkfromwisdomwell.top/hls/videos/4769/master.m3u8"
-                    },
-                    {
-                        "name": "4. Bölüm",
-                        "source": "https://vidrame.pro/vr/get/ae3a103d/master.m3u8"
-                    },
-                    {
-                        "name": "5. Bölüm: 5 Bölüm",
-                        "source": "https://drinkfromwisdomwell.top/hls/videos/4773/master.m3u8"
-                    },
-                    {
-                        "name": "5. Bölüm",
-                        "source": "https://vidrame.pro/vr/get/6f2ec17f/master.m3u8"
-                    },
-                    {
-                        "name": "6. Bölüm: 6 Bölüm",
-                        "source": "https://drinkfromwisdomwell.top/hls/videos/4782/master.m3u8"
-                    },
-                    {
-                        "name": "6. Bölüm",
-                        "source": "https://vidrame.pro/vr/get/5c8cf844/master.m3u8"
-                    },
-                    {
-                        "name": "7. Bölüm: 7 Bölüm",
-                        "source": "https://drinkfromwisdomwell.top/hls/videos/4768/master.m3u8"
-                    },
-                    {
-                        "name": "7. Bölüm",
-                        "source": "https://vidrame.pro/vr/get/7824540d/master.m3u8"
-                    },
-                    {
-                        "name": "8. Bölüm: 8 Bölüm",
-                        "source": "https://drinkfromwisdomwell.top/hls/videos/4772/master.m3u8"
-                    },
-                    {
-                        "name": "8. Bölüm",
-                        "source": "https://vidrame.pro/vr/get/b1f52a5e/master.m3u8"
-                    },
-                    {
-                        "name": "9. Bölüm: 9 Bölüm",
-                        "source": "https://drinkfromwisdomwell.top/hls/videos/4771/master.m3u8"
-                    },
-                    {
-                        "name": "9. Bölüm",
-                        "source": "https://vidrame.pro/vr/get/86745d51/master.m3u8"
-                    },
-                    {
-                        "name": "10. Bölüm: 10 Bölüm",
-                        "source": "https://drinkfromwisdomwell.top/hls/videos/4777/master.m3u8"
-                    },
-                    {
-                        "name": "10. Bölüm",
-                        "source": "https://vidrame.pro/vr/get/d3dd25ee/master.m3u8"
-                    },
-                    {
-                        "name": "11. Bölüm: 11 Bölüm",
-                        "source": "https://drinkfromwisdomwell.top/hls/videos/4779/master.m3u8"
-                    },
-                    {
-                        "name": "11. Bölüm",
-                        "source": "https://vidrame.pro/vr/get/1280a506/master.m3u8"
-                    },
-                    {
-                        "name": "12. Bölüm: 12 Bölüm",
-                        "source": "https://drinkfromwisdomwell.top/hls/videos/4765/master.m3u8"
-                    },
-                    {
-                        "name": "12. Bölüm",
-                        "source": "https://vidrame.pro/vr/get/36d27be6/master.m3u8"
-                    },
-                    {
-                        "name": "13. Bölüm: 13 Bölüm",
-                        "source": "https://drinkfromwisdomwell.top/hls/videos/4766/master.m3u8"
-                    },
-                    {
-                        "name": "13. Bölüm",
-                        "source": "https://vidrame.pro/vr/get/20261a94/master.m3u8"
-                    },
-                    {
-                        "name": "14. Bölüm: 14 Bölüm",
-                        "source": "https://drinkfromwisdomwell.top/hls/videos/4776/master.m3u8"
-                    },
-                    {
-                        "name": "14. Bölüm",
-                        "source": "https://vidrame.pro/vr/get/35b6a56c/master.m3u8"
-                    },
-                    {
-                        "name": "15. Bölüm: 15 Bölüm",
-                        "source": "https://drinkfromwisdomwell.top/hls/videos/4767/master.m3u8"
-                    },
-                    {
-                        "name": "15. Bölüm",
-                        "source": "https://vidrame.pro/vr/get/e8d52a23/master.m3u8"
-                    },
-                    {
-                        "name": "16. Bölüm: 16 Bölüm",
-                        "source": "https://drinkfromwisdomwell.top/hls/videos/4770/master.m3u8"
-                    },
-                    {
-                        "name": "16. Bölüm",
-                        "source": "https://vidrame.pro/vr/get/2fa1b559/master.m3u8"
-                    },
-                    {
-                        "name": "17. Bölüm: 17 Bölüm",
-                        "source": "https://drinkfromwisdomwell.top/hls/videos/4775/master.m3u8"
-                    },
-                    {
-                        "name": "17. Bölüm",
-                        "source": "https://vidrame.pro/vr/get/ad4303b4/master.m3u8"
-                    }
-                ]
-            }
-        ]
-    }
-    ,
-    {
         "id": "ser_chernobyl77",
         "type": "series",
         "title": "Chernobyl",
         "year": 2023,
+         puan: "9.3",
         "genre": "HD-Film-izle-Dizi",
         "poster": "https://m.media-amazon.com/images/M/MV5BYzJkOWMwY2QtZDQ3YS00YzA4LWFjZDYtMWMwYzA4YTU3ODUyXkEyXkFqcGc@._V1_.jpg",
         "backdrop": "https://m.media-amazon.com/images/M/MV5BYzJkOWMwY2QtZDQ3YS00YzA4LWFjZDYtMWMwYzA4YTU3ODUyXkEyXkFqcGc@._V1_.jpg",
@@ -3980,6 +3054,7 @@ const DATABASE = [
         "type": "series",
         "title": "Prison Break Izle",
         "year": 2023,
+         puan: "8.3",
         "genre": "HD-Film-izle-Dizi",
         "poster": "https://m.media-amazon.com/images/M/MV5BMTg3NTkwNzAxOF5BMl5BanBnXkFtZTcwMjM1NjI5MQ@@._V1_FMjpg_UX1000_.jpg",
         "backdrop": "https://m.media-amazon.com/images/M/MV5BMTg3NTkwNzAxOF5BMl5BanBnXkFtZTcwMjM1NjI5MQ@@._V1_FMjpg_UX1000_.jpg",
@@ -4369,6 +3444,7 @@ const DATABASE = [
         "type": "series",
         "title": "House Of The Dragon",
         "year": 2023,
+         puan: "8.3 ",
         "genre": "tum-diziler",
         "poster": "https://m.media-amazon.com/images/M/MV5BM2QzMGVkNjUtN2Y4Yi00ODMwLTg3YzktYzUxYjJlNjFjNDY1XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
         "backdrop": "https://m.media-amazon.com/images/M/MV5BM2QzMGVkNjUtN2Y4Yi00ODMwLTg3YzktYzUxYjJlNjFjNDY1XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
@@ -4463,6 +3539,7 @@ const DATABASE = [
         "type": "series",
         "title": "The Last Of Us",
         "year": 2023,
+         puan: "8.5",
         "genre": "tum-diziler",
         "poster": "https://m.media-amazon.com/images/M/MV5BYWI3ODJlMzktY2U5NC00ZjdlLWE1MGItNWQxZDk3NWNjN2RhXkEyXkFqcGc@._V1_.jpg",
         "backdrop": "https://m.media-amazon.com/images/M/MV5BYWI3ODJlMzktY2U5NC00ZjdlLWE1MGItNWQxZDk3NWNjN2RhXkEyXkFqcGc@._V1_.jpg",
@@ -4549,6 +3626,7 @@ const DATABASE = [
         "type": "series",
         "title": "How I Met Your Mother ",
         "year": 2023,
+         puan: "8.3",
         "genre": "tum-diziler",
         "poster": "https://m.media-amazon.com/images/M/MV5BN2RiMDMzYzYtYmYwZi00ZWVkLWI1ZDUtMDMyODIzZWMzMThmXkEyXkFqcGc@._V1_.jpg",
         "backdrop": "https://m.media-amazon.com/images/M/MV5BN2RiMDMzYzYtYmYwZi00ZWVkLWI1ZDUtMDMyODIzZWMzMThmXkEyXkFqcGc@._V1_.jpg",
@@ -5438,6 +4516,7 @@ const DATABASE = [
         "type": "series",
         "title": "Suits",
         "year": 2023,
+         puan:"8.4",
         "genre": "tum-diziler",
         "poster": "https://m.media-amazon.com/images/M/MV5BYmE4MmNjZjUtNTEyNy00NTZiLWE4NTktYjM2NjBhYzQ1N2IzXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
         "backdrop": "https://m.media-amazon.com/images/M/MV5BYmE4MmNjZjUtNTEyNy00NTZiLWE4NTktYjM2NjBhYzQ1N2IzXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
@@ -6567,6 +5646,7 @@ const DATABASE = [
         "type": "series",
         "title": "Avatar The Last Airbender",
         "year": 2023,
+         puan:"9.3",
         "genre": "HD-Film-izle-Dizi",
         "poster": "https://m.media-amazon.com/images/M/MV5BZjQ1YTZmMjItZmZkMC00MGVmLTk1OTUtNzQzZTJjZGM1NjVlXkEyXkFqcGc@._V1_.jpg",
         "backdrop": "https://m.media-amazon.com/images/M/MV5BZjQ1YTZmMjItZmZkMC00MGVmLTk1OTUtNzQzZTJjZGM1NjVlXkEyXkFqcGc@._V1_.jpg",
@@ -6616,6 +5696,7 @@ const DATABASE = [
         "type": "series",
         "title": "The Bear",
         "year": 2023,
+         puan: "8.5",
         "genre": "tum-diziler",
         "poster": "https://m.media-amazon.com/images/M/MV5BYWZhNDZiMzAtZmZlYS00MWFmLWE2MWEtNDAxZTZiN2U4Y2U2XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
         "backdrop": "https://m.media-amazon.com/images/M/MV5BYWZhNDZiMzAtZmZlYS00MWFmLWE2MWEtNDAxZTZiN2U4Y2U2XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
@@ -6768,6 +5849,7 @@ const DATABASE = [
         "type": "series",
         "title": "Doctor Who",
         "year": 2023,
+         puan: "8.5",
         "genre": "tum-diziler",
         "poster": "https://m.media-amazon.com/images/M/MV5BZGVmY2RkZjAtZDAwMC00MmZhLThhMGItZmVlNzE4MTgyMWRkXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
         "backdrop": "https://m.media-amazon.com/images/M/MV5BZGVmY2RkZjAtZDAwMC00MmZhLThhMGItZmVlNzE4MTgyMWRkXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
@@ -6906,6 +5988,7 @@ const DATABASE = [
         "type": "series",
         "title": "The Punisher",
         "year": 2023,
+         puan:"8.4",
         "genre": "tum-diziler",
         "poster": "https://m.media-amazon.com/images/M/MV5BZTI2NDllMjgtOWEyYi00Y2YxLThhYjQtNTQ0NTgwNDE1YmYzXkEyXkFqcGc@._V1_.jpg",
         "backdrop": "https://m.media-amazon.com/images/M/MV5BZTI2NDllMjgtOWEyYi00Y2YxLThhYjQtNTQ0NTgwNDE1YmYzXkEyXkFqcGc@._V1_.jpg",
@@ -7032,6 +6115,7 @@ const DATABASE = [
         "type": "series",
         "title": "Smoke",
         "year": 2023,
+         puan: "6.7",
         "genre": "tum-diziler",
         "poster": "https://m.media-amazon.com/images/M/MV5BMzMwMTQ0NmYtOTc3MC00YzE2LWEwYTQtMjg1OGU0YmM3NWU3XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
         "backdrop": "https://m.media-amazon.com/images/M/MV5BMzMwMTQ0NmYtOTc3MC00YzE2LWEwYTQtMjg1OGU0YmM3NWU3XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
@@ -7081,6 +6165,7 @@ const DATABASE = [
         "type": "series",
         "title": "Wandavision",
         "year": 2023,
+         puan: "7.9",
         "genre": "HD-Film-izle-Dizi",
         "poster": "https://m.media-amazon.com/images/M/MV5BZTMxMmM1ODItMTZiMS00NjI1LWEwODctMjQ4ZjY4ODliNDI0XkEyXkFqcGc@._V1_.jpg",
         "backdrop": "https://m.media-amazon.com/images/M/MV5BZTMxMmM1ODItMTZiMS00NjI1LWEwODctMjQ4ZjY4ODliNDI0XkEyXkFqcGc@._V1_.jpg",
@@ -7134,6 +6219,7 @@ const DATABASE = [
         "type": "series",
         "title": "Moon Knight",
         "year": 2023,
+         puan: "7.3",
         "genre": "tum-diziler",
         "poster": "https://m.media-amazon.com/images/M/MV5BNDAzNmYwZjgtNDc3YS00ZDMyLTk0MjktMTg4MGNmNGU3MjlhXkEyXkFqcGc@._V1_.jpg",
         "backdrop": "https://m.media-amazon.com/images/M/MV5BNDAzNmYwZjgtNDc3YS00ZDMyLTk0MjktMTg4MGNmNGU3MjlhXkEyXkFqcGc@._V1_.jpg",
@@ -7174,6 +6260,7 @@ const DATABASE = [
         "id": "ser_hawkeye32",
         "type": "series",
         "title": "Hawkeye",
+         puan: "7.4",
         "year": 2023,
         "genre": "tum-diziler",
         "poster": "https://m.media-amazon.com/images/M/MV5BOGU5ZDBlOTAtOTZmYS00MWE0LTg0NzktNDcxZGJhN2FhZmM2XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
@@ -7240,6 +6327,7 @@ const DATABASE = [
         "type": "series",
         "title": "What If...?",
         "year": 2023,
+         puan: "7.3",
         "genre": "tum-diziler",
         "poster": "https://m.media-amazon.com/images/M/MV5BOTNkNDRhNmMtY2Q3Mi00NWFiLTlhN2QtODcyMmVmMWVlZTc1XkEyXkFqcGc@._V1_.jpg",
         "backdrop": "https://m.media-amazon.com/images/M/MV5BOTNkNDRhNmMtY2Q3Mi00NWFiLTlhN2QtODcyMmVmMWVlZTc1XkEyXkFqcGc@._V1_.jpg",
@@ -7475,6 +6563,7 @@ const DATABASE = [
         "type": "series",
         "title": "Arcane",
         "year": 2023,
+         puan: "9.0",
         "genre": "HD-Film-izle-Dizi",
         "poster": "https://m.media-amazon.com/images/M/MV5BYjA2NzhlMDItNWRmZC00MzRjLWE3ZjAtZjBlZDAwOWY2ODdjXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
         "backdrop": "https://m.media-amazon.com/images/M/MV5BYjA2NzhlMDItNWRmZC00MzRjLWE3ZjAtZjBlZDAwOWY2ODdjXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
@@ -7569,6 +6658,7 @@ const DATABASE = [
         "type": "series",
         "title": "Invincible",
         "year": 2023,
+         puan: "8.7",
         "genre": "tum-diziler",
         "poster": "https://m.media-amazon.com/images/M/MV5BNzQ5MGMyYjAtZWMzYS00YmVlLThkYjgtOTJmMWUyMjk3MjhlXkEyXkFqcGc@._V1_.jpg",
         "backdrop": "https://m.media-amazon.com/images/M/MV5BNzQ5MGMyYjAtZWMzYS00YmVlLThkYjgtOTJmMWUyMjk3MjhlXkEyXkFqcGc@._V1_.jpg",
@@ -7760,6 +6850,7 @@ const DATABASE = [
         "type": "series",
         "title": "Hannibal",
         "year": 2023,
+         puan: "8.5",
         "genre": "tum-diziler",
         "poster": "https://m.media-amazon.com/images/M/MV5BMTIzMTA0NTM4NF5BMl5BanBnXkFtZTcwNjY3ODM0MQ@@._V1_.jpg",
         "backdrop": "https://m.media-amazon.com/images/M/MV5BMTIzMTA0NTM4NF5BMl5BanBnXkFtZTcwNjY3ODM0MQ@@._V1_.jpg",
@@ -7943,6 +7034,7 @@ const DATABASE = [
         "type": "series",
         "title": "The Originals",
         "year": 2023,
+         puan: "8.3",
         "genre": "HD-Film-izle-Dizi",
         "poster": "https://m.media-amazon.com/images/M/MV5BZDJkYjg3MDItMjhiMi00NjhjLThlM2EtNzUxNzcyNDJjN2ZhXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
         "backdrop": "https://m.media-amazon.com/images/M/MV5BZDJkYjg3MDItMjhiMi00NjhjLThlM2EtNzUxNzcyNDJjN2ZhXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
@@ -8348,6 +7440,7 @@ const DATABASE = [
         "type": "series",
         "title": "Gotham",
         "year": 2023,
+         puan: "7.8",
         "genre": "tum-diziler",
         "poster": "https://m.media-amazon.com/images/M/MV5BMTg0ZmM3N2QtYmFiMy00YzUzLWE1M2QtZWVhMzBiNGZjMmVjXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
         "backdrop": "https://m.media-amazon.com/images/M/MV5BMTg0ZmM3N2QtYmFiMy00YzUzLWE1M2QtZWVhMzBiNGZjMmVjXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
@@ -9169,6 +8262,7 @@ const DATABASE = [
         "type": "series",
         "title": "Titans",
         "year": 2023,
+         puan: "7.4",
         "genre": "HD-Film-izle-Dizi",
         "poster": "https://m.media-amazon.com/images/M/MV5BNTJlNGQ3YmUtMGNjNC00OTE5LWFmYzEtNjJiMDNmZjk0ZjU0XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
         "backdrop": "https://m.media-amazon.com/images/M/MV5BNTJlNGQ3YmUtMGNjNC00OTE5LWFmYzEtNjJiMDNmZjk0ZjU0XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
@@ -9397,6 +8491,7 @@ const DATABASE = [
         "type": "series",
         "title": "Dexter New Blood",
         "year": 2023,
+         puan: "8.0",
         "genre": "HD-Film-izle-Dizi",
         "poster": "https://m.media-amazon.com/images/M/MV5BZGY4YjY5MGItNzM2NS00Y2M1LWFkYTYtZjI0ZDk3NTE0NmE0XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
         "backdrop": "https://m.media-amazon.com/images/M/MV5BZGY4YjY5MGItNzM2NS00Y2M1LWFkYTYtZjI0ZDk3NTE0NmE0XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
@@ -9454,6 +8549,7 @@ const DATABASE = [
         "type": "series",
         "title": "The Mentalist",
         "year": 2023,
+         puan: "8.2",
         "genre": "HD-Film-izle-Dizi",
         "poster": "https://m.media-amazon.com/images/M/MV5BMTQ5OTgzOTczM15BMl5BanBnXkFtZTcwMDM2OTY4MQ@@._V1_FMjpg_UX1000_.jpg",
         "backdrop": "https://m.media-amazon.com/images/M/MV5BMTQ5OTgzOTczM15BMl5BanBnXkFtZTcwMDM2OTY4MQ@@._V1_FMjpg_UX1000_.jpg",
@@ -10089,6 +9185,7 @@ const DATABASE = [
         "type": "series",
         "title": "911 Lone Star",
         "year": 2023,
+         puan: "7.3",
         "genre": "tum-diziler",
         "poster": "https://m.media-amazon.com/images/M/MV5BNDcxZjUwOWMtMGViYi00ZDY2LWE3ODAtNzNmZDAxOTY0NjkyXkEyXkFqcGc@._V1_.jpg",
         "backdrop": "https://m.media-amazon.com/images/M/MV5BNDcxZjUwOWMtMGViYi00ZDY2LWE3ODAtNzNmZDAxOTY0NjkyXkEyXkFqcGc@._V1_.jpg",
@@ -10414,6 +9511,7 @@ const DATABASE = [
         "type": "series",
         "title": "Ragnarok",
         "year": 2023,
+         puan: "7.3",
         "genre": "HD-Film-izle-Dizi",
         "poster": "https://m.media-amazon.com/images/M/MV5BYzhlZTU4MTgtMTViNS00OWJhLTg2N2QtYmVhZmNhZjJmOTkxXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
         "backdrop": "https://m.media-amazon.com/images/M/MV5BYzhlZTU4MTgtMTViNS00OWJhLTg2N2QtYmVhZmNhZjJmOTkxXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
@@ -10513,6 +9611,7 @@ const DATABASE = [
         "type": "series",
         "title": "The Vampire Diaries",
         "year": 2023,
+         puan: "7.7",
         "genre": "tum-diziler",
         "poster": "https://m.media-amazon.com/images/M/MV5BMmNjOWQzYmYtNGYxOS00MjVkLTg1MWUtMTkzMGE0MDgwNzQ5XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
         "backdrop": "https://m.media-amazon.com/images/M/MV5BMmNjOWQzYmYtNGYxOS00MjVkLTg1MWUtMTkzMGE0MDgwNzQ5XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
@@ -11241,6 +10340,7 @@ const DATABASE = [
         "type": "movie",
         "title": "Sil Baştan",
         "year": 2024,
+         puan:"8.3",
         "genre": "Film",
         "poster": "https://www.hdfilmizle.to/v/17414/poster/watch/sil-bastan.webp",
         "backdrop": "https://www.hdfilmizle.to/v/17414/poster/watch/sil-bastan.webp",
@@ -11252,6 +10352,7 @@ const DATABASE = [
         "type": "movie",
         "title": "Not Defteri",
         "year": 2024,
+         puan:"7.8",
         "genre": "Film",
         "poster": "https://www.hdfilmizle.to/v/13491/poster/watch/not-defteri.webp",
         "backdrop": "https://www.hdfilmizle.to/v/13491/poster/watch/not-defteri.webp",
@@ -11263,6 +10364,7 @@ const DATABASE = [
         "type": "movie",
         "title": "Amerikan Sapığı",
         "year": 2024,
+         puan:"7.6",
         "genre": "Film",
         "poster": "https://www.hdfilmizle.to/v/13067/poster/watch/amerikan-sapigi.webp",
         "backdrop": "https://www.hdfilmizle.to/v/13067/poster/watch/amerikan-sapigi.webp",
@@ -11274,6 +10376,7 @@ const DATABASE = [
         "type": "movie",
         "title": "Para Avcısı",
         "year": 2024,
+         puan:"8.2",
         "genre": "Film",
         "poster": "https://www.hdfilmizle.to/v/13329/poster/watch/para-avcisi.webp",
         "backdrop": "https://www.hdfilmizle.to/v/13329/poster/watch/para-avcisi.webp",
@@ -11285,6 +10388,7 @@ const DATABASE = [
         "type": "movie",
         "title": "Blade Runner 2049: Bıçak Sırtı",
         "year": 2024,
+         puan:"8.1",
         "genre": "Film",
         "poster": "https://www.hdfilmizle.to/v/13332/poster/watch/bicak-sirti-2049.webp",
         "backdrop": "https://www.hdfilmizle.to/v/13332/poster/watch/bicak-sirti-2049.webp",
@@ -11296,6 +10400,7 @@ const DATABASE = [
         "type": "movie",
         "title": "Sürücü",
         "year": 2024,
+         puan:"7.8",
         "genre": "Film",
         "poster": "https://www.hdfilmizle.to/v/14030/poster/watch/surucu.webp",
         "backdrop": "https://www.hdfilmizle.to/v/14030/poster/watch/surucu.webp",
@@ -11307,6 +10412,7 @@ const DATABASE = [
         "type": "movie",
         "title": "Barbie",
         "year": 2024,
+         puan:"6.8",
         "genre": "Film",
         "poster": "https://image.tmdb.org/t/p/original/66JhCovLuFUO2PqcP20oWLopEvr.jpg",
         "backdrop": "https://www.hdfilmizle.to/v/502240/poster/watch/barbie.webp",
@@ -11318,6 +10424,7 @@ const DATABASE = [
         "type": "movie",
         "title": "Kara Şövalye",
         "year": 2024,
+         puan:"9.1",
         "genre": "Film",
         "poster": "https://www.hdfilmizle.to/v/10734/poster/watch/kara-sovalye.webp",
         "backdrop": "https://www.hdfilmizle.to/v/10734/poster/watch/kara-sovalye.webp",
@@ -11329,6 +10436,7 @@ const DATABASE = [
         "type": "movie",
         "title": "Prestij",
         "year": 2024,
+         puan:"8.5",
         "genre": "Film",
         "poster": "https://www.hdfilmizle.to/v/13412/poster/watch/prestij.webp",
         "backdrop": "https://www.hdfilmizle.to/v/13412/poster/watch/prestij.webp",
@@ -11340,6 +10448,7 @@ const DATABASE = [
         "type": "movie",
         "title": "Tenet",
         "year": 2024,
+         puan:"7.3",
         "genre": "Film",
         "poster": "https://www.hdfilmizle.to/v/13053/poster/watch/tenet-hd.webp",
         "backdrop": "https://www.hdfilmizle.to/v/13053/poster/watch/tenet-hd.webp",
@@ -11351,6 +10460,7 @@ const DATABASE = [
         "type": "movie",
         "title": "Örümcek Adam: Örümcek Evreninde",
         "year": 2024,
+         puan:"8.5",
         "genre": "Film",
         "poster": "https://www.hdfilmizle.to/v/13312/poster/watch/orumcek-adam-orumcek-evreninde.webp",
         "backdrop": "https://www.hdfilmizle.to/v/13312/poster/watch/orumcek-adam-orumcek-evreninde.webp",
@@ -11362,6 +10472,7 @@ const DATABASE = [
         "type": "movie",
         "title": "Örümcek Adam: Eve Dönüş",
         "year": 2024,
+         puan:"7.4",
         "genre": "Film",
         "poster": "https://www.hdfilmizle.to/v/11682/poster/watch/orumcek-adam-eve-donus.webp",
         "backdrop": "https://www.hdfilmizle.to/v/11682/poster/watch/orumcek-adam-eve-donus.webp",
@@ -11373,6 +10484,7 @@ const DATABASE = [
         "type": "movie",
         "title": "Örümcek Adam: Evden Uzakta",
         "year": 2024,
+         puan:"7.3",
         "genre": "Film",
         "poster": "https://www.hdfilmizle.to/v/11680/poster/watch/orumcek-adam-evden-uzakta.webp",
         "backdrop": "https://www.hdfilmizle.to/v/11680/poster/watch/orumcek-adam-evden-uzakta.webp",
@@ -11384,6 +10496,7 @@ const DATABASE = [
         "type": "movie",
         "title": "Deadpool",
         "year": 2024,
+         puan:"8.0",
         "genre": "Film",
         "poster": "https://www.hdfilmizle.to/v/12919/poster/watch/deadpool-hd.webp",
         "backdrop": "https://www.hdfilmizle.to/v/12919/poster/watch/deadpool-hd.webp",
@@ -11395,6 +10508,7 @@ const DATABASE = [
         "type": "movie",
         "title": "Deadpool 2",
         "year": 2024,
+         puan:"7.6",
         "genre": "Film",
         "poster": "https://www.hdfilmizle.to/v/13322/poster/watch/deadpool-2-hd.webp",
         "backdrop": "https://www.hdfilmizle.to/v/13322/poster/watch/deadpool-2-hd.webp",
@@ -11404,8 +10518,9 @@ const DATABASE = [
     {
         "id": "mov_deadpool_3_487",
         "type": "movie",
-        "title": "Deadpool 3",
+        "title": "Deadpool & Wolverine",
         "year": 2024,
+         puan:"7.5",
         "genre": "Film",
         "poster": "https://www.hdfilmizle.to/v/59837/poster/watch/deadpool-wolverine-hd-film-izle-2-izle-hd.webp",
         "backdrop": "https://www.hdfilmizle.to/v/59837/poster/watch/deadpool-wolverine-hd-film-izle-2-izle-hd.webp",
@@ -11417,6 +10532,7 @@ const DATABASE = [
         "type": "movie",
         "title": "Soysuzlar Çetesi",
         "year": 2024,
+         puan:"8.4",
         "genre": "Film",
         "poster": "https://www.hdfilmizle.to/v/13233/poster/watch/soysuzlar-cetesi.webp",
         "backdrop": "https://www.hdfilmizle.to/v/13233/poster/watch/soysuzlar-cetesi.webp",
@@ -11428,6 +10544,7 @@ const DATABASE = [
         "type": "movie",
         "title": "Yeşil Yol",
         "year": 2024,
+         puan:"8.6",
         "genre": "Film",
         "poster": "https://www.hdfilmizle.to/v/13130/poster/watch/yesil-yol.webp",
         "backdrop": "https://www.hdfilmizle.to/v/13130/poster/watch/yesil-yol.webp",
@@ -11439,6 +10556,7 @@ const DATABASE = [
         "type": "movie",
         "title": "Zafere Hücum",
         "year": 2024,
+         puan:"8.1",
         "genre": "Film",
         "poster": "https://www.hdfilmizle.to/v/14155/poster/watch/zafere-hucum.webp",
         "backdrop": "https://www.hdfilmizle.to/v/14155/poster/watch/zafere-hucum.webp",
@@ -11450,6 +10568,7 @@ const DATABASE = [
         "type": "movie",
         "title": "Yeşil Rehber",
         "year": 2024,
+         puan:"8.1",
         "genre": "Film",
         "poster": "https://www.hdfilmizle.to/v/13435/poster/watch/yesil-rehber.webp",
         "backdrop": "https://www.hdfilmizle.to/v/13435/poster/watch/yesil-rehber.webp",
@@ -11461,6 +10580,7 @@ const DATABASE = [
         "type": "movie",
         "title": "Bir Ayrılık",
         "year": 2024,
+         puan:"8.3",
         "genre": "Film",
         "poster": "https://www.hdfilmizle.to/v/31863/poster/watch/bir-ayrilik.webp",
         "backdrop": "https://www.hdfilmizle.to/v/31863/poster/watch/bir-ayrilik.webp",
@@ -11472,6 +10592,7 @@ const DATABASE = [
         "type": "movie",
         "title": "Heart Eyes",
         "year": 2024,
+         puan:"6.0",
         "genre": "Film",
         "poster": "https://www.hdfilmizle.to/v/501544/poster/watch/heart-eyes.webp",
         "backdrop": "https://www.hdfilmizle.to/v/501544/poster/watch/heart-eyes.webp",
@@ -11483,6 +10604,7 @@ const DATABASE = [
         "type": "movie",
         "title": "Soul",
         "year": 2024,
+         puan:"8.0",
         "genre": "Film",
         "poster": "https://www.hdfilmizle.to/v/13356/poster/watch/soul-hd.webp",
         "backdrop": "https://www.hdfilmizle.to/v/13356/poster/watch/soul-hd.webp",
@@ -11494,6 +10616,7 @@ const DATABASE = [
         "type": "movie",
         "title": "Scarface",
         "year": 2024,
+         puan:"8.3",
         "genre": "Film",
         "poster": "https://www.hdfilmizle.to/v/13564/poster/watch/yarali-yuz.webp",
         "backdrop": "https://www.hdfilmizle.to/v/13564/poster/watch/yarali-yuz.webp",
@@ -11505,6 +10628,7 @@ const DATABASE = [
         "type": "movie",
         "title": "Piyanist",
         "year": 2024,
+         puan:"8.5",
         "genre": "Film",
         "poster": "https://www.hdfilmizle.to/v/39499/poster/watch/muzik-ogretmeni.webp",
         "backdrop": "https://www.hdfilmizle.to/v/39499/poster/watch/muzik-ogretmeni.webp",
@@ -11516,6 +10640,7 @@ const DATABASE = [
         "type": "movie",
         "title": "Ruhların Kaçışı",
         "year": 2024,
+         puan:"8.6",
         "genre": "Film",
         "poster": "https://www.hdfilmizle.to/v/14580/poster/watch/ruhlarin-kacisi-izle-hda.webp",
         "backdrop": "https://www.hdfilmizle.to/v/14580/poster/watch/ruhlarin-kacisi-izle-hda.webp",
@@ -11527,6 +10652,7 @@ const DATABASE = [
         "type": "movie",
         "title": "Animatrix",
         "year": 2024,
+         puan:"7.3",
         "genre": "Film",
         "poster": "https://www.hdfilmizle.to/v/18910/poster/watch/animatrix.webp",
         "backdrop": "https://www.hdfilmizle.to/v/18910/poster/watch/animatrix.webp",
@@ -11538,6 +10664,7 @@ const DATABASE = [
         "type": "movie",
         "title": "Geleceğe Dönüş",
         "year": 2024,
+         puan:"8.5",
         "genre": "Film",
         "poster": "https://www.hdfilmizle.to/v/12184/poster/watch/gelecege-donus.webp",
         "backdrop": "https://www.hdfilmizle.to/v/12184/poster/watch/gelecege-donus.webp",
@@ -11549,6 +10676,7 @@ const DATABASE = [
         "type": "movie",
         "title": "Ters Yüz",
         "year": 2024,
+         puan:"8.1",
         "genre": "Film",
         "poster": "https://www.hdfilmizle.to/v/13171/poster/watch/ters-yuz.webp",
         "backdrop": "https://www.hdfilmizle.to/v/13171/poster/watch/ters-yuz.webp",
@@ -11560,6 +10688,7 @@ const DATABASE = [
         "type": "movie",
         "title": "Ters Yüz 2",
         "year": 2024,
+         puan:"7.5",
         "genre": "Film",
         "poster": "https://www.hdfilmizle.to/v/56783/poster/watch/ters-yuz-2-izle-hd.webp",
         "backdrop": "https://www.hdfilmizle.to/v/56783/poster/watch/ters-yuz-2-izle-hd.webp",
@@ -11571,6 +10700,7 @@ const DATABASE = [
         "type": "movie",
         "title": "Lincoln",
         "year": 2024,
+         puan:"7.3",
         "genre": "Film",
         "poster": "https://www.hdfilmizle.to/v/36087/poster/watch/lincoln.webp",
         "backdrop": "https://www.hdfilmizle.to/v/36087/poster/watch/lincoln.webp",
@@ -11582,6 +10712,7 @@ const DATABASE = [
         "type": "movie",
         "title": "Can Dostum",
         "year": 2024,
+         puan:"8.5",
         "genre": "Film",
         "poster": "https://www.hdfilmizle.to/v/24605/poster/watch/can-dostum-3.webp",
         "backdrop": "https://www.hdfilmizle.to/v/24605/poster/watch/can-dostum-3.webp",
@@ -11593,6 +10724,7 @@ const DATABASE = [
         "type": "movie",
         "title": "Babam ve Oğlum",
         "year": 2024,
+         puan:"8.2",
         "genre": "Film",
         "poster": "https://www.hdfilmizle.to/v/25211/poster/watch/babam-ve-oglum.webp",
         "backdrop": "https://www.hdfilmizle.to/v/25211/poster/watch/babam-ve-oglum.webp",
@@ -11604,6 +10736,7 @@ const DATABASE = [
         "type": "movie",
         "title": "Hokkabaz",
         "year": 2024,
+         puan:"7.4",
         "genre": "Film",
         "poster": "https://www.hdfilmizle.to/v/25209/poster/watch/hokkabaz.webp",
         "backdrop": "https://www.hdfilmizle.to/v/25209/poster/watch/hokkabaz.webp",
@@ -11615,6 +10748,7 @@ const DATABASE = [
         "type": "movie",
         "title": "Demir Adam",
         "year": 2024,
+         puan:"7.9",
         "genre": "Film",
         "poster": "https://www.hdfilmizle.to/v/11851/poster/watch/demir-adam.webp",
         "backdrop": "https://www.hdfilmizle.to/v/11851/poster/watch/demir-adam.webp",
@@ -11626,6 +10760,7 @@ const DATABASE = [
         "type": "movie",
         "title": "Batman",
         "year": 2024,
+         puan:"7.5",
         "genre": "Film",
         "poster": "https://www.hdfilmizle.to/v/21681/poster/watch/batman.webp",
         "backdrop": "https://www.hdfilmizle.to/v/21681/poster/watch/batman.webp",
@@ -11637,6 +10772,7 @@ const DATABASE = [
         "type": "movie",
         "title": "Parazit",
         "year": 2024,
+         puan:"8.5",
         "genre": "Film",
         "poster": "https://www.hdfilmizle.to/v/30551/poster/watch/vucut-hirsizlari.webp",
         "backdrop": "https://www.hdfilmizle.to/v/30551/poster/watch/vucut-hirsizlari.webp",
@@ -11648,6 +10784,7 @@ const DATABASE = [
         "type": "movie",
         "title": "The Platform",
         "year": 2024,
+         puan:"7.0",
         "genre": "Film",
         "poster": "https://www.hdfilmizle.to/v/1411/poster/watch/the-platform-izle-hd.webp",
         "backdrop": "https://www.hdfilmizle.to/v/1411/poster/watch/the-platform-izle-hd.webp",
@@ -11659,6 +10796,7 @@ const DATABASE = [
         "type": "movie",
         "title": "The Platform 2",
         "year": 2024,
+         puan:"4.9",
         "genre": "Film",
         "poster": "https://www.hdfilmizle.to/v/61149/poster/watch/the-platform-2.webp",
         "backdrop": "https://www.hdfilmizle.to/v/61149/poster/watch/the-platform-2.webp",
@@ -11670,6 +10808,7 @@ const DATABASE = [
         "type": "movie",
         "title": "Açlık Oyunları",
         "year": 2024,
+         puan:"7.2",
         "genre": "Film",
         "poster": "https://www.hdfilmizle.to/v/11726/poster/watch/aclik-oyunlari.webp",
         "backdrop": "https://www.hdfilmizle.to/v/11726/poster/watch/aclik-oyunlari.webp",
@@ -11681,6 +10820,7 @@ const DATABASE = [
         "type": "movie",
         "title": "Sherlock Holmes",
         "year": 2024,
+         puan:"7.5",
         "genre": "Film",
         "poster": "https://www.hdfilmizle.to/v/12452/poster/watch/sherlock-holmes-hd.webp",
         "backdrop": "https://www.hdfilmizle.to/v/12452/poster/watch/sherlock-holmes-hd.webp",
@@ -11692,6 +10832,7 @@ const DATABASE = [
         "type": "movie",
         "title": "Lucy",
         "year": 2024,
+         puan:"6.4",
         "genre": "Film",
         "poster": "https://www.hdfilmizle.to/v/13570/poster/watch/lucy.webp",
         "backdrop": "https://www.hdfilmizle.to/v/13570/poster/watch/lucy.webp",
@@ -11703,6 +10844,7 @@ const DATABASE = [
         "type": "movie",
         "title": "Sosyal Ağ",
         "year": 2024,
+         puan:"7.8",
         "genre": "Film",
         "poster": "https://www.hdfilmizle.to/v/13552/poster/watch/sosyal-ag.webp",
         "backdrop": "https://www.hdfilmizle.to/v/13552/poster/watch/sosyal-ag.webp",
@@ -11714,6 +10856,7 @@ const DATABASE = [
         "type": "movie",
         "title": "Ayı Teddy",
         "year": 2024,
+         puan:"6.9",
         "genre": "Film",
         "poster": "https://www.hdfilmizle.to/v/14059/poster/watch/ayi-teddy.webp",
         "backdrop": "https://www.hdfilmizle.to/v/14059/poster/watch/ayi-teddy.webp",
@@ -11725,6 +10868,7 @@ const DATABASE = [
         "type": "movie",
         "title": "Ayı Teddy 2",
         "year": 2024,
+         puan:"6.3",
         "genre": "Film",
         "poster": "https://www.hdfilmizle.to/v/16668/poster/watch/ayi-teddy-2.webp",
         "backdrop": "https://www.hdfilmizle.to/v/16668/poster/watch/ayi-teddy-2.webp",
@@ -11736,6 +10880,7 @@ const DATABASE = [
         "type": "movie",
         "title": "V - V for Vendetta",
         "year": 2024,
+         puan:"8.1",
         "genre": "Film",
         "poster": "https://www.hdfilmizle.to/v/13427/poster/watch/v-for-vendetta.webp",
         "backdrop": "https://www.hdfilmizle.to/v/13427/poster/watch/v-for-vendetta.webp",
@@ -11747,6 +10892,7 @@ const DATABASE = [
         "type": "movie",
         "title": "Yıldızlararası",
         "year": 2024,
+         puan:"8.7",
         "genre": "Film",
         "poster": "https://webteizle3.xyz/i/afis/b/a3551.jpg",
         "backdrop": "https://webteizle3.xyz/i/afis/b/a3551.jpg",
