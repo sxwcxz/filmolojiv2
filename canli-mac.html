@@ -11,6 +11,7 @@
     <link href="https://vjs.zencdn.net/8.10.0/video-js.css" rel="stylesheet" />
 
     <script src="mac.js"></script>
+    <script src="auth.js"></script>
 
     <style>
         /* --- GENEL AYARLAR --- */
@@ -186,7 +187,9 @@
     <script>
         let player;
         let allChannels = [];
-
+         
+        checkAuth('user');
+        
         window.onload = function() {
             // Player Başlat
             player = videojs('match-player', {
