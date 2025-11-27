@@ -9,7 +9,7 @@ const MATCH_DATABASE = [
     {
         id: "spor_bein1",
         name: "BeIN Sports 1",
-        logo: "BEİN.png",
+        logo: "img/BEİN.png",
         source: "https://dga1op10s1u3lep.2f3398967ff4b5.click/live/selcukobs1/playlist.m3u8",
         category: "BeIN Sports",
         userAgent: "vialent"
@@ -17,7 +17,7 @@ const MATCH_DATABASE = [
     {
         id: "spor_bein2",
         name: "BeIN Sports 2",
-        logo: "BEİN.png",
+        logo: "img/BEİN.png",
         source: "https://dga1op10s1u3lep.2f3398967ff4b5.click/live/selcukbeinsports2/playlist.m3u8",
         category: "BeIN Sports",
         userAgent: "vialent"
@@ -25,7 +25,7 @@ const MATCH_DATABASE = [
     {
         id: "spor_bein3",
         name: "BeIN Sports 3",
-        logo: "BEİN.png",
+        logo: "img/BEİN.png",
         source: "https://dga1op10s1u3lep.2f3398967ff4b5.click/live/selcukbeinsports3/playlist.m3u8",
         category: "BeIN Sports",
         userAgent: "vialent"
@@ -33,7 +33,7 @@ const MATCH_DATABASE = [
     {
         id: "spor_bein4",
         name: "BeIN Sports 4",
-        logo: "BEİN.png",
+        logo: "img/BEİN.png",
         source: "https://dga1op10s1u3lep.2f3398967ff4b5.click/live/selcukbeinsports4/playlist.m3u8",
         category: "BeIN Sports",
         userAgent: "vialent"
@@ -41,7 +41,7 @@ const MATCH_DATABASE = [
     {
         id: "spor_beinmax1",
         name: "BeIN Sports Max 1",
-        logo: "BEİN.png",
+        logo: "img/BEİN.png",
         source: "https://dga1op10s1u3lep.2f3398967ff4b5.click/live/selcukbeinsportsmax1/playlist.m3u8",
         category: "BeIN Sports",
         userAgent: "vialent"
@@ -49,7 +49,7 @@ const MATCH_DATABASE = [
     {
         id: "spor_beinmax2",
         name: "BeIN Sports Max 2",
-        logo: "BEİN.png",
+        logo: "img/BEİN.png",
         source: "https://dga1op10s1u3lep.2f3398967ff4b5.click/live/selcukbeinsportsmax2/playlist.m3u8",
         category: "BeIN Sports",
         userAgent: "vialent"
@@ -92,28 +92,28 @@ const MATCH_DATABASE = [
     {
         id: "spor_tivibu1",
         name: "Tivibu Spor 1",
-        logo: "TİVİBU.png",
+        logo: "img/TİVİBU.png",
         source: "https://dga1op10s1u3lep.2f3398967ff4b5.click/live/selcuktivibuspor1/playlist.m3u8",
         category: "Tivibu"
     },
     {
         id: "spor_tivibu2",
         name: "Tivibu Spor 2",
-        logo: "TİVİBU.png",
+        logo: "img/TİVİBU.png",
         source: "https://dga1op10s1u3lep.2f3398967ff4b5.click/live/selcuktivibuspor2/playlist.m3u8",
         category: "Tivibu"
     },
     {
         id: "spor_tivibu3",
         name: "Tivibu Spor 3",
-        logo: "TİVİBU.png",
+        logo: "img/TİVİBU.png",
         source: "https://dga1op10s1u3lep.2f3398967ff4b5.click/live/selcuktivibuspor3/playlist.m3u8",
         category: "Tivibu"
     },
     {
         id: "spor_tivibu4",
         name: "Tivibu Spor 4",
-        logo: "TİVİBU.png",
+        logo: "img/TİVİBU.png",
         source: "https://dga1op10s1u3lep.2f3398967ff4b5.click/live/selcuktivibuspor4/playlist.m3u8",
         category: "Tivibu"
     },  
