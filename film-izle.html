@@ -199,7 +199,7 @@
             <div class="suggestion-section" id="suggestions">
                 <div class="suggestion-box">
                     <h3><i class="fas fa-paper-plane"></i> İstek & Öneri Kutusu</h3>
-                    <form action="https://formspree.io/f/myzoeepz" method="POST">
+                   <form action="https://formspree.io/f/myzoeepz" method="POST" id="suggestionForm" onsubmit="submitSuggestion(event)">
                         <div class="form-group"><input type="text" name="Gonderen" class="form-control" placeholder="Adınız (İsteğe bağlı)"></div>
                         <div class="form-group">
                             <select name="Konu" class="form-control">
@@ -387,6 +387,47 @@
             document.getElementById('suggestions').scrollIntoView({ behavior: 'smooth' }); 
         }
 
+        // --- YENİ KOD: İSTEK & ÖNERİ FORMU GÖNDERİMİ ---
+async function submitSuggestion(event) {
+    event.preventDefault(); // Sayfanın yönlendirilmesini engelle
+    
+    const form = event.target;
+    const submitButton = form.querySelector('.btn-submit');
+    const originalButtonText = submitButton.innerHTML;
+
+    // Gönderim sırasında butonu devre dışı bırak ve yükleniyor animasyonu göster
+    submitButton.disabled = true;
+    submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Gönderiliyor...';
+
+    try {
+        const response = await fetch(form.action, {
+            method: form.method,
+            body: new FormData(form),
+            headers: {
+                'Accept': 'application/json'
+            }
+        });
+
+        if (response.ok) {
+            // Başarılı gönderim
+            showToast('<i class="fas fa-check-circle" style="color: #4CAF50;"></i> İsteğiniz/Öneriniz Başarıyla Alındı!');
+            form.reset(); // Form alanlarını temizle
+        } else {
+            // Formspree'den gelen hata
+            showToast('<i class="fas fa-exclamation-triangle" style="color: #FFC107;"></i> Gönderimde Hata Oluştu. Tekrar Deneyin.');
+        }
+
+    } catch (error) {
+        // Ağ veya fetch hatası
+        console.error('Gönderim Hatası:', error);
+        showToast('<i class="fas fa-exclamation-circle" style="color: #F44336;"></i> Sunucuya Erişilemedi. Lütfen daha sonra tekrar deneyin.');
+    } finally {
+        // Butonu eski haline getir ve etkinleştir
+        submitButton.disabled = false;
+        submitButton.innerHTML = originalButtonText;
+    }
+}
+// ----------------------------------------------------
         document.addEventListener('keydown', function(event) {
             if (!player || document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA') return;
             const key = event.key.toLowerCase();

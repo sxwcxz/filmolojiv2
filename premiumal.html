@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>Premium Satın Al - Plan Seçimi & Başvuru</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="icon" href="logo.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Genel Stil ve Arkaplan */
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif; }
+        body {
+            background-color: #0a0a0a; color: white; min-height: 100vh;
+            display: flex; flex-direction: column; align-items: center; 
+            justify-content: flex-start; 
+            padding: 40px 20px;
+            background-image: radial-gradient(circle at center, #1a1a1a 0%, #000 100%);
+            overflow-y: auto;
+        }
+        
+        /* Başlıklar */
+        h1 { font-size: 2.2rem; margin-bottom: 10px; font-weight: 300; }
+        h1 span { color: #E50914; font-weight: 900; }
+        p.subtitle { color: #888; margin-bottom: 40px; font-size: 1rem; }
+
+        /* Faz Geçişleri */
+        .phase-container { width: 100%; max-width: 900px; transition: opacity 0.5s ease, transform 0.5s ease; }
+        .phase-container.hidden { display: none; opacity: 0; transform: translateY(20px); }
+        .phase-container.active { display: block; opacity: 1; transform: translateY(0); }
+        
+        /* --- 1. PLAN SEÇME EKRANI (PRICING) --- */
+        .pricing-grid {
+            display: flex; gap: 30px; justify-content: center;
+            margin-top: 20px; flex-wrap: wrap;
+        }
+
+        .plan-card {
+            background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+            width: 350px; padding: 30px; border-radius: 20px; text-align: left;
+            transition: 0.3s; cursor: pointer;
+        }
+        .plan-card:hover {
+            background: rgba(229, 9, 20, 0.1); border-color: #E50914;
+            transform: translateY(-10px); box-shadow: 0 10px 30px rgba(229, 9, 20, 0.2);
+        }
+        .plan-card.selected {
+            border-color: #FFD700; background: rgba(255, 215, 0, 0.1);
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
+            transform: scale(1.05);
+        }
+
+        .plan-card h2 { color: #FFD700; font-size: 1.8rem; margin-bottom: 5px; font-weight: 700; }
+        .plan-card.basic h2 { color: #E50914; }
+
+        .price { font-size: 2.5rem; font-weight: 900; margin-bottom: 20px; }
+        .price span { font-size: 1rem; font-weight: 400; color: #aaa; margin-left: 5px; }
+
+        .features li { list-style: none; margin-bottom: 15px; font-size: 0.95rem; }
+        .features i { color: #46d369; margin-right: 10px; width: 20px; }
+        
+        .btn-select {
+            width: 100%; padding: 14px; border-radius: 10px; border: none;
+            background: #E50914; color: white; font-size: 1rem; font-weight: 700;
+            cursor: pointer; transition: 0.3s; margin-top: 20px;
+        }
+        .plan-card.pro .btn-select { background: #FFD700; color: #000; }
+        .btn-select:hover { opacity: 0.9; transform: scale(0.99); }
+
+        /* Mobil Adaptasyon (Plan Seçme) */
+        @media (max-width: 768px) {
+            .pricing-grid { flex-direction: column; align-items: center; }
+            .plan-card { width: 100%; max-width: 350px; margin-bottom: 20px; }
+        }
+
+        /* --- 2. BAŞVURU EKRANI (FORM) --- */
+        .form-card {
+            background: rgba(20, 20, 20, 0.65); border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 30px; border-radius: 20px; width: 100%; max-width: 500px;
+            text-align: left; margin: 0 auto;
+        }
+
+        .input-group { margin-bottom: 20px; }
+        .input-group label { display: block; margin-bottom: 8px; font-weight: 600; font-size: 0.95rem; color: #ddd; }
+        
+        .custom-input, .custom-textarea {
+            width: 100%; padding: 12px 15px; border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.15); background: rgba(0, 0, 0, 0.3);
+            color: white; font-size: 1rem; transition: all 0.3s ease; resize: none;
+        }
+        .custom-input:focus, .custom-textarea:focus {
+            border-color: #E50914; box-shadow: 0 0 0 3px rgba(229, 9, 20, 0.2);
+            background: rgba(0, 0, 0, 0.5);
+        }
+        .custom-textarea { height: 100px; }
+        /* Salt okunur alanlar için farklı stil */
+        .custom-input[readonly] { 
+            background: rgba(255, 215, 0, 0.08); 
+            border-color: rgba(255, 215, 0, 0.4); 
+            color: #FFD700; 
+            font-weight: 700;
+        }
+
+        /* Başvuru Butonu - Kırmızı */
+        .btn-submit-form {
+            width: 100%; padding: 14px; border-radius: 10px; border: none;
+            background: #E50914; 
+            color: white; font-size: 1.1rem; font-weight: 700;
+            cursor: pointer; transition: all 0.3s ease; 
+            box-shadow: 0 5px 15px rgba(229, 9, 20, 0.4); 
+        }
+        .btn-submit-form:hover { 
+            background: #ff0a16; 
+            transform: scale(1.01); 
+        }
+
+        .back-link {
+            display: inline-block; margin-top: 30px; color: rgba(255, 255, 255, 0.7);
+            text-decoration: none; font-size: 0.9rem; transition: 0.3s; padding: 5px 10px;
+        }
+        .back-link:hover { color: #E50914; background: rgba(229, 9, 20, 0.1); border-radius: 8px; }
+
+        /* --- 3. BAŞVURU ALINDI EKRANI (SUCCESS) --- */
+        #phase3 {
+            text-align: center;
+            padding: 50px 20px;
+            background: rgba(20, 20, 20, 0.65);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            max-width: 500px;
+        }
+
+        #phase3 h1 {
+            color: #E50914; /* Yeşil renk */
+            font-size: 2.5rem;
+            font-weight: 900;
+            margin-bottom: 20px;
+        }
+
+        #phase3 i.fa-check-circle {
+            color: #46d369;
+            font-size: 4rem;
+            margin-bottom: 25px;
+            display: block;
+        }
+        
+        #phase3 p {
+            font-size: 1.1rem;
+            color: #ccc;
+            margin-bottom: 30px;
+        }
+        
+        #successPlanMessage {
+            color: #FFD700;
+            font-weight: 700;
+            display: block;
+            margin-top: 10px;
+        }
+        
+        .btn-home {
+            padding: 12px 25px;
+            background: #E50914;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 700;
+            transition: 0.3s;
+            display: inline-block;
+        }
+
+        .btn-home:hover {
+            background: #ff0a16;
+            transform: scale(1.02);
+        }
+
+    </style>
+</head>
+<body>
+
+    <div id="phase1" class="phase-container active">
+        <h1>Premium <span>Plan Seçimi</span></h1>
+        <p class="subtitle">İhtiyaçlarınıza en uygun paketi seçin ve başvurunuzu tamamlayın.</p>
+
+        <div class="pricing-grid">
+            
+            <div class="plan-card basic" data-plan="Basic">
+                <h2><i class="fas fa-star"></i> Basic</h2>
+                <div class="price">29.99 TL <span>/ Aylık</span></div>
+                <ul class="features">
+                    <li><i class="fas fa-check-circle"></i> Standart Kalite</li>
+                    <li><i class="fas fa-check-circle"></i> Standart Film - Dizi Kütüphanesi</li>
+                    <li><i class="fas fa-check-circle"></i> Standart Hız</li>
+                    <li><i class="fas fa-check-circle"></i> İndirme + Canlı Maç Erişimi</li>
+                </ul>
+                <button class="btn-select" onclick="selectPlan('Basic')">Basic Planı Seç</button>
+            </div>
+
+            <div class="plan-card pro" data-plan="Pro">
+                <h2><i class="fas fa-crown"></i> Pro</h2>
+                <div class="price">99.99 TL <span>/ Ömür Boyu</span></div>
+                <ul class="features">
+                    <li><i class="fas fa-check-circle"></i> 4K Kalite</li>
+                    <li><i class="fas fa-check-circle"></i> Genişletilmiş Film - Dizi Kütüphanesi</li>
+                    <li><i class="fas fa-check-circle"></i> IP TV App</li>
+                    <li><i class="fas fa-check-circle"></i> İndirme + Canlı Maç Erişimi</li>
+                </ul>
+                <button class="btn-select" onclick="selectPlan('Pro')">Pro Planı Seç</button>
+            </div>
+
+        </div>
+        
+        <a href="login.html" class="back-link"><i class="fas fa-arrow-left"></i> Giriş Sayfasına Dön</a>
+    </div>
+
+    <div id="phase2" class="phase-container hidden">
+        <h1><span>Başvuru</span> Formu</h1>
+        <p class="subtitle">Seçtiğiniz <span id="selectedPlanDisplay" style="color:#FFD700; font-weight:700;"></span> planı için bilgilerinizi giriniz.</p>
+
+        <div class="form-card">
+            <form id="premiumForm" action="https://formspree.io/f/myzoeepz" method="POST">
+                
+                <div class="input-group">
+                    <label for="plan">Seçilen Plan</label>
+                    <input type="text" id="plan" name="plan" class="custom-input" readonly>
+                </div>
+
+                <div class="input-group">
+                    <label for="name">Adınız Soyadınız *</label>
+                    <input type="text" id="name" name="Ad_Soyad" class="custom-input" placeholder="Adınız Soyadınız" required>
+                </div>
+
+                <div class="input-group">
+                    <label for="email">E-posta Adresiniz *</label>
+                    <input type="email" id="email" name="E_posta" class="custom-input" placeholder="eposta@alanadi.com" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" required>
+                </div>
+                
+                <div class="input-group">
+                    <label for="phone">Telefon Numaranız (WhatsApp) *</label>
+                    <input type="tel" id="phone" name="Telefon_Numarasi" class="custom-input" placeholder="5xx xxx xx xx (5 ile başlamalı)" pattern="5[0-9]{9}" title="Telefon numarası 5 ile başlamalı ve 10 hane olmalıdır (Örn: 5051234567)." required>
+                </div>
+
+                <div class="input-group">
+                    <label for="note">Ek Not (Opsiyonel)</label>
+                    <textarea id="note" name="Ek_Not" class="custom-textarea" placeholder="Özel bir isteğiniz varsa buraya yazabilirsiniz..."></textarea>
+                </div>
+
+                <button type="submit" class="btn-submit-form" id="submitBtn">
+                    <i class="fas fa-paper-plane"></i> Başvuruyu Tamamla
+                </button>
+            </form>
+        </div>
+        
+        <a href="#" class="back-link" onclick="backToPhase1(event)"><i class="fas fa-arrow-left"></i> Plan Seçimine Geri Dön</a>
+    </div>
+
+    <div id="phase3" class="phase-container hidden">
+        <i class="fas fa-check-circle"></i>
+        <h1>Başvuru <span>Alındı!</span></h1>
+        <p>Tebrikler! Başvurunuz başarıyla tarafımıza ulaştırıldı. En kısa sürede sizinle WhatsApp üzerinden iletişime geçilecektir.</p>
+        <p id="successPlanMessage">Seçilen Plan: <span style="color:#FFD700;"></span></p>
+        <a href="index.html" class="btn-home">Ana Sayfaya Dön</a>
+    </div>
+
+    <script>
+        const phase1 = document.getElementById('phase1');
+        const phase2 = document.getElementById('phase2');
+        const phase3 = document.getElementById('phase3'); // Yeni faz
+        const planInput = document.getElementById('plan');
+        const selectedPlanDisplay = document.getElementById('selectedPlanDisplay');
+        const form = document.getElementById('premiumForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const planCards = document.querySelectorAll('.plan-card');
+        const successPlanMessage = document.getElementById('successPlanMessage').querySelector('span');
+        let currentPlan = '';
+
+        // Plan seçimi fonksiyonu
+        function selectPlan(planName) {
+            currentPlan = planName;
+            
+            planCards.forEach(card => {
+                if (card.dataset.plan === planName) {
+                    card.classList.add('selected');
+                } else {
+                    card.classList.remove('selected');
+                }
+            });
+
+            planInput.value = planName; 
+            selectedPlanDisplay.textContent = planName;
+            successPlanMessage.textContent = planName; // Başarı mesajı için de ayarla
+
+            phase1.classList.remove('active');
+            phase1.classList.add('hidden');
+            
+            setTimeout(() => {
+                phase2.classList.remove('hidden');
+                phase2.classList.add('active');
+                window.scrollTo(0, 0); 
+            }, 500);
+        }
+
+        // Geri dönme fonksiyonu
+        function backToPhase1(event) {
+            event.preventDefault();
+            
+            phase2.classList.remove('active');
+            phase2.classList.add('hidden');
+
+            planCards.forEach(card => card.classList.remove('selected'));
+
+            setTimeout(() => {
+                phase1.classList.remove('hidden');
+                phase1.classList.add('active');
+                window.scrollTo(0, 0);
+            }, 500);
+        }
+        
+        // --- Formspree gönderimini yönetme ve Başarı (Phase 3) ekranına geçiş ---
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault(); 
+
+            // HTML5 doğrulaması
+            if (!form.checkValidity()) {
+                form.reportValidity();
+                return;
+            }
+            
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Gönderiliyor...';
+
+            const formData = new FormData(form);
+            const response = await fetch(form.action, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    // Formspree'den JSON yanıtı almak ve yönlendirmeyi engellemek için başlık
+                    'Accept': 'application/json' 
+                }
+            });
+            
+            if (response.ok) {
+                // Başarılı gönderim: Phase 3'e geçiş
+                phase2.classList.remove('active');
+                phase2.classList.add('hidden');
+                
+                setTimeout(() => {
+                    phase3.classList.remove('hidden');
+                    phase3.classList.add('active');
+                    window.scrollTo(0, 0);
+                }, 500);
+            } else {
+                // Hata durumunda
+                let errorMessage = 'Başvuru gönderilirken bir hata oluştu. Lütfen tekrar deneyin.';
+                try {
+                    const data = await response.json();
+                    if (data.error) {
+                         errorMessage = data.error; // Formspree'den özel bir hata mesajı varsa
+                    }
+                } catch (error) {
+                    // JSON parsing hatası
+                }
+                
+                alert(errorMessage);
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Başvuruyu Tamamla';
+            }
+        });
+        
+        // ... Mevcut fonksiyonlarınız (selectPlan, backToPhase1, form.addEventListener) ...
+
+// **KAPSAMLI KLAVYE KISAYOLU ENGELLEME**
+document.onkeydown = function(e) {
+    // 1. Geliştirici Araçlarını Engelleme (F12)
+    if (e.keyCode == 123) {
+        return false;
+    }
+    
+    // 2. Ctrl/Cmd ile Kullanılan Kısayolları Engelleme
+    // Ctrl/Cmd + Shift + I (73), J (74), C (67)
+    if (e.ctrlKey && e.shiftKey && (e.keyCode == 73 || e.keyCode == 74 || e.keyCode == 67)) {
+        return false;
+    }
+    
+    // 3. Kaydetme, Yazdırma ve Kaynak Görüntüleme Kısayollarını Engelleme
+    if (e.ctrlKey || e.metaKey) { // Ctrl veya Cmd tuşu basılıysa
+        switch (e.keyCode) {
+            case 83: // S (Kaydet - Ctrl/Cmd + S)
+            case 80: // P (Yazdır - Ctrl/Cmd + P)
+            case 85: // U (Kaynak Kodu Görüntüle - Ctrl/Cmd + U)
+                return false;
+        }
+    }
+};
+
+// 4. Sağ Tıklama Menüsünü Engelleme
+document.addEventListener('contextmenu', function(e) {
+    e.preventDefault();
+});
+
+// ... Mevcut scriptin kalan kısmı ...
+    </script>
+
+</body>
+</html>

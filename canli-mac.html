@@ -33,6 +33,45 @@
         .nav-item { color: #aaa; text-decoration: none; font-size: 14px; font-weight: 600; transition: 0.3s; display: flex; align-items: center; gap: 5px; }
         .nav-item:hover, .nav-item.active { color: white; }
         .nav-item.active { color: var(--brand); }
+        
+        /* --- DUYURU ÇUBUĞU (SLIDEBAR) --- */
+        .announcement-bar {
+            position: fixed;
+            top: 60px;
+            left: 0;
+            width: 100%;
+            background: rgba(26, 26, 26, 0.98); /* Koyu panel rengi */
+            color: white;
+            padding: 8px 0;
+            z-index: 99;
+            overflow: hidden; 
+            border-bottom: 2px solid var(--brand); /* Kırmızı marka rengi */
+            backdrop-filter: blur(8px);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.2); 
+        }
+        
+        .marquee-content {
+            white-space: nowrap; 
+            animation: marquee 30s linear infinite; 
+            padding-left: 100%; 
+            font-size: 14px;
+            font-weight: 600; 
+            display: flex; 
+            align-items: center;
+            text-shadow: 0 0 5px rgba(229, 9, 20, 0.5);
+        }
+        
+        .marquee-content i.fa-bullhorn {
+             color: var(--brand) !important; 
+             margin-right: 12px;
+             font-size: 16px;
+        }
+
+        @keyframes marquee {
+            0%   { transform: translate(0, 0); } 
+            100% { transform: translate(-100%, 0); } 
+        }
+        /* --- DUYURU ÇUBUĞU SONU --- */
 
         /* --- ANA DÜZEN (GRID) --- */
         .main-container {
@@ -40,9 +79,11 @@
             grid-template-columns: 1fr 350px; /* Sol: Player, Sağ: Liste */
             gap: 20px;
             max-width: 1600px;
-            margin: 80px auto 20px auto;
+            /* YENİ VE GÜVENLİ MARGIN: Sabit barların (Navbar + Duyuru) toplam yüksekliğinden daha büyük. */
+            margin: 115px auto 20px auto;
             padding: 0 20px;
-            height: calc(100vh - 100px);
+            /* Total yükseklik ayarı */
+            height: calc(100vh - 135px); 
         }
 
         /* --- PLAYER ALANI --- */
@@ -125,14 +166,60 @@
             font-size: 12px; color: var(--brand);
         }
 
-        /* --- MOBİL UYUMU --- */
+/* --- MOBİL UYUMU --- */
         @media (max-width: 1000px) {
-            .main-container { grid-template-columns: 1fr; height: auto; margin-top: 70px; }
+            .main-container { 
+                grid-template-columns: 1fr; 
+                height: auto; 
+                /* Mobil için ayarlandı */
+                margin-top: 105px; 
+            }
             .sidebar { height: 500px; }
             .match-title { font-size: 1.2rem; }
             .current-logo { width: 40px; height: 40px; }
             .nav-menu { display: none; }
         }
+        /* --- SCROLLBAR STİLİ (Siteye Uyumlu) --- */
+        
+        /* 1. Tüm sayfa ve kayan alanlar için */
+        /* Webkit tabanlı tarayıcılar (Chrome, Safari, yeni Edge) için geçerlidir */
+        
+        /* Scrollbar'ın genişliği */
+        ::-webkit-scrollbar {
+            width: 8px; /* Dikey scrollbar genişliği */
+            height: 8px; /* Yatay scrollbar yüksekliği */
+        }
+
+        /* Scrollbar'ın izi/arka planı (track) */
+        ::-webkit-scrollbar-track {
+            background: var(--bg); /* Arka plan rengi: #101010 */
+            border-radius: 10px;
+        }
+
+        /* Scrollbar'ın hareket eden çubuğu (thumb) */
+        ::-webkit-scrollbar-thumb {
+            background-color: #666; /* Kırmızı marka rengi: #E50914 */
+            border-radius: 10px;
+            border: 2px solid var(--bg); /* Kırmızı çubuğun etrafına koyu arka plan renginden çerçeve */
+        }
+
+        /* Çubuk üzerine gelindiğinde rengi hafifçe koyulaştır */
+        ::-webkit-scrollbar-thumb:hover {
+            background-color: #666; /* Kırmızının daha koyu bir tonu */
+        }
+        
+        /* Sadece kanal listesi için (Sidebar) daha ince scrollbar */
+        .match-list::-webkit-scrollbar {
+            width: 6px; 
+        }
+        .match-list::-webkit-scrollbar-thumb {
+            background-color: #666; /* Listede daha az dikkat çekmesi için gri */
+            border: 1px solid var(--panel); /* Panel rengi çerçeve */
+        }
+        .match-list::-webkit-scrollbar-thumb:hover {
+            background-color: #aaa;
+        }
+        /* --- SCROLLBAR STİLİ SONU --- */
     </style>
 </head>
 <body>
@@ -143,6 +230,13 @@
             <a href="index.html" class="nav-item"><i class="fas fa-home"></i> Ana Sayfa</a>
         </div>
     </nav>
+    
+    <div class="announcement-bar">
+        <div class="marquee-content">
+            <i class="fas fa-bullhorn" style="color: #FFD700; margin-right: 10px;"></i>
+            📢 Filmoloji SPOR'a hoş geldiniz! En güncel maç yayınları için listeyi kontrol edin. Yayınlarda donma yaşarsanız kaliteyi düşürmeyi veya tarayıcınızı değiştirmeyi deneyin. İyi seyirler!
+        </div>
+    </div>
 
     <div class="main-container">
         <div class="player-section">
@@ -310,6 +404,12 @@
                 container.appendChild(div);
             });
         }
+        // Sağ Tıklamayı Engelle
+    document.addEventListener('contextmenu', function(e) {
+        e.preventDefault();
+        // İsteğe bağlı: Kullanıcıya uyarı mesajı gösterebilirsiniz.
+        // alert("İnceleme Araçları devre dışı bırakılmıştır.");
+    });
     </script>
 
 </body>
