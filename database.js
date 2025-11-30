@@ -10910,6 +10910,55 @@ const DATABASE = [
         "backdrop": "https://m.media-amazon.com/images/M/MV5BM2RmYmVmMzctMzc5Ny00MmNiLTgxMGUtYjk1ZDRhYjA2YTU0XkEyXkFqcGc@._V1_FMjpg_UY5000_.jpg",
         "description": "Oppenheimer filmini şimdi izle.",
         "source": "https://box-1102-t.vmeas.cloud/hls/xqx2p5qmm5okjiqbth4sjpqrupltjetnaja6pkoujuwflhlk4r5nmarzfz6a/index-v1-a1.m3u8"
-    }
+    }, 
+    {
+        id: "ser_ataturk_18811919",
+        type: "series",
+        title: "Atatürk 1881-1919",
+        year: 2024,
+        puan: "8.7", 
+        genre: "Tarih, Biyografi, Dram",
+        poster: "https://m.media-amazon.com/images/M/MV5BNjFmM2E3NTQtNTY1MS00YTNhLWE1ZjItNjE4YjE0MTI4ODNlXkEyXkFqcGc@._V1_FMjpg_UX423_.jpg",
+        backdrop: "https://m.media-amazon.com/images/M/MV5BNjFmM2E3NTQtNTY1MS00YTNhLWE1ZjItNjE4YjE0MTI4ODNlXkEyXkFqcGc@._V1_FMjpg_UX423_.jpg",
+        description: "Mustafa Kemal Atatürk'ün 1881'deki doğumundan 1919'daki Samsun'a çıkışına kadar olan, askerlik ve bağımsızlık mücadelesinin temellerinin atıldığı dönemi anlatan biyografik dizi.",
+        seasons: [
+            // --- 1. SEZON ---
+            {
+                name: "1. Sezon",
+                episodes: [
+                    { name: "1. Bölüm: Asker", source: "https://drinkfromwisdomwell.top/hls/videos/12952/master.m3u8" },
+                    { name: "2. Bölüm: Hürriyet", source: "https://drinkfromwisdomwell.top/hls/videos/12951/master.m3u8" },
+                    { name: "3. Bölüm: Zafere", source: "https://drinkfromwisdomwell.top/hls/videos/12954/master.m3u8" },
+                    { name: "4. Bölüm: Gelibolu", source: "https://drinkfromwisdomwell.top/hls/videos/12953/master.m3u8" },
+                    { name: "5. Bölüm: Kefaret", source: "https://drinkfromwisdomwell.top/hls/videos/12955/master.m3u8" },
+                    { name: "6. Bölüm: Geldikleri Gibi Giderler", source: "https://drinkfromwisdomwell.top/hls/videos/12956/master.m3u8" }
+                ]
+            }
+        ]
+    },
+    {
+        "id": "killbill1",
+        "type": "movie",
+        "title": "Kill Bill: Vol. 1",
+        "year": 2003,
+         puan:"8.2",
+        "genre": "Film",
+        "poster": "https://m.media-amazon.com/images/M/MV5BOGZjM2FmNDUtYzI5OC00N2I2LWI3M2UtM2RiMGFmYzZkM2I1XkEyXkFqcGc@._V1_FMjpg_UX960_.jpg",
+        "backdrop": "https://m.media-amazon.com/images/M/MV5BOGZjM2FmNDUtYzI5OC00N2I2LWI3M2UtM2RiMGFmYzZkM2I1XkEyXkFqcGc@._V1_FMjpg_UX960_.jpg",
+        "description": "Kill Bill: Vol. 1 filmini şimdi izle.",
+        "source": "https://box-c-o-l-3.vmeas.cloud/hls/,xqx2pppeibokjiqbtgdcpiitxc5abxlgjvjhcypqpgeen23tqjusigfu737q,.urlset/master.m3u8"
+    },
+    {
+        "id": "killbill2",
+        "type": "movie",
+        "title": "Kill Bill: Vol. 2",
+        "year": 2004,
+         puan:"8.0",
+        "genre": "Film",
+        "poster": "https://m.media-amazon.com/images/M/MV5BMWQ0ZWI0YmUtZGYzMi00YjRjLTk2MzItNDgxOWRjYWNjMmNiXkEyXkFqcGc@._V1_FMjpg_UY3000_.jpg",
+        "backdrop": "https://m.media-amazon.com/images/M/MV5BOGZjM2FmNDUtYzI5OC00N2I2LWI3M2UtM2RiMGFmYzZkM2I1XkEyXkFqcGc@._V1_FMjpg_UX960_.jpg",
+        "description": "Kill Bill: Vol. 2 filmini şimdi izle.",
+        "source": "https://box-c-o-l-1.vmeas.cloud/hls/,xqx2edmqd5okjiqbtfusljq2ucseuyqb4gy3ub7glvyfzasiy4yia6mop3wa,.urlset/master.m3u8"
+    },
     
 ];
