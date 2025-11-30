@@ -336,8 +336,40 @@
                 fill: true,   
                 responsive: true,
                 playbackRates: [0.5, 1, 1.25, 1.5, 2], 
+                html5: {
+                    vhs: { 
+                        overrideNative: true,
+                        // Tamponlama süresi 120 saniyede kaldı
+                        maxBufferLength: 120, 
+                        maxSeekholeDuration: 5, 
+                        // Duraklatıldığında bile tamponu korumayı denemesi için ek ayar
+                        allowSeeksWithinBuffer: true,
+                    },
+                }
             });
             player.hlsQualitySelector({ displayLabel: 'Kalite' });
+            
+            // Tamponlama Bildirimleri
+            player.on('waiting', function() {
+                if (!player.paused()) {
+                    showToast('<i class="fas fa-circle-notch fa-spin"></i> Yükleniyor...');
+                }
+            });
+
+            player.on('playing', function() {
+                const toast = document.getElementById('toast');
+                if (!toast.innerHTML.includes('Kaldığınız yerden')) {
+                    toast.classList.remove('show');
+                }
+            });
+            
+            // Durdurunca Önbelleğe Almaya Devam Etme Mantığı
+            player.on('pause', function() {
+                if(player.tech_.vhs && player.tech_.vhs.bandwidth) {
+                    player.tech_.vhs.seeking(false);
+                }
+            });
+
 
             player.on('timeupdate', function() {
                 if (!player.paused()) {
@@ -408,7 +440,7 @@
             }
         }
         
-        // --- YENİ KOD: İSTEK & ÖNERİ FORMU GÖNDERİMİ ---
+        // --- İSTEK & ÖNERİ FORMU GÖNDERİMİ ---
 async function submitSuggestion(event) {
     event.preventDefault(); // Sayfanın yönlendirilmesini engelle
     
@@ -466,6 +498,7 @@ async function submitSuggestion(event) {
                     player.muted(!player.muted());
                     if(player.muted()) showToast('<i class="fas fa-volume-mute"></i> Sessiz'); else showToast('<i class="fas fa-volume-up"></i> Ses Açık');
                     break;
+                // Klavye kısayolları 10 saniyede kaldı
                 case 'arrowright': player.currentTime(player.currentTime() + 10); showToast('<i class="fas fa-forward"></i> +10 Sn'); break;
                 case 'arrowleft': player.currentTime(player.currentTime() - 10); showToast('<i class="fas fa-backward"></i> -10 Sn'); break;
                 case 'arrowup': event.preventDefault(); let volUp = player.volume() + 0.1; if(volUp > 1) volUp = 1; player.volume(volUp); showToast(`<i class="fas fa-volume-up"></i> %${Math.round(volUp*100)}`); break;
