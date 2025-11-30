@@ -10898,6 +10898,18 @@ const DATABASE = [
         "backdrop": "https://webteizle3.xyz/i/afis/b/a3551.jpg",
         "description": "Yıldızlararası filmini şimdi izle.",
         "source": "https://do-pc3-ed.getromes.space/hls/xqx2ouktpbokjiqbthscpiibwzgd4734ih4mnhpg7,srsmsw7dplv63y5yiba,3dsmsw7dply4xyrkdrq,.urlset/master.m3u8"
+    },
+    {
+        "id": "oppenheimer",
+        "type": "movie",
+        "title": "Oppenheimer",
+        "year": 2024,
+         puan:"8.3",
+        "genre": "Film",
+        "poster": "https://m.media-amazon.com/images/M/MV5BM2RmYmVmMzctMzc5Ny00MmNiLTgxMGUtYjk1ZDRhYjA2YTU0XkEyXkFqcGc@._V1_FMjpg_UY5000_.jpg",
+        "backdrop": "https://m.media-amazon.com/images/M/MV5BM2RmYmVmMzctMzc5Ny00MmNiLTgxMGUtYjk1ZDRhYjA2YTU0XkEyXkFqcGc@._V1_FMjpg_UY5000_.jpg",
+        "description": "Oppenheimer filmini şimdi izle.",
+        "source": "https://box-1102-t.vmeas.cloud/hls/xqx2p5qmm5okjiqbth4sjpqrupltjetnaja6pkoujuwflhlk4r5nmarzfz6a/index-v1-a1.m3u8"
     }
     
 ];
