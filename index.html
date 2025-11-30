@@ -423,7 +423,7 @@
                 <div class="horizontal-scroll" id="continue-watching-list"></div>
             </div>
 
-            <div class="section-title">Popüler Yapımlar</div>
+            <div class="section-title">En Son Eklenenler</div>
             <div class="horizontal-scroll" id="home-trending"></div>
             
             <div class="section-title">Popüler Diziler</div>
@@ -892,31 +892,33 @@ document.addEventListener('click', function(event) {
             </div>
         `;
     }
+// Eski init fonksiyonunu bununla değiştirin
+function init() {
+    const trending = document.getElementById('home-trending');
+    const seriesHome = document.getElementById('home-series');
+    const moviesHome = document.getElementById('home-movies'); 
+    const sGrid = document.getElementById('series-grid');
+    const mGrid = document.getElementById('movies-grid');
 
-    function init() {
-        const trending = document.getElementById('home-trending');
-        const seriesHome = document.getElementById('home-series');
-        const moviesHome = document.getElementById('home-movies'); 
-        const sGrid = document.getElementById('series-grid');
-        const mGrid = document.getElementById('movies-grid');
-
-        trending.innerHTML = ''; seriesHome.innerHTML = ''; moviesHome.innerHTML = ''; 
-        sGrid.innerHTML = ''; mGrid.innerHTML = '';
-        
-        let shuffled = [...DATABASE].sort(() => 0.5 - Math.random());
-        let popularTrending = shuffled.slice(0, 5);
-
-        popularTrending.forEach(item => { trending.innerHTML += createCardHTML(item); });
-        
-        const allSeries = DATABASE.filter(item => item.type === 'series');
-        const allMovies = DATABASE.filter(item => item.type === 'movie');
-        
-        allSeries.slice(0, 8).forEach(item => { seriesHome.innerHTML += createCardHTML(item); });
-        allMovies.slice(0, 8).forEach(item => { moviesHome.innerHTML += createCardHTML(item); });
-        
-        allSeries.forEach(item => { sGrid.innerHTML += createCardHTML(item); });
-        allMovies.forEach(item => { mGrid.innerHTML += createCardHTML(item); });
-    }
+    trending.innerHTML = ''; seriesHome.innerHTML = ''; moviesHome.innerHTML = ''; 
+    sGrid.innerHTML = ''; mGrid.innerHTML = '';
+    
+    // --- BURASI DEĞİŞTİ: En son eklenen 5 içeriği alıyoruz. ---
+    // En son eklenenler, dizinin sonundaki öğelerdir.
+    const latestContent = [...DATABASE].reverse().slice(0, 5); 
+    
+    latestContent.forEach(item => { trending.innerHTML += createCardHTML(item); });
+    // --------------------------------------------------------
+    
+    const allSeries = DATABASE.filter(item => item.type === 'series');
+    const allMovies = DATABASE.filter(item => item.type === 'movie');
+    
+    allSeries.slice(0, 8).forEach(item => { seriesHome.innerHTML += createCardHTML(item); });
+    allMovies.slice(0, 8).forEach(item => { moviesHome.innerHTML += createCardHTML(item); });
+    
+    allSeries.forEach(item => { sGrid.innerHTML += createCardHTML(item); });
+    allMovies.forEach(item => { mGrid.innerHTML += createCardHTML(item); });
+}
     </script>
 </body>
 </html>
