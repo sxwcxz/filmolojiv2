@@ -11,6 +11,80 @@
     <script src="database.js"></script>
 
     <style>
+/* --- PRELOADER EKRANI --- */
+        #preloader-overlay {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%;
+            height: 100%;
+            /* Arka planı daha sofistike yapalım */
+            background-color: #0d0d0d; /* Daha koyu bir siyah */
+            background-image: radial-gradient(circle at center, #181818 0%, #0d0d0d 100%);
+            z-index: 99999; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            opacity: 1; /* Başlangıçta görünür olmalı */
+            transition: opacity 0.5s ease; 
+        }
+
+        .loader-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        /* Filmoloji Yazısını Büyütme ve Vurgulama */
+        .loader-content .logo-text { 
+            font-size: 50px; /* Büyük Boyut */
+            font-weight: 900; 
+            letter-spacing: 5px; /* Daha havalı bir harf aralığı */
+            color: var(--brand-color); 
+            text-shadow: 0 0 20px rgba(229, 9,  20, 0.9), 0 0 40px rgba(229, 9, 20, 0.4); /* Neon efekti */
+            margin-bottom: 5px;
+            animation: pulse 1.5s infinite alternate; /* Hafif animasyon */
+        }
+
+        .loader-content p {
+            margin-top: 20px;
+            font-size: 1.2rem;
+            color: #ccc;
+            font-weight: 500;
+        }
+
+        /* Loading Bar Stili (Daha Şık) */
+        .loading-bar-container {
+            width: 300px; 
+            height: 10px; 
+            background-color: #222;
+            border-radius: 5px; /* Kapsayıcının tamamı yuvarlak */
+            overflow: hidden;
+            margin-top: 30px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.5) inset;
+        }
+
+        .loading-bar {
+            height: 100%;
+            width: 0; 
+            background: linear-gradient(90deg, #E50914 0%, #FF6B6B 100%);
+            box-shadow: 0 0 5px #E50914, 0 0 15px #FF6B6B;
+            transition: width 0.3s ease-out; 
+            
+            /* YENİ KOD: Yüklenen kısmın sadece sağ ucunu yuvarlatır */
+            border-top-right-radius: 5px; 
+            border-bottom-right-radius: 5px;
+            /* ÖNEMLİ NOT: Sol taraf zaten 0 genişlikten başladığı için solda yuvarlaklık gerekmez */
+        }
+
+        /* Yeni: Hafif Parlama Animasyonu */
+        @keyframes pulse {
+            from { opacity: 0.85; transform: scale(1); }
+            to { opacity: 1; transform: scale(1.02); }
+        }
         /* --- TEMEL AYARLAR --- */
         * { 
             box-sizing: border-box; margin: 0; padding: 0; outline: none; 
@@ -368,7 +442,15 @@
     </style>
 </head>
 <body>
-
+<div id="preloader-overlay">
+        <div class="loader-content">
+            <h1 class="logo-text">Filmoloji</h1>
+            <div class="loading-bar-container">
+                <div class="loading-bar" id="loadingBar"></div>
+            </div>
+            <p>Yükleniyor...</p>
+        </div>
+    </div>
     <nav class="navbar" id="navbar">
         <div class="logo-container" onclick="switchPage('home')">
             <h1 class="logo-text">Filmoloji <span class="version-badge">V2.0</span></h1>
@@ -590,34 +672,98 @@ async function submitSuggestion(event) {
         submitButton.innerHTML = originalButtonText;
     }
 }
-// ----------------------------------------------------
 
-    window.onload = function() {
-        if (typeof DATABASE !== 'undefined') {
-            init();
-            setRandomHero(); 
-            loadContinueWatching(); 
-        } else {
-            console.error("Veritabanı yüklenemedi. database.js dosyasını kontrol edin.");
+function trackCriticalImages(callback) {
+    const criticalImages = [];
+
+    // 1. Hero Resmi
+    const heroBgElement = document.getElementById('hero-bg');
+    const heroBgUrlMatch = heroBgElement.style.backgroundImage.match(/url\(['"]?(.*?)['"]?\)/);
+    if (heroBgUrlMatch && heroBgUrlMatch[1]) {
+        criticalImages.push(heroBgUrlMatch[1]);
+    }
+    
+    // 2. İlk görünen 10 kartın poster resmi (Güvenli bir üst limit)
+    // Sadece "home-trending" (En Son Eklenenler) ve "home-series" (Popüler Diziler) listelerinin ilk 5'ini alıyoruz.
+    const allCards = document.querySelectorAll('#home-trending .card-poster img, #home-series .card-poster img');
+    
+    // İlk 10 kartın URL'lerini al
+    for (let i = 0; i < Math.min(allCards.length, 10); i++) {
+        const url = allCards[i].getAttribute('src');
+        if (url && !url.includes('placeholder')) {
+            criticalImages.push(url);
         }
+    }
+
+    if (criticalImages.length === 0) {
+        // Hiç kritik resim yoksa hemen bitir.
+        callback();
+        return;
+    }
+
+    let loadedCount = 0;
+    const totalImages = criticalImages.length;
+    const loadingBar = document.getElementById('loadingBar');
+
+    // Her resmi yüklemeyi dener
+    criticalImages.forEach((url, index) => {
+        const img = new Image();
+        img.onload = img.onerror = () => {
+            loadedCount++;
+            
+            // Loading bar'ı güncelle
+            const progress = (loadedCount / totalImages) * 100;
+            loadingBar.style.width = `${progress}%`;
+
+            if (loadedCount === totalImages) {
+                // Tüm kritik resimler yüklendiğinde callback'i çağır
+                setTimeout(callback, 300); // Küçük bir gecikme ekleyerek barın dolmasını sağlarız
+            }
+        };
+        img.src = url;
+    });
+}
+
+
+function hidePreloader() {
+    const preloader = document.getElementById('preloader-overlay');
+    preloader.style.opacity = '0';
+    setTimeout(() => {
+        preloader.style.display = 'none';
+    }, 500); // CSS geçiş süresine (0.5s) uygun gecikme
+}
+// --- MEVCUT window.onload FONKSİYONUNU GÜNCELLEME ---
+window.onload = function() {
+    if (typeof DATABASE !== 'undefined') {
+        init();
+        setRandomHero(); 
+        loadContinueWatching(); 
         
-        applyHorizontalScrollDrag('home-trending');
-        applyHorizontalScrollDrag('home-series');
-        applyHorizontalScrollDrag('home-movies');
-        applyHorizontalScrollDrag('continue-watching-list');
+        // KRİTİK DEĞİŞİKLİK: Normal yükleme akışını burada başlatıyoruz
+        trackCriticalImages(hidePreloader);
+        
+    } else {
+        console.error("Veritabanı yüklenemedi. database.js dosyasını kontrol edin.");
+        hidePreloader(); // Hata durumunda bile ekranı aç
+    }
+    
+    applyHorizontalScrollDrag('home-trending');
+    applyHorizontalScrollDrag('home-series');
+    applyHorizontalScrollDrag('home-movies');
+    applyHorizontalScrollDrag('continue-watching-list');
 
-        const params = new URLSearchParams(window.location.search);
-        const page = params.get('page');
-        const search = params.get('search');
+    const params = new URLSearchParams(window.location.search);
+    const page = params.get('page');
+    const search = params.get('search');
 
-        if (search) {
-            document.getElementById('searchInput').value = search;
-            openSearch();
-            handleSearch(); 
-        } else if (page) {
-            switchPage(page);
-        }
-    };
+    if (search) {
+        document.getElementById('searchInput').value = search;
+        openSearch();
+        handleSearch(); 
+    } else if (page) {
+        switchPage(page);
+    }
+};
 
     // --- YENİ KOD: SADECE BU DİZİ ID'LERİ KULLANILACAK ---
 const HERO_WHITELIST_IDS = [
