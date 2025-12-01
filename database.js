@@ -10935,30 +10935,5 @@ const DATABASE = [
                 ]
             }
         ]
-    },
-    {
-        "id": "killbill1",
-        "type": "movie",
-        "title": "Kill Bill: Vol. 1",
-        "year": 2003,
-         puan:"8.2",
-        "genre": "Film",
-        "poster": "https://m.media-amazon.com/images/M/MV5BOGZjM2FmNDUtYzI5OC00N2I2LWI3M2UtM2RiMGFmYzZkM2I1XkEyXkFqcGc@._V1_FMjpg_UX960_.jpg",
-        "backdrop": "https://m.media-amazon.com/images/M/MV5BOGZjM2FmNDUtYzI5OC00N2I2LWI3M2UtM2RiMGFmYzZkM2I1XkEyXkFqcGc@._V1_FMjpg_UX960_.jpg",
-        "description": "Kill Bill: Vol. 1 filmini şimdi izle.",
-        "source": "https://box-c-o-l-3.vmeas.cloud/hls/,xqx2pppeibokjiqbtgdcpiitxc5abxlgjvjhcypqpgeen23tqjusigfu737q,.urlset/master.m3u8"
-    },
-    {
-        "id": "killbill2",
-        "type": "movie",
-        "title": "Kill Bill: Vol. 2",
-        "year": 2004,
-         puan:"8.0",
-        "genre": "Film",
-        "poster": "https://m.media-amazon.com/images/M/MV5BMWQ0ZWI0YmUtZGYzMi00YjRjLTk2MzItNDgxOWRjYWNjMmNiXkEyXkFqcGc@._V1_FMjpg_UY3000_.jpg",
-        "backdrop": "https://m.media-amazon.com/images/M/MV5BOGZjM2FmNDUtYzI5OC00N2I2LWI3M2UtM2RiMGFmYzZkM2I1XkEyXkFqcGc@._V1_FMjpg_UX960_.jpg",
-        "description": "Kill Bill: Vol. 2 filmini şimdi izle.",
-        "source": "https://box-c-o-l-1.vmeas.cloud/hls/,xqx2edmqd5okjiqbtfusljq2ucseuyqb4gy3ub7glvyfzasiy4yia6mop3wa,.urlset/master.m3u8"
-    },
-    
+    }
 ];
