@@ -675,30 +675,66 @@ async function submitSuggestion(event) {
 
 function trackCriticalImages(callback) {
     const heroBgElement = document.getElementById('hero-bg');
-    // Hero resminin URL'sini al
     const heroBgUrlMatch = heroBgElement.style.backgroundImage.match(/url\(['"]?(.*?)['"]?\)/);
     
     if (!heroBgUrlMatch || !heroBgUrlMatch[1]) {
-        // Hero resmi URL'si yoksa veya hatalıysa, hemen devam et
+        // Hero resmi yoksa hemen devam et
         callback();
         return;
     }
 
     const heroImageUrl = heroBgUrlMatch[1];
     const loadingBar = document.getElementById('loadingBar');
-
-    // Sadece Hero resmini yükleyen bir Image nesnesi oluştur
+    
+    // --- 1. Adım: Hero Resminin Yüklenmesini Arka Planda Başlat ---
+    let heroLoaded = false;
     const img = new Image();
-    
-    // Yükleme tamamlandığında (Hata veya başarı)
     img.onload = img.onerror = () => {
-        // Barı %100 yap ve preloader'ı gizle
-        loadingBar.style.width = `100%`; 
-        setTimeout(callback, 300); // 300ms sonra ekranı aç
+        heroLoaded = true;
     };
-    
-    // Yüklemeyi başlat
     img.src = heroImageUrl;
+
+    // --- 2. Adım: Loading Bar'ı Akıcı Şekilde Yükselt (Animasyon) ---
+    const MIN_LOAD_TIME = 1500; // Minimum yükleme süresi (1.5 saniye)
+    let startTime = Date.now();
+
+    // Barı yavaşça %90'a kadar yükselt (Göz aldanması için)
+    let progress = 0;
+    const interval = setInterval(() => {
+        if (progress < 90) {
+            progress += 2; // Her 50ms'de %2 artır
+            loadingBar.style.width = `${progress}%`;
+        }
+        
+        // Bar %90'a ulaştığında veya Hero yüklendiğinde dur
+        if (progress >= 90 || heroLoaded) {
+            clearInterval(interval);
+            // Hero resmi hazırsa ve minimum süre geçtiyse, yükleme ekranını gizle
+            checkCompletion(startTime, MIN_LOAD_TIME, heroLoaded, loadingBar, callback);
+        }
+    }, 50);
+
+    // --- 3. Adım: Kontrol Fonksiyonu ---
+    function checkCompletion(startTime, minTime, heroStatus, barElement, finalCallback) {
+        // Hero resminin hazır olmasını ve minimum sürenin geçmesini bekle
+        const elapsed = Date.now() - startTime;
+        const remainingTime = Math.max(0, minTime - elapsed);
+        
+        // Barı %100 yap
+        barElement.style.width = `100%`; 
+        
+        setTimeout(() => {
+             // Hero yüklendi mi diye son bir kontrol
+            if (heroStatus) { 
+                finalCallback(); // Yükleniyor ekranını gizle
+            } else {
+                // Eğer Hero resmi hala yüklenmediyse (çok yavaş internet), 
+                // biraz daha bekleyebilir veya açılmaya zorlayabiliriz.
+                // Şimdilik sadece açılmaya zorluyoruz, çünkü sonsuza kadar beklemek istemeyiz.
+                finalCallback();
+            }
+        }, remainingTime); // Minimum süre veya kalan süre kadar bekle
+    }
 }
 
 
@@ -711,12 +747,14 @@ function hidePreloader() {
 }
 // --- MEVCUT window.onload FONKSİYONUNU GÜNCELLEME ---
 window.onload = function() {
+    // init ve setRandomHero fonksiyonları artık preloader'dan ÖNCE çağrılmalı,
+    // çünkü trackCriticalImages bu elementlerin varlığını kontrol ediyor.
     if (typeof DATABASE !== 'undefined') {
         init();
         setRandomHero(); 
         loadContinueWatching(); 
         
-        // KRİTİK DEĞİŞİKLİK: Normal yükleme akışını burada başlatıyoruz
+        // KRİTİK DEĞİŞİKLİK: trackCriticalImages'ı çağır
         trackCriticalImages(hidePreloader);
         
     } else {
