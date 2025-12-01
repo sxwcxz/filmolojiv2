@@ -674,54 +674,31 @@ async function submitSuggestion(event) {
 }
 
 function trackCriticalImages(callback) {
-    const criticalImages = [];
-
-    // 1. Hero Resmi
     const heroBgElement = document.getElementById('hero-bg');
+    // Hero resminin URL'sini al
     const heroBgUrlMatch = heroBgElement.style.backgroundImage.match(/url\(['"]?(.*?)['"]?\)/);
-    if (heroBgUrlMatch && heroBgUrlMatch[1]) {
-        criticalImages.push(heroBgUrlMatch[1]);
-    }
     
-    // 2. İlk görünen 10 kartın poster resmi (Güvenli bir üst limit)
-    // Sadece "home-trending" (En Son Eklenenler) ve "home-series" (Popüler Diziler) listelerinin ilk 5'ini alıyoruz.
-    const allCards = document.querySelectorAll('#home-trending .card-poster img, #home-series .card-poster img');
-    
-    // İlk 10 kartın URL'lerini al
-    for (let i = 0; i < Math.min(allCards.length, 10); i++) {
-        const url = allCards[i].getAttribute('src');
-        if (url && !url.includes('placeholder')) {
-            criticalImages.push(url);
-        }
-    }
-
-    if (criticalImages.length === 0) {
-        // Hiç kritik resim yoksa hemen bitir.
+    if (!heroBgUrlMatch || !heroBgUrlMatch[1]) {
+        // Hero resmi URL'si yoksa veya hatalıysa, hemen devam et
         callback();
         return;
     }
 
-    let loadedCount = 0;
-    const totalImages = criticalImages.length;
+    const heroImageUrl = heroBgUrlMatch[1];
     const loadingBar = document.getElementById('loadingBar');
 
-    // Her resmi yüklemeyi dener
-    criticalImages.forEach((url, index) => {
-        const img = new Image();
-        img.onload = img.onerror = () => {
-            loadedCount++;
-            
-            // Loading bar'ı güncelle
-            const progress = (loadedCount / totalImages) * 100;
-            loadingBar.style.width = `${progress}%`;
-
-            if (loadedCount === totalImages) {
-                // Tüm kritik resimler yüklendiğinde callback'i çağır
-                setTimeout(callback, 300); // Küçük bir gecikme ekleyerek barın dolmasını sağlarız
-            }
-        };
-        img.src = url;
-    });
+    // Sadece Hero resmini yükleyen bir Image nesnesi oluştur
+    const img = new Image();
+    
+    // Yükleme tamamlandığında (Hata veya başarı)
+    img.onload = img.onerror = () => {
+        // Barı %100 yap ve preloader'ı gizle
+        loadingBar.style.width = `100%`; 
+        setTimeout(callback, 300); // 300ms sonra ekranı aç
+    };
+    
+    // Yüklemeyi başlat
+    img.src = heroImageUrl;
 }
 
 
