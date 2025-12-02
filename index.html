@@ -779,7 +779,89 @@ window.onload = function() {
         switchPage(page);
     }
 };
+let deferredPrompt;
+const INSTALL_PROMPT_KEY = 'install_prompt_dismissed';
 
+// 1. Tarayıcı yükleme penceresini göstermeye hazır olduğunda yakala
+window.addEventListener('beforeinstallprompt', (e) => {
+    // Varsayılan tarayıcı promptunu engelle
+    e.preventDefault();
+    // Prompt olayını daha sonra kullanmak üzere sakla
+    deferredPrompt = e;
+    // Kullanıcıya yükleme bildirimini göster
+    showInstallPromotion(); 
+});
+
+// showToast fonksiyonunu, PWA bildirimleri için ayarlanabilir hale getirelim
+function showCustomToast(message, isInstallPrompt = false) {
+    const toast = document.getElementById('toast');
+    
+    // Toast'u sıfırla ve PWA stili uygula
+    toast.style.bottom = '30px'; 
+    toast.style.right = '30px';
+    toast.style.transform = 'translateY(20px)'; // Reset
+
+    if (!isInstallPrompt) {
+        // Normal bildirim ise, standart showToast mantığını kullan
+        toast.innerHTML = message;
+        toast.classList.add('show');
+        setTimeout(() => { toast.classList.remove('show'); }, 3000); 
+        return;
+    }
+    
+    // PWA yükleme bildirimi ise, kapatma düğmesi ekle
+    toast.innerHTML = `${message} 
+                       <span onclick="dismissInstallPrompt()" style="cursor:pointer; color:rgba(255,255,255,0.7); margin-left:10px;">&times;</span>`;
+    toast.classList.add('show');
+}
+
+// 2. Kullanıcıya yükleme bildirimini gösterme
+function showInstallPromotion() {
+    // Eğer prompt varsa VE kullanıcı daha önce kapatmadıysa göster
+    if (deferredPrompt && !localStorage.getItem(INSTALL_PROMPT_KEY)) {
+        
+        // 5 saniye sonra bildirimi göster (Hafif bir gecikme kullanıcı deneyimini artırır)
+        setTimeout(() => {
+            const installToastContent = `<i class="fas fa-mobile-alt"></i> Filmolojiyi Telefonuna Yükle! 
+                                         <span onclick="triggerInstallPrompt(event)" style="cursor:pointer; color:#FFC107; font-weight:bold; margin-left:10px;">YÜKLE</span>`;
+            
+            showCustomToast(installToastContent, true); 
+        }, 5000); // 5 saniye gecikme
+    }
+}
+
+// 3. Kullanıcı kendi düğmemizden kapattığında bir daha göstermemek için kaydet
+function dismissInstallPrompt() {
+    document.getElementById('toast').classList.remove('show');
+    // Kullanıcının bir kez görmezden geldiğini işaretle
+    localStorage.setItem(INSTALL_PROMPT_KEY, 'true');
+}
+
+// 4. "YÜKLE" düğmesine basıldığında tarayıcı prompt'unu tetikle
+function triggerInstallPrompt(event) {
+    if(event) event.stopPropagation();
+    
+    if (deferredPrompt) {
+        // Toast bildirimini kapat
+        document.getElementById('toast').classList.remove('show');
+        
+        // Tarayıcı promptunu göster
+        deferredPrompt.prompt();
+        
+        // Kullanıcının yanıtını bekle
+        deferredPrompt.userChoice.then((choiceResult) => {
+            if (choiceResult.outcome === 'accepted') {
+                showToast('<i class="fas fa-check-circle" style="color: #4CAF50;"></i> Filmoloji Yüklendi!');
+                // Yüklendikten sonra bir daha sorma
+                localStorage.setItem(INSTALL_PROMPT_KEY, 'installed'); 
+            } else {
+                showToast('<i class="fas fa-info-circle"></i> Yükleme İptal Edildi.');
+                localStorage.setItem(INSTALL_PROMPT_KEY, 'dismissed'); // İptal ettiyse bir daha sorma
+            }
+            deferredPrompt = null;
+        });
+    }
+}
     // --- YENİ KOD: SADECE BU DİZİ ID'LERİ KULLANILACAK ---
 const HERO_WHITELIST_IDS = [
     "ser_breaking_bad",
@@ -857,11 +939,9 @@ function setRandomHero() {
         wrapper.style.display = hasItems ? 'block' : 'none';
     }
 
-    function showToast(msg) {
-        const toast = document.getElementById('toast');
-        toast.innerHTML = msg;
-        toast.classList.add('show');
-        setTimeout(() => { toast.classList.remove('show'); }, 3000);
+function showToast(msg) {
+        // Tüm eski showToast çağrıları artık showCustomToast'u kullanacak
+        showCustomToast(msg, false);
     }
 
 // --- toggleMyList Fonksiyonu (Toast İkonu Güncellendi) ---
