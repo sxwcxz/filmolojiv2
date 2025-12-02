@@ -829,7 +829,8 @@ function showCustomToast(message, isInstallPrompt = false) {
 
     if (!isInstallPrompt) {
         // Normal bildirim ise, standart showToast mantığını kullan
-        toast.innerHTML = message;
+        toast.innerHTML = `${message} 
+                   <span onclick="dismissInstallPrompt()" style="cursor:pointer; color:rgba(255,255,255,0.7); margin-left:10px; pointer-events: auto !important;">&times;</span>`;
         toast.classList.add('show');
         setTimeout(() => { toast.classList.remove('show'); }, 3000); 
         return;
@@ -843,17 +844,14 @@ function showCustomToast(message, isInstallPrompt = false) {
 
 // 2. Kullanıcıya yükleme bildirimini gösterme
 function showInstallPromotion() {
-    // Eğer prompt varsa VE kullanıcı daha önce kapatmadıysa göster
+    // Kullanıcının daha önce bildirimden kaçıp kaçmadığını kontrol et
     if (deferredPrompt && !localStorage.getItem(INSTALL_PROMPT_KEY)) {
         
-        // 5 saniye sonra bildirimi göster (Hafif bir gecikme kullanıcı deneyimini artırır)
-        setTimeout(() => {
-        // YÜKLE düğmesi için 'install-btn' sınıfı kullanıyoruz
-        const installToastContent = `<i class="fas fa-mobile-alt" style="color:#FFC107;"></i> Filmolojiyi Telefonuna Yükle!
+        // KRİTİK DEĞİŞİKLİK: setTimeout KALDIRILDI. Anında gösterilir.
+        const installToastContent = `<i class="fas fa-mobile-alt" style="color:#FFC107;"></i> Filmolojiyi Telefonuna Yükle! 
                                      <span onclick="triggerInstallPrompt(event)" class="install-btn" style="cursor:pointer; font-weight:bold; margin-left:10px;">YÜKLE</span>`;
             
-            showCustomToast(installToastContent, true); 
-        }, 5000); // 5 saniye gecikme
+        showCustomToast(installToastContent, true); 
     }
 }
 
