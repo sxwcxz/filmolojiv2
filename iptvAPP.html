@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>M3U Yayın Merkezi (En Stabil Sürüm)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    
+    <link href="https://vjs.zencdn.net/8.10.0/video-js.css" rel="stylesheet" />
+    <link rel="manifest" href="/manifest.json">
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+    <script src="https://vjs.zencdn.net/8.10.0/video.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* --- TEMEL DÜZEN --- */
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #0d0d0d; color: white; margin: 0; padding: 0; }
+        .header { background-color: #1a1a1a; padding: 15px 20px; border-bottom: 3px solid #E50914; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; }
+        .header h1 { margin: 0; font-size: 24px; color: #E50914; }
+        
+        /* --- YÜKLEME (LOADING) ÇUBUĞU VE EKRANI --- */
+        #loading-bar { position: fixed; top: 0; left: 0; width: 100%; height: 3px; background-color: #222; z-index: 10001; display: block; }
+        #progress-bar { height: 100%; width: 0; background-color: #E50914; transition: width 0.3s ease; }
+        #loading-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.95); z-index: 9999;
+            display: flex; flex-direction: column; justify-content: center; align-items: center; color: white; font-size: 1.2em;
+            text-align: center; transition: opacity 0.5s;
+        }
+
+        /* --- OYNATICI ALANI (BAŞLANGIÇTA GİZLİ) --- */
+        #player-area { padding: 20px; background-color: #1a1a1a; margin-bottom: 20px; display: none; }
+        .video-js { width: 100% !important; height: 400px !important; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5); }
+        #detail-info { padding: 15px 0; }
+        #detail-info h2 { margin: 0 0 5px 0; font-size: 24px; color: #fff; }
+        #detail-info p { color: #bbb; font-size: 14px; }
+        
+        /* --- ARAMA KUTUSU (Statik Arama) --- */
+        #search-input-container { display: flex; align-items: center; background: #222; border-radius: 25px; padding: 5px 15px; width: 50%; max-width: 300px; }
+        #search-input-container i { color: #E50914; margin-right: 10px; cursor: pointer; }
+        #search-input { width: 100%; background: none; border: none; color: white; padding: 8px 0; font-size: 14px; }
+
+        /* --- TÜM İÇERİKLER GRİDİ --- */
+        #content-sections-area { padding: 0 0 30px 0; }
+        .section-header { font-size: 18px; font-weight: 700; margin-bottom: 10px; color: #f1f1f1; padding-left: 20px; }
+        
+        #all-content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+            gap: 15px;
+            padding: 0 20px;
+        }
+
+        /* --- KART STİLİ --- */
+        .content-card-container { flex-shrink: 0; width: 100%; cursor: pointer; transition: transform 0.2s; border-radius: 8px; overflow: hidden; background-color: #222; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4); }
+        .content-card-container:hover { transform: scale(1.05); }
+        .card-img { width: 100%; height: 180px; object-fit: cover; display: block; }
+        .card-info { padding: 8px; text-align: left; min-height: 50px; }
+        .card-info-title { font-size: 13px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .card-info-subtitle { font-size: 11px; color: #999; margin-top: 3px; }
+
+        /* --- ARAMA SONUÇLARI --- */
+        #search-results-area { padding: 20px; display: none; }
+        #search-results-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 15px; padding-top: 10px; }
+
+        /* --- MOBİL UYARLAMA --- */
+        @media (max-width: 600px) {
+            .header h1 { font-size: 20px; }
+            #search-input-container { width: 40%; }
+            .video-js { height: 200px !important; }
+            #all-content-grid { padding: 0 10px; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); }
+            .card-img { height: 150px; }
+        }
+    </style>
+</head>
+<body>
+    
+    <div id="loading-bar">
+        <div id="progress-bar"></div>
+    </div>
+
+    <div id="loading-overlay">
+        <i class="fas fa-spinner fa-spin" style="font-size: 48px; color: #E50914;"></i>
+        <p style="margin-top: 20px;">Verileriniz Okunuyor ve İçerik Hazırlanıyor...</p>
+    </div>
+
+    <div class="header">
+        <h1>M3U Yayın Merkezi</h1>
+        <div id="search-input-container">
+            <i class="fas fa-search" onclick="handleSearch()"></i> 
+            <input type="text" id="search-input" placeholder="İçerik ara..." onkeyup="if(event.key === 'Enter') handleSearch()">
+        </div>
+    </div>
+
+    <div id="player-area">
+        <div id="video-player-container">
+            <div style="height:400px; background-color: #222; display: flex; justify-content: center; align-items: center; border-radius: 8px;">
+                 <i class="fas fa-hand-pointer" style="font-size: 50px; color: #E50914;"></i>
+            </div>
+        </div>
+        <div id="detail-info">
+            <h2 id="current-content-title">Bir İçerik Seçin</h2>
+            <p id="current-content-description">Oynatıcıyı başlatmak için aşağıdaki tüm içerikler listesinden bir kart seçin.</p>
+        </div>
+    </div>
+    
+    <div id="search-results-area">
+        <h3 class="section-header" style="padding-left: 20px;">Arama Sonuçları (<span id="search-count">0</span>)</h3>
+        <div id="search-results-grid"></div>
+    </div>
+
+    <div id="content-sections-area" style="padding: 0 0 30px 0;">
+        <h3 class="section-header" style="padding-left: 20px;">Tüm İçerikler (<span id="total-count">0</span>)</h3>
+        <div id="all-content-grid">
+            </div>
+    </div>
+
+    <script>
+        // --- AYARLAR ---
+        const M3U_FILE_NAME = 'playlist.m3u'; 
+
+        let M3U_DATA = []; 
+        let player;
+        let currentHls;
+
+        // --- DOM ELEMANLARI ---
+        const contentSectionsArea = document.getElementById('content-sections-area');
+        const allContentGrid = document.getElementById('all-content-grid');
+        const totalCountElement = document.getElementById('total-count');
+        const searchInput = document.getElementById('search-input');
+        const searchResultsArea = document.getElementById('search-results-area');
+        const searchResultsGrid = document.getElementById('search-results-grid');
+        const contentTitleElement = document.getElementById('current-content-title');
+        const contentDescElement = document.getElementById('current-content-description');
+        const loadingOverlay = document.getElementById('loading-overlay');
+        const playerArea = document.getElementById('player-area');
+        const progressBar = document.getElementById('progress-bar');
+        
+        // --- YARDIMCI VE DÖNÜŞÜM FONKSİYONLARI ---
+
+        /** M3U içeriğini tek bir düz listeye dönüştürür. */
+        function parseM3uContent(content) {
+            progressBar.style.width = '50%';
+            const lines = content.split('\n');
+            const data = [];
+            let currentItem = {};
+            let uniqueId = 1;
+
+            for (const line of lines) {
+                const trimmedLine = line.trim();
+
+                if (trimmedLine.startsWith('#EXTINF')) {
+                    currentItem = {};
+                    const regex = /([a-z0-9-]+)="([^"]*)"/g;
+                    let match;
+                    while ((match = regex.exec(trimmedLine)) !== null) {
+                        currentItem[match[1]] = match[2];
+                    }
+                    const nameMatch = trimmedLine.match(/,(.*)$/);
+                    currentItem.rawName = nameMatch ? nameMatch[1].trim() : 'Bilinmeyen İçerik';
+
+                } else if ((trimmedLine.startsWith('http') || trimmedLine.startsWith('https')) && Object.keys(currentItem).length > 0) {
+                    
+                    const group = currentItem['group-title'] || 'Bilinmeyen Grup';
+                    const isSeries = currentItem.rawName.match(/[Ss]\d+[Ee]\d+/i) !== null;
+
+                    const item = {
+                        id: uniqueId++,
+                        title: currentItem.rawName, 
+                        poster: currentItem['tvg-logo'] || 'https://via.placeholder.com/300x450?text=RESİM+YOK',
+                        group: group, 
+                        url: trimmedLine,
+                        type: isSeries ? 'Dizi/Bölüm' : (group.toLowerCase().includes('canli') || group.toLowerCase().includes('tv') ? 'Canlı TV' : 'Film/VOD'),
+                    };
+
+                    data.push(item);
+                    currentItem = {};
+                }
+            }
+            progressBar.style.width = '75%';
+            return data;
+        }
+        
+        /** İçerik kartını HTML olarak oluşturur. */
+        function createCardHTML(item) {
+            const card = document.createElement('div');
+            card.className = 'content-card-container';
+            card.innerHTML = `
+                <img class="card-img" src="${item.poster}" alt="${item.title}" onerror="this.src='https://via.placeholder.com/300x450?text=RESİM+YOK'">
+                <div class="card-info">
+                    <div class="card-info-title" title="${item.title}">${item.title}</div>
+                    <div class="card-info-subtitle">${item.type} (${item.group})</div>
+                </div>
+            `;
+            card.onclick = () => loadAndPlayStream(item);
+            return card;
+        }
+
+        /** Tüm içeriği Grid düzeninde çizer (Tek Seferlik Yükleme). */
+        function renderAllContent() {
+            allContentGrid.innerHTML = '';
+            totalCountElement.textContent = M3U_DATA.length;
+
+            const fragment = document.createDocumentFragment();
+
+            M3U_DATA.forEach(item => {
+                fragment.appendChild(createCardHTML(item));
+            });
+            allContentGrid.appendChild(fragment);
+
+            progressBar.style.width = '100%';
+        }
+        
+        /** Oynatıcıyı başlatır ve detay alanını günceller. */
+        function loadAndPlayStream(item) {
+            // Oynatıcı alanını görünür yap
+            playerArea.style.display = 'block';
+            
+            contentTitleElement.textContent = item.title;
+            contentDescElement.innerHTML = `<i class="fas fa-tags"></i> Orijinal Grup: ${item.group} | <i class="fas fa-video"></i> Tip: ${item.type}`;
+            
+            // Oynatıcıyı sıfırla ve Video.js'i yeniden başlat
+            if (player) {
+                if (currentHls) { currentHls.destroy(); currentHls = null; }
+                player.dispose(); 
+            }
+            
+            // Player DOM'unu tekrar oluştur (Bu, oynatıcıyı temizler ve sıfırlar)
+            document.getElementById('video-player-container').innerHTML = `
+                <video id="video-player" class="video-js vjs-default-skin" controls preload="auto" poster="${item.poster}">
+                    <p class="vjs-no-js">Video izlemek için lütfen JavaScript'i etkinleştirin.</p>
+                </video>
+            `;
+
+            player = videojs('video-player');
+
+            if (Hls.isSupported()) {
+                const videoElement = player.tech().el();
+                currentHls = new Hls();
+                currentHls.attachMedia(videoElement);
+
+                currentHls.on(Hls.Events.MEDIA_ATTACHED, function() {
+                    currentHls.loadSource(item.url);
+                    player.play().catch(e => console.log('Oynatma otomatik başlatılamadı.', e));
+                });
+                
+                currentHls.on(Hls.Events.ERROR, function(event, data) {
+                    if (data.fatal) {
+                        console.error('HLS Fatal Error:', data.type, data.details);
+                        player.src({ src: item.url, type: 'application/x-mpegURL' });
+                        player.play();
+                    }
+                });
+            } else {
+                player.src({ src: item.url, type: 'application/x-mpegURL' });
+                player.play();
+            }
+
+            // Oynatıcı alanına kaydır
+            document.getElementById('player-area').scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        /** Statik Arama İşlevi (Enter veya İkon Tıklaması ile çalışır) */
+        function handleSearch() {
+            const query = searchInput.value.toLowerCase().trim();
+
+            if (query.length === 0) {
+                // Arama temizlenirse ana içeriği göster
+                searchResultsArea.style.display = 'none';
+                contentSectionsArea.style.display = 'block';
+                return;
+            }
+
+            contentSectionsArea.style.display = 'none';
+            searchResultsArea.style.display = 'block';
+            searchResultsGrid.innerHTML = '';
+            
+            const results = M3U_DATA.filter(item => 
+                item.title.toLowerCase().includes(query) || 
+                item.group.toLowerCase().includes(query)
+            );
+
+            document.getElementById('search-count').textContent = results.length;
+
+            if (results.length === 0) {
+                searchResultsGrid.innerHTML = '<p style="color:#bbb; width:100%; text-align:center; padding-top:20px;">Aradığınız kritere uygun içerik bulunamadı.</p>';
+            } else {
+                results.forEach(item => {
+                    searchResultsGrid.appendChild(createCardHTML(item));
+                });
+            }
+        }
+
+        // --- ANA BAŞLATMA MANTIĞI ---
+        async function initializeApp() {
+            progressBar.style.width = '10%';
+            try {
+                const response = await fetch(M3U_FILE_NAME);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP Hata ${response.status}: M3U dosyası (${M3U_FILE_NAME}) sunucuda bulunamadı.`);
+                }
+                const m3uContent = await response.text();
+                
+                M3U_DATA = parseM3uContent(m3uContent);
+
+                if (M3U_DATA.length === 0) {
+                    throw new Error("M3U dosyasında oynatılabilir içerik bulunamadı.");
+                }
+
+                // Arayüzü çiz (Tek seferlik yükleme)
+                renderAllContent();
+                
+                // Yükleme ekranını kapat
+                loadingOverlay.style.opacity = '0';
+                setTimeout(() => { 
+                    loadingOverlay.style.display = 'none'; 
+                    document.getElementById('loading-bar').style.display = 'none';
+                }, 500);
+                
+            } catch (error) {
+                console.error("Uygulama başlatılamadı:", error.message);
+                loadingOverlay.style.opacity = '1';
+                loadingOverlay.innerHTML = `<i class="fas fa-exclamation-triangle" style="font-size: 48px; color: #F44336;"></i>
+                    <p style="margin-top: 20px;">HATA: Yükleme Başarısız!</p>
+                    <p style="font-size: 14px; color: #ccc;">${error.message}</p>
+                    <p style="font-size: 12px; margin-top: 10px;">Lütfen Live Server/Python sunucusu kullandığınızdan emin olun.</p>`;
+            }
+        }
+
+        window.onload = initializeApp;
+    </script>
+</body>
+</html>
