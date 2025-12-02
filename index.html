@@ -845,11 +845,14 @@ function showCustomToast(message, isInstallPrompt = false) {
 // 2. Kullanıcıya yükleme bildirimini gösterme
 function showInstallPromotion() {
     // Kullanıcının daha önce bildirimden kaçıp kaçmadığını kontrol et
+    // Eğer PWA prompt varsa VE kullanıcı daha önce kapatmadıysa göster
     if (deferredPrompt && !localStorage.getItem(INSTALL_PROMPT_KEY)) {
         
-        // KRİTİK DEĞİŞİKLİK: setTimeout KALDIRILDI. Anında gösterilir.
+        // KRİTİK DEĞİŞİKLİK: setTimeout KALDIRILDI. Artık anında çalışır.
+        
         const installToastContent = `<i class="fas fa-mobile-alt" style="color:#FFC107;"></i> Filmolojiyi Telefonuna Yükle! 
-                                     <span onclick="triggerInstallPrompt(event)" class="install-btn" style="cursor:pointer; font-weight:bold; margin-left:10px;">YÜKLE</span>`;
+                                     <span onclick="triggerInstallPrompt(event)" class="install-btn">YÜKLE</span> 
+                                     <span onclick="dismissInstallPrompt()" style="cursor:pointer; color:rgba(255,255,255,0.7); margin-left:10px; pointer-events: auto !important;">&times;</span>`;
             
         showCustomToast(installToastContent, true); 
     }
