@@ -369,7 +369,8 @@
             position: fixed; bottom: 30px; right: 30px;
             background: rgba(30, 30, 30, 0.95); color: white; padding: 15px 25px;
             border-radius: 10px; font-weight: 600; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            z-index: 9999; opacity: 0; transform: translateY(20px); transition: all 0.4s ease;
+            z-index: 1000; opacity: 0; transform: translateY(20px); transition: all 0.4s ease;
+            pointer-events: auto;
             border-left: 4px solid var(--brand-color); pointer-events: none;
             display: flex; align-items: center; gap: 10px;
         }
@@ -822,8 +823,13 @@ function showInstallPromotion() {
         
         // 5 saniye sonra bildirimi göster (Hafif bir gecikme kullanıcı deneyimini artırır)
         setTimeout(() => {
-            const installToastContent = `<i class="fas fa-mobile-alt"></i> Filmolojiyi Telefonuna Yükle! 
-                                         <span onclick="triggerInstallPrompt(event)" style="cursor:pointer; color:#FFC107; font-weight:bold; margin-left:10px;">YÜKLE</span>`;
+            const installToastContent = `<i class="fas fa-mobile-alt" style="color:#FFC107;"></i> Filmolojiyi Telefonuna Yükle!
+    <button onclick="triggerInstallPrompt(event)" style="
+        /* ... diğer stiller ... */
+        pointer-events: auto; /* Tekrar garanti altına alalım */
+    ">
+    YÜKLE
+    </button>`;
             
             showCustomToast(installToastContent, true); 
         }, 5000); // 5 saniye gecikme
