@@ -104,6 +104,17 @@
     </div>
 
     <script>
+        if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/service-worker.js')
+            .then(registration => {
+                console.log('PWA ServiceWorker kaydı başarılı.');
+            })
+            .catch(err => {
+                console.log('PWA ServiceWorker kaydı başarısız:', err);
+            });
+    });
+}
         function tryLogin() {
             const input = document.getElementById('passwordInput');
             const error = document.getElementById('errorMsg');

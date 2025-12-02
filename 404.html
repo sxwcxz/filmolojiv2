@@ -216,7 +216,17 @@
 
     <script>
     // --- NAVBAR FONKSİYONLARI (index.html'den Kopyalandı ve 404'e Uyarlandı) ---
-    
+    if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/service-worker.js')
+            .then(registration => {
+                console.log('PWA ServiceWorker kaydı başarılı.');
+            })
+            .catch(err => {
+                console.log('PWA ServiceWorker kaydı başarısız:', err);
+            });
+    });
+}
     // Sayfa Yönlendirme Fonksiyonu (404'e özel, ana sayfaya yönlendirir)
     function switchPage(pageName) {
         if (pageName === 'home') {

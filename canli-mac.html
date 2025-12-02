@@ -310,7 +310,17 @@
                 document.getElementById('match-list-container').innerHTML = '<div style="padding:20px; color:red;">Kanal listesi yüklenemedi (database.js kontrol edin).</div>';
             }
         };
-
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/service-worker.js')
+            .then(registration => {
+                console.log('PWA ServiceWorker kaydı başarılı.');
+            })
+            .catch(err => {
+                console.log('PWA ServiceWorker kaydı başarısız:', err);
+            });
+    });
+}
         function renderChannels(channels) {
             const container = document.getElementById('match-list-container');
             container.innerHTML = '';

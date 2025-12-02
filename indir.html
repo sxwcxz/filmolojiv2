@@ -212,6 +212,17 @@
     </div>
 
     <script>
+        if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/service-worker.js')
+            .then(registration => {
+                console.log('PWA ServiceWorker kaydı başarılı.');
+            })
+            .catch(err => {
+                console.log('PWA ServiceWorker kaydı başarısız:', err);
+            });
+    });
+}
         let ALL_CONTENT = [];
         let selectedData = null;
         let currentUrl = "";

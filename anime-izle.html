@@ -430,6 +430,17 @@ document.onkeydown = function(e) {
             backdrop.classList.toggle('active');
         }
 
+        if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/service-worker.js')
+            .then(registration => {
+                console.log('PWA ServiceWorker kaydı başarılı.');
+            })
+            .catch(err => {
+                console.log('PWA ServiceWorker kaydı başarısız:', err);
+            });
+    });
+}
         function forceReload() { window.location.href = 'animoloji.html'; }
         function scrollToSuggestions() { document.getElementById('suggestions').scrollIntoView({ behavior: 'smooth' }); }
         function showError() { document.getElementById('anime-title').innerText = "İçerik Bulunamadı"; document.querySelector('.watch-container').innerHTML = "<h2 style='text-align:center; width:100%; color:#aaa; margin-top:50px;'>İçerik bulunamadı.</h2>"; }

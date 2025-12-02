@@ -1053,6 +1053,17 @@ document.addEventListener('click', function(event) {
             </div>
         `;
     }
+    if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/service-worker.js')
+            .then(registration => {
+                console.log('PWA ServiceWorker kaydı başarılı.');
+            })
+            .catch(err => {
+                console.log('PWA ServiceWorker kaydı başarısız:', err);
+            });
+    });
+}
 // Eski init fonksiyonunu bununla değiştirin
 function init() {
     const trending = document.getElementById('home-trending');

@@ -416,6 +416,18 @@ document.onkeydown = function(e) {
             backdrop.classList.toggle('active');
         }
 
+        if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/service-worker.js')
+            .then(registration => {
+                console.log('PWA ServiceWorker kaydı başarılı.');
+            })
+            .catch(err => {
+                console.log('PWA ServiceWorker kaydı başarısız:', err);
+            });
+    });
+}
+
         function initCategories() {
             const allGenres = new Set();
             DATABASE.forEach(item => { if(item.genre) item.genre.split(',').forEach(g => allGenres.add(g.trim())); });

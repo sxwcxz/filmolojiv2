@@ -332,6 +332,19 @@
             if (player) { player.play().catch(e => console.log("Oto oynatma engellendi:", e)); }
         }
 
+
+        if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/service-worker.js')
+            .then(registration => {
+                console.log('PWA ServiceWorker kaydı başarılı.');
+            })
+            .catch(err => {
+                console.log('PWA ServiceWorker kaydı başarısız:', err);
+            });
+    });
+}
+
         function initVideoJS(videoId, storageKey) {
             player = videojs(videoId, {
                 fill: true,   
