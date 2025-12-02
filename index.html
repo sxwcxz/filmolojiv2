@@ -152,6 +152,31 @@
         .close-search { font-size: 16px; cursor: pointer; color: #aaa; margin-left: auto; display: none; }
         .search-container.active .close-search { display: block; }
 
+        /* --- PWA YÜKLE BUTONU STİLİ --- */
+.install-btn {
+    /* Buton görünümü için temel stiller */
+    background: rgba(229, 9, 20, 0.9); /* Ana markanın kırmızısı */
+    color: white; 
+    padding: 6px 15px; 
+    border-radius: 6px; 
+    font-size: 14px;
+    
+    /* Etkileşim ve görselleştirme */
+    transition: all 0.2s ease;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    cursor: pointer !important; /* Tıklanabilirliği garanti et */
+    pointer-events: auto !important; /* Tıklama olaylarını yakalamasını garanti et */
+    
+    /* Mobil cihazlarda daha yumuşak dokunuş */
+    -webkit-tap-highlight-color: transparent;
+}
+
+.install-btn:hover {
+    background: #FF0A16; /* Hover'da daha parlak kırmızı */
+    box-shadow: 0 0 10px rgba(229, 9, 20, 0.5);
+    transform: scale(1.05);
+}
+
 /* --- YÜZEN BUTONLAR --- */
 .floating-btn-group {
     position: fixed;
@@ -369,8 +394,8 @@
             position: fixed; bottom: 30px; right: 30px;
             background: rgba(30, 30, 30, 0.95); color: white; padding: 15px 25px;
             border-radius: 10px; font-weight: 600; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            z-index: 1000; opacity: 0; transform: translateY(20px); transition: all 0.4s ease;
-            pointer-events: auto;
+            z-index: 10000 !important; opacity: 0; transform: translateY(20px); transition: all 0.4s ease;
+            pointer-events: auto !important;
             border-left: 4px solid var(--brand-color); pointer-events: none;
             display: flex; align-items: center; gap: 10px;
         }
@@ -823,20 +848,16 @@ function showInstallPromotion() {
         
         // 5 saniye sonra bildirimi göster (Hafif bir gecikme kullanıcı deneyimini artırır)
         setTimeout(() => {
-            const installToastContent = `<i class="fas fa-mobile-alt" style="color:#FFC107;"></i> Filmolojiyi Telefonuna Yükle!
-    <button onclick="triggerInstallPrompt(event)" style="
-        /* ... diğer stiller ... */
-        pointer-events: auto; /* Tekrar garanti altına alalım */
-    ">
-    YÜKLE
-    </button>`;
+        // YÜKLE düğmesi için 'install-btn' sınıfı kullanıyoruz
+        const installToastContent = `<i class="fas fa-mobile-alt" style="color:#FFC107;"></i> Filmolojiyi Telefonuna Yükle!
+                                     <span onclick="triggerInstallPrompt(event)" class="install-btn" style="cursor:pointer; font-weight:bold; margin-left:10px;">YÜKLE</span>`;
             
             showCustomToast(installToastContent, true); 
         }, 5000); // 5 saniye gecikme
     }
 }
 
-// 3. Kullanıcı kendi düğmemizden kapattığında bir daha göstermemek için kaydet
+// 3. Kullanıcı kendi düğmemizden kapattığında bir daha göstermemek için kaydet 
 function dismissInstallPrompt() {
     document.getElementById('toast').classList.remove('show');
     // Kullanıcının bir kez görmezden geldiğini işaretle
