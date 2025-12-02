@@ -10935,5 +10935,17 @@ const DATABASE = [
                 ]
             }
         ]
+    },
+    {
+        "id": "der_underground_108",
+        "type": "movie",
+        "title": "Çöküş",
+        "year": 2024,
+         puan:"8.2",
+        "genre": "Film",
+        "poster": "https://images.justwatch.com/poster/109513096/s718/cokus-der-untergang.jpg",
+        "backdrop": "https://images.justwatch.com/poster/109513096/s718/cokus-der-untergang.jpg",
+        "description": "Çöküş filmini şimdi izle.",
+        "source": "https://cdn.loadvid.com/protected-file/user/756/hls/1/f020287f-9cb0-450a-bcaa-ffe3e57af557-1763980221/7d50038b-ad13-421e-a2fd-0a19caabdd88.m3u8?expires=1764631014&signature=daebaf8b9d8cd3c80b3412f2c63c15f1d13c11c04987aaaae858aba6142ee6e3"
     }
 ];
