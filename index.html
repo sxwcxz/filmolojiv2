@@ -5,7 +5,7 @@
     <title>Filmoloji - Film & Dizi İzle</title>
     <meta name="description" content="Filmoloji, en yeni filmleri ve popüler dizileri Full HD kalitesinde izleyebileceğiniz ücretsiz bir platformdur.">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <link rel="icon" href="logo.png">
+    <link rel="icon" href="logo1.ico">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="manifest" href="/manifest.json">
     <script src="database.js"></script>
@@ -818,7 +818,7 @@ window.addEventListener('beforeinstallprompt', (e) => {
     showInstallPromotion(); 
 });
 
-// showToast fonksiyonunu, PWA bildirimleri için ayarlanabilir hale getirelim
+// 1081. satırda başlayan showCustomToast fonksiyonunu aşağıdakiyle DEĞİŞTİRİN
 function showCustomToast(message, isInstallPrompt = false) {
     const toast = document.getElementById('toast');
     
@@ -827,6 +827,7 @@ function showCustomToast(message, isInstallPrompt = false) {
     toast.style.right = '30px';
     toast.style.transform = 'translateY(20px)'; // Reset
 
+    // Eğer PWA bildirimi DEĞİLSE, kapatma çarpısını otomatik ekle
     if (!isInstallPrompt) {
         // Normal bildirim ise, standart showToast mantığını kullan
         toast.innerHTML = `${message} 
@@ -836,19 +837,16 @@ function showCustomToast(message, isInstallPrompt = false) {
         return;
     }
     
-    // PWA yükleme bildirimi ise, kapatma düğmesi ekle
-    toast.innerHTML = `${message} 
-                       <span onclick="dismissInstallPrompt()" style="cursor:pointer; color:rgba(255,255,255,0.7); margin-left:10px;">&times;</span>`;
+    // PWA yükleme bildirimi ise, içeriği olduğu gibi kullan (kapatma çarpısı zaten message içinde)
+    toast.innerHTML = message; // Kapatma çarpısı eklemeyi buradan kaldırdık.
     toast.classList.add('show');
 }
-
-// 2. Kullanıcıya yükleme bildirimini gösterme
+// YALNIZCA BU KISMI DEĞİŞTİRİN
 function showInstallPromotion() {
-    // Kullanıcının daha önce bildirimden kaçıp kaçmadığını kontrol et
-    // Eğer PWA prompt varsa VE kullanıcı daha önce kapatmadıysa göster
-    if (deferredPrompt && !localStorage.getItem(INSTALL_PROMPT_KEY)) {
-        
-        // KRİTİK DEĞİŞİKLİK: setTimeout KALDIRILDI. Artık anında çalışır.
+    // Eğer PWA prompt varsa göster. localStorage kontrolünü kaldırdık.
+    // Ancak, kullanıcı bir kere kabul ettiyse veya yüklediyse göstermemek en iyisidir.
+    // Bu yüzden 'installed' durumunu kontrol edebiliriz.
+    if (deferredPrompt && localStorage.getItem(INSTALL_PROMPT_KEY) !== 'installed') { 
         
         const installToastContent = `<i class="fas fa-mobile-alt" style="color:#FFC107;"></i> Filmolojiyi Telefonuna Yükle! 
                                      <span onclick="triggerInstallPrompt(event)" class="install-btn">YÜKLE</span> 
@@ -858,11 +856,12 @@ function showInstallPromotion() {
     }
 }
 
-// 3. Kullanıcı kendi düğmemizden kapattığında bir daha göstermemek için kaydet 
+// YALNIZCA BU KISMI DEĞİŞTİRİN
+// 3. Kullanıcı kendi düğmemizden kapattığında (X), sadece gizle ve kaydetme.
+// Böylece bir sonraki ziyarette tekrar gözükecek.
 function dismissInstallPrompt() {
     document.getElementById('toast').classList.remove('show');
-    // Kullanıcının bir kez görmezden geldiğini işaretle
-    localStorage.setItem(INSTALL_PROMPT_KEY, 'true');
+    // localStorage.setItem(INSTALL_PROMPT_KEY, 'true'); // Bu satır kaldırıldı!
 }
 
 // 4. "YÜKLE" düğmesine basıldığında tarayıcı prompt'unu tetikle
