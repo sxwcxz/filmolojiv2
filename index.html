@@ -848,7 +848,7 @@ function showInstallPromotion() {
     // Bu yüzden 'installed' durumunu kontrol edebiliriz.
     if (deferredPrompt && localStorage.getItem(INSTALL_PROMPT_KEY) !== 'installed') { 
         
-        const installToastContent = `<i class="fas fa-mobile-alt" style="color:#FFC107;"></i> Filmolojiyi Telefonuna Yükle! 
+        const installToastContent = `<i class="fas fa-mobile-alt" style="color:#FFC107;"></i> Filmolojiyi Cihazına Yükle! 
                                      <span onclick="triggerInstallPrompt(event)" class="install-btn">YÜKLE</span> 
                                      <span onclick="dismissInstallPrompt()" style="cursor:pointer; color:rgba(255,255,255,0.7); margin-left:10px; pointer-events: auto !important;">&times;</span>`;
             
