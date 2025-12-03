@@ -99,80 +99,6 @@ const DATABASE = [
                 ]
             }
         ]
-    },
-
-    // --- 2. DİZİ: STRANGER THINGS ---
-    {
-        id: "ser_stranger_things",
-        type: "series",
-        title: "Stranger Things",
-        year: 2016,
-        puan: "8.6",
-        genre: "Bilim Kurgu, Korku, Gizem",
-        // YENİ POSTER BURADA GÜNCELLENDİ
-        poster: "https://media-cache.cinematerial.com/p/500x/o8q4k25c/stranger-things-movie-poster.jpg?v=1653505842",
-        backdrop: "https://m.media-amazon.com/images/M/MV5BZmJiNWY0YTYtM2YwOC00OGQ0LWJhYmQtMzQ5ZjFkNWJmNTAyXkEyXkFqcGc@._V1_FMjpg_UX2160_.jpg",
-        description: "Ufak bir kasabada küçük bir çocuk kaybolunca, gizli deneyler, korkutucu doğaüstü güçler ve tuhaf bir küçük kızın da dahil olduğu bir gizem ortaya çıkar.",
-        seasons: [
-            // --- 1. SEZON ---
-            {
-                name: "1. Sezon",
-                episodes: [
-                    { name: "1. Bölüm: Will Byers'ın Ortadan Kayboluşu", source: "https://drakkarhls6.icu/hls/videos/15789/master.m3u8" },
-                    { name: "2. Bölüm: Maple Sokağındaki Ucube", source: "https://drakkarhls4.icu/hls/videos/15788/master.m3u8" },
-                    { name: "3. Bölüm: Mutlu Noeller", source: "https://drakkarhls8.icu/hls/videos/15786/master.m3u8" },
-                    { name: "4. Bölüm: Ceset", source: "https://drakkarhls4.icu/hls/videos/15784/master.m3u8" },
-                    { name: "5. Bölüm: Pire ve Cambaz", source: "https://drakkarhls9.icu/hls/videos/15783/master.m3u8" },
-                    { name: "6. Bölüm: Canavar", source: "https://drakkarhls6.icu/hls/videos/15782/master.m3u8" },
-                    { name: "7. Bölüm: Küvet", source: "https://drakkarhls4.icu/hls/videos/15785/master.m3u8" },
-                    { name: "8. Bölüm: Alt Üst", source: "https://drakkarhls9.icu/hls/videos/15787/master.m3u8" }
-                ]
-            },
-            // --- 2. SEZON ---
-            {
-                name: "2. Sezon",
-                episodes: [
-                    { name: "1. Bölüm: ÇILGIN MAX", source: "https://drakkarhls4.icu/hls/videos/15798/master.m3u8" },
-                    { name: "2. Bölüm: Şeker mi Şaka mı Ucube", source: "https://drakkarhls6.icu/hls/videos/15796/master.m3u8" },
-                    { name: "3. Bölüm: İribaş", source: "https://drakkarhls8.icu/hls/videos/15795/master.m3u8" },
-                    { name: "4. Bölüm: Bilge Will", source: "https://drakkarhls9.icu/hls/videos/15794/master.m3u8" },
-                    { name: "5. Bölüm: Dig Dug", source: "https://drakkarhls4.icu/hls/videos/15790/master.m3u8" },
-                    { name: "6. Bölüm: Casus", source: "https://drakkarhls8.icu/hls/videos/15797/master.m3u8" },
-                    { name: "7. Bölüm: Kayıp Kız Kardeş", source: "https://drakkarhls8.icu/hls/videos/15791/master.m3u8" },
-                    { name: "8. Bölüm: Zihin Hırsızı", source: "https://drakkarhls8.icu/hls/videos/15792/master.m3u8" },
-                    { name: "9. Bölüm: Kapı", source: "https://drakkarhls9.icu/hls/videos/15793/master.m3u8" }
-                ]
-            },
-            // --- 3. SEZON ---
-            {
-                name: "3. Sezon",
-                episodes: [
-                    { name: "1. Bölüm: Suzie Duyuyor musun", source: "https://drakkarhls9.icu/hls/videos/15776/master.m3u8" },
-                    { name: "2. Bölüm: AVM Fareleri", source: "https://drakkarhls8.icu/hls/videos/15779/master.m3u8" },
-                    { name: "3. Bölüm: Kayıp Cankurtaran Vakası", source: "https://drakkarhls6.icu/hls/videos/15774/master.m3u8" },
-                    { name: "4. Bölüm: Sauna Testi", source: "https://drakkarhls6.icu/hls/videos/15777/master.m3u8" },
-                    { name: "5. Bölüm: Ordu", source: "https://drakkarhls6.icu/hls/videos/15778/master.m3u8" },
-                    { name: "6. Bölüm: Çokluktan Birliğe", source: "https://drakkarhls9.icu/hls/videos/15775/master.m3u8" },
-                    { name: "7. Bölüm: Isırık", source: "https://drakkarhls8.icu/hls/videos/15780/master.m3u8" },
-                    { name: "8. Bölüm: Starcourt Savaşı", source: "https://drakkarhls9.icu/hls/videos/15781/master.m3u8" }
-                ]
-            },
-            // --- 4. SEZON ---
-            {
-                name: "4. Sezon",
-                episodes: [
-                    { name: "1. Bölüm: Hellfire Kulübü", source: "https://drakkarhls8.icu/hls/videos/15803/master.m3u8" },
-                    { name: "2. Bölüm: Vecnanın Laneti", source: "https://drakkarhls8.icu/hls/videos/15805/master.m3u8" },
-                    { name: "3. Bölüm: Canavar mı Süper Kahraman mı", source: "https://drakkarhls8.icu/hls/videos/15807/master.m3u8" },
-                    { name: "4. Bölüm: Sevgili Billy", source: "https://drakkarhls6.icu/hls/videos/15799/master.m3u8" },
-                    { name: "5. Bölüm: Nina Projesi", source: "https://drakkarhls4.icu/hls/videos/15806/master.m3u8" },
-                    { name: "6. Bölüm: Derinlere Dalış", source: "https://drakkarhls8.icu/hls/videos/15800/master.m3u8" },
-                    { name: "7. Bölüm: Hawkins Laboratuvarında Katliam", source: "https://drakkarhls6.icu/hls/videos/15802/master.m3u8" },
-                    { name: "8. Bölüm: Baba", source: "https://drakkarhls9.icu/hls/videos/15801/master.m3u8" },
-                    { name: "9. Bölüm: Kaçak Yolcu", source: "https://drakkarhls6.icu/hls/videos/15804/master.m3u8" }
-                ]
-            }
-        ]
     }
     , // <-- Önceki diziden sonra virgül koymayı unutma!
     {
@@ -422,30 +348,30 @@ const DATABASE = [
             {
                 name: "4. Sezon",
                 episodes: [
-                    { name: "1. Bölüm: Oyun Bitti", source: "https://storage.diziyou.to/episodes/10531_tr/play.m3u8" },
-                    { name: "2. Bölüm: Berlin'in Düğünü", source: "https://storage.diziyou.to/episodes/10532_tr/play.m3u8" },
-                    { name: "3. Bölüm: Anatomi Dersi", source: "https://storage.diziyou.to/episodes/10533_tr/play.m3u8" },
-                    { name: "4. Bölüm: Paso Doble", source: "https://storage.diziyou.to/episodes/10534_tr/play.m3u8" },
-                    { name: "5. Bölüm: 5 Dakika Önce", source: "https://storage.diziyou.to/episodes/10535_tr/play.m3u8" },
-                    { name: "6. Bölüm: Teknik Nakavt", source: "https://storage.diziyou.to/episodes/10536_tr/play.m3u8" },
-                    { name: "7. Bölüm: Çadırı Vurmak", source: "https://storage.diziyou.to/episodes/10537_tr/play.m3u8" },
-                    { name: "8. Bölüm: Paris Planı", source: "https://storage.diziyou.to/episodes/10538_tr/play.m3u8" }
+                    { name: "1. Bölüm: Oyun Bitti", source: "https://storage.diziyou.mx/episodes/10531_tr/play.m3u8" },
+                    { name: "2. Bölüm: Berlin'in Düğünü", source: "https://storage.diziyou.mx/episodes/10532_tr/play.m3u8" },
+                    { name: "3. Bölüm: Anatomi Dersi", source: "https://storage.diziyou.mx/episodes/10533_tr/play.m3u8" },
+                    { name: "4. Bölüm: Paso Doble", source: "https://storage.diziyou.mx/episodes/10534_tr/play.m3u8" },
+                    { name: "5. Bölüm: 5 Dakika Önce", source: "https://storage.diziyou.mx/episodes/10535_tr/play.m3u8" },
+                    { name: "6. Bölüm: Teknik Nakavt", source: "https://storage.diziyou.mx/episodes/10536_tr/play.m3u8" },
+                    { name: "7. Bölüm: Çadırı Vurmak", source: "https://storage.diziyou.mx/episodes/10537_tr/play.m3u8" },
+                    { name: "8. Bölüm: Paris Planı", source: "https://storage.diziyou.mx/episodes/10538_tr/play.m3u8" }
                 ]
             },
             // --- 5. SEZON ---
             {
                 name: "5. Sezon",
                 episodes: [
-                    { name: "1. Bölüm: Yolun Sonu", source: "https://storage.diziyou.to/episodes/10539_tr/play.m3u8" },
-                    { name: "2. Bölüm: Reenkarnasyona İnanır mısın?", source: "https://storage.diziyou.to/episodes/10540_tr/play.m3u8" },
-                    { name: "3. Bölüm: Hayat Gösterisine Hoş Geldiniz", source: "https://storage.diziyou.to/episodes/10541_tr/play.m3u8" },
-                    { name: "4. Bölüm: Cennette Bir Yer", source: "https://storage.diziyou.to/episodes/10542_tr/play.m3u8" },
-                    { name: "5. Bölüm: Birçok Hayat Yaşamak", source: "https://storage.diziyou.to/episodes/10543_tr/play.m3u8" },
-                    { name: "6. Bölüm: Egzoz Valfleri", source: "https://storage.diziyou.to/episodes/10544_tr/play.m3u8" },
-                    { name: "7. Bölüm: Dilek Kutusu", source: "https://storage.diziyou.to/episodes/10545_tr/play.m3u8" },
-                    { name: "8. Bölüm: Zarafet Teorisi", source: "https://storage.diziyou.to/episodes/10546_tr/play.m3u8" },
-                    { name: "9. Bölüm: Yastık Sohbeti", source: "https://storage.diziyou.to/episodes/10547_tr/play.m3u8" },
-                    { name: "10. Bölüm: Bir Aile Geleneği", source: "https://storage.diziyou.to/episodes/10548_tr/play.m3u8" }
+                    { name: "1. Bölüm: Yolun Sonu", source: "https://storage.diziyou.mx/episodes/10539_tr/play.m3u8" },
+                    { name: "2. Bölüm: Reenkarnasyona İnanır mısın?", source: "https://storage.diziyou.mx/episodes/10540_tr/play.m3u8" },
+                    { name: "3. Bölüm: Hayat Gösterisine Hoş Geldiniz", source: "https://storage.diziyou.mx/episodes/10541_tr/play.m3u8" },
+                    { name: "4. Bölüm: Cennette Bir Yer", source: "https://storage.diziyou.mx/episodes/10542_tr/play.m3u8" },
+                    { name: "5. Bölüm: Birçok Hayat Yaşamak", source: "https://storage.diziyou.mx/episodes/10543_tr/play.m3u8" },
+                    { name: "6. Bölüm: Egzoz Valfleri", source: "https://storage.diziyou.mx/episodes/10544_tr/play.m3u8" },
+                    { name: "7. Bölüm: Dilek Kutusu", source: "https://storage.diziyou.mx/episodes/10545_tr/play.m3u8" },
+                    { name: "8. Bölüm: Zarafet Teorisi", source: "https://storage.diziyou.mx/episodes/10546_tr/play.m3u8" },
+                    { name: "9. Bölüm: Yastık Sohbeti", source: "https://storage.diziyou.mx/episodes/10547_tr/play.m3u8" },
+                    { name: "10. Bölüm: Bir Aile Geleneği", source: "https://storage.diziyou.mx/episodes/10548_tr/play.m3u8" }
                 ]
             }
         ]
@@ -10947,5 +10873,109 @@ const DATABASE = [
         "backdrop": "https://images.justwatch.com/poster/109513096/s718/cokus-der-untergang.jpg",
         "description": "Çöküş filmini şimdi izle.",
         "source": "https://cdn.loadvid.com/protected-file/user/756/hls/1/f020287f-9cb0-450a-bcaa-ffe3e57af557-1763980221/7d50038b-ad13-421e-a2fd-0a19caabdd88.m3u8?expires=1764631014&signature=daebaf8b9d8cd3c80b3412f2c63c15f1d13c11c04987aaaae858aba6142ee6e3"
+    },
+
+    // --- 2. DİZİ: STRANGER THINGS ---
+    {
+        id: "ser_stranger_things",
+        type: "series",
+        title: "Stranger Things",
+        year: 2016,
+        puan: "8.6",
+        genre: "Bilim Kurgu, Korku, Gizem",
+        // YENİ POSTER BURADA GÜNCELLENDİ
+        poster: "https://media-cache.cinematerial.com/p/500x/o8q4k25c/stranger-things-movie-poster.jpg?v=1653505842",
+        backdrop: "https://m.media-amazon.com/images/M/MV5BZmJiNWY0YTYtM2YwOC00OGQ0LWJhYmQtMzQ5ZjFkNWJmNTAyXkEyXkFqcGc@._V1_FMjpg_UX2160_.jpg",
+        description: "Ufak bir kasabada küçük bir çocuk kaybolunca, gizli deneyler, korkutucu doğaüstü güçler ve tuhaf bir küçük kızın da dahil olduğu bir gizem ortaya çıkar.",
+        seasons: [
+            // --- 1. SEZON ---
+            {
+                name: "1. Sezon",
+                episodes: [
+                    { name: "1. Bölüm: Will Byers'ın Ortadan Kayboluşu", source: "https://drakkarhls6.icu/hls/videos/15789/master.m3u8" },
+                    { name: "2. Bölüm: Maple Sokağındaki Ucube", source: "https://drakkarhls4.icu/hls/videos/15788/master.m3u8" },
+                    { name: "3. Bölüm: Mutlu Noeller", source: "https://drakkarhls8.icu/hls/videos/15786/master.m3u8" },
+                    { name: "4. Bölüm: Ceset", source: "https://drakkarhls4.icu/hls/videos/15784/master.m3u8" },
+                    { name: "5. Bölüm: Pire ve Cambaz", source: "https://drakkarhls9.icu/hls/videos/15783/master.m3u8" },
+                    { name: "6. Bölüm: Canavar", source: "https://drakkarhls6.icu/hls/videos/15782/master.m3u8" },
+                    { name: "7. Bölüm: Küvet", source: "https://drakkarhls4.icu/hls/videos/15785/master.m3u8" },
+                    { name: "8. Bölüm: Alt Üst", source: "https://drakkarhls9.icu/hls/videos/15787/master.m3u8" }
+                ]
+            },
+            // --- 2. SEZON ---
+            {
+                name: "2. Sezon",
+                episodes: [
+                    { name: "1. Bölüm: ÇILGIN MAX", source: "https://drakkarhls4.icu/hls/videos/15798/master.m3u8" },
+                    { name: "2. Bölüm: Şeker mi Şaka mı Ucube", source: "https://drakkarhls6.icu/hls/videos/15796/master.m3u8" },
+                    { name: "3. Bölüm: İribaş", source: "https://drakkarhls8.icu/hls/videos/15795/master.m3u8" },
+                    { name: "4. Bölüm: Bilge Will", source: "https://drakkarhls9.icu/hls/videos/15794/master.m3u8" },
+                    { name: "5. Bölüm: Dig Dug", source: "https://drakkarhls4.icu/hls/videos/15790/master.m3u8" },
+                    { name: "6. Bölüm: Casus", source: "https://drakkarhls8.icu/hls/videos/15797/master.m3u8" },
+                    { name: "7. Bölüm: Kayıp Kız Kardeş", source: "https://drakkarhls8.icu/hls/videos/15791/master.m3u8" },
+                    { name: "8. Bölüm: Zihin Hırsızı", source: "https://drakkarhls8.icu/hls/videos/15792/master.m3u8" },
+                    { name: "9. Bölüm: Kapı", source: "https://drakkarhls9.icu/hls/videos/15793/master.m3u8" }
+                ]
+            },
+            // --- 3. SEZON ---
+            {
+                name: "3. Sezon",
+                episodes: [
+                    { name: "1. Bölüm: Suzie Duyuyor musun", source: "https://drakkarhls9.icu/hls/videos/15776/master.m3u8" },
+                    { name: "2. Bölüm: AVM Fareleri", source: "https://drakkarhls8.icu/hls/videos/15779/master.m3u8" },
+                    { name: "3. Bölüm: Kayıp Cankurtaran Vakası", source: "https://drakkarhls6.icu/hls/videos/15774/master.m3u8" },
+                    { name: "4. Bölüm: Sauna Testi", source: "https://drakkarhls6.icu/hls/videos/15777/master.m3u8" },
+                    { name: "5. Bölüm: Ordu", source: "https://drakkarhls6.icu/hls/videos/15778/master.m3u8" },
+                    { name: "6. Bölüm: Çokluktan Birliğe", source: "https://drakkarhls9.icu/hls/videos/15775/master.m3u8" },
+                    { name: "7. Bölüm: Isırık", source: "https://drakkarhls8.icu/hls/videos/15780/master.m3u8" },
+                    { name: "8. Bölüm: Starcourt Savaşı", source: "https://drakkarhls9.icu/hls/videos/15781/master.m3u8" }
+                ]
+            },
+            // --- 4. SEZON ---
+            {
+                name: "4. Sezon",
+                episodes: [
+                    { name: "1. Bölüm: Hellfire Kulübü", source: "https://drakkarhls8.icu/hls/videos/15803/master.m3u8" },
+                    { name: "2. Bölüm: Vecnanın Laneti", source: "https://drakkarhls8.icu/hls/videos/15805/master.m3u8" },
+                    { name: "3. Bölüm: Canavar mı Süper Kahraman mı", source: "https://drakkarhls8.icu/hls/videos/15807/master.m3u8" },
+                    { name: "4. Bölüm: Sevgili Billy", source: "https://drakkarhls6.icu/hls/videos/15799/master.m3u8" },
+                    { name: "5. Bölüm: Nina Projesi", source: "https://drakkarhls4.icu/hls/videos/15806/master.m3u8" },
+                    { name: "6. Bölüm: Derinlere Dalış", source: "https://drakkarhls8.icu/hls/videos/15800/master.m3u8" },
+                    { name: "7. Bölüm: Hawkins Laboratuvarında Katliam", source: "https://drakkarhls6.icu/hls/videos/15802/master.m3u8" },
+                    { name: "8. Bölüm: Baba", source: "https://drakkarhls9.icu/hls/videos/15801/master.m3u8" },
+                    { name: "9. Bölüm: Kaçak Yolcu", source: "https://drakkarhls6.icu/hls/videos/15804/master.m3u8" }
+                ]
+            },
+            // --- 5. SEZON (HEM DUBLAJ HEM ALTYAZI VAR) ---
+            {
+                name: "5. Sezon",
+                episodes: [
+                    { 
+                        name: "1. Bölüm: Arayış", 
+                        dublaj_source: "https://storage.diziyou.mx/episodes/40935_tr/play.m3u8",
+                        altyazi_source: "https://prx-1328-ant.vmwesa.online/hls2/01/02119/ajo7ybuyvbak_,l,n,.urlset/master.m3u8?t=Z6XpdT4Z5koqKHwL5CvTM7Yv2bBfJt5L8rcxNhnROEw&s=1764719803&e=43200&v=&srv=rup-fsn-2-a&i=0.4&sp=0&asn=20978",
+                        desc: "Grup, Upside Down'ın etkileriyle mücadele ederken yeni bir tehditle yüzleşiyor."
+                    },
+                    { 
+                        name: "2. Bölüm: Kayboluş", 
+                        dublaj_source: "https://storage.diziyou.mx/episodes/40936_tr/play.m3u8",
+                        altyazi_source: "https://prx-1316-ant.vmwesa.online/hls2/01/02119/opewbnmnxs51_,l,n,.urlset/master.m3u8?t=TpIv4UYPiejojXeVu33AnLGOhPDSg20P9_eu3jaPIHs&s=1764719904&e=43200&v=&srv=de-vud-cdps&i=0.4&sp=0&asn=20978",
+                        desc: "El'in geçmişindeki sırlar ortaya çıkarken, Hawkins'teki çatışma tırmanıyor."
+                    },
+                    { 
+                        name: "3. Bölüm: Turnbow Tuzağı", 
+                        dublaj_source: "https://storage.diziyou.mx/episodes/40937_tr/play.m3u8",
+                        altyazi_source: "https://prx-1353-ant-23.vmwesa.online/hls2/01/02119/bv8khvxuonr6_n/master.m3u8?t=pE-vwcUHGUqUXQIpqe1smX5UZbE-te0JWA-XAcmVx6E&s=1764719929&e=43200&v=&srv=rup-fsn-2-a&i=0.4&sp=0&asn=20978",
+                        desc: "Final hesaplaşması için kahramanlarımız son kez bir araya geliyor."
+                    },
+                    { 
+                        name: "4. Bölüm: Büyücü", 
+                        dublaj_source: "https://storage.diziyou.mx/episodes/40938_tr/play.m3u8",
+                        altyazi_source: "https://prx-1359-ant-vp.vmwesa.online/hls2/01/02119/dfrgelnqpcof_,l,n,.urlset/master.m3u8?t=AEwjdz3pRF7pyJ0gqC8rknm-JZmaGDsVajAK9Z3ECEc&s=1764719953&e=43200&v=&srv=rup-fsn-2-a&i=0.4&sp=0&asn=20978",
+                        desc: "Final hesaplaşması için kahramanlarımız son kez bir araya geliyor."
+                    }
+                ]
+            }
+        ]
     }
 ];

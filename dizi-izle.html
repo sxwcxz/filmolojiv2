@@ -76,15 +76,77 @@
 
         /* CONTENT & PLAYER */
         .main-container { display: flex; min-height: 100vh; padding-top: 120px; max-width: 1600px; margin: 0 auto; gap: 20px; padding-bottom: 50px; }
-        .content-area { flex: 3; min-width: 600px; display: flex; flex-direction: column; align-items: center; gap: 30px; padding: 0 20px; }
+        .content-area { flex: 3; min-width: 600px; display: flex; flex-direction: column; align-items: center; gap: 20px; padding: 0 20px; } 
         .series-title { display: none; }
-        .episode-title { color: #fff; font-size: 2.5rem; font-weight: 800; text-shadow: 0 0 10px rgba(0,0,0,0.5); margin-top: 5px; text-align: center; }
+        .episode-title { color: #fff; font-size: 1.5rem; font-weight: 800; text-shadow: 0 0 10px rgba(0,0,0,0.5); margin-top: 5px; text-align: center; }
 
         .video-wrapper { position: relative; width: 100%; padding-top: 56.25%; background-color: #000; border-radius: 15px; box-shadow: 0 20px 60px rgba(0,0,0,0.6); border: 1px solid rgba(255,255,255,0.1); z-index: 1; }
         .video-js { position: absolute !important; top: 0; left: 0; width: 100% !important; height: 100% !important; border-radius: 15px; overflow: hidden; }
         .video-js .vjs-control-bar { z-index: 100 !important; bottom: 0; width: 100%; }
         .video-js .vjs-progress-control { z-index: 101 !important; cursor: pointer !important; }
 
+        /* --- GÜNCELLENMİŞ DİL BUTONLARI STİLLERİ --- */
+        .source-selector {
+            display: flex;
+            gap: 10px;
+            width: 100%;
+            max-width: 800px; 
+            justify-content: flex-start; 
+            margin: -10px auto 15px auto; 
+            padding: 0 20px; 
+        }
+        .source-btn {
+            padding: 8px 15px; 
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            opacity: 1; 
+            pointer-events: auto;
+        }
+        /* Kaynak yoksa butonu devre dışı bırakma stili */
+        .source-btn:disabled, .source-btn.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            background: rgba(100, 100, 100, 0.1);
+            border-color: rgba(100, 100, 100, 0.2);
+        }
+        .source-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: var(--brand-color);
+        }
+        .source-btn.disabled:hover { 
+            background: rgba(100, 100, 100, 0.1);
+            border-color: rgba(100, 100, 100, 0.2);
+        }
+        .source-btn.active {
+            background: var(--brand-color);
+            border-color: var(--brand-color);
+            box-shadow: 0 0 10px rgba(229, 9, 20, 0.5);
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        /* Mobil için genişlik ayarı */
+        @media (max-width: 1000px) {
+            .source-selector {
+                max-width: 94%;
+                margin: 15px auto 15px auto;
+                padding: 0 10px;
+                justify-content: center; 
+            }
+            .source-btn {
+                flex-grow: 1; 
+                justify-content: center;
+            }
+        }
         /* SIDEBAR */
         .sidebar { flex: 1; background: var(--glass-form-bg); backdrop-filter: var(--blur); -webkit-backdrop-filter: var(--blur); border: 1px solid rgba(255, 255, 255, 0.18); border-radius: 18px; box-shadow: var(--shadow); display: flex; flex-direction: column; min-width: 350px; max-width: 450px; height: 550px; position: sticky; top: 120px; }
         .sidebar-header { padding: 15px 20px; border-bottom: 1px solid rgba(255, 255, 255, 0.1); background: rgba(0, 0, 0, 0.4); border-radius: 18px 18px 0 0; }
@@ -174,6 +236,15 @@
                 <div class="episode-title" id="episode-name">Lütfen Bölüm Seçiniz</div>
             </div>
             <div class="video-wrapper" id="video-container"></div>
+            
+            <div class="source-selector" id="source-buttons"> 
+                <button class="source-btn" id="dublaj-btn" data-type="dublaj" onclick="switchSource('dublaj')">
+                    <i class="fas fa-volume-up"></i> Türkçe Dublaj
+                </button>
+                <button class="source-btn" id="altyazi-btn" data-type="altyazi" onclick="switchSource('altyazi')">
+                    <i class="fas fa-closed-captioning"></i> Türkçe Altyazılı
+                </button>
+            </div>
         </div>
         <div class="sidebar">
             <div class="sidebar-header">
@@ -210,6 +281,234 @@
     <script src="https://cdn.jsdelivr.net/npm/videojs-hls-quality-selector/dist/videojs-hls-quality-selector.min.js"></script>
     
     <script>
+        // Global değişkenler
+let currentEpisodeData = null;
+let currentSeasonIndex = 0;
+let currentEpisodeIndex = 0;
+let player;
+
+// YENİ: Kaynak butonlarının durumunu kontrol eden ve ayarlayan fonksiyon
+function updateSourceButtons(epData) {
+    const dublajBtn = document.getElementById('dublaj-btn');
+    const altyaziBtn = document.getElementById('altyazi-btn');
+    const sourceSelector = document.getElementById('source-buttons');
+    
+    // Geriye dönük uyumluluk: Eğer sadece 'source' varsa, dublaj_source olarak kabul et.
+    const dublajSource = epData.dublaj_source || epData.source;
+    const altyaziSource = epData.altyazi_source;
+    
+    // YENİ MANTIK: Sadece hem dublaj hem de altyazı kaynakları varsa butonları göster.
+    if (dublajSource && altyaziSource) {
+        sourceSelector.style.display = 'flex';
+        
+        // Dublaj butonu
+        dublajBtn.classList.remove('disabled');
+        dublajBtn.disabled = false;
+
+        // Altyazı butonu
+        altyaziBtn.classList.remove('disabled');
+        altyaziBtn.disabled = false;
+
+    } else {
+        // İki kaynak da yoksa veya sadece biri varsa, butonları gizle.
+        sourceSelector.style.display = 'none';
+    }
+}
+
+// playEpisode fonksiyonu güncellendi: Hangi kaynağın oynatılacağına karar verir.
+function playEpisode(ep, index, seasonIdx) {
+    if(series) { updateSEO(series.title, ep.name, ep.desc || "Heyecan dolu yeni bölümü hemen izle."); }
+    document.getElementById('episode-name').innerText = `${ep.name}`; 
+    document.querySelectorAll('.episode-item').forEach(el => el.classList.remove('active'));
+    const activeItem = document.getElementById(`ep-${index}`);
+    if(activeItem) activeItem.classList.add('active');
+
+    const lastEpisodeKey = 'last_ep_' + series.id;
+    localStorage.setItem(lastEpisodeKey, `${seasonIdx}|${index}`);
+
+    currentEpisodeData = ep;
+    currentSeasonIndex = seasonIdx;
+    currentEpisodeIndex = index;
+    
+    // YENİ: Kaynakları geriye dönük uyumlulukla al
+    const dublajSource = ep.dublaj_source || ep.source;
+    const altyaziSource = ep.altyazi_source;
+    
+    // YENİ MANTIK: Butonların görünürlüğünü ayarla
+    updateSourceButtons(ep);
+
+    let sourceType = '';
+    let defaultSource = dublajSource || altyaziSource; // Öncelik dublaj, sonra altyazı, sonra source
+    
+    if (defaultSource === dublajSource) {
+        sourceType = 'dublaj';
+    } else if (defaultSource === altyaziSource) {
+        sourceType = 'altyazi';
+    }
+
+    if (!defaultSource) {
+        showToast('<i class="fas fa-exclamation-triangle"></i> Bu bölüm için kaynak bulunamadı!');
+        if(player) { player.dispose(); player = null; }
+        document.getElementById('video-container').innerHTML = ''; 
+        document.getElementById('episode-name').innerText = `${ep.name} - Kaynak Yok`;
+        return; 
+    }
+    
+    // Mevcut kaynağı oynat ve butonu aktif et (Eğer butonlar görünürse)
+    switchSource(sourceType, true); 
+}
+
+// switchSource fonksiyonu güncellendi: Sadece etkin butonlar ile çalışır.
+function switchSource(type, isInitialLoad = false) {
+    if (!currentEpisodeData) return;
+
+    let url;
+    let buttonId;
+    
+    // Geriye dönük uyumluluk kontrolü eklendi
+    const dublajSource = currentEpisodeData.dublaj_source || currentEpisodeData.source;
+    const altyaziSource = currentEpisodeData.altyazi_source;
+
+    if (type === 'dublaj') {
+        url = dublajSource;
+        buttonId = 'dublaj-btn';
+    } else if (type === 'altyazi') {
+        url = altyaziSource;
+        buttonId = 'altyazi-btn';
+    } else {
+        return; 
+    }
+    
+    const targetButton = document.getElementById(buttonId);
+    
+    // Kaynak yoksa veya buton devre dışıysa, işlem yapma (Sadece iki buton varsa bu kontrol geçerlidir)
+    if (!url || (targetButton && targetButton.classList.contains('disabled'))) {
+         return;
+    }
+
+
+    // 2. Butonları güncelle (Sadece butonlar görünürse bu kısmı çalıştır)
+    if(document.getElementById('source-buttons').style.display !== 'none') {
+        document.querySelectorAll('.source-btn').forEach(btn => btn.classList.remove('active'));
+        if(targetButton) targetButton.classList.add('active');
+    }
+
+    // 3. Oynatıcıyı yükle
+    let resumeTime = 0;
+    if (player && !isInitialLoad) {
+        resumeTime = player.currentTime();
+    }
+    
+    const uniqueEpKey = `resume_${series.id}_s${currentSeasonIndex}_e${currentEpisodeIndex}`;
+    
+    loadPlayer(url, uniqueEpKey, resumeTime, isInitialLoad);
+}
+
+// loadPlayer ve initVideoJS fonksiyonları aynı kaldı
+function loadPlayer(url, storageKey, resumeTime = 0, isInitialLoad = false) {
+    const container = document.getElementById('video-container');
+
+    if(player) { player.dispose(); player = null; }
+    container.innerHTML = ''; 
+    
+    const video = document.createElement('video');
+    video.id = 'video-js-player';
+    video.className = 'video-js vjs-default-skin vjs-big-play-centered';
+    video.controls = true;
+    video.playsInline = true;
+    video.setAttribute('preload', 'auto');
+    
+    const source = document.createElement('source');
+    source.src = url;
+    source.type = 'application/x-mpegURL';
+    video.appendChild(source);
+
+    container.appendChild(video);
+    
+    let timeToResume = resumeTime;
+    if (isInitialLoad && resumeTime === 0) {
+        timeToResume = parseFloat(localStorage.getItem(storageKey)) || 0;
+    }
+    
+    initVideoJS(video.id, storageKey, timeToResume); 
+    
+    if (player) { 
+        player.play().catch(e => console.log("Oto oynatma engellendi:", e)); 
+        if (!isInitialLoad && resumeTime === 0) {
+            showToast('<i class="fas fa-sync"></i> Kaynak Değiştirildi');
+        }
+    }
+}
+
+function initVideoJS(videoId, storageKey, initialResumeTime = 0) {
+    player = videojs(videoId, {
+        fill: true,   
+        responsive: true,
+        playbackRates: [0.5, 1, 1.25, 1.5, 2], 
+        html5: {
+            vhs: { 
+                overrideNative: true,
+                maxBufferLength: 120, 
+                maxSeekholeDuration: 5, 
+                allowSeeksWithinBuffer: true,
+            },
+        }
+    });
+    player.hlsQualitySelector({ displayLabel: 'Kalite' });
+    
+    // Tamponlama Bildirimleri
+    player.on('waiting', function() {
+        if (!player.paused()) {
+            showToast('<i class="fas fa-circle-notch fa-spin"></i> Yükleniyor...');
+        }
+    });
+
+    player.on('playing', function() {
+        const toast = document.getElementById('toast');
+        if (!toast.innerHTML.includes('Kaldığınız yerden')) {
+            toast.classList.remove('show');
+        }
+    });
+    
+    player.on('pause', function() {
+        if(player.tech_.vhs && player.tech_.vhs.bandwidth) {
+            player.tech_.vhs.seeking(false);
+        }
+    });
+
+    // Zamanı kaydetme
+    player.on('timeupdate', function() {
+        if (!player.paused()) {
+            localStorage.setItem(storageKey, player.currentTime());
+        }
+    });
+
+    // YÜKLEME ZAMANI MANTIĞI
+    player.on('loadedmetadata', function() {
+        let savedTime = initialResumeTime; 
+
+        if (savedTime === 0) {
+             savedTime = parseFloat(localStorage.getItem(storageKey));
+        }
+
+        if (savedTime > 0 && savedTime < (player.duration() - 10)) {
+            player.currentTime(savedTime); 
+            const hours = Math.floor(savedTime / 3600);
+            const minutes = Math.floor((savedTime % 3600) / 60);
+            const seconds = Math.floor(savedTime % 60);
+            let timeStr = hours > 0 ? `${hours} saat ${minutes} dakika` : `${minutes} dakika ${seconds} saniye`;
+            
+            if (initialResumeTime === 0) {
+                showToast(`<i class="fas fa-history"></i> Kaldığınız yerden devam ediliyor (${timeStr})`);
+            }
+        }
+    });
+    
+    player.on('ended', function() {
+        localStorage.removeItem(storageKey);
+    });
+}
+        
         document.addEventListener('contextmenu', function(e) { e.preventDefault(); });
         document.onkeydown = function(e) {
             if (e.keyCode == 123) return false;
@@ -219,10 +518,8 @@
 
         const params = new URLSearchParams(window.location.search);
         const id = params.get('id');
-        const SERIES_HLS_URL = "https://drakkarhls4.icu/hls/videos/22275/master.m3u8"; 
 
         const series = typeof DATABASE !== 'undefined' ? DATABASE.find(item => item.id === id) : null;
-        let player;
 
         function updateSEO(seriesName, episodeName, episodeDesc) {
             document.title = `${seriesName} - ${episodeName} İzle | Filmoloji`;
@@ -284,54 +581,6 @@
             });
         }
 
-        function playEpisode(ep, index, seasonIdx) {
-            if(series) { updateSEO(series.title, ep.name, ep.desc || "Heyecan dolu yeni bölümü hemen izle."); }
-            document.getElementById('episode-name').innerText = `${ep.name}`; 
-            document.querySelectorAll('.episode-item').forEach(el => el.classList.remove('active'));
-            const activeItem = document.getElementById(`ep-${index}`);
-            if(activeItem) activeItem.classList.add('active');
-
-            const lastEpisodeKey = 'last_ep_' + series.id;
-            localStorage.setItem(lastEpisodeKey, `${seasonIdx}|${index}`);
-
-            const container = document.getElementById('video-container');
-            const url = ep.source && ep.source.includes('.m3u8') ? ep.source : SERIES_HLS_URL; 
-
-            if(player) { player.dispose(); player = null; }
-            container.innerHTML = ''; 
-            
-            const video = document.createElement('video');
-            video.id = 'video-js-player';
-            video.className = 'video-js vjs-default-skin vjs-big-play-centered';
-            video.controls = true;
-            video.playsInline = true;
-            video.setAttribute('preload', 'auto');
-            
-            const source = document.createElement('source');
-            source.src = url;
-            source.type = 'application/x-mpegURL';
-            video.appendChild(source);
-            
-            if (ep.subtitles && Array.isArray(ep.subtitles)) {
-                ep.subtitles.forEach(sub => {
-                    const track = document.createElement('track');
-                    track.kind = 'subtitles';
-                    track.label = sub.label;
-                    track.srclang = sub.lang;
-                    track.src = sub.src;
-                    if (sub.default) track.default = true;
-                    video.appendChild(track);
-                });
-            }
-            container.appendChild(video);
-            
-            const uniqueEpKey = `resume_${series.id}_s${seasonIdx}_e${index}`;
-            
-            initVideoJS(video.id, uniqueEpKey);
-
-            if (player) { player.play().catch(e => console.log("Oto oynatma engellendi:", e)); }
-        }
-
 
         if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
@@ -344,69 +593,6 @@
             });
     });
 }
-
-        function initVideoJS(videoId, storageKey) {
-            player = videojs(videoId, {
-                fill: true,   
-                responsive: true,
-                playbackRates: [0.5, 1, 1.25, 1.5, 2], 
-                html5: {
-                    vhs: { 
-                        overrideNative: true,
-                        // Tamponlama süresi 120 saniyede kaldı
-                        maxBufferLength: 120, 
-                        maxSeekholeDuration: 5, 
-                        // Duraklatıldığında bile tamponu korumayı denemesi için ek ayar
-                        allowSeeksWithinBuffer: true,
-                    },
-                }
-            });
-            player.hlsQualitySelector({ displayLabel: 'Kalite' });
-            
-            // Tamponlama Bildirimleri
-            player.on('waiting', function() {
-                if (!player.paused()) {
-                    showToast('<i class="fas fa-circle-notch fa-spin"></i> Yükleniyor...');
-                }
-            });
-
-            player.on('playing', function() {
-                const toast = document.getElementById('toast');
-                if (!toast.innerHTML.includes('Kaldığınız yerden')) {
-                    toast.classList.remove('show');
-                }
-            });
-            
-            // Durdurunca Önbelleğe Almaya Devam Etme Mantığı
-            player.on('pause', function() {
-                if(player.tech_.vhs && player.tech_.vhs.bandwidth) {
-                    player.tech_.vhs.seeking(false);
-                }
-            });
-
-
-            player.on('timeupdate', function() {
-                if (!player.paused()) {
-                    localStorage.setItem(storageKey, player.currentTime());
-                }
-            });
-
-            player.on('loadedmetadata', function() {
-                const savedTime = parseFloat(localStorage.getItem(storageKey));
-                if (savedTime > 0 && savedTime < (player.duration() - 10)) {
-                    player.currentTime(savedTime); 
-                    const hours = Math.floor(savedTime / 3600);
-                    const minutes = Math.floor((savedTime % 3600) / 60);
-                    const seconds = Math.floor(savedTime % 60);
-                    let timeStr = hours > 0 ? `${hours} saat ${minutes} dakika` : `${minutes} dakika ${seconds} saniye`;
-                    showToast(`<i class="fas fa-history"></i> Kaldığınız yerden devam ediliyor (${timeStr})`);
-                }
-            });
-            
-            player.on('ended', function() {
-                localStorage.removeItem(storageKey);
-            });
-        }
 
         function showToast(message) {
             const toast = document.getElementById('toast');
