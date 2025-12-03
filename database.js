@@ -10953,25 +10953,25 @@ const DATABASE = [
                     { 
                         name: "1. Bölüm: Arayış", 
                         dublaj_source: "https://storage.diziyou.mx/episodes/40935_tr/play.m3u8",
-                        altyazi_source: "https://prx-1328-ant.vmwesa.online/hls2/01/02119/ajo7ybuyvbak_,l,n,.urlset/master.m3u8?t=Z6XpdT4Z5koqKHwL5CvTM7Yv2bBfJt5L8rcxNhnROEw&s=1764719803&e=43200&v=&srv=rup-fsn-2-a&i=0.4&sp=0&asn=20978",
+                        altyazi_source: "https://ozovxg2t3b2c8m8g.streamruby.net/hls2/05/00381/dmij76wzlmrw_,l,n,h,o,.urlset/master.m3u8?t=8hBbgUhRs3kIT3kg67TywUAukX_URdcuzw7hVy9cz_I&s=1764803420&e=32400&v=1360576978&i=37.154&sp=0",
                         desc: "Grup, Upside Down'ın etkileriyle mücadele ederken yeni bir tehditle yüzleşiyor."
                     },
                     { 
                         name: "2. Bölüm: Kayboluş", 
                         dublaj_source: "https://storage.diziyou.mx/episodes/40936_tr/play.m3u8",
-                        altyazi_source: "https://prx-1316-ant.vmwesa.online/hls2/01/02119/opewbnmnxs51_,l,n,.urlset/master.m3u8?t=TpIv4UYPiejojXeVu33AnLGOhPDSg20P9_eu3jaPIHs&s=1764719904&e=43200&v=&srv=de-vud-cdps&i=0.4&sp=0&asn=20978",
+                        altyazi_source: "https://ucxipzwkyhms02.streamruby.net/hls2/02/00381/rjmd7fw7p5x2_,l,n,h,o,.urlset/master.m3u8?t=Ysy4JKbrc_SCnwP8aUbA5wy8kCL4bTuTcCzza9eVdzE&s=1764803564&e=32400&v=1360584380&i=37.154&sp=0",
                         desc: "El'in geçmişindeki sırlar ortaya çıkarken, Hawkins'teki çatışma tırmanıyor."
                     },
                     { 
                         name: "3. Bölüm: Turnbow Tuzağı", 
                         dublaj_source: "https://storage.diziyou.mx/episodes/40937_tr/play.m3u8",
-                        altyazi_source: "https://prx-1353-ant-23.vmwesa.online/hls2/01/02119/bv8khvxuonr6_n/master.m3u8?t=pE-vwcUHGUqUXQIpqe1smX5UZbE-te0JWA-XAcmVx6E&s=1764719929&e=43200&v=&srv=rup-fsn-2-a&i=0.4&sp=0&asn=20978",
+                        altyazi_source: "https://36x8fqcfqsv376o2c3bj.streamruby.net/hls2/02/00381/kbkcnhvl193s_,l,n,h,o,.urlset/master.m3u8?t=5MCY7WrOH6YHzQGhUzDeKNPIBwVjiPS_-TTa9RXYTKc&s=1764803600&e=32400&v=1360586201&i=37.154&sp=0",
                         desc: "Final hesaplaşması için kahramanlarımız son kez bir araya geliyor."
                     },
                     { 
                         name: "4. Bölüm: Büyücü", 
                         dublaj_source: "https://storage.diziyou.mx/episodes/40938_tr/play.m3u8",
-                        altyazi_source: "https://prx-1359-ant-vp.vmwesa.online/hls2/01/02119/dfrgelnqpcof_,l,n,.urlset/master.m3u8?t=AEwjdz3pRF7pyJ0gqC8rknm-JZmaGDsVajAK9Z3ECEc&s=1764719953&e=43200&v=&srv=rup-fsn-2-a&i=0.4&sp=0&asn=20978",
+                        altyazi_source: "https://ozovxg2t3b2c8m8g.streamruby.net/hls2/03/00381/gjwyy310fod5_,l,n,h,o,.urlset/master.m3u8?t=wAMgJwEbkFE-6VQmI-hZOQdZ9dN-LG_EI6Oudh77X-o&s=1764803627&e=32400&v=1360587576&i=37.154&sp=0",
                         desc: "Final hesaplaşması için kahramanlarımız son kez bir araya geliyor."
                     }
                 ]
