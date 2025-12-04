@@ -139,18 +139,23 @@
             color: #FFE082; background: rgba(255, 193, 7, 0.2); transform: scale(1.05);
         }
 
-        /* --- ARAMA --- */
+        /* --- ARAMA (SÜREKLİ AÇIK YENİ STİL) --- */
         .search-container { 
-            display: flex; align-items: center; background: transparent; 
-            border-radius: 30px; padding: 5px 15px; width: 40px; overflow: hidden; 
-            transition: 0.4s; cursor: pointer; border: 1px solid transparent; 
+            display: flex; 
+            align-items: center; 
+            background: rgba(0,0,0,0.8); /* Arka plan hep koyu */
+            border-radius: 30px; 
+            padding: 5px 15px; 
+            width: 140px; /* Genişlik hep açık hali */
+            overflow: hidden; 
+            transition: 0.4s; 
+            cursor: default; /* Tıklanabilirliği kaldır */
+            border: 1px solid rgba(255,255,255,0.2); /* Kenarlık hep açık hali */
         }
-        .search-container:hover, .search-container.active { width: 140px; background: rgba(0,0,0,0.8); border-color: rgba(255,255,255,0.2); }
         .search-icon-btn { font-size: 18px; flex-shrink: 0; color: var(--brand-color); margin-right: 10px; }
-        .search-input { width: 100%; background: transparent; border: none; color: white; outline: none; font-size: 14px; opacity: 0; transition: 0.3s; }
-        .search-container:hover .search-input, .search-container.active .search-input { opacity: 1; }
-        .close-search { font-size: 16px; cursor: pointer; color: #aaa; margin-left: auto; display: none; }
-        .search-container.active .close-search { display: block; }
+        .search-input { width: 100%; background: transparent; border: none; color: white; outline: none; font-size: 14px; opacity: 1; transition: none; }
+        .close-search { font-size: 16px; cursor: pointer; color: #aaa; margin-left: auto; display: block; /* Çarpı her zaman görünür */ }
+        /* --- /ARAMA --- */
 
         /* --- PWA YÜKLE BUTONU STİLİ --- */
 .install-btn {
@@ -323,6 +328,14 @@
     .floating-btn:hover:not(.toggle-btn) {
         width: 170px; /* Hover genişlemesini kaldırıyoruz */
     }
+    
+    /* MOBİL ARAMA KUTUSU - SÜREKLİ AÇIK VE SABİT */
+    .search-container { 
+        order: 2; 
+        margin-left: auto;
+        width: 140px; /* Sabit genişlik */
+    }
+    /* Mobil açılma kuralı tamamen kaldırıldı */
 }
         /* --- HERO (Dinamik) --- */
         .hero { position: relative; height: 85vh; display: flex; align-items: flex-end; padding-bottom: 80px; overflow: hidden; }
@@ -405,6 +418,7 @@
         .page-section { display: none; min-height: 100vh; animation: fadeEffect 0.5s; }
         .page-section.active { display: block; }
         @keyframes fadeEffect { from {opacity: 0;} to {opacity: 1;} }
+        /* Arama sonuçları tüm ekranı kaplamaya devam etmeli */
         #search-results-area { display: none; padding: 120px 5% 50px 5%; min-height: 100vh; background-color: var(--bg-dark); position: fixed; top: 0; left: 0; width: 100%; z-index: 900; overflow-y: auto; }
 
         /* FORM */
@@ -430,8 +444,12 @@
             .navbar { top: 0; left: 0; transform: none; width: 100%; border-radius: 0; padding: 0 15px; height: 60px; background: #141414; backdrop-filter: none; }
             .nav-menu { display: none; }
             .logo-container { order: 1; }
-            .search-container { order: 2; margin-left: auto; }
-            .search-container.active { width: calc(100% - 140px); position: absolute; left: 70px; top: 5px; height: 50px; }
+            /* Mobil arama kutusu sabitleniyor */
+            .search-container { 
+                order: 2; 
+                margin-left: auto;
+                width: 140px; /* Sabit genişlik */
+            }
             .menu-toggle { display: block; order: 3; margin-left: 10px; }
             .hero { padding-top: 70px; height: 60vh; }
             .hero h1 { font-size: 2.5rem; }
@@ -488,10 +506,10 @@
             <a onclick="goToSuggestions()" class="nav-item"><i class="fas fa-paper-plane"></i> İstek & Öneri</a>
             <a href="login.html" class="nav-item premium-btn"><i class="fas fa-crown"></i> Premium</a>
         </div>
-        <div class="search-container" id="searchBox">
-            <div class="search-icon-btn" onclick="openSearch()"><i class="fas fa-search"></i></div>
-            <input type="text" class="search-input" id="searchInput" placeholder="Film veya dizi ara..." onkeyup="handleSearchRedirect(event)">
-            <div class="close-search" onclick="closeSearch()">&times;</div>
+        <div class="search-container" id="searchBox"> 
+            <div class="search-icon-btn"><i class="fas fa-search"></i></div>
+            <input type="text" class="search-input" id="searchInput" placeholder="Ara..." onkeyup="handleSearchDebounced(event)"> 
+            <div class="close-search" onclick="closeSearch()">&times;</div> 
         </div>
         <button class="menu-toggle" id="menuToggle" onclick="toggleMenu()"><i class="fas fa-bars"></i></button>
     </nav>
@@ -603,29 +621,58 @@
     <div id="toast" class="toast-notification"></div>
 
     <script>
+    // --- KOPYALAMAYI VE GEREKSİZ İŞLEMLERİ ENGELLEME ---
     document.addEventListener('contextmenu', e => e.preventDefault());
     document.onkeydown = e => {
-        if (e.keyCode == 123) return false;
+        if (e.keyCode == 123) return false; // F12
+        // Ctrl+U (Kaynağı Görüntüle) ve Ctrl+S (Kaydet) engelleme
         if (e.ctrlKey && (e.keyCode == 'U'.charCodeAt(0) || e.keyCode == 'S'.charCodeAt(0))) return false;
     };
 
+    // --- NAVBAR KAYDIRMA ETKİSİ ---
     window.onscroll = function() {
         const nav = document.getElementById('navbar');
+        // Mobil menü açık değilse kaydırma efektini uygula
         if (window.innerWidth > 992 || !document.getElementById('mobileMenuOverlay').classList.contains('open')) {
             nav.classList.toggle('scrolled', window.scrollY > 50);
         }
     };
 
+    // --- YATAY KAYDIRMA SÜRÜKLEME ETKİSİ ---
     function applyHorizontalScrollDrag(elementId) {
         const slider = document.getElementById(elementId);
         if (!slider) return;
         let isDown = false, startX, scrollLeft;
-        slider.addEventListener('mousedown', (e) => { isDown = true; slider.style.cursor = 'grabbing'; startX = e.pageX - slider.offsetLeft; scrollLeft = slider.scrollLeft; });
-        slider.addEventListener('mouseleave', () => { isDown = false; slider.style.cursor = 'grab'; });
-        slider.addEventListener('mouseup', (e) => { if(Math.abs(e.pageX - startX) > 5) e.preventDefault(); isDown = false; slider.style.cursor = 'grab'; });
-        slider.addEventListener('mousemove', (e) => { if (!isDown) return; e.preventDefault(); const x = e.pageX - slider.offsetLeft; const walk = (x - startX) * 2; slider.scrollLeft = scrollLeft - walk; });
+        
+        slider.addEventListener('mousedown', (e) => { 
+            isDown = true; 
+            slider.style.cursor = 'grabbing'; 
+            startX = e.pageX - slider.offsetLeft; 
+            scrollLeft = slider.scrollLeft; 
+        });
+        
+        slider.addEventListener('mouseleave', () => { 
+            isDown = false; 
+            slider.style.cursor = 'grab'; 
+        });
+        
+        // Mouse'u kaldırdığımızda, eğer sürükleme hareketi küçükse tıklama olayını engelle
+        slider.addEventListener('mouseup', (e) => { 
+            if(Math.abs(e.pageX - startX) > 5) e.preventDefault(); 
+            isDown = false; 
+            slider.style.cursor = 'grab'; 
+        });
+        
+        slider.addEventListener('mousemove', (e) => { 
+            if (!isDown) return; 
+            e.preventDefault(); 
+            const x = e.pageX - slider.offsetLeft; 
+            const walk = (x - startX) * 2; 
+            slider.scrollLeft = scrollLeft - walk; 
+        });
     }
         
+    // --- MOBİL MENÜ GEÇİŞİ ---
     function toggleMenu() {
         const overlay = document.getElementById('mobileMenuOverlay');
         const backdrop = document.getElementById('mobileBackdrop');
@@ -658,15 +705,14 @@
         window.location.href = `${targetPage}?id=${randomItem.id}`;
     }
 
-    // --- YENİ KOD: İSTEK & ÖNERİ FORMU GÖNDERİMİ ---
+    // --- İSTEK & ÖNERİ FORMU GÖNDERİMİ ---
 async function submitSuggestion(event) {
-    event.preventDefault(); // Sayfanın yönlendirilmesini engelle
+    event.preventDefault(); 
     
     const form = event.target;
     const submitButton = form.querySelector('.btn-submit');
     const originalButtonText = submitButton.innerHTML;
 
-    // Gönderim sırasında butonu devre dışı bırak ve yükleniyor animasyonu göster
     submitButton.disabled = true;
     submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Gönderiliyor...';
 
@@ -680,31 +726,27 @@ async function submitSuggestion(event) {
         });
 
         if (response.ok) {
-            // Başarılı gönderim
             showToast('<i class="fas fa-check-circle" style="color: #4CAF50;"></i> İsteğiniz/Öneriniz Başarıyla Alındı!');
-            form.reset(); // Form alanlarını temizle
+            form.reset(); 
         } else {
-            // Formspree'den gelen hata
             showToast('<i class="fas fa-exclamation-triangle" style="color: #FFC107;"></i> Gönderimde Hata Oluştu. Tekrar Deneyin.');
         }
 
     } catch (error) {
-        // Ağ veya fetch hatası
         console.error('Gönderim Hatası:', error);
         showToast('<i class="fas fa-exclamation-circle" style="color: #F44336;"></i> Sunucuya Erişilemedi. Lütfen daha sonra tekrar deneyin.');
     } finally {
-        // Butonu eski haline getir ve etkinleştir
         submitButton.disabled = false;
         submitButton.innerHTML = originalButtonText;
     }
 }
 
+// --- PRELOADER YÖNETİMİ ---
 function trackCriticalImages(callback) {
     const heroBgElement = document.getElementById('hero-bg');
     const heroBgUrlMatch = heroBgElement.style.backgroundImage.match(/url\(['"]?(.*?)['"]?\)/);
     
     if (!heroBgUrlMatch || !heroBgUrlMatch[1]) {
-        // Hero resmi yoksa hemen devam et
         callback();
         return;
     }
@@ -712,7 +754,6 @@ function trackCriticalImages(callback) {
     const heroImageUrl = heroBgUrlMatch[1];
     const loadingBar = document.getElementById('loadingBar');
     
-    // --- 1. Adım: Hero Resminin Yüklenmesini Arka Planda Başlat ---
     let heroLoaded = false;
     const img = new Image();
     img.onload = img.onerror = () => {
@@ -720,46 +761,35 @@ function trackCriticalImages(callback) {
     };
     img.src = heroImageUrl;
 
-    // --- 2. Adım: Loading Bar'ı Akıcı Şekilde Yükselt (Animasyon) ---
-    const MIN_LOAD_TIME = 1500; // Minimum yükleme süresi (1.5 saniye)
+    const MIN_LOAD_TIME = 1500; 
     let startTime = Date.now();
 
-    // Barı yavaşça %90'a kadar yükselt (Göz aldanması için)
     let progress = 0;
     const interval = setInterval(() => {
         if (progress < 90) {
-            progress += 2; // Her 50ms'de %2 artır
+            progress += 2; 
             loadingBar.style.width = `${progress}%`;
         }
         
-        // Bar %90'a ulaştığında veya Hero yüklendiğinde dur
         if (progress >= 90 || heroLoaded) {
             clearInterval(interval);
-            // Hero resmi hazırsa ve minimum süre geçtiyse, yükleme ekranını gizle
             checkCompletion(startTime, MIN_LOAD_TIME, heroLoaded, loadingBar, callback);
         }
     }, 50);
 
-    // --- 3. Adım: Kontrol Fonksiyonu ---
     function checkCompletion(startTime, minTime, heroStatus, barElement, finalCallback) {
-        // Hero resminin hazır olmasını ve minimum sürenin geçmesini bekle
         const elapsed = Date.now() - startTime;
         const remainingTime = Math.max(0, minTime - elapsed);
         
-        // Barı %100 yap
         barElement.style.width = `100%`; 
         
         setTimeout(() => {
-             // Hero yüklendi mi diye son bir kontrol
             if (heroStatus) { 
-                finalCallback(); // Yükleniyor ekranını gizle
+                finalCallback(); 
             } else {
-                // Eğer Hero resmi hala yüklenmediyse (çok yavaş internet), 
-                // biraz daha bekleyebilir veya açılmaya zorlayabiliriz.
-                // Şimdilik sadece açılmaya zorluyoruz, çünkü sonsuza kadar beklemek istemeyiz.
                 finalCallback();
             }
-        }, remainingTime); // Minimum süre veya kalan süre kadar bekle
+        }, remainingTime); 
     }
 }
 
@@ -769,67 +799,80 @@ function hidePreloader() {
     preloader.style.opacity = '0';
     setTimeout(() => {
         preloader.style.display = 'none';
-    }, 500); // CSS geçiş süresine (0.5s) uygun gecikme
+    }, 500); 
 }
-// --- MEVCUT window.onload FONKSİYONUNU GÜNCELLEME ---
+
+// --- ARAMA HIZI İÇİN DEBOUNCE MEKANİZMASI ---
+let searchTimeout;
+function handleSearchDebounced(event) {
+    // Enter tuşuna basılırsa, debounce beklemeden hemen arama yap
+    if (event && event.key === 'Enter') {
+        handleSearch(); 
+        return;
+    }
+    
+    // Gecikme süresi 300ms
+    clearTimeout(searchTimeout);
+    searchTimeout = setTimeout(() => {
+        handleSearch();
+    }, 300); 
+}
+
+
+// --- UYGULAMA BAŞLANGIÇ İŞLEMLERİ ---
 window.onload = function() {
-    // init ve setRandomHero fonksiyonları artık preloader'dan ÖNCE çağrılmalı,
-    // çünkü trackCriticalImages bu elementlerin varlığını kontrol ediyor.
     if (typeof DATABASE !== 'undefined') {
         init();
         setRandomHero(); 
         loadContinueWatching(); 
         
-        // KRİTİK DEĞİŞİKLİK: trackCriticalImages'ı çağır
         trackCriticalImages(hidePreloader);
         
     } else {
         console.error("Veritabanı yüklenemedi. database.js dosyasını kontrol edin.");
-        hidePreloader(); // Hata durumunda bile ekranı aç
+        hidePreloader(); 
     }
     
+    // Yatay kaydırma sürükleme olaylarını başlat
     applyHorizontalScrollDrag('home-trending');
     applyHorizontalScrollDrag('home-series');
     applyHorizontalScrollDrag('home-movies');
     applyHorizontalScrollDrag('continue-watching-list');
 
+    // URL parametrelerini kontrol et (Sayfa ve Arama)
     const params = new URLSearchParams(window.location.search);
     const page = params.get('page');
     const search = params.get('search');
 
     if (search) {
         document.getElementById('searchInput').value = search;
-        openSearch();
         handleSearch(); 
     } else if (page) {
         switchPage(page);
     }
+    
+    // PWA yükleme promosyonunu göster (Eğer müsaitse)
+    showInstallPromotion();
 };
+
+// --- PWA YÖNETİMİ ---
 let deferredPrompt;
 const INSTALL_PROMPT_KEY = 'install_prompt_dismissed';
 
-// 1. Tarayıcı yükleme penceresini göstermeye hazır olduğunda yakala
 window.addEventListener('beforeinstallprompt', (e) => {
-    // Varsayılan tarayıcı promptunu engelle
     e.preventDefault();
-    // Prompt olayını daha sonra kullanmak üzere sakla
     deferredPrompt = e;
-    // Kullanıcıya yükleme bildirimini göster
     showInstallPromotion(); 
 });
 
-// 1081. satırda başlayan showCustomToast fonksiyonunu aşağıdakiyle DEĞİŞTİRİN
 function showCustomToast(message, isInstallPrompt = false) {
     const toast = document.getElementById('toast');
     
-    // Toast'u sıfırla ve PWA stili uygula
     toast.style.bottom = '30px'; 
     toast.style.right = '30px';
-    toast.style.transform = 'translateY(20px)'; // Reset
+    toast.style.transform = 'translateY(20px)'; 
 
-    // Eğer PWA bildirimi DEĞİLSE, kapatma çarpısını otomatik ekle
     if (!isInstallPrompt) {
-        // Normal bildirim ise, standart showToast mantığını kullan
         toast.innerHTML = `${message} 
                    <span onclick="dismissInstallPrompt()" style="cursor:pointer; color:rgba(255,255,255,0.7); margin-left:10px; pointer-events: auto !important;">&times;</span>`;
         toast.classList.add('show');
@@ -837,15 +880,11 @@ function showCustomToast(message, isInstallPrompt = false) {
         return;
     }
     
-    // PWA yükleme bildirimi ise, içeriği olduğu gibi kullan (kapatma çarpısı zaten message içinde)
-    toast.innerHTML = message; // Kapatma çarpısı eklemeyi buradan kaldırdık.
+    toast.innerHTML = message;
     toast.classList.add('show');
 }
-// YALNIZCA BU KISMI DEĞİŞTİRİN
+
 function showInstallPromotion() {
-    // Eğer PWA prompt varsa göster. localStorage kontrolünü kaldırdık.
-    // Ancak, kullanıcı bir kere kabul ettiyse veya yüklediyse göstermemek en iyisidir.
-    // Bu yüzden 'installed' durumunu kontrol edebiliriz.
     if (deferredPrompt && localStorage.getItem(INSTALL_PROMPT_KEY) !== 'installed') { 
         
         const installToastContent = `<i class="fas fa-mobile-alt" style="color:#FFC107;"></i> Filmolojiyi Cihazına Yükle! 
@@ -856,40 +895,30 @@ function showInstallPromotion() {
     }
 }
 
-// YALNIZCA BU KISMI DEĞİŞTİRİN
-// 3. Kullanıcı kendi düğmemizden kapattığında (X), sadece gizle ve kaydetme.
-// Böylece bir sonraki ziyarette tekrar gözükecek.
 function dismissInstallPrompt() {
     document.getElementById('toast').classList.remove('show');
-    // localStorage.setItem(INSTALL_PROMPT_KEY, 'true'); // Bu satır kaldırıldı!
 }
 
-// 4. "YÜKLE" düğmesine basıldığında tarayıcı prompt'unu tetikle
 function triggerInstallPrompt(event) {
     if(event) event.stopPropagation();
     
     if (deferredPrompt) {
-        // Toast bildirimini kapat
         document.getElementById('toast').classList.remove('show');
-        
-        // Tarayıcı promptunu göster
         deferredPrompt.prompt();
         
-        // Kullanıcının yanıtını bekle
         deferredPrompt.userChoice.then((choiceResult) => {
             if (choiceResult.outcome === 'accepted') {
                 showToast('<i class="fas fa-check-circle" style="color: #4CAF50;"></i> Filmoloji Yüklendi!');
-                // Yüklendikten sonra bir daha sorma
                 localStorage.setItem(INSTALL_PROMPT_KEY, 'installed'); 
             } else {
                 showToast('<i class="fas fa-info-circle"></i> Yükleme İptal Edildi.');
-                localStorage.setItem(INSTALL_PROMPT_KEY, 'dismissed'); // İptal ettiyse bir daha sorma
+                localStorage.setItem(INSTALL_PROMPT_KEY, 'dismissed');
             }
             deferredPrompt = null;
         });
     }
 }
-    // --- YENİ KOD: SADECE BU DİZİ ID'LERİ KULLANILACAK ---
+    // --- HERO RESMİ KONTROL LİSTESİ ---
 const HERO_WHITELIST_IDS = [
     "ser_breaking_bad",
     "ser_stranger_things",
@@ -916,26 +945,21 @@ const HERO_WHITELIST_IDS = [
 
 
 function setRandomHero() {
-    // HERO_WHITELIST_IDS listesindeki ID'lere sahip olan içerikleri filtrele
+    // Sadece WHITELIST'te olan ve backdrop'ı olan öğeleri seç
     const heroCandidates = DATABASE.filter(item => {
-        // Sadece WHITELIST'te olan ve backdrop'ı olan öğeleri seç
         return HERO_WHITELIST_IDS.includes(item.id) && item.backdrop && item.backdrop.length > 10;
     });
 
-    // Filtrelenen listeden rastgele bir öğe seçme kontrolü
     if(heroCandidates.length === 0) {
-        // Eğer filtrelenen içerik yoksa, placeholder gösterilir.
         document.getElementById('hero-title').innerText = "Filmoloji";
         document.getElementById('hero-desc').innerText = "En yeni filmleri ve popüler dizileri Full HD kalitesinde izleyebileceğiniz ücretsiz bir platformdur.";
         document.getElementById('hero-bg').style.backgroundImage = 'none';
         return;
     }
     
-    // Kısıtlanmış listeden rastgele bir öğe seç
     const randomIndex = Math.floor(Math.random() * heroCandidates.length);
     const randomItem = heroCandidates[randomIndex];
     
-    // Hero bölümünü güncelleyen kısım
     document.getElementById('hero-title').innerText = randomItem.title;
     document.getElementById('hero-desc').innerText = randomItem.description;
     document.getElementById('hero-bg').style.backgroundImage = `url('${randomItem.backdrop}')`;
@@ -944,6 +968,7 @@ function setRandomHero() {
     document.getElementById('hero-play-btn').onclick = () => window.location.href = `${targetPage}?id=${randomItem.id}`;
 }
 
+    // --- İZLEMEYE DEVAM ET LİSTESİNİ YÜKLEME ---
     function loadContinueWatching() {
         const container = document.getElementById('continue-watching-list');
         const wrapper = document.getElementById('continue-watching-wrapper');
@@ -952,6 +977,7 @@ function setRandomHero() {
 
         DATABASE.forEach(item => {
             let shouldAdd = false;
+            // Dizi için son izlenen bölüm, film için kaldığı süre kontrolü
             if (item.type === 'series') {
                 if (localStorage.getItem('last_ep_' + item.id)) shouldAdd = true;
             } else {
@@ -967,11 +993,10 @@ function setRandomHero() {
     }
 
 function showToast(msg) {
-        // Tüm eski showToast çağrıları artık showCustomToast'u kullanacak
         showCustomToast(msg, false);
     }
 
-// --- toggleMyList Fonksiyonu (Toast İkonu Güncellendi) ---
+// --- FAVORİ LİSTESİ YÖNETİMİ ---
 function toggleMyList(id, event) {
     if(event) event.stopPropagation(); 
     
@@ -980,24 +1005,25 @@ function toggleMyList(id, event) {
     let icon = btn ? btn.querySelector('i') : null;
 
     if (list.includes(id)) {
+        // Çıkar
         list = list.filter(item => item !== id);
         if(btn) { 
             btn.classList.remove('added'); 
-            icon.className = 'far fa-heart'; // Boş kalp (çıkarıldı)
+            icon.className = 'fas fa-heart'; 
         }
-        // Çıkarıldı bildirimi (çöp kutusu ikonu)
         showToast('<i class="fas fa-trash"></i> Favorilerden Çıkarıldı'); 
     } else {
+        // Ekle
         list.push(id);
         if(btn) { 
             btn.classList.add('added'); 
-            icon.className = 'fas fa-heart'; // Dolu kalp (eklendi)
+            icon.className = 'fas fa-check'; 
         }
-        // Eklendi bildirimi (pembe kalp ikonu)
         showToast('<i class="fas fa-heart" style="color: #FF6B6B;"></i> Favorilere Eklendi'); 
     }
     
     localStorage.setItem('myList', JSON.stringify(list));
+    // Eğer favoriler sayfasındaysak listeyi yeniden render et
     if(document.getElementById('mylist').classList.contains('active')) { renderMyList(); }
 }
 
@@ -1006,6 +1032,7 @@ function toggleMyList(id, event) {
         const emptyMsg = document.getElementById('mylist-empty');
         grid.innerHTML = '';
         
+        // Listenin tersini alarak en son ekleneni en başta göster
         let list = JSON.parse(localStorage.getItem('myList')) || [];
         
         if (list.length === 0) {
@@ -1021,11 +1048,13 @@ function toggleMyList(id, event) {
         });
     }
 
+    // --- SAYFA GEÇİŞİ VE NAVİGASYON YÖNETİMİ ---
     function switchPage(pageName) {
+        // Arama sonuçlarını kapat
         document.getElementById('search-results-area').style.display = 'none';
-        document.getElementById('searchBox').classList.remove('active');
         document.getElementById('searchInput').value = '';
         
+        // Tüm navigasyon ve sayfa aktivasyonlarını sıfırla
         document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
         document.querySelectorAll('.page-section').forEach(el => { el.classList.remove('active'); el.style.display = 'none'; });
         
@@ -1035,13 +1064,14 @@ function toggleMyList(id, event) {
         if(target) {
             target.classList.add('active');
             target.style.display = 'block';
-            // Navbar'da yer almasa bile, mobil menüde olsaydı active sınıfı burada atanabilirdi.
-            // Fakat favorilerim tamamen navbar'dan kalktığı için bu kısım sadeleşti.
+            
+            // Navbar ve mobil menüdeki linkleri aktif et
             const dLink = document.getElementById('nav-' + pageName);
             if(dLink) dLink.classList.add('active');
             const mLink = document.getElementById('mob-nav-' + pageName);
             if(mLink) mLink.classList.add('active');
         } else {
+            // Tanımsız bir sayfa gelirse Ana Sayfayı aç
             document.getElementById('home').style.display = 'block';
             document.getElementById('nav-home').classList.add('active');
         }
@@ -1051,52 +1081,68 @@ function toggleMyList(id, event) {
     }
 
     function goToSuggestions() {
+        // Ana sayfaya geçiş yap ve sonra öneri formuna kaydır
         if(document.getElementById('home').style.display === 'none'){ switchPage('home'); }
         setTimeout(() => { document.getElementById('suggestions').scrollIntoView({ behavior: 'smooth' }); }, 100);
     }
 
-    function openSearch() { 
-        document.getElementById('searchBox').classList.add('active'); 
-        document.getElementById('searchInput').focus(); 
-        if (window.innerWidth <= 992 && document.getElementById('mobileMenuOverlay').classList.contains('open')) { toggleMenu(); }
-    }
-    
-    function closeSearch() {
-        document.getElementById('searchBox').classList.remove('active');
-        document.getElementById('searchInput').value = '';
-        document.getElementById('search-results-area').style.display = 'none';
-        document.body.style.overflow = 'auto'; 
-        const activePage = document.querySelector('.page-section.active');
-        if(activePage) activePage.style.display = 'block';
-    }
+    // openSearch fonksiyonu kaldırıldı.
 
-    function handleSearchRedirect(event) {
-        if (event.key === 'Enter') {
-            const query = document.getElementById('searchInput').value;
-            if (query) { window.location.href = `index.html?search=${encodeURIComponent(query)}`; }
+    // **closeSearch() FONKSİYONU**
+    function closeSearch() {
+        const searchInput = document.getElementById('searchInput');
+        const searchArea = document.getElementById('search-results-area');
+
+        // Sadece arama alanını ve içeriğini temizle
+        searchInput.value = '';
+        
+        // Eğer arama sonuçları alanı görünür durumdaysa, normal görünüme geç
+        if(searchArea.style.display !== 'none' && searchArea.style.display !== '') {
+            searchArea.style.display = 'none'; // Arama sonuçlarını gizle
+            document.body.style.overflow = 'auto'; // Kaydırmayı geri aç
+            
+            // En son aktif olan .page-section'ı bul ve göster
+            const activePage = document.querySelector('.page-section.active');
+            
+            if(activePage) {
+                activePage.style.display = 'block';
+            } else {
+                 // Hiçbir sayfa aktif değilse, Ana Sayfayı göster
+                document.getElementById('home').style.display = 'block';
+            }
         }
     }
-
+    
+    // --- ARAMA İŞLEMİ ---
     function handleSearch() {
         const query = document.getElementById('searchInput').value.toLowerCase();
         const searchArea = document.getElementById('search-results-area');
         const grid = document.getElementById('search-grid');
         
         if(query.length > 0) {
+            // Arama alanını göstermeden önce tüm normal sayfaları gizle
             document.querySelectorAll('.page-section').forEach(sec => sec.style.display = 'none');
+            
             searchArea.style.display = 'block';
-            document.body.style.overflow = 'hidden'; 
+            document.body.style.overflow = 'hidden'; // Arama açıkken body kaymasını engelle
             grid.innerHTML = '';
             
             if (typeof DATABASE === 'undefined') { return; }
             
-            const results = DATABASE.filter(item => item.title.toLowerCase().includes(query));
+            // Arama filtresi
+            const results = DATABASE.filter(item => 
+                item.title.toLowerCase().includes(query) || 
+                (item.description && item.description.toLowerCase().includes(query)) ||
+                (item.tags && item.tags.toLowerCase().includes(query))
+            );
+            
             if(results.length === 0) {
                 grid.innerHTML = '<p style="color:#777; width:100%; text-align:center;">Sonuç bulunamadı...</p>';
             } else {
                 results.forEach(item => { grid.innerHTML += createCardHTML(item); });
             }
         } else {
+            // Sorgu boşsa sonuçları gizle
             closeSearch();
         }
     }
@@ -1105,33 +1151,28 @@ function toggleActionButtons() {
     const actionButtons = document.getElementById('action-buttons');
     const toggleIcon = document.getElementById('toggle-icon');
     
-    // Açık/Kapalı durumunu kontrol et
     const isOpen = actionButtons.classList.contains('open');
 
     if (isOpen) {
-        // Kapat
         actionButtons.classList.remove('open');
-        toggleIcon.classList.remove('fa-times'); // X ikonunu kaldır
-        toggleIcon.classList.add('fa-plus'); // Plus ikonunu geri getir
-        toggleIcon.style.transform = 'rotate(0deg)'; // İkon dönüşünü sıfırla
+        toggleIcon.classList.remove('fa-times'); 
+        toggleIcon.classList.add('fa-plus'); 
+        toggleIcon.style.transform = 'rotate(0deg)'; 
 
     } else {
-        // Aç
         actionButtons.classList.add('open');
-        toggleIcon.classList.remove('fa-plus'); // Plus ikonunu kaldır
-        toggleIcon.classList.add('fa-times'); // X ikonunu göster
-        toggleIcon.style.transform = 'rotate(180deg)'; // İkonu çevir
+        toggleIcon.classList.remove('fa-plus'); 
+        toggleIcon.classList.add('fa-times'); 
+        toggleIcon.style.transform = 'rotate(180deg)'; 
     }
 }
 
-// Pencereye tıklama olayını ekle (butona tıklanmadığı sürece kapatmak için)
+// Yüzen butonun dışına tıklanırsa menüyü kapat
 document.addEventListener('click', function(event) {
     const mainGroup = document.getElementById('main-floating-group');
     const actionButtons = document.getElementById('action-buttons');
     
-    // Tıklanan öğenin buton grubunun içinde olup olmadığını kontrol et
     if (mainGroup && actionButtons.classList.contains('open') && !mainGroup.contains(event.target)) {
-        // Buton grubunun dışında bir yere tıklandıysa kapat
         toggleActionButtons(); 
     }
 });
@@ -1141,10 +1182,10 @@ document.addEventListener('click', function(event) {
         
         let myList = JSON.parse(localStorage.getItem('myList')) || [];
         const isAdded = myList.includes(item.id);
+        
         const btnClass = isAdded ? 'list-btn added' : 'list-btn';
-        const iconClass = isAdded ? 'fas fa-check' : 'fas fa-heart';
+        const iconClass = isAdded ? 'fas fa-check' : 'fas fa-heart'; 
 
-        // Veritabanında 'puan' değeri varsa göster, yoksa boş geç
         const puanGoster = item.puan ? `<div class="imdb-badge">${item.puan}</div>` : '';
 
         return `
@@ -1160,6 +1201,7 @@ document.addEventListener('click', function(event) {
             </div>
         `;
     }
+    // --- SERVICE WORKER KAYDI (PWA) ---
     if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
         navigator.serviceWorker.register('/service-worker.js')
@@ -1171,7 +1213,7 @@ document.addEventListener('click', function(event) {
             });
     });
 }
-// Eski init fonksiyonunu bununla değiştirin
+// --- İÇERİK YÜKLEME VE SAYFA BAŞLATMA ---
 function init() {
     const trending = document.getElementById('home-trending');
     const seriesHome = document.getElementById('home-series');
@@ -1182,19 +1224,19 @@ function init() {
     trending.innerHTML = ''; seriesHome.innerHTML = ''; moviesHome.innerHTML = ''; 
     sGrid.innerHTML = ''; mGrid.innerHTML = '';
     
-    // --- BURASI DEĞİŞTİ: En son eklenen 5 içeriği alıyoruz. ---
-    // En son eklenenler, dizinin sonundaki öğelerdir.
+    // En son eklenenler (son 5 içerik)
     const latestContent = [...DATABASE].reverse().slice(0, 5); 
     
     latestContent.forEach(item => { trending.innerHTML += createCardHTML(item); });
-    // --------------------------------------------------------
     
     const allSeries = DATABASE.filter(item => item.type === 'series');
     const allMovies = DATABASE.filter(item => item.type === 'movie');
     
+    // Ana sayfa listeleri (ilk 8)
     allSeries.slice(0, 8).forEach(item => { seriesHome.innerHTML += createCardHTML(item); });
     allMovies.slice(0, 8).forEach(item => { moviesHome.innerHTML += createCardHTML(item); });
     
+    // Tüm diziler/filmler sayfaları
     allSeries.forEach(item => { sGrid.innerHTML += createCardHTML(item); });
     allMovies.forEach(item => { mGrid.innerHTML += createCardHTML(item); });
 }
