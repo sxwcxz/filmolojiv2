@@ -773,29 +773,55 @@
   // Veritabanındaki 'popup' yolunu referans alma
   const popupRef = ref(db, 'popup'); 
 
+  // --- POPUP GÖSTERİM LİMİTİ AYARLARI ---
+  const POPUP_COUNT_KEY = 'filmoloji_popup_shown_count';
+  const MAX_SHOW_COUNT = 2; // Maksimum gösterim sayısı 2
+  
+  // Mevcut sayaç değerini Local Storage'dan al (yoksa 0 olarak başlat)
+  let popupShowCount = parseInt(localStorage.getItem(POPUP_COUNT_KEY) || '0', 10);
+  // ----------------------------------------
+
   // 4. Veri Değişikliklerini Dinleme (Anlık Tetikleme)
   onValue(popupRef, (snapshot) => {
     const data = snapshot.val(); 
     const popupElement = document.getElementById('custom-popup');
     const messageElement = document.getElementById('popup-message');
 
+    // KONTROL: Eğer gösterim limiti aşıldıysa, işlemi durdur.
+    if (popupShowCount >= MAX_SHOW_COUNT) {
+        if (popupElement) {
+            popupElement.classList.remove('show');
+            popupElement.style.display = 'none'; 
+        }
+        return; 
+    }
+
     // Veri kontrolü: 'active' true mu ve mesaj içeriği var mı?
     if (data && data.active === true && data.message) {
       if (messageElement && popupElement) {
         messageElement.textContent = data.message;
         
-        // Popup'ı flex ile görünür yap (CSS'te ortalamak için flex kullanıyoruz)
+        // Popup'ı flex ile görünür yap
         popupElement.style.display = 'flex'; 
         
         // Animasyonu tetikle
         setTimeout(() => {
             popupElement.classList.add('show'); 
         }, 10);
+        
+        // **SAYAÇ MANTIĞI:** Sadece popup gerçekten gösterilirken sayacı artır.
+        // `count-updated` sınıfı, bu tetiklenmede sayımın yapıldığını belirtir.
+        if (!popupElement.classList.contains('count-updated')) {
+            popupShowCount++; // Sayacı bir artır
+            localStorage.setItem(POPUP_COUNT_KEY, popupShowCount.toString()); // Local Storage'a kaydet
+            popupElement.classList.add('count-updated'); // Tekrar sayılmasını engelle
+        }
       }
     } else {
-      // Popup'ı gizle
+      // Veritabanında kapatılırsa, popup'ı gizle
       if (popupElement) {
         popupElement.classList.remove('show');
+        popupElement.classList.remove('count-updated'); // DB'de kapatılırsa bir sonraki açılışta tekrar sayım yapabilmesi için kaldır
         // Animasyon bitince display: none yap
         setTimeout(() => {
             popupElement.style.display = 'none'; 
@@ -809,6 +835,9 @@
      const popupElement = document.getElementById('custom-popup');
      if (popupElement) {
         popupElement.classList.remove('show');
+        // Kapatma butonu tıklandığında da sayacı sıfırla/kaldır
+        popupElement.classList.remove('count-updated'); 
+        
         // Animasyon bitince display: none yap
         setTimeout(() => {
             popupElement.style.display = 'none';
