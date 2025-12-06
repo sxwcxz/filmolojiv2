@@ -318,7 +318,20 @@
     <script src="https://cdn.jsdelivr.net/npm/videojs-contrib-quality-levels/dist/videojs-contrib-quality-levels.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/videojs-hls-quality-selector/dist/videojs-hls-quality-selector.min.js"></script>
     
+    <script src="auth.js"></script>
+
     <script>
+        document.addEventListener('DOMContentLoaded', () => {
+        // !!! YETKİLENDİRME KONTROLÜ EKLENDİ !!!
+        if (typeof checkAuth === 'function') {
+            checkAuth('user');
+        } else {
+            console.error("Yetkilendirme fonksiyonu (checkAuth) yüklenemedi. auth.js dosyasını kontrol edin.");
+        }
+        
+        loadM3UFile(M3U_FILE_NAME);
+        seriesNameDisplay.textContent = "Canlı TV Yayınları";
+    });
         // M3U dosyasının adı
         const M3U_FILE_NAME = 'tv.m3u'; 
         
