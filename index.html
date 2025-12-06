@@ -11,6 +11,114 @@
     <script src="database.js"></script>
 
     <style>
+/* --- YENİ MERKEZÎ POPUP STİLİ (BLUR VE GLASS EFECT) --- */
+
+/* Popup Kapsayıcı (Ekranı Kaplama ve Bulanıklaştırma) */
+.site-popup-notification {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    
+    /* İçeriği Ortalamak ve Başlangıçta Gizlemek */
+    display: none; 
+    align-items: center; 
+    justify-content: center; 
+    
+    z-index: 999999; 
+    
+    /* Arka Plan Gölgesi (Hafif Şeffaf Siyah) */
+    background: rgba(0, 0, 0, 0.4); 
+    
+    /* EN ÖNEMLİSİ: Arkadaki içeriği bulanıklaştırma efekti */
+    backdrop-filter: blur(8px); 
+    -webkit-backdrop-filter: blur(8px);
+    
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+/* Modal İçerik Kutusu (Glass/Cam Efekti) */
+.popup-inner-box {
+    width: 90%;
+    max-width: 350px; /* Daha kompakt bir görünüm */
+    
+    /* iOS/Glass Teması */
+    background: rgba(255, 255, 255, 0.1); /* Çok hafif şeffaf beyaz */
+    border: 1px solid rgba(255, 255, 255, 0.2); 
+    border-radius: 15px;
+    padding: 25px;
+    
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3), 0 0 10px rgba(229, 9, 20, 0.2);
+    color: white;
+    text-align: center;
+    
+    /* Animasyon */
+    transform: scale(0.9);
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Yaylı animasyon efekti */
+}
+
+/* JS 'show' sınıfını eklediğinde uygulanacak stil */
+.site-popup-notification.show {
+    opacity: 1;
+}
+
+.site-popup-notification.show .popup-inner-box {
+    transform: scale(1); /* Ortaya yaylanarak gelsin */
+}
+
+/* Mesaj Stili */
+.popup-message-text {
+    margin: 0 0 20px 0;
+    font-size: 16px;
+    font-weight: 600;
+    color: #f0f0f0; /* Hafif kırık beyaz */
+    line-height: 1.4;
+}
+
+/* --- YENİ KONTRAST BUTON STİLİ (Kırmızı & Beyaz) --- */
+:root { 
+    /* Marka Kırmızı Tonları (Kendi var--brand-color'ınızı kullanır) */
+    --popup-btn-start: rgba(229, 9, 20, 0.9); /* Marka Kırmızısı %90 Opaklık */
+    --popup-btn-end: rgba(255, 255, 255, 0.2);  /* Beyaz %20 Opaklık */
+    --popup-btn-text: #FFFFFF; /* Beyaz Metin */
+}
+
+.popup-close-btn {
+    width: 100%;
+    /* Kırmızıdan Şeffaf Beyaza Gradyan */
+    background: linear-gradient(135deg, var(--popup-btn-start) 0%, var(--popup-btn-end) 100%); 
+    color: var(--popup-btn-text);
+    /* Hafif Kırmızı Kenarlık */
+    border: 1px solid rgba(229, 9, 20, 0.5); 
+    padding: 12px 0; 
+    border-radius: 10px; 
+    cursor: pointer;
+    font-weight: 700; 
+    font-size: 16px;
+    
+    /* Parlak Gölge Efekti */
+    box-shadow: 0 4px 15px rgba(229, 9, 20, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.15); 
+    
+    transition: all 0.2s ease;
+}
+
+/* Mouse Üzerine Gelme Etkisi (Hover) */
+.popup-close-btn:hover {
+    /* Hover'da rengi ters çevirip daha parlak beyazı öne çıkarıyoruz */
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.3) 0%, rgba(229, 9, 20, 1) 100%);
+    box-shadow: 0 6px 20px rgba(229, 9, 20, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    transform: translateY(-2px); /* Hafif yukarı kalkma */
+    color: white; 
+}
+
+/* Tıklama Etkisi (Active) */
+.popup-close-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 5px rgba(229, 9, 20, 0.4), inset 0 1px 0 rgba(0, 0, 0, 0.2);
+    opacity: 0.95;
+}
 /* --- PRELOADER EKRANI --- */
         #preloader-overlay {
             position: fixed;
@@ -495,6 +603,12 @@
             <p>Yükleniyor...</p>
         </div>
     </div>
+<div id="custom-popup" class="site-popup-notification">
+    <div class="popup-inner-box">
+        <p id="popup-message" class="popup-message-text">Bildirim Mesajı</p>
+        <button onclick="closePopup()" class="popup-close-btn">Tamam</button>
+    </div>
+</div>
     <nav class="navbar" id="navbar">
         <div class="logo-container" onclick="switchPage('home')">
             <h1 class="logo-text">Filmoloji <span class="version-badge">V2.0</span></h1>
@@ -620,6 +734,88 @@
 </div>
 
     <div id="toast" class="toast-notification"></div>
+
+
+<script type="module">
+  // 1. Gerekli Firebase Fonksiyonlarını İçe Aktarma (Import)
+  
+  // Temel Uygulama ve Analitik
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-analytics.js";
+  
+  // Realtime Database İçin Gereken Fonksiyonlar
+  import { 
+      getDatabase, 
+      ref, 
+      onValue // Anlık dinleme fonksiyonu
+  } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-database.js";
+
+  // 2. Firebase Yapılandırması (Sizin Verileriniz)
+  const firebaseConfig = {
+    apiKey: "AIzaSyBIV0-Jzy0m4OoP6YX_L6El6x5e7YmlD8Y",
+    authDomain: "filmoloji-web.firebaseapp.com",
+    databaseURL: "https://filmoloji-web-default-rtdb.firebaseio.com",
+    projectId: "filmoloji-web",
+    storageBucket: "filmoloji-web.firebasestorage.app",
+    messagingSenderId: "904158206710",
+    appId: "1:904158206710:web:614592033008ff6f286ad7",
+    measurementId: "G-LLYDE3XLZZ"
+  };
+
+  // 3. Firebase Uygulamasını Başlatma
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app); 
+  
+  // Realtime Database'i Başlatma
+  const db = getDatabase(app);
+  
+  // Veritabanındaki 'popup' yolunu referans alma
+  const popupRef = ref(db, 'popup'); 
+
+  // 4. Veri Değişikliklerini Dinleme (Anlık Tetikleme)
+  onValue(popupRef, (snapshot) => {
+    const data = snapshot.val(); 
+    const popupElement = document.getElementById('custom-popup');
+    const messageElement = document.getElementById('popup-message');
+
+    // Veri kontrolü: 'active' true mu ve mesaj içeriği var mı?
+    if (data && data.active === true && data.message) {
+      if (messageElement && popupElement) {
+        messageElement.textContent = data.message;
+        
+        // Popup'ı flex ile görünür yap (CSS'te ortalamak için flex kullanıyoruz)
+        popupElement.style.display = 'flex'; 
+        
+        // Animasyonu tetikle
+        setTimeout(() => {
+            popupElement.classList.add('show'); 
+        }, 10);
+      }
+    } else {
+      // Popup'ı gizle
+      if (popupElement) {
+        popupElement.classList.remove('show');
+        // Animasyon bitince display: none yap
+        setTimeout(() => {
+            popupElement.style.display = 'none'; 
+        }, 500);
+      }
+    }
+  });
+
+  // 5. Popup Kapatma Fonksiyonunu Global Alanına Taşıma
+  window.closePopup = () => {
+     const popupElement = document.getElementById('custom-popup');
+     if (popupElement) {
+        popupElement.classList.remove('show');
+        // Animasyon bitince display: none yap
+        setTimeout(() => {
+            popupElement.style.display = 'none';
+        }, 500); 
+     }
+  };
+
+</script>
 
     <script>
     // --- KOPYALAMAYI VE GEREKSİZ İŞLEMLERİ ENGELLEME ---
