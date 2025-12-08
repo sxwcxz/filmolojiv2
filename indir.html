@@ -1,10 +1,42 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-<script src="auth.js"></script>
-<script>
-    checkAuth('indir'); // 'indir' veya herhangi bir şey yazılabilir, admin engeli yok
-</script>
+
+<script type="module">
+        // Firebase Modülleri (Sizin Yapılandırmanıza göre 9.6.1)
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+        import { getAuth } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
+        
+        // Kendi auth.js modülünüzü import edin
+        import { performLogin, doLogout, checkAuth, suteyiYenile } from './auth.js'; 
+
+        // SİZİN FIREBASE YAPILANDIRMANIZ
+        const firebaseConfig = {
+            apiKey: "AIzaSyBIV0-Jzy0m4OoP6YX_L6El6x5e7YmlD8Y",
+            authDomain: "filmoloji-web.firebaseapp.com",
+            databaseURL: "https://filmoloji-web-default-rtdb.firebaseio.com",
+            projectId: "filmoloji-web",
+            storageBucket: "filmoloji-web.firebasestorage.app",
+            messagingSenderId: "904158206710",
+            appId: "1:904158206710:web:614592033008ff6f286ad7",
+            measurementId: "G-LLYDE3XLZZ"
+        };
+        
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app); 
+
+        // Modül fonksiyonlarını global alana bağlama
+        window.performLogin = performLogin;
+        window.doLogout = doLogout; 
+        window.checkAuth = checkAuth; 
+        window.suteyiYenile = suteyiYenile; 
+        window.auth = auth;
+    </script>
+
+    <script>
+        checkAuth('user'); // Oturumu açık olan (admin veya user) herkes girebilir.
+    </script>
+
     <meta charset="UTF-8">
     <title>İndirme Merkezi - Filmoloji</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -212,6 +244,47 @@
     </div>
 
     <script>
+        /* KODUNUZUN İÇİNE EKLEYİNİZ */
+
+// Sağ Tık Menüsünü Engelleme
+document.addEventListener('contextmenu', event => {
+    event.preventDefault();
+    showToast("Bu içerik telif hakları ile korunmaktadır."); // Mevcut toast fonksiyonunu kullanma
+});
+
+// F12 ve Diğer Kısayolları Engelleme (Windows/Linux için)
+document.onkeydown = function(e) {
+    // F12 tuşu
+    if (e.key === 'F12' || e.keyCode == 123) {
+        event.preventDefault();
+        showToast("Geliştirici araçları engellendi!");
+        return false;
+    }
+    // Ctrl+Shift+I (Inceleme), Ctrl+Shift+J (Konsol), Ctrl+Shift+C (Öğe Seçici)
+    if (e.ctrlKey && e.shiftKey && (e.keyCode == 73 || e.keyCode == 74 || e.keyCode == 67)) {
+        event.preventDefault();
+        showToast("Geliştirici araçları engellendi!");
+        return false;
+    }
+    // Ctrl+S (Kaydet)
+    if (e.ctrlKey && e.keyCode == 83) {
+        event.preventDefault();
+        showToast("Kaydetme işlemi engellendi!");
+        return false;
+    }
+    // Ctrl+U (Sayfa Kaynağını Görüntüle)
+    if (e.ctrlKey && e.keyCode == 85) {
+        event.preventDefault();
+        showToast("Sayfa kaynağına erişim engellendi!");
+        return false;
+    }
+    // Mac kullanıcıları için cmd tuşu
+    if (e.metaKey && (e.keyCode == 73 || e.keyCode == 83 || e.keyCode == 85)) {
+        event.preventDefault();
+        showToast("İzin verilmeyen işlem!");
+        return false;
+    }
+};
         if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
         navigator.serviceWorker.register('/service-worker.js')

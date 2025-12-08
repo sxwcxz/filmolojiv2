@@ -5,6 +5,37 @@
     <link rel="icon" href="logo.png">
     <link rel="manifest" href="/manifest.json">
     <title>M3U'dan Database Oluşturucu</title>
+
+<script type="module">
+        // 1. Firebase ve auth.js'teki fonksiyonları import et
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+        import { getAuth } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
+        import { doLogout, checkAuth } from './auth.js'; 
+
+        // 2. SİZİN FIREBASE YAPILANDIRMANIZ
+        const firebaseConfig = {
+            apiKey: "AIzaSyBIV0-Jzy0m4OoP6YX_L6El6x5e7YmlD8Y",
+            authDomain: "filmoloji-web.firebaseapp.com",
+            databaseURL: "https://filmoloji-web-default-rtdb.firebaseio.com",
+            projectId: "filmoloji-web",
+            storageBucket: "filmoloji-web.firebasestorage.app",
+            messagingSenderId: "904158206710",
+            appId: "1:904158206710:web:614592033008ff6f286ad7",
+            measurementId: "G-LLYDE3XLZZ"
+        };
+        
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app); 
+
+        // 3. checkAuth ve doLogout'u global alana bağla
+        window.checkAuth = checkAuth; 
+        window.doLogout = doLogout; 
+
+        // 4. SAYFA YÜKLENİR YÜKLENMEZ YETKİ KONTROLÜNÜ ÇALIŞTIR
+        // Bu kod, tarayıcı sayfayı yükler yüklemez çalışacaktır.
+        checkAuth('admin'); // SADECE ADMIN'LER GİREBİLİR
+    </script>
+
     <style>
         body { background: #141414; color: white; font-family: sans-serif; padding: 20px; display: flex; gap: 20px; height: 90vh; }
         .container { flex: 1; display: flex; flex-direction: column; }
@@ -32,6 +63,47 @@
     </div>
 
     <script>
+        /* KODUNUZUN İÇİNE EKLEYİNİZ */
+
+// Sağ Tık Menüsünü Engelleme
+document.addEventListener('contextmenu', event => {
+    event.preventDefault();
+    showToast("Bu içerik telif hakları ile korunmaktadır."); // Mevcut toast fonksiyonunu kullanma
+});
+
+// F12 ve Diğer Kısayolları Engelleme (Windows/Linux için)
+document.onkeydown = function(e) {
+    // F12 tuşu
+    if (e.key === 'F12' || e.keyCode == 123) {
+        event.preventDefault();
+        showToast("Geliştirici araçları engellendi!");
+        return false;
+    }
+    // Ctrl+Shift+I (Inceleme), Ctrl+Shift+J (Konsol), Ctrl+Shift+C (Öğe Seçici)
+    if (e.ctrlKey && e.shiftKey && (e.keyCode == 73 || e.keyCode == 74 || e.keyCode == 67)) {
+        event.preventDefault();
+        showToast("Geliştirici araçları engellendi!");
+        return false;
+    }
+    // Ctrl+S (Kaydet)
+    if (e.ctrlKey && e.keyCode == 83) {
+        event.preventDefault();
+        showToast("Kaydetme işlemi engellendi!");
+        return false;
+    }
+    // Ctrl+U (Sayfa Kaynağını Görüntüle)
+    if (e.ctrlKey && e.keyCode == 85) {
+        event.preventDefault();
+        showToast("Sayfa kaynağına erişim engellendi!");
+        return false;
+    }
+    // Mac kullanıcıları için cmd tuşu
+    if (e.metaKey && (e.keyCode == 73 || e.keyCode == 83 || e.keyCode == 85)) {
+        event.preventDefault();
+        showToast("İzin verilmeyen işlem!");
+        return false;
+    }
+};
         if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
         navigator.serviceWorker.register('/service-worker.js')

@@ -78,7 +78,7 @@
         .nav-menu .nav-item:last-child i { color: #FFC107; filter: drop-shadow(0 0 5px rgba(255, 193, 7, 0.8)); }
         .nav-menu .nav-item:last-child:hover { color: #FFE082; background: rgba(255, 193, 7, 0.2); text-shadow: 0 0 20px rgba(255, 193, 7, 0.8); transform: scale(1.05); box-shadow: 0 0 15px rgba(255, 193, 7, 0.4); }
 
-        /* ARAMA KUTUSU */
+        /* ARAMA KUTUSU (NAVBAR) - ORİJİNAL KORUNDU */
         .search-container { display: flex; align-items: center; width: 40px; height: 40px; border-radius: 30px; background: transparent; transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); overflow: hidden; position: relative; border: 1px solid transparent; cursor: pointer; padding: 0 10px; flex-shrink: 0; }
         .search-container:hover, .search-container.active { width: 160px; background: rgba(0, 0, 0, 0.6); border-color: rgba(255, 255, 255, 0.2); padding: 0 15px; cursor: default; }
         .search-icon-btn { font-size: 18px; flex-shrink: 0; color: var(--brand-color); filter: drop-shadow(0 0 2px var(--brand-color)); transition: 0.3s; margin-left: 8px; }
@@ -91,7 +91,7 @@
         /* HAMBURGER MENU */
         .menu-toggle { display: none; } 
         .mobile-menu-overlay, #mobileBackdrop { display: none; }
-        .mobile-menu-overlay { position: fixed; top: 0; right: 0; width: 300px; max-width: 80%; height: 100%; background: rgba(30, 30, 30, 0.95); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); border-left: 1px solid rgba(255, 255, 255, 0.1); box-shadow: -5px 0 15px rgba(229, 9, 20, 0.3); z-index: 999; flex-direction: column; padding-top: 60px; transform: translateX(100%); transition: transform 0.3s ease-out; }
+        .mobile-menu-overlay { position: fixed; top: 0; right: 0; width: 300px; max-width: 80%; height: 100%; background: rgba(30, 30, 30, 0.95); backdrop-filter: blur(15px); -webkit-backdrop-filter: var(--blur); border-left: 1px solid rgba(255, 255, 255, 0.1); box-shadow: -5px 0 15px rgba(229, 9, 20, 0.3); z-index: 999; flex-direction: column; padding-top: 60px; transform: translateX(100%); transition: transform 0.3s ease-out; }
         .mobile-menu-overlay.open { transform: translateX(0); }
         .mobile-nav-menu { display: flex; flex-direction: column; gap: 0; text-align: left; padding: 20px 0; }
         .mobile-nav-menu .nav-item { font-size: 1.1rem; padding: 15px 20px; border-bottom: 1px solid rgba(255, 255, 255, 0.05); color: #ccc; transition: background 0.2s; }
@@ -115,11 +115,38 @@
 
         /* SIDEBAR (KANAL LİSTESİ - MASAÜSTÜ) */
         .sidebar { flex: 1; background: var(--glass-form-bg); backdrop-filter: var(--blur); -webkit-backdrop-filter: var(--blur); border: 1px solid rgba(255, 255, 255, 0.18); border-radius: 18px; box-shadow: var(--shadow); display: flex; flex-direction: column; min-width: 350px; max-width: 450px; height: 550px; /* Sabit Masaüstü Yüksekliği */ position: sticky; top: 120px; }
-        .sidebar-header { padding: 15px 20px; border-bottom: 1px solid rgba(255, 255, 255, 0.1); background: rgba(0, 0, 0, 0.4); border-radius: 18px 18px 0 0; }
+        
+        /* GÜNCELLENDİ: Header sadece başlığı tutacak, border-bottom kaldırıldı */
+        .sidebar-header { 
+            padding: 15px 20px 15px 20px; /* Alttan boşluk arttırıldı */
+            border-bottom: none; 
+            background: rgba(0, 0, 0, 0.4); 
+            border-radius: 18px 18px 0 0; 
+        }
         
         #season-select { display: none; }
         .sidebar-header h3 { margin: 0; color: white; font-size: 1.2rem; display: flex; align-items: center; gap: 10px; }
 
+        /* GÜNCELLENDİ: Sidebar Arama Kutusu Stili */
+        .channel-search-box {
+            /* Hem üstten (header'dan ayırmak için) hem alttan (kanallardan ayırmak için) boşluk arttırıldı. */
+            padding: 10px 20px 20px 20px; 
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1); 
+        }
+        .channel-search-input {
+            width: 100%;
+            padding: 10px 15px;
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            border-radius: 8px;
+            font-size: 0.9rem;
+        }
+        .channel-search-input:focus {
+             border-color: var(--brand-color);
+             box-shadow: 0 0 0 1px var(--brand-color);
+        }
+        
         .episode-list { flex-grow: 1; overflow-y: auto; padding: 0; }
         
         /* M3U KANAL ÖĞESİ STİLİ */
@@ -209,6 +236,11 @@
             .search-container.active { width: calc(100% - 140px); position: absolute; left: 70px; top: 5px; height: 50px; padding: 0 15px; }
             .series-title { font-size: 1.5rem; }
             .episode-title { font-size: 1.1rem; }
+            
+            /* Mobil Sidebar Arama Kutusu Ayarı */
+            .channel-search-box {
+                padding-top: 0;
+            }
         }
     </style>
 </head>
@@ -285,6 +317,10 @@
                 <h3><i class="fas fa-list-ul"></i> Canlı Kanal Listesi</h3>
                 <select id="season-select" class="season-select" style="display: none;"></select>
             </div>
+            <div class="channel-search-box">
+                <input type="text" class="channel-search-input" id="channelSearchInput" placeholder="Kanal adı ara..." onkeyup="filterChannels()">
+            </div>
+            
             <div id="channel-list" class="episode-list">
                 <p id="loading-message">Kanal listesi yükleniyor...</p>
             </div>
@@ -318,9 +354,83 @@
     <script src="https://cdn.jsdelivr.net/npm/videojs-contrib-quality-levels/dist/videojs-contrib-quality-levels.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/videojs-hls-quality-selector/dist/videojs-hls-quality-selector.min.js"></script>
     
-    <script src="auth.js"></script>
+<script type="module">
+        // Firebase Modülleri (Sizin Yapılandırmanıza göre 9.6.1)
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+        import { getAuth } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
+        
+        // Kendi auth.js modülünüzü import edin
+        import { performLogin, doLogout, checkAuth, suteyiYenile } from './auth.js'; 
+
+        // SİZİN FIREBASE YAPILANDIRMANIZ
+        const firebaseConfig = {
+            apiKey: "AIzaSyBIV0-Jzy0m4OoP6YX_L6El6x5e7YmlD8Y",
+            authDomain: "filmoloji-web.firebaseapp.com",
+            databaseURL: "https://filmoloji-web-default-rtdb.firebaseio.com",
+            projectId: "filmoloji-web",
+            storageBucket: "filmoloji-web.firebasestorage.app",
+            messagingSenderId: "904158206710",
+            appId: "1:904158206710:web:614592033008ff6f286ad7",
+            measurementId: "G-LLYDE3XLZZ"
+        };
+        
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app); 
+
+        // Modül fonksiyonlarını global alana bağlama
+        window.performLogin = performLogin;
+        window.doLogout = doLogout; 
+        window.checkAuth = checkAuth; 
+        window.suteyiYenile = suteyiYenile; 
+        window.auth = auth;
+    </script>
 
     <script>
+        checkAuth('user'); // Oturumu açık olan (admin veya user) herkes girebilir.
+    </script>
+
+    <script>
+        /* KODUNUZUN İÇİNE EKLEYİNİZ */
+
+// Sağ Tık Menüsünü Engelleme
+document.addEventListener('contextmenu', event => {
+    event.preventDefault();
+    showToast("Bu içerik telif hakları ile korunmaktadır."); // Mevcut toast fonksiyonunu kullanma
+});
+
+// F12 ve Diğer Kısayolları Engelleme (Windows/Linux için)
+document.onkeydown = function(e) {
+    // F12 tuşu
+    if (e.key === 'F12' || e.keyCode == 123) {
+        event.preventDefault();
+        showToast("Geliştirici araçları engellendi!");
+        return false;
+    }
+    // Ctrl+Shift+I (Inceleme), Ctrl+Shift+J (Konsol), Ctrl+Shift+C (Öğe Seçici)
+    if (e.ctrlKey && e.shiftKey && (e.keyCode == 73 || e.keyCode == 74 || e.keyCode == 67)) {
+        event.preventDefault();
+        showToast("Geliştirici araçları engellendi!");
+        return false;
+    }
+    // Ctrl+S (Kaydet)
+    if (e.ctrlKey && e.keyCode == 83) {
+        event.preventDefault();
+        showToast("Kaydetme işlemi engellendi!");
+        return false;
+    }
+    // Ctrl+U (Sayfa Kaynağını Görüntüle)
+    if (e.ctrlKey && e.keyCode == 85) {
+        event.preventDefault();
+        showToast("Sayfa kaynağına erişim engellendi!");
+        return false;
+    }
+    // Mac kullanıcıları için cmd tuşu
+    if (e.metaKey && (e.keyCode == 73 || e.keyCode == 83 || e.keyCode == 85)) {
+        event.preventDefault();
+        showToast("İzin verilmeyen işlem!");
+        return false;
+    }
+};
         document.addEventListener('DOMContentLoaded', () => {
         // !!! YETKİLENDİRME KONTROLÜ EKLENDİ !!!
         if (typeof checkAuth === 'function') {
@@ -431,9 +541,11 @@
             }
         }
 
+        // Tekrarlanan kanalları URL'ye göre kontrol ederek listeye eklenmesini engeller.
         function parseM3U(content) {
             const lines = content.split('\n').map(line => line.trim()).filter(line => line.length > 0);
             const channels = [];
+            const urlsSeen = new Set(); 
             
             for (let i = 0; i < lines.length; i++) {
                 if (lines[i].startsWith('#EXTINF:')) {
@@ -447,11 +559,20 @@
                     const logoUrl = logoMatch ? logoMatch[1] : '';
                     
                     if (urlLine && (urlLine.startsWith('http://') || urlLine.startsWith('https://'))) {
-                        channels.push({
-                            name: channelName,
-                            url: urlLine,
-                            logo: logoUrl
-                        });
+                        
+                        // Tekrar kontrolü
+                        if (!urlsSeen.has(urlLine)) {
+                            urlsSeen.add(urlLine);
+                            
+                            channels.push({
+                                name: channelName,
+                                url: urlLine,
+                                logo: logoUrl
+                            });
+                        } else {
+                            console.warn(`Tekrarlanan kanal atlandı: ${channelName}`);
+                        }
+                        
                         i++; 
                     }
                 }
@@ -461,6 +582,8 @@
 
         // Kanalları logolarıyla birlikte listeleme
         function renderChannels(channels) {
+            channelListDiv.innerHTML = '';
+            
             channels.forEach((channel, index) => {
                 const channelItem = document.createElement('div');
                 channelItem.classList.add('channel-item');
@@ -489,7 +612,7 @@
                     });
                     this.classList.add('active');
                     playChannel(channel, index);
-                });
+                }.bind(null, channel));
 
                 channelListDiv.appendChild(channelItem);
             });
@@ -552,6 +675,22 @@
             });
         }
         
+        // YENİ: KANAL LİSTESİNİ FİLTRELEME FONKSİYONU
+        function filterChannels() {
+            // Arama sorgusunu yeni sidebar input'undan alıyoruz
+            const query = document.getElementById('channelSearchInput').value.toLowerCase();
+            const channelItems = channelListDiv.querySelectorAll('.channel-item');
+            
+            channelItems.forEach(item => {
+                const channelName = item.querySelector('.channel-name').textContent.toLowerCase();
+                if (channelName.includes(query)) {
+                    item.style.display = 'flex'; // Kanal adında arama terimi varsa göster
+                } else {
+                    item.style.display = 'none'; // Yoksa gizle
+                }
+            });
+        }
+        
         // --- ORTAK YARDIMCI FONKSİYONLAR --- 
 
         function showToast(message) {
@@ -574,12 +713,15 @@
             document.getElementById('searchBox').classList.remove('active'); 
             document.getElementById('searchInput').value = ''; 
         }
+        
+        // NAVIGASYON ARAMASI (ORİJİNAL İŞLEVİ KORUNDU)
         function handleSearchRedirect(event) { 
             if (event.key === 'Enter') { 
                 const query = document.getElementById('searchInput').value; 
                 if (query) window.location.href = `index.html?search=${encodeURIComponent(query)}`; 
             } 
         }
+        
         function toggleMenu() {
             const overlay = document.getElementById('mobileMenuOverlay');
             const menuIcon = document.getElementById('menuToggle').querySelector('i');
@@ -634,6 +776,7 @@
         // KLAVYE KISAYOLLARI (M3U için güncellendi)
         document.addEventListener('keydown', function(event) {
             // Güvenlik fonksiyonu zaten çalışıyor, ancak player kısayolları için tekrar kontrol ediyoruz.
+            // Yeni kanal arama inputu aktifse klavye kısayollarını engelle
             if (!player || document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA') return;
             
             const key = event.key.toLowerCase();
@@ -660,11 +803,12 @@
                     if (currentChannelIndex > 0) {
                         const newIndex = currentChannelIndex - 1;
                         const channel = allChannels[newIndex];
-                        document.getElementById(`ch-${currentChannelIndex}`).classList.remove('active');
-                        document.getElementById(`ch-${newIndex}`).classList.add('active');
+                        document.querySelectorAll('.channel-item').forEach(item => item.classList.remove('active'));
+                        const newItem = document.getElementById(`ch-${newIndex}`);
+                        if(newItem) newItem.classList.add('active');
                         playChannel(channel, newIndex);
                         showToast(`<i class="fas fa-step-backward"></i> Önceki Kanal: ${channel.name}`);
-                        document.getElementById(`ch-${newIndex}`).scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                        if(newItem) newItem.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
                     }
                     break;
                 case 'n': // Next Channel
@@ -672,11 +816,12 @@
                     if (currentChannelIndex < allChannels.length - 1) {
                         const newIndex = currentChannelIndex + 1;
                         const channel = allChannels[newIndex];
-                        document.getElementById(`ch-${currentChannelIndex}`).classList.remove('active');
-                        document.getElementById(`ch-${newIndex}`).classList.add('active');
+                        document.querySelectorAll('.channel-item').forEach(item => item.classList.remove('active'));
+                        const newItem = document.getElementById(`ch-${newIndex}`);
+                        if(newItem) newItem.classList.add('active');
                         playChannel(channel, newIndex);
                         showToast(`<i class="fas fa-step-forward"></i> Sonraki Kanal: ${channel.name}`);
-                        document.getElementById(`ch-${newIndex}`).scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                        if(newItem) newItem.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
                     }
                     break;
             }
