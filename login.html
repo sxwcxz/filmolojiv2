@@ -11,7 +11,7 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
         import { getAuth } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
-        import { performLogin } from './auth.js'; 
+        import { performLogin, performTrialLogin } from './auth.js'; 
 
         // SİZİN FIREBASE YAPILANDIRMANIZ
         const firebaseConfig = {
@@ -28,9 +28,10 @@
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app); 
 
-        // auth ve performLogin fonksiyonlarını global alana bağlama
+        // auth, performLogin ve performTrialLogin fonksiyonlarını global alana bağlama
         window.auth = auth; 
         window.performLogin = performLogin; 
+        window.performTrialLogin = performTrialLogin;
     </script>
 
     <style>
@@ -124,6 +125,19 @@
         }
         .btn-submit:hover { background: #ff0a16; transform: translateY(-2px); box-shadow: 0 8px 20px rgba(229, 9, 20, 0.7); }
         .btn-submit:active { transform: scale(0.98); }
+        
+        /* Deneme Butonu Stili */
+        .btn-trial {
+            width: 100%; padding: 12px; 
+            background: #d7da00; /* Netflix yeşiline benzer bir renk */
+            color: white; 
+            border: none; border-radius: 8px; 
+            font-size: 1.1rem; font-weight: bold;
+            cursor: pointer; margin-top: 10px; transition: background 0.3s, transform 0.1s;
+            box-shadow: 0 5px 15px rgba(219, 208, 0, 0.872);
+        }
+        .btn-trial:hover { background: #fffb00e1; transform: translateY(-2px); box-shadow: 0 8px 20px rgb(246, 255, 0); }
+        .btn-trial:active { transform: scale(0.98); }
 
         .premium-link-footer {
             margin-top: 30px; font-size: 0.9rem; 
@@ -149,8 +163,7 @@
         }
     </style>
 </head>
-<body>
-    <div class="bg-wrapper"></div>
+<body onload="checkTrialStatus()"> <div class="bg-wrapper"></div>
     
     <div class="login-card">
         <h1>Filmoloji Premium</h1>
@@ -168,6 +181,8 @@
         
         <button class="btn-submit" onclick="tryLogin()">Giriş Yap</button>
         
+        <button class="btn-trial" id="btnTrial" onclick="tryTrialLogin()">Premiumu Dene! (3 Saat)</button>
+
         
         <div class="premium-link-footer">
             <a href="premiumal.html">Premium Al</a>
@@ -177,12 +192,24 @@
     <div id="toast-notification" role="alert" aria-live="assertive"></div>
 
     <script>
-        /* KODUNUZUN İÇİNE EKLEYİNİZ */
-
+        const DENEME_YAPILDI_KEY = 'trial_used'; // auth.js ile aynı anahtar
+        
+        // Deneme butonunun durumunu kontrol eden fonksiyon
+        function checkTrialStatus() {
+            const btn = document.getElementById('btnTrial');
+            if (localStorage.getItem(DENEME_YAPILDI_KEY) === 'true') {
+                btn.disabled = true;
+                btn.innerHTML = 'Deneme Hakkı Kullanıldı';
+            } else {
+                 btn.innerHTML = 'Premiumu Dene! (3 Saat)';
+                 btn.disabled = false;
+            }
+        }
+        
 // Sağ Tık Menüsünü Engelleme
 document.addEventListener('contextmenu', event => {
     event.preventDefault();
-    showToast("Bu içerik telif hakları ile korunmaktadır."); // Mevcut toast fonksiyonunu kullanma
+    showToast("Bu içerik telif hakları ile korunmaktadır.");
 });
 
 // F12 ve Diğer Kısayolları Engelleme (Windows/Linux için)
@@ -279,8 +306,49 @@ document.onkeydown = function(e) {
                 }, 400);
             }
         }
+
+        // YENİ FONKSİYON: Premium'u Dene! Girişi
+        async function tryTrialLogin() {
+            const btn = document.getElementById('btnTrial');
+            btn.disabled = true; 
+
+            if (typeof window.performTrialLogin === 'undefined') {
+                 showToast("Sistem Hatası: Deneme mekanizması yüklenemedi.");
+                 btn.disabled = false;
+                 return;
+            }
+
+            btn.innerHTML = 'Deneme Hesabı Oluşturuluyor...';
+            
+            // Firebase deneme girişini çağır
+            const result = await window.performTrialLogin();
+
+            if (result.success) {
+                // BAŞARILI
+                btn.innerHTML = '<i class="fas fa-check"></i> Başarılı Giriş';
+                btn.style.background = '#46d369';
+                
+                // Deneme hakkı kullanıldığı için butonu kalıcı olarak devre dışı bırak
+                checkTrialStatus();
+
+                setTimeout(() => {
+                    window.location.href = result.redirect; 
+                }, 600);
+            } else {
+                // HATALI
+                if (result.message === "Deneme hakkınız dolmuştur.") {
+                    showToast("Bu cihazda deneme hakkınızı zaten kullandınız.");
+                    checkTrialStatus(); // Buton durumunu kesinleştir
+                } else {
+                    showToast(result.message || "Deneme girişi başarısız oldu.");
+                }
+
+                btn.innerHTML = 'Premiumu Dene! (3 Saat)';
+                btn.style.background = 'rgba(255, 255, 255, 0.2)'; 
+                btn.disabled = false;
+            }
+        }
     </script>
 
 </body>
-
 </html>

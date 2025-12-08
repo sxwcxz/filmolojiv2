@@ -1,14 +1,17 @@
 // auth.js
-import { signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
+import { signInWithEmailAndPassword, signOut, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
 
 // --- AYARLAR ---
 const OTURUM_SURESI = 30000;  
+const DENEME_OTURUM_SURESI = 10800000; // YENİ: 1 dakika = 60.000 ms
 // KRİTİK: Yalnızca bu email adresine sahip kullanıcı 'admin' rolü alacak.
 const ADMIN_EMAIL = "admin@filmoloji.com"; 
 const DEFAULT_DOMAIN = "@filmoloji.com"; 
+const DENEME_YAPILDI_KEY = 'trial_used'; // YENİ: Deneme hakkı kontrolü için
 
 // --- SÜRE YENİLEME ---
 export function suteyiYenile() {
+    // Normal ve Admin kullanıcılar için oturum süresini 30 saniye uzatır (keep-alive)
     localStorage.setItem('oturum_bitis', Date.now() + OTURUM_SURESI);
 }
 
@@ -16,6 +19,12 @@ export function suteyiYenile() {
 export function doLogout() {
     localStorage.removeItem('oturum_bitis');
     localStorage.removeItem('kullanici_rolu');
+    
+    // Oturum yenileme intervalini temizle
+    if (window.authInterval) {
+        clearInterval(window.authInterval);
+        window.authInterval = null;
+    }
     
     if (window.auth) {
         signOut(window.auth); 
@@ -45,10 +54,13 @@ export function checkAuth(requiredLevel) {
     }
 
     // 3. Oturum süresini yenile
-    suteyiYenile();
-    if (!window.authInterval) {
-        window.authInterval = setInterval(suteyiYenile, 5000);
-    }
+    // Deneme kullanıcılarının oturumu YENİLENMEZ.
+    if (userRole !== 'trial_user') {
+        suteyiYenile();
+        if (!window.authInterval) {
+            window.authInterval = setInterval(suteyiYenile, 5000);
+        }
+    } 
 }
 
 // --- GİRİŞ İŞLEMİ (Firebase Doğrulaması) ---
@@ -72,7 +84,7 @@ export async function performLogin(username, password) {
         }
         
         localStorage.setItem('kullanici_rolu', userRole);
-        suteyiYenile();
+        suteyiYenile(); 
         
         const redirectPage = (userRole === 'admin') ? 'dashboard.html' : 'premium.html';
         return { success: true, redirect: redirectPage }; 
@@ -80,5 +92,49 @@ export async function performLogin(username, password) {
     } catch (error) {
         console.error("Firebase Giriş Hatası:", error.code, error.message);
         return { success: false };
+    }
+}
+
+// --- DENEME HESABI YÖNETİMİ ---
+
+// Rastgele bir kullanıcı adı ve şifre oluşturur
+function createTrialCredentials() {
+    const randomString = Math.random().toString(36).substring(2, 8); 
+    const email = `trial_${randomString}${DEFAULT_DOMAIN}`; 
+    const password = `deneme${randomString}123`; 
+    return { email, password };
+}
+
+// Deneme hesabı oluşturur ve giriş yapar
+export async function performTrialLogin() {
+    
+    // YENİ KONTROL: Eğer deneme hakkı daha önce kullanılmışsa, girişi engelle.
+    if (localStorage.getItem(DENEME_YAPILDI_KEY) === 'true') {
+        return { success: false, message: "Deneme hakkınız dolmuştur." };
+    }
+
+    const { email, password } = createTrialCredentials();
+    const auth = window.auth; 
+    const trialRole = 'trial_user'; 
+
+    try {
+        // Yeni deneme kullanıcısını oluştur
+        await createUserWithEmailAndPassword(auth, email, password);
+        
+        // Başarılı giriş ve rol ataması
+        localStorage.setItem('kullanici_rolu', trialRole);
+        
+        // Deneme bitişini 1 dakika sonraya ayarla (YENİ SÜRE)
+        localStorage.setItem('oturum_bitis', Date.now() + DENEME_OTURUM_SURESI);
+        
+        // KRİTİK: Deneme hakkının kullanıldığını işaretle
+        localStorage.setItem(DENEME_YAPILDI_KEY, 'true');
+        
+        const redirectPage = 'premium.html';
+        return { success: true, redirect: redirectPage }; 
+        
+    } catch (error) {
+        console.error("Deneme Giriş/Kayıt Hatası:", error.code, error.message);
+        return { success: false, message: "Deneme hesabı oluşturulamadı. Lütfen tekrar deneyin." };
     }
 }
