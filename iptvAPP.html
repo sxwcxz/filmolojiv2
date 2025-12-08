@@ -361,6 +361,9 @@
         
         // Kendi auth.js modülünüzü import edin
         import { performLogin, doLogout, checkAuth, suteyiYenile } from './auth.js'; 
+        
+        // YENİ: tv.js dosyasından kanal verilerini içe aktarın
+        import { CHANNEL_DATA } from './tv.js'; 
 
         // SİZİN FIREBASE YAPILANDIRMANIZ
         const firebaseConfig = {
@@ -383,70 +386,60 @@
         window.checkAuth = checkAuth; 
         window.suteyiYenile = suteyiYenile; 
         window.auth = auth;
+        // KANAL VERİSİNİ GLOBAL ALANA BAĞLAMA (Ana script bloğu için gerekli)
+        window.CHANNEL_DATA = CHANNEL_DATA; 
     </script>
 
     <script>
-        checkAuth('user'); // Oturumu açık olan (admin veya user) herkes girebilir.
+        // Sayfa yüklendiğinde checkAuth çalışır
+        checkAuth('user'); 
     </script>
 
     <script>
-        /* KODUNUZUN İÇİNE EKLEYİNİZ */
+        /* GÜVENLİK VE GENEL AYARLAR */
 
-// Sağ Tık Menüsünü Engelleme
-document.addEventListener('contextmenu', event => {
-    event.preventDefault();
-    showToast("Bu içerik telif hakları ile korunmaktadır."); // Mevcut toast fonksiyonunu kullanma
-});
+        // Sağ Tık Menüsünü Engelleme
+        document.addEventListener('contextmenu', event => {
+            event.preventDefault();
+            showToast("Bu içerik telif hakları ile korunmaktadır.");
+        });
 
-// F12 ve Diğer Kısayolları Engelleme (Windows/Linux için)
-document.onkeydown = function(e) {
-    // F12 tuşu
-    if (e.key === 'F12' || e.keyCode == 123) {
-        event.preventDefault();
-        showToast("Geliştirici araçları engellendi!");
-        return false;
-    }
-    // Ctrl+Shift+I (Inceleme), Ctrl+Shift+J (Konsol), Ctrl+Shift+C (Öğe Seçici)
-    if (e.ctrlKey && e.shiftKey && (e.keyCode == 73 || e.keyCode == 74 || e.keyCode == 67)) {
-        event.preventDefault();
-        showToast("Geliştirici araçları engellendi!");
-        return false;
-    }
-    // Ctrl+S (Kaydet)
-    if (e.ctrlKey && e.keyCode == 83) {
-        event.preventDefault();
-        showToast("Kaydetme işlemi engellendi!");
-        return false;
-    }
-    // Ctrl+U (Sayfa Kaynağını Görüntüle)
-    if (e.ctrlKey && e.keyCode == 85) {
-        event.preventDefault();
-        showToast("Sayfa kaynağına erişim engellendi!");
-        return false;
-    }
-    // Mac kullanıcıları için cmd tuşu
-    if (e.metaKey && (e.keyCode == 73 || e.keyCode == 83 || e.keyCode == 85)) {
-        event.preventDefault();
-        showToast("İzin verilmeyen işlem!");
-        return false;
-    }
-};
-        document.addEventListener('DOMContentLoaded', () => {
-        // !!! YETKİLENDİRME KONTROLÜ EKLENDİ !!!
-        if (typeof checkAuth === 'function') {
-            checkAuth('user');
-        } else {
-            console.error("Yetkilendirme fonksiyonu (checkAuth) yüklenemedi. auth.js dosyasını kontrol edin.");
-        }
-        
-        loadM3UFile(M3U_FILE_NAME);
-        seriesNameDisplay.textContent = "Canlı TV Yayınları";
-    });
-        // M3U dosyasının adı
-        const M3U_FILE_NAME = 'tv.m3u'; 
+        // F12 ve Diğer Kısayolları Engelleme
+        document.onkeydown = function(e) {
+            // F12 tuşu
+            if (e.key === 'F12' || e.keyCode == 123) {
+                event.preventDefault();
+                showToast("Geliştirici araçları engellendi!");
+                return false;
+            }
+            // Ctrl+Shift+I (Inceleme), Ctrl+Shift+J (Konsol), Ctrl+Shift+C (Öğe Seçici)
+            if (e.ctrlKey && e.shiftKey && (e.keyCode == 73 || e.keyCode == 74 || e.keyCode == 67)) {
+                event.preventDefault();
+                showToast("Geliştirici araçları engellendi!");
+                return false;
+            }
+            // Ctrl+S (Kaydet)
+            if (e.ctrlKey && e.keyCode == 83) {
+                event.preventDefault();
+                showToast("Kaydetme işlemi engellendi!");
+                return false;
+            }
+            // Ctrl+U (Sayfa Kaynağını Görüntüle)
+            if (e.ctrlKey && e.keyCode == 85) {
+                event.preventDefault();
+                showToast("Sayfa kaynağına erişim engellendi!");
+                return false;
+            }
+            // Mac kullanıcıları için cmd tuşu
+            if (e.metaKey && (e.keyCode == 73 || e.keyCode == 83 || e.keyCode == 85)) {
+                event.preventDefault();
+                showToast("İzin verilmeyen işlem!");
+                return false;
+            }
+        };
         
         let player;
-        let allChannels = [];
+        let allChannels = []; 
         let currentChannelIndex = -1;
 
         const channelListDiv = document.getElementById('channel-list');
@@ -454,37 +447,20 @@ document.onkeydown = function(e) {
         const loadingMessage = document.getElementById('loading-message');
         const seriesNameDisplay = document.getElementById('series-name');
         
-        // Geliştirici araçlarını engelleyen fonksiyon (Body tag'ine eklenmiştir)
-        function disableKeys(e) {
-            // F12, Ctrl+Shift+I, Ctrl+U, Ctrl+S, Ctrl+P gibi tuş kombinasyonlarını engelle
-            if (e.key === 'F12' || 
-                (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J')) || 
-                (e.ctrlKey && e.key === 'u') || 
-                (e.ctrlKey && e.key === 's') ||
-                (e.ctrlKey && e.key === 'p')) {
-                e.preventDefault();
-                showToast('<i class="fas fa-lock"></i> İnceleme ve Kaydetme Engellendi!');
-                return false;
-            }
-        }
         
         // Tarayıcı konsol kontrolü (Yönlendirme veya uyarı için)
         (function checkConsole() {
-            let threshold = 160; // Konsol açılınca pencere boyutundaki tipik değişim
+            let threshold = 160; 
             let devtools = false;
             let width = window.outerWidth;
             let height = window.outerHeight;
             
-            // Boyut değişimi algılama
             if (width - window.innerWidth > threshold || height - window.innerHeight > threshold) {
                 devtools = true;
             }
             
-            // Console.log ile breakpoint koyma hilesi
             const func = function() {
                 if (devtools) {
-                    // Konsol açıldıysa, kullanıcıyı uyar veya başka bir sayfaya yönlendir
-                    // Örneğin: window.location.replace("hata_sayfasi.html");
                     console.log("%c⚠️ İNCELEME GİRİŞİMİ ALGILANDI", "font-size: 20px; color: red;");
                 }
                 setTimeout(func, 1000);
@@ -494,36 +470,32 @@ document.onkeydown = function(e) {
 
 
         document.addEventListener('DOMContentLoaded', () => {
-            loadM3UFile(M3U_FILE_NAME);
-            seriesNameDisplay.textContent = "Canlı TV Yayınları";
-        });
-        
-        // --- M3U YÜKLEME VE İŞLEME FONKSİYONLARI ---
-        
-        async function loadM3UFile(filename) {
-            try {
-                const response = await fetch(filename);
-                if (!response.ok) {
-                    throw new Error(`HTTP Hata kodu: ${response.status}`);
-                }
-                const content = await response.text();
-                processM3UContent(content);
-            } catch (error) {
-                console.error("M3U dosyası yüklenirken hata oluştu:", error);
-                if(loadingMessage) {
-                    loadingMessage.innerHTML = `HATA: M3U dosyası (${filename}) yüklenemedi. Sunucu hatası veya dosya bulunamadı.`;
-                }
-                channelNameDisplay.textContent = "HATA: Kanal listesi yüklenemedi.";
+            // Yetkilendirme kontrolü.
+            if (typeof checkAuth === 'function') {
+                checkAuth('user');
+            } else {
+                console.error("Yetkilendirme fonksiyonu (checkAuth) yüklenemedi.");
             }
-        }
-
-        function processM3UContent(content) {
-            allChannels = parseM3U(content);
+            
+            // 🔥 KANAL VERİSİNİ ALMA: window.CHANNEL_DATA'yı kullanıyoruz.
+            if (window.CHANNEL_DATA && window.CHANNEL_DATA.length > 0) {
+                 allChannels = window.CHANNEL_DATA; 
+            } else {
+                 console.error("CHANNEL_DATA bulunamadı. tv.js dosyasını kontrol edin.");
+                 if (loadingMessage) {
+                    loadingMessage.innerHTML = "HATA: Kanal verileri yüklenemedi (tv.js dosyası eksik veya hatalı).";
+                 }
+                 channelNameDisplay.textContent = "HATA: Kanal listesi yüklenemedi.";
+                 return;
+            }
+            
+            seriesNameDisplay.textContent = "Canlı TV Yayınları";
             
             if (loadingMessage) {
                 loadingMessage.remove();
             }
             
+            // Kanalları yükle ve ilkini başlat
             if (allChannels.length > 0) {
                 renderChannels(allChannels);
                 
@@ -536,50 +508,11 @@ document.onkeydown = function(e) {
                 playChannel(firstChannel, currentChannelIndex);
 
             } else {
-                channelListDiv.innerHTML += '<p style="padding: 20px; text-align: center;">M3U dosyasında geçerli kanal bulunamadı.</p>';
+                channelListDiv.innerHTML += '<p style="padding: 20px; text-align: center;">Kanal listesi boş.</p>';
                 channelNameDisplay.textContent = "HATA: Geçerli kanal yok.";
             }
-        }
-
-        // Tekrarlanan kanalları URL'ye göre kontrol ederek listeye eklenmesini engeller.
-        function parseM3U(content) {
-            const lines = content.split('\n').map(line => line.trim()).filter(line => line.length > 0);
-            const channels = [];
-            const urlsSeen = new Set(); 
-            
-            for (let i = 0; i < lines.length; i++) {
-                if (lines[i].startsWith('#EXTINF:')) {
-                    const infoLine = lines[i];
-                    const urlLine = lines[i + 1];
-
-                    const channelNameMatch = infoLine.match(/,(.*)$/);
-                    const channelName = channelNameMatch ? channelNameMatch[1].trim() : "Bilinmeyen Kanal";
-
-                    const logoMatch = infoLine.match(/tvg-logo="([^"]*)"/);
-                    const logoUrl = logoMatch ? logoMatch[1] : '';
-                    
-                    if (urlLine && (urlLine.startsWith('http://') || urlLine.startsWith('https://'))) {
-                        
-                        // Tekrar kontrolü
-                        if (!urlsSeen.has(urlLine)) {
-                            urlsSeen.add(urlLine);
-                            
-                            channels.push({
-                                name: channelName,
-                                url: urlLine,
-                                logo: logoUrl
-                            });
-                        } else {
-                            console.warn(`Tekrarlanan kanal atlandı: ${channelName}`);
-                        }
-                        
-                        i++; 
-                    }
-                }
-            }
-            return channels;
-        }
-
+        });
+        
         // Kanalları logolarıyla birlikte listeleme
         function renderChannels(channels) {
             channelListDiv.innerHTML = '';
@@ -606,13 +539,15 @@ document.onkeydown = function(e) {
                 channelItem.appendChild(logoImg);
                 channelItem.appendChild(nameSpan);
                 
-                channelItem.addEventListener('click', function() {
+                // 🔥 GÜNCEL OLAY DİNLEYİCİSİ (Arrow Function ile güvenli atama)
+                channelItem.addEventListener('click', () => { 
                     document.querySelectorAll('.channel-item').forEach(item => {
                         item.classList.remove('active');
                     });
-                    this.classList.add('active');
+                    
+                    document.getElementById(`ch-${index}`).classList.add('active'); 
                     playChannel(channel, index);
-                }.bind(null, channel));
+                });
 
                 channelListDiv.appendChild(channelItem);
             });
@@ -675,18 +610,17 @@ document.onkeydown = function(e) {
             });
         }
         
-        // YENİ: KANAL LİSTESİNİ FİLTRELEME FONKSİYONU
+        // KANAL LİSTESİNİ FİLTRELEME FONKSİYONU
         function filterChannels() {
-            // Arama sorgusunu yeni sidebar input'undan alıyoruz
             const query = document.getElementById('channelSearchInput').value.toLowerCase();
             const channelItems = channelListDiv.querySelectorAll('.channel-item');
             
             channelItems.forEach(item => {
                 const channelName = item.querySelector('.channel-name').textContent.toLowerCase();
                 if (channelName.includes(query)) {
-                    item.style.display = 'flex'; // Kanal adında arama terimi varsa göster
+                    item.style.display = 'flex'; 
                 } else {
-                    item.style.display = 'none'; // Yoksa gizle
+                    item.style.display = 'none'; 
                 }
             });
         }
@@ -714,7 +648,7 @@ document.onkeydown = function(e) {
             document.getElementById('searchInput').value = ''; 
         }
         
-        // NAVIGASYON ARAMASI (ORİJİNAL İŞLEVİ KORUNDU)
+        // NAVIGASYON ARAMASI
         function handleSearchRedirect(event) { 
             if (event.key === 'Enter') { 
                 const query = document.getElementById('searchInput').value; 
@@ -773,10 +707,8 @@ document.onkeydown = function(e) {
             }
         }
         
-        // KLAVYE KISAYOLLARI (M3U için güncellendi)
+        // KLAVYE KISAYOLLARI
         document.addEventListener('keydown', function(event) {
-            // Güvenlik fonksiyonu zaten çalışıyor, ancak player kısayolları için tekrar kontrol ediyoruz.
-            // Yeni kanal arama inputu aktifse klavye kısayollarını engelle
             if (!player || document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA') return;
             
             const key = event.key.toLowerCase();
