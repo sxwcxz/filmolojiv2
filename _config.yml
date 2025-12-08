@@ -1,0 +1,4 @@
+# _config.yml
+# GitHub Pages'in JS dosyalarını doğru MIME tipiyle sunmasını sağlar
+include: 
+  - .js
