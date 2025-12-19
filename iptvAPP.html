@@ -10,7 +10,7 @@
     <link rel="manifest" href="/manifest.json">
 
     <style>
-        /* --- CSS STİLLERİ (Önceki Sürümlerden Alınmıştır) --- */
+        /* --- CSS STİLLERİ --- */
         * { box-sizing: border-box; margin: 0; padding: 0; outline: none; }
         :root { 
             --brand-color: #E50914; 
@@ -38,32 +38,17 @@
         }
         
         .logo-text { 
-            color: var(--brand-color); 
-            font-size: 24px; 
-            font-weight: 900; 
-            letter-spacing: -0.5px; 
-            font-family: 'Arial Black', sans-serif; 
-            text-transform: uppercase; 
-            display: flex; 
-            align-items: center; 
-            text-shadow: 0 0 5px rgba(229, 9, 20, 0.3); 
-            cursor: pointer; 
-            gap: 10px;
+            color: var(--brand-color); font-size: 24px; font-weight: 900; letter-spacing: -0.5px; 
+            font-family: 'Arial Black', sans-serif; text-transform: uppercase; display: flex; align-items: center; 
+            text-shadow: 0 0 5px rgba(229, 9, 20, 0.3); cursor: pointer; gap: 10px;
         }
         
-        /* CANLI YAYIN NOKTASI (LIVE DOT) STİLİ */
+        /* CANLI YAYIN NOKTASI */
         .live-dot {
-            width: 10px;
-            height: 10px;
-            background-color: #f00; /* Kırmızı renk */
-            border-radius: 50%;
-            box-shadow: 0 0 5px #f00, 0 0 10px #f00;
-            animation: blinker 1.5s linear infinite; /* Yanıp sönme animasyonu */
+            width: 10px; height: 10px; background-color: #f00; border-radius: 50%;
+            box-shadow: 0 0 5px #f00, 0 0 10px #f00; animation: blinker 1.5s linear infinite;
         }
-        
-        @keyframes blinker {
-            50% { opacity: 0; }
-        }
+        @keyframes blinker { 50% { opacity: 0; } }
 
         .version-badge { display: none; }
         
@@ -78,7 +63,7 @@
         .nav-menu .nav-item:last-child i { color: #FFC107; filter: drop-shadow(0 0 5px rgba(255, 193, 7, 0.8)); }
         .nav-menu .nav-item:last-child:hover { color: #FFE082; background: rgba(255, 193, 7, 0.2); text-shadow: 0 0 20px rgba(255, 193, 7, 0.8); transform: scale(1.05); box-shadow: 0 0 15px rgba(255, 193, 7, 0.4); }
 
-        /* ARAMA KUTUSU (NAVBAR) - ORİJİNAL KORUNDU */
+        /* ARAMA KUTUSU */
         .search-container { display: flex; align-items: center; width: 40px; height: 40px; border-radius: 30px; background: transparent; transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); overflow: hidden; position: relative; border: 1px solid transparent; cursor: pointer; padding: 0 10px; flex-shrink: 0; }
         .search-container:hover, .search-container.active { width: 160px; background: rgba(0, 0, 0, 0.6); border-color: rgba(255, 255, 255, 0.2); padding: 0 15px; cursor: default; }
         .search-icon-btn { font-size: 18px; flex-shrink: 0; color: var(--brand-color); filter: drop-shadow(0 0 2px var(--brand-color)); transition: 0.3s; margin-left: 8px; }
@@ -100,7 +85,7 @@
         .mobile-nav-menu .nav-item:last-child i { color: #FFC107; filter: drop-shadow(0 0 5px rgba(255, 193, 7, 0.8)); }
         .mobile-nav-menu .nav-item:last-child:hover { background: rgba(255, 193, 7, 0.15); color: #FFE082; padding-left: 25px; }
 
-        /* CONTENT & PLAYER (MASAÜSTÜ) */
+        /* CONTENT & PLAYER */
         .main-container { display: flex; min-height: 100vh; padding-top: 120px; max-width: 1600px; margin: 0 auto; gap: 20px; padding-bottom: 50px; }
         .content-area { flex: 3; min-width: 600px; display: flex; flex-direction: column; align-items: center; gap: 20px; padding: 0 20px; } 
         .series-title { color: #fff; font-size: 1.5rem; font-weight: 800; text-shadow: 0 0 10px rgba(0,0,0,0.5); margin-top: 5px; text-align: center; }
@@ -110,89 +95,27 @@
         .video-js { position: absolute !important; top: 0; left: 0; width: 100% !important; height: 100% !important; border-radius: 15px; overflow: hidden; }
         .video-js .vjs-control-bar { z-index: 100 !important; bottom: 0; width: 100%; }
 
-        /* KAYNAK BUTONLARI GİZLENİR (M3U'da gereksiz) */
         .source-selector { display: none !important; } 
 
-        /* SIDEBAR (KANAL LİSTESİ - MASAÜSTÜ) */
-        .sidebar { flex: 1; background: var(--glass-form-bg); backdrop-filter: var(--blur); -webkit-backdrop-filter: var(--blur); border: 1px solid rgba(255, 255, 255, 0.18); border-radius: 18px; box-shadow: var(--shadow); display: flex; flex-direction: column; min-width: 350px; max-width: 450px; height: 550px; /* Sabit Masaüstü Yüksekliği */ position: sticky; top: 120px; }
-        
-        /* GÜNCELLENDİ: Header sadece başlığı tutacak, border-bottom kaldırıldı */
-        .sidebar-header { 
-            padding: 15px 20px 15px 20px; /* Alttan boşluk arttırıldı */
-            border-bottom: none; 
-            background: rgba(0, 0, 0, 0.4); 
-            border-radius: 18px 18px 0 0; 
-        }
-        
+        /* SIDEBAR */
+        .sidebar { flex: 1; background: var(--glass-form-bg); backdrop-filter: var(--blur); -webkit-backdrop-filter: var(--blur); border: 1px solid rgba(255, 255, 255, 0.18); border-radius: 18px; box-shadow: var(--shadow); display: flex; flex-direction: column; min-width: 350px; max-width: 450px; height: 550px; position: sticky; top: 120px; }
+        .sidebar-header { padding: 15px 20px 15px 20px; border-bottom: none; background: rgba(0, 0, 0, 0.4); border-radius: 18px 18px 0 0; }
         #season-select { display: none; }
         .sidebar-header h3 { margin: 0; color: white; font-size: 1.2rem; display: flex; align-items: center; gap: 10px; }
-
-        /* GÜNCELLENDİ: Sidebar Arama Kutusu Stili */
-        .channel-search-box {
-            /* Hem üstten (header'dan ayırmak için) hem alttan (kanallardan ayırmak için) boşluk arttırıldı. */
-            padding: 10px 20px 20px 20px; 
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1); 
-        }
-        .channel-search-input {
-            width: 100%;
-            padding: 10px 15px;
-            background: rgba(0, 0, 0, 0.5);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            color: white;
-            border-radius: 8px;
-            font-size: 0.9rem;
-        }
-        .channel-search-input:focus {
-             border-color: var(--brand-color);
-             box-shadow: 0 0 0 1px var(--brand-color);
-        }
-        
+        .channel-search-box { padding: 10px 20px 20px 20px; border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
+        .channel-search-input { width: 100%; padding: 10px 15px; background: rgba(0, 0, 0, 0.5); border: 1px solid rgba(255, 255, 255, 0.2); color: white; border-radius: 8px; font-size: 0.9rem; }
+        .channel-search-input:focus { border-color: var(--brand-color); box-shadow: 0 0 0 1px var(--brand-color); }
         .episode-list { flex-grow: 1; overflow-y: auto; padding: 0; }
         
-        /* M3U KANAL ÖĞESİ STİLİ */
-        .channel-item { 
-            display: flex; 
-            align-items: center; 
-            padding: 12px 15px; 
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05); 
-            cursor: pointer; 
-            transition: 0.2s; 
-            color: white; 
-        }
-        .channel-item:hover { 
-            background: rgba(229, 9, 20, 0.1); 
-        }
-        .channel-item.active { 
-            background: rgba(229, 9, 20, 0.3); 
-            border-left: 4px solid var(--brand-color); 
-        }
+        .channel-item { display: flex; align-items: center; padding: 12px 15px; border-bottom: 1px solid rgba(255, 255, 255, 0.05); cursor: pointer; transition: 0.2s; color: white; }
+        .channel-item:hover { background: rgba(229, 9, 20, 0.1); }
+        .channel-item.active { background: rgba(229, 9, 20, 0.3); border-left: 4px solid var(--brand-color); }
+        .channel-logo { width: 45px; height: 45px; margin-right: 15px; object-fit: contain; border-radius: 8px; padding: 3px; background: rgba(255, 255, 255, 0.1); }
+        .channel-name { font-weight: 600; font-size: 1.1rem; color: #fff; flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-        /* M3U Logo Stilleri (45px) */
-        .channel-logo { 
-            width: 45px; 
-            height: 45px; 
-            margin-right: 15px; 
-            object-fit: contain; 
-            border-radius: 8px; 
-            padding: 3px;
-            background: rgba(255, 255, 255, 0.1);
-        }
-
-        .channel-name { 
-            font-weight: 600; 
-            font-size: 1.1rem; 
-            color: #fff; 
-            flex: 1; 
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        /* Dizi listesindeki gereksiz elementler gizlendi */
-        .ep-num, .ep-desc, .ep-play-icon { display: none; } 
         #loading-message { padding: 20px; text-align: center; color: #ccc; }
 
-        /* TOAST VE İSTEK KUTUSU STİLLERİ */
+        /* FORM VE TOAST */
         .toast-notification {
             position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%);
             background: rgba(229, 9, 20, 0.95); color: white; padding: 12px 30px; border-radius: 30px;
@@ -209,26 +132,12 @@
         .season-select option, select.form-control option { background-color: var(--bg-dark); color: white; }
         .btn-submit { width: 100%; padding: 14px; background: var(--brand-color); color: white; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; transition: background 0.2s, transform 0.1s; font-size: 1.1rem; box-shadow: 0 4px 10px rgba(229, 9, 20, 0.4); }
 
-        /* MOBİL RESPONSIVE */
         @media (max-width: 1000px) { 
             .navbar { top: 0; transform: none; width: 100%; left: 0; border-radius: 0; height: 60px; padding: 0 15px; background: #141414; backdrop-filter: none; border: none; box-shadow: 0 5px 15px rgba(0,0,0,0.8); } 
             .main-container { flex-direction: column; padding-top: 80px; padding-bottom: 20px; gap: 20px; } 
             .content-area { width: 100%; min-width: unset; padding: 0 15px; order: 1; } 
             .video-wrapper { width: 94% !important; margin: 0 auto; }
-            
-            /* SİDEBAR YÜKSEKLİK AYARI */
-            .sidebar { 
-                width: calc(100% - 30px); 
-                margin: 0 15px; 
-                position: static; 
-                order: 2; 
-                border-left: none; 
-                
-                /* Burası Mobil Yüksekliği Kontrol Eder */
-                height: 250px; 
-                max-height: 40vh; 
-            } 
-            
+            .sidebar { width: calc(100% - 30px); margin: 0 15px; position: static; order: 2; border-left: none; height: 250px; max-height: 40vh; } 
             .suggestion-section-wrapper { padding: 0 15px 50px 15px; margin-top: 0; }
             .menu-toggle { display: block !important; background: none; border: none; color: white; font-size: 24px; cursor: pointer; padding: 5px; z-index: 1001; order: 3; margin-left: 10px; }
             .nav-menu { display: none; } 
@@ -236,11 +145,7 @@
             .search-container.active { width: calc(100% - 140px); position: absolute; left: 70px; top: 5px; height: 50px; padding: 0 15px; }
             .series-title { font-size: 1.5rem; }
             .episode-title { font-size: 1.1rem; }
-            
-            /* Mobil Sidebar Arama Kutusu Ayarı */
-            .channel-search-box {
-                padding-top: 0;
-            }
+            .channel-search-box { padding-top: 0; }
         }
     </style>
 </head>
@@ -248,9 +153,7 @@
 
     <nav class="navbar" id="navbar">
         <div class="logo-container" onclick="window.location.href='index.html'">
-            <div class="logo-text">
-                Filmoloji 
-                <span class="live-dot"></span> </div>
+            <div class="logo-text">Filmoloji <span class="live-dot"></span> </div>
         </div>
         <div class="nav-menu" id="desktop-nav-menu">
             <a href="index.html" class="nav-item"><i class="fas fa-home"></i> Ana Sayfa</a>
@@ -291,24 +194,11 @@
             </div>
             
             <div class="video-wrapper">
-                 <video
-                    id="video-js-player"
-                    class="video-js vjs-default-skin vjs-big-play-centered"
-                    controls
-                    preload="auto"
-                    autoplay
-                    playsinline
-                    data-setup='{
-                        "responsive": true, 
-                        "fluid": true
-                    }'>
-                </video>
+                 <video id="video-js-player" class="video-js vjs-default-skin vjs-big-play-centered" controls preload="auto" autoplay playsinline data-setup='{"responsive": true, "fluid": true}'></video>
             </div>
             
             <div class="source-selector" id="source-buttons"> 
-                <button class="source-btn" id="dummy-btn">
-                    <i class="fas fa-info-circle"></i> Canlı Yayın
-                </button>
+                <button class="source-btn" id="dummy-btn"><i class="fas fa-info-circle"></i> Canlı Yayın</button>
             </div>
         </div>
         
@@ -333,17 +223,17 @@
         <div class="suggestion-section" id="suggestions">
             <div class="suggestion-box">
                 <h3><i class="fas fa-paper-plane"></i> İstek & Öneri Kutusu</h3>
-                <form action="https://formspree.io/f/xblnrgzw" method="POST" id="suggestionForm" onsubmit="submitSuggestion(event)">
-                    <div class="form-group"><input type="text" name="Gonderen" class="form-control" placeholder="Adınız (İsteğe bağlı)"></div>
+                <form id="suggestionForm" onsubmit="submitSuggestion(event)">
+                    <div class="form-group"><input type="text" id="contact-name" class="form-control" placeholder="Adınız (İsteğe bağlı)"></div>
                     <div class="form-group">
-                        <select name="Konu" class="form-control">
-                            <option>Yayın Hatası</option>
-                            <option>Yeni Kanal İsteği</option>
-                            <option>Geliştirme Önerisi</option>
-                            <option>Diğer</option>
+                        <select id="contact-topic" class="form-control">
+                            <option value="Yayın Hatası (Donma/Kapanma)">Yayın Hatası (Donma/Kapanma)</option>
+                            <option value="Ses Sorunu">Ses Sorunu</option>
+                            <option value="Yeni Kanal İsteği">Yeni Kanal İsteği</option>
+                            <option value="Geliştirme Önerisi">Geliştirme Önerisi</option>
                         </select>
                     </div>
-                    <div class="form-group"><textarea name="Mesaj" class="form-control" placeholder="Mesajınızı buraya yazın..." required></textarea></div>
+                    <div class="form-group"><textarea id="contact-message" class="form-control" placeholder="Mesajınızı buraya yazın..." required></textarea></div>
                     <button type="submit" class="btn-submit">GÖNDER</button>
                 </form>
             </div>
@@ -354,18 +244,15 @@
     <script src="https://cdn.jsdelivr.net/npm/videojs-contrib-quality-levels/dist/videojs-contrib-quality-levels.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/videojs-hls-quality-selector/dist/videojs-hls-quality-selector.min.js"></script>
     
-<script type="module">
-        // Firebase Modülleri (Sizin Yapılandırmanıza göre 9.6.1)
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
-        import { getAuth } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
+        import { getAuth } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
+        // YENİ DATABASE FONKSİYONLARI
+        import { getDatabase, ref, push, set } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-database.js";
         
-        // Kendi auth.js modülünüzü import edin
         import { performLogin, doLogout, checkAuth, suteyiYenile } from './auth.js'; 
-        
-        // YENİ: tv.js dosyasından kanal verilerini içe aktarın
         import { CHANNEL_DATA } from './tv.js'; 
 
-        // SİZİN FIREBASE YAPILANDIRMANIZ
         const firebaseConfig = {
             apiKey: "AIzaSyBIV0-Jzy0m4OoP6YX_L6El6x5e7YmlD8Y",
             authDomain: "filmoloji-web.firebaseapp.com",
@@ -379,15 +266,67 @@
         
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app); 
+        const db = getDatabase(app);
 
-        // Modül fonksiyonlarını global alana bağlama
         window.performLogin = performLogin;
         window.doLogout = doLogout; 
         window.checkAuth = checkAuth; 
         window.suteyiYenile = suteyiYenile; 
         window.auth = auth;
-        // KANAL VERİSİNİ GLOBAL ALANA BAĞLAMA (Ana script bloğu için gerekli)
         window.CHANNEL_DATA = CHANNEL_DATA; 
+
+        // GLOBAL MESAJ GÖNDERME FONKSİYONU
+        window.submitSuggestion = function(event) {
+            event.preventDefault();
+            
+            const nameInput = document.getElementById('contact-name');
+            const topicInput = document.getElementById('contact-topic');
+            const msgInput = document.getElementById('contact-message');
+            const btn = document.querySelector('.btn-submit');
+            const originalText = btn.innerHTML;
+
+            const sender = nameInput.value.trim() || "Anonim İzleyici";
+            const topic = topicInput.value;
+            const message = msgInput.value.trim();
+
+            if(!message) {
+                showToast('<i class="fas fa-exclamation-circle"></i> Lütfen bir mesaj yazın.');
+                return;
+            }
+
+            // Şu an izlenen kanalın adını al
+            let currentChannelName = "Bilinmeyen Kanal";
+            const channelDisplay = document.getElementById('channel-name');
+            if(channelDisplay) currentChannelName = channelDisplay.textContent;
+
+            const fullMessage = `[Canlı TV: ${currentChannelName}] - ${message}`;
+
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Gönderiliyor...';
+
+            const newMsgRef = push(ref(db, 'messages'));
+            
+            set(newMsgRef, {
+                sender: sender,
+                topic: topic,
+                message: fullMessage, 
+                date: new Date().toLocaleString('tr-TR'),
+                read: false
+            })
+            .then(() => {
+                showToast('<i class="fas fa-check-circle" style="color: #4CAF50;"></i> Bildiriminiz Yöneticiye İletildi!');
+                nameInput.value = "";
+                msgInput.value = "";
+            })
+            .catch((error) => {
+                console.error(error);
+                showToast('<i class="fas fa-exclamation-triangle" style="color: #FFC107;"></i> Bir hata oluştu.');
+            })
+            .finally(() => {
+                btn.disabled = false;
+                btn.innerHTML = originalText;
+            });
+        }
     </script>
 
     <script>
@@ -397,45 +336,12 @@
 
     <script>
         /* GÜVENLİK VE GENEL AYARLAR */
-
-        // Sağ Tık Menüsünü Engelleme
-        document.addEventListener('contextmenu', event => {
-            event.preventDefault();
-            showToast("Bu içerik telif hakları ile korunmaktadır.");
-        });
-
-        // F12 ve Diğer Kısayolları Engelleme
+        document.addEventListener('contextmenu', event => { event.preventDefault(); showToast("Bu içerik telif hakları ile korunmaktadır."); });
         document.onkeydown = function(e) {
-            // F12 tuşu
-            if (e.key === 'F12' || e.keyCode == 123) {
-                event.preventDefault();
-                showToast("Geliştirici araçları engellendi!");
-                return false;
-            }
-            // Ctrl+Shift+I (Inceleme), Ctrl+Shift+J (Konsol), Ctrl+Shift+C (Öğe Seçici)
-            if (e.ctrlKey && e.shiftKey && (e.keyCode == 73 || e.keyCode == 74 || e.keyCode == 67)) {
-                event.preventDefault();
-                showToast("Geliştirici araçları engellendi!");
-                return false;
-            }
-            // Ctrl+S (Kaydet)
-            if (e.ctrlKey && e.keyCode == 83) {
-                event.preventDefault();
-                showToast("Kaydetme işlemi engellendi!");
-                return false;
-            }
-            // Ctrl+U (Sayfa Kaynağını Görüntüle)
-            if (e.ctrlKey && e.keyCode == 85) {
-                event.preventDefault();
-                showToast("Sayfa kaynağına erişim engellendi!");
-                return false;
-            }
-            // Mac kullanıcıları için cmd tuşu
-            if (e.metaKey && (e.keyCode == 73 || e.keyCode == 83 || e.keyCode == 85)) {
-                event.preventDefault();
-                showToast("İzin verilmeyen işlem!");
-                return false;
-            }
+            if (e.key === 'F12' || e.keyCode == 123) { event.preventDefault(); showToast("Geliştirici araçları engellendi!"); return false; }
+            if (e.ctrlKey && e.shiftKey && (e.keyCode == 73 || e.keyCode == 74 || e.keyCode == 67)) { event.preventDefault(); showToast("Geliştirici araçları engellendi!"); return false; }
+            if (e.ctrlKey && e.keyCode == 83) { event.preventDefault(); showToast("Kaydetme işlemi engellendi!"); return false; }
+            if (e.ctrlKey && e.keyCode == 85) { event.preventDefault(); showToast("Sayfa kaynağına erişim engellendi!"); return false; }
         };
         
         let player;
@@ -447,315 +353,126 @@
         const loadingMessage = document.getElementById('loading-message');
         const seriesNameDisplay = document.getElementById('series-name');
         
-        
-        // Tarayıcı konsol kontrolü (Yönlendirme veya uyarı için)
-        (function checkConsole() {
-            let threshold = 160; 
-            let devtools = false;
-            let width = window.outerWidth;
-            let height = window.outerHeight;
-            
-            if (width - window.innerWidth > threshold || height - window.innerHeight > threshold) {
-                devtools = true;
-            }
-            
-            const func = function() {
-                if (devtools) {
-                    console.log("%c⚠️ İNCELEME GİRİŞİMİ ALGILANDI", "font-size: 20px; color: red;");
-                }
-                setTimeout(func, 1000);
-            };
-            func();
-        })();
-
-
         document.addEventListener('DOMContentLoaded', () => {
-            // Yetkilendirme kontrolü.
-            if (typeof checkAuth === 'function') {
-                checkAuth('user');
-            } else {
-                console.error("Yetkilendirme fonksiyonu (checkAuth) yüklenemedi.");
-            }
+            if (typeof checkAuth === 'function') { checkAuth('user'); }
             
-            // 🔥 KANAL VERİSİNİ ALMA: window.CHANNEL_DATA'yı kullanıyoruz.
-            if (window.CHANNEL_DATA && window.CHANNEL_DATA.length > 0) {
-                 allChannels = window.CHANNEL_DATA; 
-            } else {
-                 console.error("CHANNEL_DATA bulunamadı. tv.js dosyasını kontrol edin.");
-                 if (loadingMessage) {
-                    loadingMessage.innerHTML = "HATA: Kanal verileri yüklenemedi (tv.js dosyası eksik veya hatalı).";
-                 }
+            if (window.CHANNEL_DATA && window.CHANNEL_DATA.length > 0) { allChannels = window.CHANNEL_DATA; } 
+            else { 
+                 if (loadingMessage) { loadingMessage.innerHTML = "HATA: Kanal verileri yüklenemedi."; }
                  channelNameDisplay.textContent = "HATA: Kanal listesi yüklenemedi.";
                  return;
             }
             
             seriesNameDisplay.textContent = "Canlı TV Yayınları";
+            if (loadingMessage) { loadingMessage.remove(); }
             
-            if (loadingMessage) {
-                loadingMessage.remove();
-            }
-            
-            // Kanalları yükle ve ilkini başlat
             if (allChannels.length > 0) {
                 renderChannels(allChannels);
-                
                 currentChannelIndex = 0;
-                const firstChannel = allChannels[currentChannelIndex];
                 const firstItem = document.getElementById(`ch-${currentChannelIndex}`);
-                if (firstItem) {
-                     firstItem.classList.add('active');
-                }
-                playChannel(firstChannel, currentChannelIndex);
-
+                if (firstItem) { firstItem.classList.add('active'); }
+                playChannel(allChannels[currentChannelIndex], currentChannelIndex);
             } else {
                 channelListDiv.innerHTML += '<p style="padding: 20px; text-align: center;">Kanal listesi boş.</p>';
-                channelNameDisplay.textContent = "HATA: Geçerli kanal yok.";
             }
         });
         
-        // Kanalları logolarıyla birlikte listeleme
         function renderChannels(channels) {
             channelListDiv.innerHTML = '';
-            
             channels.forEach((channel, index) => {
                 const channelItem = document.createElement('div');
                 channelItem.classList.add('channel-item');
                 channelItem.id = `ch-${index}`;
                 
-                // Logo elementi
                 const logoImg = document.createElement('img');
                 logoImg.classList.add('channel-logo');
                 logoImg.src = channel.logo || '';
-                logoImg.alt = channel.name + ' Logosu';
-                logoImg.onerror = function() {
-                    this.style.visibility = 'hidden'; 
-                };
+                logoImg.onerror = function() { this.style.visibility = 'hidden'; };
 
-                // Kanal Adı elementi
                 const nameSpan = document.createElement('span');
                 nameSpan.classList.add('channel-name');
                 nameSpan.textContent = channel.name;
 
-                channelItem.appendChild(logoImg);
-                channelItem.appendChild(nameSpan);
-                
-                // 🔥 GÜNCEL OLAY DİNLEYİCİSİ (Arrow Function ile güvenli atama)
+                channelItem.appendChild(logoImg); channelItem.appendChild(nameSpan);
                 channelItem.addEventListener('click', () => { 
-                    document.querySelectorAll('.channel-item').forEach(item => {
-                        item.classList.remove('active');
-                    });
-                    
+                    document.querySelectorAll('.channel-item').forEach(item => { item.classList.remove('active'); });
                     document.getElementById(`ch-${index}`).classList.add('active'); 
                     playChannel(channel, index);
                 });
-
                 channelListDiv.appendChild(channelItem);
             });
         }
 
-        // Kanalı oynatma fonksiyonu (Video.js kullanılarak)
         function playChannel(channel, index) {
             currentChannelIndex = index;
             channelNameDisplay.textContent = `${channel.name} (Yükleniyor...)`;
-            
             document.title = `${channel.name} Canlı İzle | Filmoloji`;
 
-
             if (!player) {
-                player = videojs('video-js-player', {
-                    responsive: true,
-                    fluid: true,
-                    playbackRates: [0.5, 1, 1.25, 1.5, 2], 
-                    html5: { vhs: { overrideNative: true } }
-                });
+                player = videojs('video-js-player', { responsive: true, fluid: true, playbackRates: [0.5, 1, 1.25, 1.5, 2], html5: { vhs: { overrideNative: true } } });
                 player.hlsQualitySelector({ displayLabel: 'Kalite' });
                 setupPlayerEvents(player);
             }
 
-            // Oynatıcı kaynağını ayarla
-            player.src({
-                src: channel.url,
-                type: 'application/x-mpegURL' // HLS/M3U8 için doğru MIME tipi
-            });
+            player.src({ src: channel.url, type: 'application/x-mpegURL' });
 
             player.ready(function() {
-                player.play().then(() => {
-                    channelNameDisplay.textContent = channel.name;
-                }).catch(error => {
-                    console.log("Video.js Otomatik Oynatma Engellendi.");
-                    channelNameDisplay.textContent = `${channel.name} (Başlatmak için oynatıcıya tıklayın)`;
-                });
+                player.play().then(() => { channelNameDisplay.textContent = channel.name; }).catch(error => { channelNameDisplay.textContent = `${channel.name} (Başlatmak için oynatıcıya tıklayın)`; });
             });
 
             player.off('error');
             player.on('error', function(e) {
-                console.error("Video.js Oynatma Hatası:", player.error());
                 showToast(`<i class="fas fa-exclamation-triangle"></i> ${channel.name} - Kaynak Hatası!`);
                 channelNameDisplay.textContent = `HATA: ${channel.name} (Oynatma hatası)`;
             });
         }
         
         function setupPlayerEvents(playerInstance) {
-             playerInstance.on('waiting', function() {
-                if (!playerInstance.paused()) {
-                    showToast('<i class="fas fa-circle-notch fa-spin"></i> Yükleniyor...');
-                }
-            });
-
-            playerInstance.on('playing', function() {
-                 const toast = document.getElementById('toast');
-                 if (toast.classList.contains('show')) {
-                     toast.classList.remove('show');
-                 }
-            });
+             playerInstance.on('waiting', function() { if (!playerInstance.paused()) { showToast('<i class="fas fa-circle-notch fa-spin"></i> Yükleniyor...'); } });
+             playerInstance.on('playing', function() { const toast = document.getElementById('toast'); if (toast.classList.contains('show')) { toast.classList.remove('show'); } });
         }
         
-        // KANAL LİSTESİNİ FİLTRELEME FONKSİYONU
         function filterChannels() {
             const query = document.getElementById('channelSearchInput').value.toLowerCase();
             const channelItems = channelListDiv.querySelectorAll('.channel-item');
-            
             channelItems.forEach(item => {
                 const channelName = item.querySelector('.channel-name').textContent.toLowerCase();
-                if (channelName.includes(query)) {
-                    item.style.display = 'flex'; 
-                } else {
-                    item.style.display = 'none'; 
-                }
+                if (channelName.includes(query)) { item.style.display = 'flex'; } else { item.style.display = 'none'; }
             });
         }
         
-        // --- ORTAK YARDIMCI FONKSİYONLAR --- 
-
         function showToast(message) {
             const toast = document.getElementById('toast');
-            toast.innerHTML = message;
-            toast.classList.add('show');
+            toast.innerHTML = message; toast.classList.add('show');
             setTimeout(() => { toast.classList.remove('show'); }, 4000); 
         }
 
-        function goToSuggestions() { 
-            if (document.getElementById('mobileMenuOverlay').classList.contains('open') && window.innerWidth <= 1000) toggleMenu(); 
-            document.getElementById('suggestions').scrollIntoView({ behavior: 'smooth' }); 
-        }
-        function openSearch() { 
-            document.getElementById('searchBox').classList.add('active'); 
-            document.getElementById('searchInput').focus(); 
-            if (window.innerWidth <= 1000 && document.getElementById('mobileMenuOverlay').classList.contains('open')) toggleMenu(); 
-        }
-        function closeSearch() { 
-            document.getElementById('searchBox').classList.remove('active'); 
-            document.getElementById('searchInput').value = ''; 
-        }
-        
-        // NAVIGASYON ARAMASI
-        function handleSearchRedirect(event) { 
-            if (event.key === 'Enter') { 
-                const query = document.getElementById('searchInput').value; 
-                if (query) window.location.href = `index.html?search=${encodeURIComponent(query)}`; 
-            } 
-        }
+        function goToSuggestions() { if (document.getElementById('mobileMenuOverlay').classList.contains('open') && window.innerWidth <= 1000) toggleMenu(); document.getElementById('suggestions').scrollIntoView({ behavior: 'smooth' }); }
+        function openSearch() { document.getElementById('searchBox').classList.add('active'); document.getElementById('searchInput').focus(); if (window.innerWidth <= 1000 && document.getElementById('mobileMenuOverlay').classList.contains('open')) toggleMenu(); }
+        function closeSearch() { document.getElementById('searchBox').classList.remove('active'); document.getElementById('searchInput').value = ''; }
+        function handleSearchRedirect(event) { if (event.key === 'Enter') { const query = document.getElementById('searchInput').value; if (query) window.location.href = `index.html?search=${encodeURIComponent(query)}`; } }
         
         function toggleMenu() {
-            const overlay = document.getElementById('mobileMenuOverlay');
-            const menuIcon = document.getElementById('menuToggle').querySelector('i');
-            const backdrop = document.getElementById('mobileBackdrop');
+            const overlay = document.getElementById('mobileMenuOverlay'); const menuIcon = document.getElementById('menuToggle').querySelector('i'); const backdrop = document.getElementById('mobileBackdrop');
             if (window.innerWidth > 1000) return;
             const isOpen = overlay.classList.contains('open');
-            if (isOpen) {
-                overlay.classList.remove('open');
-                menuIcon.className = 'fas fa-bars';
-                document.body.style.overflow = 'auto'; 
-                setTimeout(() => { backdrop.style.display = 'none'; overlay.style.display = 'none'; }, 300); 
-            } else {
-                backdrop.style.display = 'block';
-                overlay.style.display = 'flex';
-                setTimeout(() => { overlay.classList.add('open'); }, 10); 
-                menuIcon.className = 'fas fa-times'; 
-                document.body.style.overflow = 'hidden'; 
-            }
+            if (isOpen) { overlay.classList.remove('open'); menuIcon.className = 'fas fa-bars'; document.body.style.overflow = 'auto'; setTimeout(() => { backdrop.style.display = 'none'; overlay.style.display = 'none'; }, 300); } 
+            else { backdrop.style.display = 'block'; overlay.style.display = 'flex'; setTimeout(() => { overlay.classList.add('open'); }, 10); menuIcon.className = 'fas fa-times'; document.body.style.overflow = 'hidden'; }
         }
         
-        // İSTEK & ÖNERİ FORMU GÖNDERİMİ
-        async function submitSuggestion(event) {
-            event.preventDefault(); 
-            const form = event.target;
-            const submitButton = form.querySelector('.btn-submit');
-            const originalButtonText = submitButton.innerHTML;
-            submitButton.disabled = true;
-            submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Gönderiliyor...';
-
-            try {
-                const response = await fetch(form.action, {
-                    method: form.method,
-                    body: new FormData(form),
-                    headers: { 'Accept': 'application/json' }
-                });
-
-                if (response.ok) {
-                    showToast('<i class="fas fa-check-circle" style="color: #4CAF50;"></i> İsteğiniz/Öneriniz Başarıyla Alındı!');
-                    form.reset(); 
-                } else {
-                    showToast('<i class="fas fa-exclamation-triangle" style="color: #FFC107;"></i> Gönderimde Hata Oluştu. Tekrar Deneyin.');
-                }
-            } catch (error) {
-                console.error('Gönderim Hatası:', error);
-                showToast('<i class="fas fa-exclamation-circle" style="color: #F44336;"></i> Sunucuya Erişilemedi. Lütfen daha sonra tekrar deneyin.');
-            } finally {
-                submitButton.disabled = false;
-                submitButton.innerHTML = originalButtonText;
-            }
-        }
-        
-        // KLAVYE KISAYOLLARI
         document.addEventListener('keydown', function(event) {
             if (!player || document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA') return;
-            
             const key = event.key.toLowerCase();
             switch(key) {
-                case ' ': case 'k': 
-                    event.preventDefault(); 
-                    if (player.paused()) { player.play(); showToast('<i class="fas fa-play"></i> Oynatılıyor'); } 
-                    else { player.pause(); showToast('<i class="fas fa-pause"></i> Duraklatıldı'); }
-                    break;
-                case 'f': 
-                    event.preventDefault(); 
-                    if (player.isFullscreen()) player.exitFullscreen(); else player.requestFullscreen();
-                    break;
-                case 'm': 
-                    player.muted(!player.muted());
-                    if(player.muted()) showToast('<i class="fas fa-volume-mute"></i> Sessiz'); else showToast('<i class="fas fa-volume-up"></i> Ses Açık');
-                    break;
+                case ' ': case 'k': event.preventDefault(); if (player.paused()) { player.play(); showToast('<i class="fas fa-play"></i> Oynatılıyor'); } else { player.pause(); showToast('<i class="fas fa-pause"></i> Duraklatıldı'); } break;
+                case 'f': event.preventDefault(); if (player.isFullscreen()) player.exitFullscreen(); else player.requestFullscreen(); break;
+                case 'm': player.muted(!player.muted()); if(player.muted()) showToast('<i class="fas fa-volume-mute"></i> Sessiz'); else showToast('<i class="fas fa-volume-up"></i> Ses Açık'); break;
                 case 'arrowright': player.currentTime(player.currentTime() + 10); showToast('<i class="fas fa-forward"></i> +10 Sn'); break;
                 case 'arrowleft': player.currentTime(player.currentTime() - 10); showToast('<i class="fas fa-backward"></i> -10 Sn'); break;
                 case 'arrowup': event.preventDefault(); let volUp = player.volume() + 0.1; if(volUp > 1) volUp = 1; player.volume(volUp); showToast(`<i class="fas fa-volume-up"></i> %${Math.round(volUp*100)}`); break;
                 case 'arrowdown': event.preventDefault(); let volDown = player.volume() - 0.1; if(volDown < 0) volDown = 0; player.volume(volDown); showToast(`<i class="fas fa-volume-down"></i> %${Math.round(volDown*100)}`); break;
-                case 'p': // Previous Channel
-                    event.preventDefault();
-                    if (currentChannelIndex > 0) {
-                        const newIndex = currentChannelIndex - 1;
-                        const channel = allChannels[newIndex];
-                        document.querySelectorAll('.channel-item').forEach(item => item.classList.remove('active'));
-                        const newItem = document.getElementById(`ch-${newIndex}`);
-                        if(newItem) newItem.classList.add('active');
-                        playChannel(channel, newIndex);
-                        showToast(`<i class="fas fa-step-backward"></i> Önceki Kanal: ${channel.name}`);
-                        if(newItem) newItem.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-                    }
-                    break;
-                case 'n': // Next Channel
-                    event.preventDefault();
-                    if (currentChannelIndex < allChannels.length - 1) {
-                        const newIndex = currentChannelIndex + 1;
-                        const channel = allChannels[newIndex];
-                        document.querySelectorAll('.channel-item').forEach(item => item.classList.remove('active'));
-                        const newItem = document.getElementById(`ch-${newIndex}`);
-                        if(newItem) newItem.classList.add('active');
-                        playChannel(channel, newIndex);
-                        showToast(`<i class="fas fa-step-forward"></i> Sonraki Kanal: ${channel.name}`);
-                        if(newItem) newItem.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-                    }
-                    break;
+                case 'p': event.preventDefault(); if (currentChannelIndex > 0) { const newIndex = currentChannelIndex - 1; document.querySelectorAll('.channel-item').forEach(item => item.classList.remove('active')); const newItem = document.getElementById(`ch-${newIndex}`); if(newItem) newItem.classList.add('active'); playChannel(allChannels[newIndex], newIndex); showToast(`<i class="fas fa-step-backward"></i> Önceki Kanal: ${allChannels[newIndex].name}`); if(newItem) newItem.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); } break;
+                case 'n': event.preventDefault(); if (currentChannelIndex < allChannels.length - 1) { const newIndex = currentChannelIndex + 1; document.querySelectorAll('.channel-item').forEach(item => item.classList.remove('active')); const newItem = document.getElementById(`ch-${newIndex}`); if(newItem) newItem.classList.add('active'); playChannel(allChannels[newIndex], newIndex); showToast(`<i class="fas fa-step-forward"></i> Sonraki Kanal: ${allChannels[newIndex].name}`); if(newItem) newItem.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); } break;
             }
         });
     </script>

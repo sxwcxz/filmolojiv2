@@ -51,9 +51,8 @@
         .nav-menu .nav-item:last-child i { color: #FFC107; filter: drop-shadow(0 0 5px rgba(255, 193, 7, 0.8)); }
         .nav-menu .nav-item:last-child:hover { color: #FFE082; background: rgba(255, 193, 7, 0.2); text-shadow: 0 0 20px rgba(255, 193, 7, 0.8); transform: scale(1.05); box-shadow: 0 0 15px rgba(255, 193, 7, 0.4); }
 
-        /* ARAMA KUTUSU (Genişlik Düzeltildi) */
+        /* ARAMA KUTUSU */
         .search-container { display: flex; align-items: center; width: 40px; height: 40px; border-radius: 30px; background: transparent; transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); overflow: hidden; position: relative; border: 1px solid transparent; cursor: pointer; padding: 0 10px; flex-shrink: 0; }
-        /* BURADAKİ WIDTH DEĞERİ 160PX YAPILDI */
         .search-container:hover, .search-container.active { width: 160px; background: rgba(0, 0, 0, 0.6); border-color: rgba(255, 255, 255, 0.2); padding: 0 15px; cursor: default; }
         .search-icon-btn { font-size: 18px; flex-shrink: 0; color: var(--brand-color); filter: drop-shadow(0 0 2px var(--brand-color)); transition: 0.3s; margin-left: 8px; }
         .search-container:hover .search-icon-btn, .search-container.active .search-icon-btn { margin-left: 0; }
@@ -85,72 +84,18 @@
         .video-js .vjs-control-bar { z-index: 100 !important; bottom: 0; width: 100%; }
         .video-js .vjs-progress-control { z-index: 101 !important; cursor: pointer !important; }
 
-        /* --- GÜNCELLENMİŞ DİL BUTONLARI STİLLERİ --- */
-        .source-selector {
-            display: flex;
-            gap: 10px;
-            width: 100%;
-            max-width: 800px; 
-            justify-content: flex-start; 
-            margin: -10px auto 15px auto; 
-            padding: 0 20px; 
-        }
-        .source-btn {
-            padding: 8px 15px; 
-            background: rgba(255, 255, 255, 0.1);
-            color: white;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 8px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-            font-size: 0.95rem;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            opacity: 1; 
-            pointer-events: auto;
-        }
-        /* Kaynak yoksa butonu devre dışı bırakma stili */
-        .source-btn:disabled, .source-btn.disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            background: rgba(100, 100, 100, 0.1);
-            border-color: rgba(100, 100, 100, 0.2);
-        }
-        .source-btn:hover {
-            background: rgba(255, 255, 255, 0.2);
-            border-color: var(--brand-color);
-        }
-        .source-btn.disabled:hover { 
-            background: rgba(100, 100, 100, 0.1);
-            border-color: rgba(100, 100, 100, 0.2);
-        }
-        .source-btn.active {
-            background: var(--brand-color);
-            border-color: var(--brand-color);
-            box-shadow: 0 0 10px rgba(229, 9, 20, 0.5);
-            opacity: 1;
-            pointer-events: auto;
+        /* DİL BUTONLARI */
+        .source-selector { display: flex; gap: 10px; width: 100%; max-width: 800px; justify-content: flex-start; margin: -10px auto 15px auto; padding: 0 20px; }
+        .source-btn { padding: 8px 15px; background: rgba(255, 255, 255, 0.1); color: white; border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 8px; font-weight: 600; cursor: pointer; transition: all 0.2s; font-size: 0.95rem; display: flex; align-items: center; gap: 8px; opacity: 1; pointer-events: auto; }
+        .source-btn:disabled, .source-btn.disabled { opacity: 0.5; cursor: not-allowed; background: rgba(100, 100, 100, 0.1); border-color: rgba(100, 100, 100, 0.2); }
+        .source-btn:hover { background: rgba(255, 255, 255, 0.2); border-color: var(--brand-color); }
+        .source-btn.active { background: var(--brand-color); border-color: var(--brand-color); box-shadow: 0 0 10px rgba(229, 9, 20, 0.5); opacity: 1; pointer-events: auto; }
+
+        @media (max-width: 1000px) {
+            .source-selector { max-width: 94%; margin: 15px auto 15px auto; padding: 0 10px; justify-content: center; }
+            .source-btn { flex-grow: 1; justify-content: center; padding: 6px 10px; font-size: 0.85rem; gap: 5px; }
         }
 
-        /* Mobil için genişlik ayarı */
-        @media (max-width: 1000px) {
-            .source-selector {
-                max-width: 94%;
-                margin: 15px auto 15px auto;
-                padding: 0 10px;
-                justify-content: center; 
-            }
-            .source-btn {
-                flex-grow: 1; 
-                justify-content: center;
-                /* YENİ EKLEMELER / DÜZENLEMELER */
-                padding: 6px 10px; /* Mobil padding küçültüldü */
-                font-size: 0.85rem; /* Yazı boyutu küçültüldü */
-                gap: 5px; /* İkon ile yazı arasındaki boşluk azaltıldı */
-            }
-        }
         /* SIDEBAR */
         .sidebar { flex: 1; background: var(--glass-form-bg); backdrop-filter: var(--blur); -webkit-backdrop-filter: var(--blur); border: 1px solid rgba(255, 255, 255, 0.18); border-radius: 18px; box-shadow: var(--shadow); display: flex; flex-direction: column; min-width: 350px; max-width: 450px; height: 550px; position: sticky; top: 120px; }
         .sidebar-header { padding: 15px 20px; border-bottom: 1px solid rgba(255, 255, 255, 0.1); background: rgba(0, 0, 0, 0.4); border-radius: 18px 18px 0 0; }
@@ -181,7 +126,6 @@
         .season-select option, select.form-control option { background-color: var(--bg-dark); color: white; }
         .btn-submit { width: 100%; padding: 14px; background: var(--brand-color); color: white; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; transition: background 0.2s, transform 0.1s; font-size: 1.1rem; box-shadow: 0 4px 10px rgba(229, 9, 20, 0.4); }
 
-        /* MOBİL RESPONSIVE */
         @media (max-width: 1000px) { 
             .navbar { top: 0; transform: none; width: 100%; left: 0; border-radius: 0; height: 60px; padding: 0 15px; background: #141414; backdrop-filter: none; border: none; box-shadow: 0 5px 15px rgba(0,0,0,0.8); } 
             .main-container { flex-direction: column; padding-top: 80px; padding-bottom: 20px; gap: 20px; } 
@@ -265,16 +209,16 @@
         <div class="suggestion-section" id="suggestions">
             <div class="suggestion-box">
                 <h3><i class="fas fa-paper-plane"></i> İstek & Öneri Kutusu</h3>
-                <form action="https://formspree.io/f/xblnrgzw" method="POST" id="suggestionForm" onsubmit="submitSuggestion(event)">
-                    <div class="form-group"><input type="text" name="Gonderen" class="form-control" placeholder="Adınız (İsteğe bağlı)"></div>
+                <form id="suggestionForm" onsubmit="submitSuggestion(event)">
+                    <div class="form-group"><input type="text" id="contact-name" class="form-control" placeholder="Adınız (İsteğe bağlı)"></div>
                     <div class="form-group">
-                        <select name="Konu" class="form-control">
-                            <option>Dizi Bölüm Hatası</option>
-                            <option>Film / Dizi İsteği</option>
-                            <option>Geliştirme Önerisi</option>
+                        <select id="contact-topic" class="form-control">
+                            <option value="Dizi Bölüm Hatası">Dizi Bölüm Hatası</option>
+                            <option value="Film / Dizi İsteği">Film / Dizi İsteği</option>
+                            <option value="Geliştirme Önerisi">Geliştirme Önerisi</option>
                         </select>
                     </div>
-                    <div class="form-group"><textarea name="Mesaj" class="form-control" placeholder="Mesajınızı buraya yazın..." required></textarea></div>
+                    <div class="form-group"><textarea id="contact-message" class="form-control" placeholder="Mesajınızı buraya yazın..." required></textarea></div>
                     <button type="submit" class="btn-submit">GÖNDER</button>
                 </form>
             </div>
@@ -284,235 +228,202 @@
     <script src="https://vjs.zencdn.net/8.10.0/video.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/videojs-contrib-quality-levels/dist/videojs-contrib-quality-levels.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/videojs-hls-quality-selector/dist/videojs-hls-quality-selector.min.js"></script>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
+        import { getDatabase, ref, push, set } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBIV0-Jzy0m4OoP6YX_L6El6x5e7YmlD8Y",
+            authDomain: "filmoloji-web.firebaseapp.com",
+            databaseURL: "https://filmoloji-web-default-rtdb.firebaseio.com",
+            projectId: "filmoloji-web",
+            storageBucket: "filmoloji-web.firebasestorage.app",
+            messagingSenderId: "904158206710",
+            appId: "1:904158206710:web:614592033008ff6f286ad7",
+            measurementId: "G-LLYDE3XLZZ"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+
+        // Global fonksiyona atama yapıyoruz (Diğer scriptlerden erişilebilsin diye)
+        window.submitSuggestion = function(event) {
+            event.preventDefault();
+            
+            const nameInput = document.getElementById('contact-name');
+            const topicInput = document.getElementById('contact-topic');
+            const msgInput = document.getElementById('contact-message');
+            const btn = document.querySelector('.btn-submit');
+            const originalText = btn.innerHTML;
+
+            const sender = nameInput.value.trim() || "Anonim İzleyici";
+            const topic = topicInput.value;
+            const message = msgInput.value.trim();
+
+            if(!message) {
+                showToast('<i class="fas fa-exclamation-circle"></i> Lütfen bir mesaj yazın.');
+                return;
+            }
+
+            // Hangi diziyi/bölümü izlediğini mesaja ekleyelim
+            const currentEpisodeInfo = document.getElementById('episode-name').innerText;
+            const fullMessage = `[İzlenen: ${document.title}] - ${message}`;
+
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Gönderiliyor...';
+
+            const newMsgRef = push(ref(db, 'messages'));
+            
+            set(newMsgRef, {
+                sender: sender,
+                topic: topic,
+                message: fullMessage, // Dizi bilgisiyle birlikte
+                date: new Date().toLocaleString('tr-TR'),
+                read: false
+            })
+            .then(() => {
+                showToast('<i class="fas fa-check-circle" style="color: #4CAF50;"></i> Bildiriminiz Yöneticiye İletildi!');
+                nameInput.value = "";
+                msgInput.value = "";
+            })
+            .catch((error) => {
+                console.error(error);
+                showToast('<i class="fas fa-exclamation-triangle" style="color: #FFC107;"></i> Bir hata oluştu.');
+            })
+            .finally(() => {
+                btn.disabled = false;
+                btn.innerHTML = originalText;
+            });
+        }
+    </script>
     
     <script>
         // Global değişkenler
-let currentEpisodeData = null;
-let currentSeasonIndex = 0;
-let currentEpisodeIndex = 0;
-let player;
+        let currentEpisodeData = null;
+        let currentSeasonIndex = 0;
+        let currentEpisodeIndex = 0;
+        let player;
 
-// YENİ: Kaynak butonlarının durumunu kontrol eden ve ayarlayan fonksiyon
-function updateSourceButtons(epData) {
-    const dublajBtn = document.getElementById('dublaj-btn');
-    const altyaziBtn = document.getElementById('altyazi-btn');
-    const sourceSelector = document.getElementById('source-buttons');
-    
-    // Geriye dönük uyumluluk: Eğer sadece 'source' varsa, dublaj_source olarak kabul et.
-    const dublajSource = epData.dublaj_source || epData.source;
-    const altyaziSource = epData.altyazi_source;
-    
-    // YENİ MANTIK: Sadece hem dublaj hem de altyazı kaynakları varsa butonları göster.
-    if (dublajSource && altyaziSource) {
-        sourceSelector.style.display = 'flex';
-        
-        // Dublaj butonu
-        dublajBtn.classList.remove('disabled');
-        dublajBtn.disabled = false;
-
-        // Altyazı butonu
-        altyaziBtn.classList.remove('disabled');
-        altyaziBtn.disabled = false;
-
-    } else {
-        // İki kaynak da yoksa veya sadece biri varsa, butonları gizle.
-        sourceSelector.style.display = 'none';
-    }
-}
-
-// playEpisode fonksiyonu güncellendi: Hangi kaynağın oynatılacağına karar verir.
-function playEpisode(ep, index, seasonIdx) {
-    if(series) { updateSEO(series.title, ep.name, ep.desc || "Heyecan dolu yeni bölümü hemen izle."); }
-    document.getElementById('episode-name').innerText = `${ep.name}`; 
-    document.querySelectorAll('.episode-item').forEach(el => el.classList.remove('active'));
-    const activeItem = document.getElementById(`ep-${index}`);
-    if(activeItem) activeItem.classList.add('active');
-
-    const lastEpisodeKey = 'last_ep_' + series.id;
-    localStorage.setItem(lastEpisodeKey, `${seasonIdx}|${index}`);
-
-    currentEpisodeData = ep;
-    currentSeasonIndex = seasonIdx;
-    currentEpisodeIndex = index;
-    
-    // YENİ: Kaynakları geriye dönük uyumlulukla al
-    const dublajSource = ep.dublaj_source || ep.source;
-    const altyaziSource = ep.altyazi_source;
-    
-    // YENİ MANTIK: Butonların görünürlüğünü ayarla
-    updateSourceButtons(ep);
-
-    let sourceType = '';
-    let defaultSource = dublajSource || altyaziSource; // Öncelik dublaj, sonra altyazı, sonra source
-    
-    if (defaultSource === dublajSource) {
-        sourceType = 'dublaj';
-    } else if (defaultSource === altyaziSource) {
-        sourceType = 'altyazi';
-    }
-
-    if (!defaultSource) {
-        showToast('<i class="fas fa-exclamation-triangle"></i> Bu bölüm için kaynak bulunamadı!');
-        if(player) { player.dispose(); player = null; }
-        document.getElementById('video-container').innerHTML = ''; 
-        document.getElementById('episode-name').innerText = `${ep.name} - Kaynak Yok`;
-        return; 
-    }
-    
-    // Mevcut kaynağı oynat ve butonu aktif et (Eğer butonlar görünürse)
-    switchSource(sourceType, true); 
-}
-
-// switchSource fonksiyonu güncellendi: Sadece etkin butonlar ile çalışır.
-function switchSource(type, isInitialLoad = false) {
-    if (!currentEpisodeData) return;
-
-    let url;
-    let buttonId;
-    
-    // Geriye dönük uyumluluk kontrolü eklendi
-    const dublajSource = currentEpisodeData.dublaj_source || currentEpisodeData.source;
-    const altyaziSource = currentEpisodeData.altyazi_source;
-
-    if (type === 'dublaj') {
-        url = dublajSource;
-        buttonId = 'dublaj-btn';
-    } else if (type === 'altyazi') {
-        url = altyaziSource;
-        buttonId = 'altyazi-btn';
-    } else {
-        return; 
-    }
-    
-    const targetButton = document.getElementById(buttonId);
-    
-    // Kaynak yoksa veya buton devre dışıysa, işlem yapma (Sadece iki buton varsa bu kontrol geçerlidir)
-    if (!url || (targetButton && targetButton.classList.contains('disabled'))) {
-         return;
-    }
-
-
-    // 2. Butonları güncelle (Sadece butonlar görünürse bu kısmı çalıştır)
-    if(document.getElementById('source-buttons').style.display !== 'none') {
-        document.querySelectorAll('.source-btn').forEach(btn => btn.classList.remove('active'));
-        if(targetButton) targetButton.classList.add('active');
-    }
-
-    // 3. Oynatıcıyı yükle
-    let resumeTime = 0;
-    if (player && !isInitialLoad) {
-        resumeTime = player.currentTime();
-    }
-    
-    const uniqueEpKey = `resume_${series.id}_s${currentSeasonIndex}_e${currentEpisodeIndex}`;
-    
-    loadPlayer(url, uniqueEpKey, resumeTime, isInitialLoad);
-}
-
-// loadPlayer ve initVideoJS fonksiyonları aynı kaldı
-function loadPlayer(url, storageKey, resumeTime = 0, isInitialLoad = false) {
-    const container = document.getElementById('video-container');
-
-    if(player) { player.dispose(); player = null; }
-    container.innerHTML = ''; 
-    
-    const video = document.createElement('video');
-    video.id = 'video-js-player';
-    video.className = 'video-js vjs-default-skin vjs-big-play-centered';
-    video.controls = true;
-    video.playsInline = true;
-    video.setAttribute('preload', 'auto');
-    
-    const source = document.createElement('source');
-    source.src = url;
-    source.type = 'application/x-mpegURL';
-    video.appendChild(source);
-
-    container.appendChild(video);
-    
-    let timeToResume = resumeTime;
-    if (isInitialLoad && resumeTime === 0) {
-        timeToResume = parseFloat(localStorage.getItem(storageKey)) || 0;
-    }
-    
-    initVideoJS(video.id, storageKey, timeToResume); 
-    
-    if (player) { 
-        player.play().catch(e => console.log("Oto oynatma engellendi:", e)); 
-        if (!isInitialLoad && resumeTime === 0) {
-            showToast('<i class="fas fa-sync"></i> Kaynak Değiştirildi');
-        }
-    }
-}
-
-function initVideoJS(videoId, storageKey, initialResumeTime = 0) {
-    player = videojs(videoId, {
-        fill: true,   
-        responsive: true,
-        playbackRates: [0.5, 1, 1.25, 1.5, 2], 
-        html5: {
-            vhs: { 
-                overrideNative: true,
-                maxBufferLength: 120, 
-                maxSeekholeDuration: 5, 
-                allowSeeksWithinBuffer: true,
-            },
-        }
-    });
-    player.hlsQualitySelector({ displayLabel: 'Kalite' });
-    
-    // Tamponlama Bildirimleri
-    player.on('waiting', function() {
-        if (!player.paused()) {
-            showToast('<i class="fas fa-circle-notch fa-spin"></i> Yükleniyor...');
-        }
-    });
-
-    player.on('playing', function() {
-        const toast = document.getElementById('toast');
-        if (!toast.innerHTML.includes('Kaldığınız yerden')) {
-            toast.classList.remove('show');
-        }
-    });
-    
-    player.on('pause', function() {
-        if(player.tech_.vhs && player.tech_.vhs.bandwidth) {
-            player.tech_.vhs.seeking(false);
-        }
-    });
-
-    // Zamanı kaydetme
-    player.on('timeupdate', function() {
-        if (!player.paused()) {
-            localStorage.setItem(storageKey, player.currentTime());
-        }
-    });
-
-    // YÜKLEME ZAMANI MANTIĞI
-    player.on('loadedmetadata', function() {
-        let savedTime = initialResumeTime; 
-
-        if (savedTime === 0) {
-             savedTime = parseFloat(localStorage.getItem(storageKey));
+        function updateSourceButtons(epData) {
+            const dublajBtn = document.getElementById('dublaj-btn');
+            const altyaziBtn = document.getElementById('altyazi-btn');
+            const sourceSelector = document.getElementById('source-buttons');
+            const dublajSource = epData.dublaj_source || epData.source;
+            const altyaziSource = epData.altyazi_source;
+            if (dublajSource && altyaziSource) {
+                sourceSelector.style.display = 'flex';
+                dublajBtn.classList.remove('disabled'); dublajBtn.disabled = false;
+                altyaziBtn.classList.remove('disabled'); altyaziBtn.disabled = false;
+            } else { sourceSelector.style.display = 'none'; }
         }
 
-        if (savedTime > 0 && savedTime < (player.duration() - 10)) {
-            player.currentTime(savedTime); 
-            const hours = Math.floor(savedTime / 3600);
-            const minutes = Math.floor((savedTime % 3600) / 60);
-            const seconds = Math.floor(savedTime % 60);
-            let timeStr = hours > 0 ? `${hours} saat ${minutes} dakika` : `${minutes} dakika ${seconds} saniye`;
+        function playEpisode(ep, index, seasonIdx) {
+            if(series) { updateSEO(series.title, ep.name, ep.desc || "Heyecan dolu yeni bölümü hemen izle."); }
+            document.getElementById('episode-name').innerText = `${ep.name}`; 
+            document.querySelectorAll('.episode-item').forEach(el => el.classList.remove('active'));
+            const activeItem = document.getElementById(`ep-${index}`);
+            if(activeItem) activeItem.classList.add('active');
+
+            const lastEpisodeKey = 'last_ep_' + series.id;
+            localStorage.setItem(lastEpisodeKey, `${seasonIdx}|${index}`);
+
+            currentEpisodeData = ep;
+            currentSeasonIndex = seasonIdx;
+            currentEpisodeIndex = index;
             
-            if (initialResumeTime === 0) {
-                showToast(`<i class="fas fa-history"></i> Kaldığınız yerden devam ediliyor (${timeStr})`);
+            const dublajSource = ep.dublaj_source || ep.source;
+            const altyaziSource = ep.altyazi_source;
+            updateSourceButtons(ep);
+
+            let sourceType = '';
+            let defaultSource = dublajSource || altyaziSource; 
+            if (defaultSource === dublajSource) { sourceType = 'dublaj'; } else if (defaultSource === altyaziSource) { sourceType = 'altyazi'; }
+
+            if (!defaultSource) {
+                showToast('<i class="fas fa-exclamation-triangle"></i> Bu bölüm için kaynak bulunamadı!');
+                if(player) { player.dispose(); player = null; }
+                document.getElementById('video-container').innerHTML = ''; 
+                document.getElementById('episode-name').innerText = `${ep.name} - Kaynak Yok`;
+                return; 
+            }
+            switchSource(sourceType, true); 
+        }
+
+        function switchSource(type, isInitialLoad = false) {
+            if (!currentEpisodeData) return;
+            let url; let buttonId;
+            const dublajSource = currentEpisodeData.dublaj_source || currentEpisodeData.source;
+            const altyaziSource = currentEpisodeData.altyazi_source;
+
+            if (type === 'dublaj') { url = dublajSource; buttonId = 'dublaj-btn'; } 
+            else if (type === 'altyazi') { url = altyaziSource; buttonId = 'altyazi-btn'; } 
+            else { return; }
+            
+            const targetButton = document.getElementById(buttonId);
+            if (!url || (targetButton && targetButton.classList.contains('disabled'))) { return; }
+
+            if(document.getElementById('source-buttons').style.display !== 'none') {
+                document.querySelectorAll('.source-btn').forEach(btn => btn.classList.remove('active'));
+                if(targetButton) targetButton.classList.add('active');
+            }
+
+            let resumeTime = 0;
+            if (player && !isInitialLoad) { resumeTime = player.currentTime(); }
+            const uniqueEpKey = `resume_${series.id}_s${currentSeasonIndex}_e${currentEpisodeIndex}`;
+            loadPlayer(url, uniqueEpKey, resumeTime, isInitialLoad);
+        }
+
+        function loadPlayer(url, storageKey, resumeTime = 0, isInitialLoad = false) {
+            const container = document.getElementById('video-container');
+            if(player) { player.dispose(); player = null; }
+            container.innerHTML = ''; 
+            
+            const video = document.createElement('video');
+            video.id = 'video-js-player';
+            video.className = 'video-js vjs-default-skin vjs-big-play-centered';
+            video.controls = true; video.playsInline = true; video.setAttribute('preload', 'auto');
+            
+            const source = document.createElement('source');
+            source.src = url; source.type = 'application/x-mpegURL';
+            video.appendChild(source);
+            container.appendChild(video);
+            
+            let timeToResume = resumeTime;
+            if (isInitialLoad && resumeTime === 0) { timeToResume = parseFloat(localStorage.getItem(storageKey)) || 0; }
+            
+            initVideoJS(video.id, storageKey, timeToResume); 
+            
+            if (player) { 
+                player.play().catch(e => console.log("Oto oynatma engellendi:", e)); 
+                if (!isInitialLoad && resumeTime === 0) { showToast('<i class="fas fa-sync"></i> Kaynak Değiştirildi'); }
             }
         }
-    });
-    
-    player.on('ended', function() {
-        localStorage.removeItem(storageKey);
-    });
-}
+
+        function initVideoJS(videoId, storageKey, initialResumeTime = 0) {
+            player = videojs(videoId, {
+                fill: true, responsive: true, playbackRates: [0.5, 1, 1.25, 1.5, 2], 
+                html5: { vhs: { overrideNative: true, maxBufferLength: 120, maxSeekholeDuration: 5, allowSeeksWithinBuffer: true, }, }
+            });
+            player.hlsQualitySelector({ displayLabel: 'Kalite' });
+            
+            player.on('waiting', function() { if (!player.paused()) { showToast('<i class="fas fa-circle-notch fa-spin"></i> Yükleniyor...'); } });
+            player.on('playing', function() { const toast = document.getElementById('toast'); if (!toast.innerHTML.includes('Kaldığınız yerden')) { toast.classList.remove('show'); } });
+            player.on('pause', function() { if(player.tech_.vhs && player.tech_.vhs.bandwidth) { player.tech_.vhs.seeking(false); } });
+            player.on('timeupdate', function() { if (!player.paused()) { localStorage.setItem(storageKey, player.currentTime()); } });
+
+            player.on('loadedmetadata', function() {
+                let savedTime = initialResumeTime; 
+                if (savedTime === 0) { savedTime = parseFloat(localStorage.getItem(storageKey)); }
+                if (savedTime > 0 && savedTime < (player.duration() - 10)) {
+                    player.currentTime(savedTime); 
+                    const hours = Math.floor(savedTime / 3600); const minutes = Math.floor((savedTime % 3600) / 60); const seconds = Math.floor(savedTime % 60);
+                    let timeStr = hours > 0 ? `${hours} saat ${minutes} dakika` : `${minutes} dakika ${seconds} saniye`;
+                    if (initialResumeTime === 0) { showToast(`<i class="fas fa-history"></i> Kaldığınız yerden devam ediliyor (${timeStr})`); }
+                }
+            });
+            player.on('ended', function() { localStorage.removeItem(storageKey); });
+        }
         
         document.addEventListener('contextmenu', function(e) { e.preventDefault(); });
         document.onkeydown = function(e) {
@@ -523,17 +434,12 @@ function initVideoJS(videoId, storageKey, initialResumeTime = 0) {
 
         const params = new URLSearchParams(window.location.search);
         const id = params.get('id');
-
         const series = typeof DATABASE !== 'undefined' ? DATABASE.find(item => item.id === id) : null;
 
         function updateSEO(seriesName, episodeName, episodeDesc) {
             document.title = `${seriesName} - ${episodeName} İzle | Filmoloji`;
             let metaDesc = document.querySelector('meta[name="description"]');
-            if (!metaDesc) {
-                metaDesc = document.createElement('meta');
-                metaDesc.name = "description";
-                document.head.appendChild(metaDesc);
-            }
+            if (!metaDesc) { metaDesc = document.createElement('meta'); metaDesc.name = "description"; document.head.appendChild(metaDesc); }
             let cleanDesc = episodeDesc ? episodeDesc.substring(0, 150) + "..." : "Bu bölümü full HD kalitede izle.";
             metaDesc.content = `${seriesName} dizisinin ${episodeName} bölümünü kesintisiz, donmadan Full HD izle. Konusu: ${cleanDesc}`;
         }
@@ -541,34 +447,13 @@ function initVideoJS(videoId, storageKey, initialResumeTime = 0) {
         if(series) {
             document.title = series.title;
             const select = document.getElementById('season-select');
-            
-            series.seasons.forEach((s, i) => {
-                const opt = document.createElement('option');
-                opt.value = i;
-                opt.innerText = s.name;
-                select.appendChild(opt);
-            });
-
+            series.seasons.forEach((s, i) => { const opt = document.createElement('option'); opt.value = i; opt.innerText = s.name; select.appendChild(opt); });
             const lastEpisodeKey = 'last_ep_' + series.id; 
-            let savedSeasonIndex = 0;
-            let savedEpisodeIndex = 0;
-
-            try {
-                const savedData = localStorage.getItem(lastEpisodeKey);
-                if (savedData) {
-                    const parts = savedData.split('|');
-                    savedSeasonIndex = parseInt(parts[0]);
-                    savedEpisodeIndex = parseInt(parts[1]);
-                }
-            } catch (e) { console.error(e); }
-
-            select.value = savedSeasonIndex;
-            loadEpisodes(savedSeasonIndex);
-            
+            let savedSeasonIndex = 0; let savedEpisodeIndex = 0;
+            try { const savedData = localStorage.getItem(lastEpisodeKey); if (savedData) { const parts = savedData.split('|'); savedSeasonIndex = parseInt(parts[0]); savedEpisodeIndex = parseInt(parts[1]); } } catch (e) { console.error(e); }
+            select.value = savedSeasonIndex; loadEpisodes(savedSeasonIndex);
             if(series.seasons[savedSeasonIndex] && series.seasons[savedSeasonIndex].episodes[savedEpisodeIndex]) {
-                setTimeout(() => { 
-                    playEpisode(series.seasons[savedSeasonIndex].episodes[savedEpisodeIndex], savedEpisodeIndex, savedSeasonIndex); 
-                }, 500);
+                setTimeout(() => { playEpisode(series.seasons[savedSeasonIndex].episodes[savedEpisodeIndex], savedEpisodeIndex, savedSeasonIndex); }, 500);
             }
         }
 
@@ -586,18 +471,9 @@ function initVideoJS(videoId, storageKey, initialResumeTime = 0) {
             });
         }
 
-
         if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/service-worker.js')
-            .then(registration => {
-                console.log('PWA ServiceWorker kaydı başarılı.');
-            })
-            .catch(err => {
-                console.log('PWA ServiceWorker kaydı başarısız:', err);
-            });
-    });
-}
+            window.addEventListener('load', () => { navigator.serviceWorker.register('/service-worker.js').then(registration => { console.log('PWA ServiceWorker kaydı başarılı.'); }).catch(err => { console.log('PWA ServiceWorker kaydı başarısız:', err); }); });
+        }
 
         function showToast(message) {
             const toast = document.getElementById('toast');
@@ -611,99 +487,26 @@ function initVideoJS(videoId, storageKey, initialResumeTime = 0) {
             document.getElementById('suggestions').scrollIntoView({ behavior: 'smooth' }); 
         }
         function openSearch() { 
-            document.getElementById('searchBox').classList.add('active'); 
-            document.getElementById('searchInput').focus(); 
+            document.getElementById('searchBox').classList.add('active'); document.getElementById('searchInput').focus(); 
             if (window.innerWidth <= 1000 && document.getElementById('mobileMenuOverlay').classList.contains('open')) toggleMenu(); 
         }
-        function closeSearch() { 
-            document.getElementById('searchBox').classList.remove('active'); 
-            document.getElementById('searchInput').value = ''; 
-        }
-        function handleSearchRedirect(event) { 
-            if (event.key === 'Enter') { 
-                const query = document.getElementById('searchInput').value; 
-                if (query) window.location.href = `index.html?search=${encodeURIComponent(query)}`; 
-            } 
-        }
+        function closeSearch() { document.getElementById('searchBox').classList.remove('active'); document.getElementById('searchInput').value = ''; }
+        function handleSearchRedirect(event) { if (event.key === 'Enter') { const query = document.getElementById('searchInput').value; if (query) window.location.href = `index.html?search=${encodeURIComponent(query)}`; } }
         function toggleMenu() {
-            const overlay = document.getElementById('mobileMenuOverlay');
-            const menuIcon = document.getElementById('menuToggle').querySelector('i');
-            const backdrop = document.getElementById('mobileBackdrop');
+            const overlay = document.getElementById('mobileMenuOverlay'); const menuIcon = document.getElementById('menuToggle').querySelector('i'); const backdrop = document.getElementById('mobileBackdrop');
             if (window.innerWidth > 1000) return;
             const isOpen = overlay.classList.contains('open');
-            if (isOpen) {
-                overlay.classList.remove('open');
-                menuIcon.className = 'fas fa-bars';
-                document.body.style.overflow = 'auto'; 
-                setTimeout(() => { backdrop.style.display = 'none'; overlay.style.display = 'none'; }, 300); 
-            } else {
-                backdrop.style.display = 'block';
-                overlay.style.display = 'flex';
-                setTimeout(() => { overlay.classList.add('open'); }, 10); 
-                menuIcon.className = 'fas fa-times'; 
-                document.body.style.overflow = 'hidden'; 
-            }
+            if (isOpen) { overlay.classList.remove('open'); menuIcon.className = 'fas fa-bars'; document.body.style.overflow = 'auto'; setTimeout(() => { backdrop.style.display = 'none'; overlay.style.display = 'none'; }, 300); } 
+            else { backdrop.style.display = 'block'; overlay.style.display = 'flex'; setTimeout(() => { overlay.classList.add('open'); }, 10); menuIcon.className = 'fas fa-times'; document.body.style.overflow = 'hidden'; }
         }
-        
-        // --- İSTEK & ÖNERİ FORMU GÖNDERİMİ ---
-async function submitSuggestion(event) {
-    event.preventDefault(); // Sayfanın yönlendirilmesini engelle
-    
-    const form = event.target;
-    const submitButton = form.querySelector('.btn-submit');
-    const originalButtonText = submitButton.innerHTML;
-
-    // Gönderim sırasında butonu devre dışı bırak ve yükleniyor animasyonu göster
-    submitButton.disabled = true;
-    submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Gönderiliyor...';
-
-    try {
-        const response = await fetch(form.action, {
-            method: form.method,
-            body: new FormData(form),
-            headers: {
-                'Accept': 'application/json'
-            }
-        });
-
-        if (response.ok) {
-            // Başarılı gönderim
-            showToast('<i class="fas fa-check-circle" style="color: #4CAF50;"></i> İsteğiniz/Öneriniz Başarıyla Alındı!');
-            form.reset(); // Form alanlarını temizle
-        } else {
-            // Formspree'den gelen hata
-            showToast('<i class="fas fa-exclamation-triangle" style="color: #FFC107;"></i> Gönderimde Hata Oluştu. Tekrar Deneyin.');
-        }
-
-    } catch (error) {
-        // Ağ veya fetch hatası
-        console.error('Gönderim Hatası:', error);
-        showToast('<i class="fas fa-exclamation-circle" style="color: #F44336;"></i> Sunucuya Erişilemedi. Lütfen daha sonra tekrar deneyin.');
-    } finally {
-        // Butonu eski haline getir ve etkinleştir
-        submitButton.disabled = false;
-        submitButton.innerHTML = originalButtonText;
-    }
-}
-// ----------------------------------------------------
         
         document.addEventListener('keydown', function(event) {
             if (!player || document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA') return;
             const key = event.key.toLowerCase();
             switch(key) {
-                case ' ': case 'k': 
-                    event.preventDefault(); 
-                    if (player.paused()) { player.play(); showToast('<i class="fas fa-play"></i> Oynatılıyor'); } 
-                    else { player.pause(); showToast('<i class="fas fa-pause"></i> Duraklatıldı'); }
-                    break;
-                case 'f': 
-                    if (player.isFullscreen()) player.exitFullscreen(); else player.requestFullscreen();
-                    break;
-                case 'm': 
-                    player.muted(!player.muted());
-                    if(player.muted()) showToast('<i class="fas fa-volume-mute"></i> Sessiz'); else showToast('<i class="fas fa-volume-up"></i> Ses Açık');
-                    break;
-                // Klavye kısayolları 10 saniyede kaldı
+                case ' ': case 'k': event.preventDefault(); if (player.paused()) { player.play(); showToast('<i class="fas fa-play"></i> Oynatılıyor'); } else { player.pause(); showToast('<i class="fas fa-pause"></i> Duraklatıldı'); } break;
+                case 'f': if (player.isFullscreen()) player.exitFullscreen(); else player.requestFullscreen(); break;
+                case 'm': player.muted(!player.muted()); if(player.muted()) showToast('<i class="fas fa-volume-mute"></i> Sessiz'); else showToast('<i class="fas fa-volume-up"></i> Ses Açık'); break;
                 case 'arrowright': player.currentTime(player.currentTime() + 10); showToast('<i class="fas fa-forward"></i> +10 Sn'); break;
                 case 'arrowleft': player.currentTime(player.currentTime() - 10); showToast('<i class="fas fa-backward"></i> -10 Sn'); break;
                 case 'arrowup': event.preventDefault(); let volUp = player.volume() + 0.1; if(volUp > 1) volUp = 1; player.volume(volUp); showToast(`<i class="fas fa-volume-up"></i> %${Math.round(volUp*100)}`); break;

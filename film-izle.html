@@ -7,7 +7,7 @@
     <link rel="icon" href="logo.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://vjs.zencdn.net/8.10.0/video-js.css" rel="stylesheet" />
-   <link rel="manifest" href="/manifest.json">
+    <link rel="manifest" href="/manifest.json">
     <script src="database.js"></script>
 
     <style>
@@ -200,16 +200,16 @@
             <div class="suggestion-section" id="suggestions">
                 <div class="suggestion-box">
                     <h3><i class="fas fa-paper-plane"></i> İstek & Öneri Kutusu</h3>
-                   <form action="https://formspree.io/f/xblnrgzw" method="POST" id="suggestionForm" onsubmit="submitSuggestion(event)">
-                        <div class="form-group"><input type="text" name="Gonderen" class="form-control" placeholder="Adınız (İsteğe bağlı)"></div>
+                   <form id="suggestionForm" onsubmit="submitSuggestion(event)">
+                        <div class="form-group"><input type="text" id="contact-name" class="form-control" placeholder="Adınız (İsteğe bağlı)"></div>
                         <div class="form-group">
-                            <select name="Konu" class="form-control">
-                                <option>Film / Dizi İsteği</option>
-                                <option>Hata Bildirimi</option>
-                                <option>Geliştirme Önerisi</option>
+                            <select id="contact-topic" class="form-control">
+                                <option value="Film Hatası">Film Hatası</option>
+                                <option value="Film İsteği">Film İsteği</option>
+                                <option value="Geliştirme Önerisi">Geliştirme Önerisi</option>
                             </select>
                         </div>
-                        <div class="form-group"><textarea name="Mesaj" class="form-control" placeholder="Mesajınızı buraya yazın..." required></textarea></div>
+                        <div class="form-group"><textarea id="contact-message" class="form-control" placeholder="Mesajınızı buraya yazın..." required></textarea></div>
                         <button type="submit" class="btn-submit">GÖNDER</button>
                     </form>
                 </div>
@@ -220,6 +220,75 @@
     <script src="https://vjs.zencdn.net/8.10.0/video.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/videojs-contrib-quality-levels/dist/videojs-contrib-quality-levels.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/videojs-hls-quality-selector/dist/videojs-hls-quality-selector.min.js"></script>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
+        import { getDatabase, ref, push, set } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBIV0-Jzy0m4OoP6YX_L6El6x5e7YmlD8Y",
+            authDomain: "filmoloji-web.firebaseapp.com",
+            databaseURL: "https://filmoloji-web-default-rtdb.firebaseio.com",
+            projectId: "filmoloji-web",
+            storageBucket: "filmoloji-web.firebasestorage.app",
+            messagingSenderId: "904158206710",
+            appId: "1:904158206710:web:614592033008ff6f286ad7",
+            measurementId: "G-LLYDE3XLZZ"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+
+        // Global fonksiyona atama yapıyoruz
+        window.submitSuggestion = function(event) {
+            event.preventDefault();
+            
+            const nameInput = document.getElementById('contact-name');
+            const topicInput = document.getElementById('contact-topic');
+            const msgInput = document.getElementById('contact-message');
+            const btn = document.querySelector('.btn-submit');
+            const originalText = btn.innerHTML;
+
+            const sender = nameInput.value.trim() || "Anonim İzleyici";
+            const topic = topicInput.value;
+            const message = msgInput.value.trim();
+
+            if(!message) {
+                showToast('<i class="fas fa-exclamation-circle"></i> Lütfen bir mesaj yazın.');
+                return;
+            }
+
+            // Hangi filmi izlediğini mesaja ekleyelim
+            const currentMovieTitle = document.getElementById('movie-title').innerText;
+            const fullMessage = `[Film: ${currentMovieTitle}] - ${message}`;
+
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Gönderiliyor...';
+
+            const newMsgRef = push(ref(db, 'messages'));
+            
+            set(newMsgRef, {
+                sender: sender,
+                topic: topic,
+                message: fullMessage, // Film bilgisiyle birlikte
+                date: new Date().toLocaleString('tr-TR'),
+                read: false
+            })
+            .then(() => {
+                showToast('<i class="fas fa-check-circle" style="color: #4CAF50;"></i> Bildiriminiz Yöneticiye İletildi!');
+                nameInput.value = "";
+                msgInput.value = "";
+            })
+            .catch((error) => {
+                console.error(error);
+                showToast('<i class="fas fa-exclamation-triangle" style="color: #FFC107;"></i> Bir hata oluştu.');
+            })
+            .finally(() => {
+                btn.disabled = false;
+                btn.innerHTML = originalText;
+            });
+        }
+    </script>
 
     <script>
         document.addEventListener('contextmenu', function(e) { e.preventDefault(); });
@@ -250,17 +319,14 @@
         } else { 
             window.location.href = 'index.html'; 
         }
-if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/service-worker.js')
-            .then(registration => {
-                console.log('PWA ServiceWorker kaydı başarılı.');
-            })
-            .catch(err => {
-                console.log('PWA ServiceWorker kaydı başarısız:', err);
+        
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/service-worker.js')
+                    .then(registration => { console.log('PWA ServiceWorker kaydı başarılı.'); })
+                    .catch(err => { console.log('PWA ServiceWorker kaydı başarısız:', err); });
             });
-    });
-}
+        }
 
         function initVideoJS(url, subtitles) {
             const container = document.getElementById('video-container');
@@ -299,10 +365,8 @@ if ('serviceWorker' in navigator) {
                 html5: {
                     vhs: { 
                         overrideNative: true,
-                        // Tamponlama süresi 120 saniyede kaldı
                         maxBufferLength: 120, 
                         maxSeekholeDuration: 5, 
-                        // Duraklatıldığında bile tamponu korumayı denemesi için ek ayar
                         allowSeeksWithinBuffer: true,
                     },
                     nativeAudioTracks: false,
@@ -326,13 +390,9 @@ if ('serviceWorker' in navigator) {
                 }
             });
             
-            // --- Durdurunca Önbelleğe Almaya Devam Etme Mantığı ---
-            // Duraklatıldığında oynatıcıyı "waiting" durumuna zorlamak, bazı tarayıcılarda indirmeye devam etmesini sağlayabilir.
             player.on('pause', function() {
                 if(player.tech_.vhs && player.tech_.vhs.bandwidth) {
-                    // Bu, oynatıcının HLS motorunu duraklatmadan bırakmayı dener.
-                    // Tam garanti vermez, ancak mobil kısıtlamaları es geçmeye yardımcı olur.
-                    player.tech_.vhs.seeking(false); // Tamponlama motorunu seek durumundan çıkar
+                    player.tech_.vhs.seeking(false);
                 }
             });
 
@@ -431,47 +491,6 @@ if ('serviceWorker' in navigator) {
             document.getElementById('suggestions').scrollIntoView({ behavior: 'smooth' }); 
         }
 
-        // --- İSTEK & ÖNERİ FORMU GÖNDERİMİ ---
-async function submitSuggestion(event) {
-    event.preventDefault(); // Sayfanın yönlendirilmesini engelle
-    
-    const form = event.target;
-    const submitButton = form.querySelector('.btn-submit');
-    const originalButtonText = submitButton.innerHTML;
-
-    // Gönderim sırasında butonu devre dışı bırak ve yükleniyor animasyonu göster
-    submitButton.disabled = true;
-    submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Gönderiliyor...';
-
-    try {
-        const response = await fetch(form.action, {
-            method: form.method,
-            body: new FormData(form),
-            headers: {
-                'Accept': 'application/json'
-            }
-        });
-
-        if (response.ok) {
-            // Başarılı gönderim
-            showToast('<i class="fas fa-check-circle" style="color: #4CAF50;"></i> İsteğiniz/Öneriniz Başarıyla Alındı!');
-            form.reset(); // Form alanlarını temizle
-        } else {
-            // Formspree'den gelen hata
-            showToast('<i class="fas fa-exclamation-triangle" style="color: #FFC107;"></i> Gönderimde Hata Oluştu. Tekrar Deneyin.');
-        }
-
-    } catch (error) {
-        // Ağ veya fetch hatası
-        console.error('Gönderim Hatası:', error);
-        showToast('<i class="fas fa-exclamation-circle" style="color: #F44336;"></i> Sunucuya Erişilemedi. Lütfen daha sonra tekrar deneyin.');
-    } finally {
-        // Butonu eski haline getir ve etkinleştir
-        submitButton.disabled = false;
-        submitButton.innerHTML = originalButtonText;
-    }
-}
-// ----------------------------------------------------
         document.addEventListener('keydown', function(event) {
             if (!player || document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA') return;
             const key = event.key.toLowerCase();
@@ -488,7 +507,6 @@ async function submitSuggestion(event) {
                     player.muted(!player.muted());
                     if(player.muted()) showToast('<i class="fas fa-volume-mute"></i> Sessiz'); else showToast('<i class="fas fa-volume-up"></i> Ses Açık');
                     break;
-                // Klavye kısayolları 10 saniyede kaldı
                 case 'arrowright': player.currentTime(player.currentTime() + 10); showToast('<i class="fas fa-forward"></i> +10 Sn'); break;
                 case 'arrowleft': player.currentTime(player.currentTime() - 10); showToast('<i class="fas fa-backward"></i> -10 Sn'); break;
                 case 'arrowup': event.preventDefault(); let volUp = player.volume() + 0.1; if(volUp > 1) volUp = 1; player.volume(volUp); showToast(`<i class="fas fa-volume-up"></i> %${Math.round(volUp*100)}`); break;

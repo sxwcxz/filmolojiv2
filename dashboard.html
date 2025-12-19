@@ -2,19 +2,18 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <title>Yönetici Paneli - Seçim</title>
+    <title>Yönetici Paneli - Filmoloji</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="manifest" href="/manifest.json">
     <link rel="icon" href="logo.png">
 
-<script type="module">
-        // 1. Firebase ve auth.js'teki fonksiyonları import et
+    <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
         import { getAuth } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
+        import { getDatabase, ref, set, onValue, remove } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js";
         import { doLogout, checkAuth } from './auth.js'; 
 
-        // 2. SİZİN FIREBASE YAPILANDIRMANIZ
         const firebaseConfig = {
             apiKey: "AIzaSyBIV0-Jzy0m4OoP6YX_L6El6x5e7YmlD8Y",
             authDomain: "filmoloji-web.firebaseapp.com",
@@ -28,142 +27,400 @@
         
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app); 
+        const db = getDatabase(app); 
 
-        // 3. checkAuth ve doLogout'u global alana bağla
         window.checkAuth = checkAuth; 
         window.doLogout = doLogout; 
+        checkAuth('admin'); 
 
-        // 4. SAYFA YÜKLENİR YÜKLENMEZ YETKİ KONTROLÜNÜ ÇALIŞTIR
-        // Bu kod, tarayıcı sayfayı yükler yüklemez çalışacaktır.
-        checkAuth('admin'); // SADECE ADMIN'LER GİREBİLİR
+        // --- YENİ BİLDİRİM (TOAST) SİSTEMİ ---
+        function showDashboardToast(message, type = 'success') {
+            const toast = document.getElementById('dashboard-toast');
+            toast.innerHTML = type === 'success' 
+                ? `<i class="fas fa-check-circle"></i> ${message}` 
+                : `<i class="fas fa-exclamation-circle"></i> ${message}`;
+            
+            // Rengi ayarla
+            toast.className = `dashboard-toast show ${type}`;
+
+            // 3 saniye sonra gizle
+            setTimeout(() => { 
+                toast.className = toast.className.replace('show', ''); 
+            }, 3000);
+        }
+
+        // --- POPUP YÖNETİMİ (GÜNCELLENDİ) ---
+        window.updatePopup = (isActive, btnElement) => {
+            const msgInput = document.getElementById('popup-msg');
+            const msg = msgInput.value;
+
+            // Buton Efekti (Basıldığını hissettir)
+            if(btnElement) {
+                btnElement.style.transform = "scale(0.95)";
+                setTimeout(() => btnElement.style.transform = "scale(1)", 150);
+            }
+
+            if (isActive && !msg.trim()) { 
+                showDashboardToast("Lütfen bir duyuru metni yazın!", "error"); 
+                msgInput.focus();
+                return; 
+            }
+            
+            // Firebase'e kaydet
+            set(ref(db, 'popup'), { active: isActive, message: msg || "" })
+                .then(() => {
+                    if (isActive) {
+                        showDashboardToast("Duyuru Başarıyla Yayınlandı!", "success");
+                    } else {
+                        showDashboardToast("Duyuru Yayından Kaldırıldı.", "success");
+                    }
+                })
+                .catch((e) => {
+                    showDashboardToast("Hata: " + e.message, "error");
+                });
+        };
+
+        // Popup Durum Dinleyici
+        onValue(ref(db, 'popup'), (snapshot) => {
+            const data = snapshot.val();
+            const statusDiv = document.getElementById('popup-status-indicator');
+            if (data && data.active) {
+                statusDiv.innerHTML = '<i class="fas fa-broadcast-tower"></i> ŞU AN YAYINDA';
+                statusDiv.className = 'status-box active';
+                if(document.activeElement !== document.getElementById('popup-msg')) 
+                    document.getElementById('popup-msg').value = data.message;
+            } else {
+                statusDiv.innerHTML = '<i class="fas fa-microphone-slash"></i> YAYINDA DEĞİL';
+                statusDiv.className = 'status-box inactive';
+            }
+        });
+
+        // --- MESAJ KUTUSU (RAPORLAR) YÖNETİMİ ---
+        const messagesList = document.getElementById('messages-list');
+        const msgCountBadge = document.getElementById('msg-count-badge');
+
+        onValue(ref(db, 'messages'), (snapshot) => {
+            const data = snapshot.val();
+            const listEl = document.getElementById('messages-list');
+            listEl.innerHTML = ""; // Temizle
+            
+            if (data) {
+                const keys = Object.keys(data).reverse(); // En yeniden eskiye
+                document.getElementById('msg-count-badge').textContent = keys.length;
+                document.getElementById('msg-count-badge').style.display = 'inline-block';
+
+                keys.forEach(key => {
+                    const msg = data[key];
+                    
+                    let topicColor = "#95a5a6"; 
+                    const t = msg.topic;
+
+                    if(t === "Yayın Hatası (Donma/Kapanma)") topicColor = "#ff0000"; 
+                    else if(t === "Film Hatası") topicColor = "#8e44ad"; 
+                    else if(t === "Dizi Bölüm Hatası") topicColor = "#d35400"; 
+                    else if(t === "Hata Bildirimi") topicColor = "#F0F011"; 
+                    else if(t === "Ses Sorunu") topicColor = "#EB6415"; 
+                    else if(t === "Yeni Kanal İsteği") topicColor = "#27ae60"; 
+                    else if(t === "Film / Dizi İsteği" || t === "Film İsteği") topicColor = "#2980b9"; 
+                    else if(t === "Geliştirme Önerisi" || t === "Öneri") topicColor = "#f1c40f"; 
+                    else if(t === "Telif Hakkı") topicColor = "#2c3e50"; 
+
+                    const li = document.createElement('li');
+                    li.className = 'message-item';
+                    li.innerHTML = `
+                        <div class="msg-header">
+                            <span class="msg-sender"><i class="fas fa-user"></i> ${msg.sender}</span>
+                            <span class="msg-topic" style="background:${topicColor}; box-shadow: 0 0 5px ${topicColor};">${msg.topic}</span>
+                        </div>
+                        <div class="msg-body">${msg.message}</div>
+                        <div class="msg-footer">
+                            <small>${msg.date}</small>
+                            <button onclick="deleteMessage('${key}')" class="delete-msg-btn"><i class="fas fa-trash"></i> Sil</button>
+                        </div>
+                    `;
+                    listEl.appendChild(li);
+                });
+            } else {
+                document.getElementById('msg-count-badge').style.display = 'none';
+                listEl.innerHTML = "<p style='text-align:center; color:#666; padding:20px;'>Henüz mesaj yok.</p>";
+            }
+        });
+
+        // Mesaj Silme Fonksiyonu
+        window.deleteMessage = (key) => {
+            if(confirm("Bu mesajı silmek istiyor musunuz?")) {
+                remove(ref(db, 'messages/' + key))
+                .then(() => showDashboardToast("Mesaj silindi.", "success"))
+                .catch((e) => showDashboardToast("Silinemedi: " + e.message, "error"));
+            }
+        };
+
+        // Modal Aç/Kapa
+        window.openModal = (id) => { document.getElementById(id).style.display = "flex"; };
+        window.closeModal = (id) => { document.getElementById(id).style.display = "none"; };
+
     </script>
     
     <style>
         body {
             background-color: #0a0a0a; color: white; font-family: 'Segoe UI', sans-serif;
-            display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0;
+            display: flex; align-items: center; justify-content: center; min-height: 100vh; margin: 0;
             background-image: radial-gradient(circle at center, #1a1a1a 0%, #000 100%);
+            overflow-x: hidden;
         }
         
-        .dashboard-container { text-align: center; animation: fadeIn 0.8s ease; }
-        
-        h1 { font-size: 2.5rem; margin-bottom: 10px; font-weight: 300; }
+        .dashboard-container { text-align: center; animation: fadeIn 0.8s ease; width: 100%; max-width: 900px; padding: 20px;}
+        h1 { font-size: 2.5rem; margin-bottom: 5px; font-weight: 300; }
         h1 span { color: #E50914; font-weight: 900; }
-        p { color: #888; margin-bottom: 40px; }
+        p.subtitle { color: #888; margin-bottom: 25px; }
 
-        .card-grid { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; max-width: 800px; margin: 0 auto; }
-        
+        /* Widgetler */
+        .info-bar { display: flex; justify-content: center; gap: 15px; margin-bottom: 30px; flex-wrap: wrap; }
+        .widget-pill {
+            background: rgba(255, 255, 255, 0.08); padding: 10px 20px; border-radius: 50px;
+            display: flex; align-items: center; gap: 10px; font-size: 0.95rem; color: #ddd;
+            border: 1px solid rgba(255,255,255,0.05); backdrop-filter: blur(5px);
+        }
+        .widget-pill i { color: #E50914; }
+
+        /* Kart Grid */
+        .card-grid { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; margin: 0 auto; }
         .card {
             background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
-            width: 160px; height: 160px; border-radius: 20px;
+            width: 150px; height: 150px; border-radius: 20px; position: relative;
             display: flex; flex-direction: column; align-items: center; justify-content: center;
             cursor: pointer; transition: 0.3s; text-decoration: none; color: white;
         }
-        .card:hover {
-            background: rgba(229, 9, 20, 0.1); border-color: #E50914;
-            transform: translateY(-10px); box-shadow: 0 10px 30px rgba(229, 9, 20, 0.2);
-        }
-        
-        .card i { font-size: 3rem; margin-bottom: 15px; color: #ddd; transition: 0.3s; }
+        .card:hover { background: rgba(229, 9, 20, 0.1); border-color: #E50914; transform: translateY(-10px); }
+        .card i { font-size: 2.5rem; margin-bottom: 15px; color: #ddd; }
         .card:hover i { color: #E50914; }
-        
         .card span { font-weight: 600; font-size: 0.9rem; }
 
+        /* Bildirim Rozeti (Mesaj Sayısı) */
+        .badge {
+            position: absolute; top: 15px; right: 15px;
+            background: #E50914; color: white; font-size: 0.8rem; font-weight: bold;
+            padding: 2px 8px; border-radius: 10px; box-shadow: 0 0 10px rgba(229,9,20,0.5);
+            display: none;
+        }
+
+        /* Modal Ortak Stilleri */
+        .modal {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.85); z-index: 1000;
+            justify-content: center; align-items: center; backdrop-filter: blur(8px);
+        }
+        .modal-content {
+            background: #151515; padding: 30px; border-radius: 20px;
+            width: 90%; max-width: 600px; border: 1px solid #333; max-height: 80vh; overflow-y: auto;
+            box-shadow: 0 0 40px rgba(0,0,0,0.8); animation: fadeIn 0.3s ease; text-align: left; position: relative;
+        }
+        .close-btn {
+            position: absolute; top: 15px; right: 20px; font-size: 1.5rem; cursor: pointer; color: #666;
+        }
+        .close-btn:hover { color: #E50914; }
+
+        /* Mesaj Listesi Stilleri */
+        .message-list { list-style: none; padding: 0; margin: 0; }
+        .message-item {
+            background: rgba(255,255,255,0.03); border: 1px solid #333;
+            margin-bottom: 15px; border-radius: 10px; padding: 15px;
+            transition: 0.2s;
+        }
+        .message-item:hover { background: rgba(255,255,255,0.07); }
+        
+        .msg-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+        .msg-sender { font-weight: bold; color: white; }
+        
+        .msg-topic { 
+            font-size: 0.75rem; 
+            padding: 5px 10px; 
+            border-radius: 5px; 
+            color: #fff; 
+            font-weight: bold; 
+            text-shadow: 1px 1px 1px rgba(0,0,0,0.5); 
+        }
+        
+        .msg-body { color: #ccc; font-size: 0.95rem; line-height: 1.5; margin-bottom: 15px; white-space: pre-wrap; }
+        
+        .msg-footer { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #333; padding-top: 10px; }
+        .msg-footer small { color: #666; }
+        
+        .delete-msg-btn {
+            background: transparent; border: 1px solid #c0392b; color: #c0392b;
+            padding: 5px 10px; border-radius: 5px; cursor: pointer; font-size: 0.8rem;
+        }
+        .delete-msg-btn:hover { background: #c0392b; color: white; }
+
+        /* Diğer UI Elemanları */
         .logout-btn {
-            margin-top: 50px; background: transparent; border: 1px solid #333;
+            margin-top: 40px; background: transparent; border: 1px solid #333;
             color: #666; padding: 10px 30px; border-radius: 30px; cursor: pointer; transition: 0.3s;
         }
         .logout-btn:hover { border-color: #E50914; color: #E50914; }
+        
+/* --- Gelen Kutusu (Modal) Scrollbar Özelleştirme --- */
 
-        @keyframes fadeIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
+/* 1. Webkit Tarayıcılar (Chrome, Edge, Safari, Opera) */
+.modal-content::-webkit-scrollbar {
+    width: 8px; /* Çubuğun genişliği */
+}
+
+.modal-content::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05); /* Çubuğun arkasındaki yolun rengi */
+    border-radius: 10px; /* Köşeleri yuvarlatma */
+    margin: 10px 0; /* Üst ve alttan hafif boşluk */
+}
+
+.modal-content::-webkit-scrollbar-thumb {
+    background-color: #444; /* Çubuğun normal rengi (Koyu Gri) */
+    border-radius: 10px;
+    border: 2px solid transparent; /* İçeriye gömülü hissi verir */
+    background-clip: content-box;
+}
+
+.modal-content::-webkit-scrollbar-thumb:hover {
+    background-color: #E50914; /* Üzerine gelince Tema Kırmızısı olsun */
+}
+
+/* 2. Firefox İçin Standart Ayar */
+.modal-content {
+    scrollbar-width: thin; /* İnce çubuk */
+    scrollbar-color: #E50914 rgba(255, 255, 255, 0.05); /* Çubuk Rengi - Yol Rengi */
+}
+
+        /* Popup UI */
+        .form-group textarea { width: 100%; padding: 10px; background:#000; border:1px solid #333; color:white; border-radius: 5px;}
+        .status-box { padding: 10px; text-align:center; margin-bottom:15px; border-radius:5px; font-weight:bold;}
+        .status-box.active { color: #2ecc71; border: 1px solid #2ecc71; background: rgba(46, 204, 113, 0.1); }
+        .status-box.inactive { color: #e74c3c; border: 1px solid #e74c3c; background: rgba(231, 76, 60, 0.1); }
+        .action-btns { display: flex; gap: 10px; }
+        .send-btn { 
+            flex: 1; padding: 12px; border:none; cursor:pointer; color:white; font-weight:bold; border-radius:5px;
+            transition: transform 0.1s ease, box-shadow 0.2s ease;
+        }
+        .send-btn:active { transform: scale(0.95); } /* Basma efekti */
+
+        /* TOAST BİLDİRİM STİLLERİ */
+        .dashboard-toast {
+            visibility: hidden;
+            min-width: 250px;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            border-radius: 8px;
+            padding: 16px;
+            position: fixed;
+            z-index: 2000;
+            left: 50%;
+            bottom: 30px;
+            transform: translateX(-50%);
+            font-size: 1rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+        }
+
+        .dashboard-toast.show {
+            visibility: visible;
+            animation: fadein 0.5s, fadeout 0.5s 2.5s; /* 0.5s gir, 2.5s bekle çık */
+        }
+        
+        .dashboard-toast.success { border-left: 5px solid #2ecc71; }
+        .dashboard-toast.error { border-left: 5px solid #e74c3c; }
+
+        @keyframes fadein { from {bottom: 0; opacity: 0;} to {bottom: 30px; opacity: 1;} }
+        @keyframes fadeout { from {bottom: 30px; opacity: 1;} to {bottom: 0; opacity: 0;} }
+
+        @keyframes fadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
     </style>
 </head>
 
 <script>
-    /* KODUNUZUN İÇİNE EKLEYİNİZ */
+    // Tarayıcı Koruması
+    document.addEventListener('contextmenu', e => e.preventDefault());
+    document.onkeydown = e => { if (e.key === 'F12' || e.keyCode == 123) return false; };
 
-// Sağ Tık Menüsünü Engelleme
-document.addEventListener('contextmenu', event => {
-    event.preventDefault();
-    showToast("Bu içerik telif hakları ile korunmaktadır."); // Mevcut toast fonksiyonunu kullanma
-});
-
-// F12 ve Diğer Kısayolları Engelleme (Windows/Linux için)
-document.onkeydown = function(e) {
-    // F12 tuşu
-    if (e.key === 'F12' || e.keyCode == 123) {
-        event.preventDefault();
-        showToast("Geliştirici araçları engellendi!");
-        return false;
+    // Saat/Hava Widget Logic
+    function updateWidgets() {
+        const now = new Date();
+        document.getElementById('clock-text').textContent = now.toLocaleTimeString('tr-TR', {hour:'2-digit', minute:'2-digit'});
+        document.getElementById('date-text').textContent = now.toLocaleDateString('tr-TR', {day:'numeric', month:'long'});
     }
-    // Ctrl+Shift+I (Inceleme), Ctrl+Shift+J (Konsol), Ctrl+Shift+C (Öğe Seçici)
-    if (e.ctrlKey && e.shiftKey && (e.keyCode == 73 || e.keyCode == 74 || e.keyCode == 67)) {
-        event.preventDefault();
-        showToast("Geliştirici araçları engellendi!");
-        return false;
-    }
-    // Ctrl+S (Kaydet)
-    if (e.ctrlKey && e.keyCode == 83) {
-        event.preventDefault();
-        showToast("Kaydetme işlemi engellendi!");
-        return false;
-    }
-    // Ctrl+U (Sayfa Kaynağını Görüntüle)
-    if (e.ctrlKey && e.keyCode == 85) {
-        event.preventDefault();
-        showToast("Sayfa kaynağına erişim engellendi!");
-        return false;
-    }
-    // Mac kullanıcıları için cmd tuşu
-    if (e.metaKey && (e.keyCode == 73 || e.keyCode == 83 || e.keyCode == 85)) {
-        event.preventDefault();
-        showToast("İzin verilmeyen işlem!");
-        return false;
-    }
-};
-// Service Worker Kaydı (HTML'deki eski yerden taşındı)
-if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/service-worker.js')
-            .then(registration => {
-                console.log('PWA ServiceWorker kaydı başarılı.');
-            })
-            .catch(err => {
-                console.log('PWA ServiceWorker kaydı başarısız:', err);
+    window.onload = () => { setInterval(updateWidgets, 1000); updateWidgets(); getWeather(); };
+    function getWeather() {
+        if(navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(async p => {
+                try {
+                    const r = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${p.coords.latitude}&longitude=${p.coords.longitude}&current_weather=true`);
+                    const d = await r.json();
+                    let i="fa-cloud"; if(d.current_weather.weathercode===0) i="fa-sun";
+                    document.getElementById('weather-text').textContent = `${Math.round(d.current_weather.temperature)}°C`;
+                    document.getElementById('weather-icon').className = `fas ${i}`;
+                } catch(e){}
             });
-    });
-}
+        }
+    }
 </script>
 
 <body>
 
     <div class="dashboard-container">
         <h1>Hoşgeldin, <span>Admin</span></h1>
-        <p>Hangi panele erişmek istersin?</p>
+        <p class="subtitle">Yönetim ve Rapor Merkezi</p>
+
+        <div class="info-bar">
+            <div class="widget-pill"><i class="fas fa-calendar-alt"></i><span id="date-text">...</span></div>
+            <div class="widget-pill"><i class="fas fa-clock"></i><span id="clock-text">--:--</span></div>
+            <div class="widget-pill"><i class="fas fa-spinner fa-spin" id="weather-icon"></i><span id="weather-text">...</span></div>
+        </div>
 
         <div class="card-grid">
-            <a href="admin.html" class="card">
-                <i class="fas fa-chart-line"></i>
-                <span>Yönetici Paneli</span>
-            </a>
             
-            <a href="dataGuncelle.html" class="card">
-                <i class="fas fa-database"></i>
-                <span>Veri Güncelle</span>
-            </a>
-            
-            <a href="indir.html" class="card">
-                <i class="fas fa-download"></i>
-                <span>İndirme Merkezi</span>
-            </a>
-
-            <a href="donusturucu.html" class="card">
-                <i class="fas fa-exchange-alt"></i>
-                <span>Dönüştürücü</span>
-            </a>
+            <div onclick="openModal('messagesModal')" class="card">
+                <i class="fas fa-envelope-open-text"></i>
+                <span>Gelen Kutusu</span>
+                <div id="msg-count-badge" class="badge">0</div>
             </div>
 
+            <div onclick="openModal('popupModal')" class="card">
+                <i class="fas fa-bullhorn"></i>
+                <span>Canlı Duyuru</span>
+            </div>
+
+            <a href="admin.html" class="card"><i class="fas fa-chart-line"></i><span>Panel</span></a>
+            <a href="dataGuncelle.html" class="card"><i class="fas fa-database"></i><span>Veri</span></a>
+            <a href="indir.html" class="card"><i class="fas fa-download"></i><span>İndir</span></a>
+        </div>
+
         <button class="logout-btn" onclick="doLogout()">Oturumu Kapat</button>
+    </div>
+
+    <div id="dashboard-toast" class="dashboard-toast"></div>
+
+    <div id="messagesModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('messagesModal')">&times;</span>
+            <h2 style="color:#E50914; margin-top:0;"><i class="fas fa-inbox"></i> Gelen İstek & Raporlar</h2>
+            <ul id="messages-list" class="message-list">
+                <p>Yükleniyor...</p>
+            </ul>
+        </div>
+    </div>
+
+    <div id="popupModal" class="modal">
+        <div class="modal-content" style="text-align:center;">
+            <span class="close-btn" onclick="closeModal('popupModal')">&times;</span>
+            <h2 style="color:#E50914; margin-top:0;">Canlı Duyuru</h2>
+            
+            <div id="popup-status-indicator" class="status-box inactive">Durum Bekleniyor...</div>
+            <div class="form-group">
+                <textarea id="popup-msg" rows="4" placeholder="Duyuru metni..."></textarea>
+            </div>
+            <div class="action-btns">
+                <button class="send-btn" onclick="updatePopup(true, this)" style="background:#27ae60;">YAYINLA</button>
+                <button class="send-btn" onclick="updatePopup(false, this)" style="background:#c0392b;">KALDIR</button>
+            </div>
+        </div>
     </div>
 
 </body>
