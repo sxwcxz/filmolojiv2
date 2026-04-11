@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="tr" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>SINEO. | Sadece Filmler</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- 1. TEMA VE RENKLER (MONOKROM BEYAZ/SİYAH) --- */
+        :root {
+            --brand: #ffffff;
+            --brand-accent: #ffffff; 
+            --btn-text-on-accent: #000000; 
+            --bg: #050505;
+            --surface: #111111;
+            --surface-hover: #1a1a1a;
+            --text-primary: #ffffff;
+            --text-secondary: #aaaaaa;
+            --glass: rgba(15, 15, 15, 0.75);
+            --glass-border: rgba(255, 255, 255, 0.15);
+            --blur: blur(30px);
+            --pill-active-bg: #ffffff;
+            --pill-active-text: #000000;
+        }
+
+        [data-theme="light"] {
+            --bg: #f5f5f7;
+            --surface: #ffffff;
+            --surface-hover: #f0f0f0;
+            --text-primary: #111111;
+            --text-secondary: #666666;
+            --glass: rgba(255, 255, 255, 0.85);
+            --glass-border: rgba(0, 0, 0, 0.1);
+            --pill-active-bg: #000000;
+            --pill-active-text: #ffffff;
+            --brand-accent: #000000; 
+            --btn-text-on-accent: #ffffff;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; outline: none; transition: background-color 0.3s, color 0.3s; }
+        body { background-color: var(--bg); color: var(--text-primary); font-family: 'Inter', sans-serif; overflow-x: hidden; }
+
+        /* --- 2. YÜKLEME EKRANI --- */
+        #preloader {
+            position: fixed; inset: 0; background: var(--bg); z-index: 999999;
+            display: flex; align-items: center; justify-content: center; flex-direction: column;
+            transition: opacity 0.5s ease, visibility 0.5s;
+        }
+        .loader-logo { font-size: 60px; font-weight: 900; letter-spacing: -3px; margin-bottom: 20px; animation: pulse 1.5s infinite alternate; }
+        .loading-bar-container { width: 200px; height: 4px; background: var(--glass-border); border-radius: 10px; overflow: hidden; }
+        .loading-bar { height: 100%; width: 0%; background: var(--brand-accent); transition: width 0.3s ease; box-shadow: 0 0 10px var(--brand-accent); }
+        @keyframes pulse { from { opacity: 0.7; transform: scale(0.98); } to { opacity: 1; transform: scale(1.02); } }
+
+        /* --- 3. PILL NAVBAR --- */
+        .navbar-wrapper {
+            position: fixed; top: 20px; left: 0; width: 100%; display: flex; justify-content: center; z-index: 1000;
+            transition: transform 0.4s ease;
+        }
+        .pill-nav {
+            background: var(--glass); backdrop-filter: var(--blur); -webkit-backdrop-filter: var(--blur);
+            border: 1px solid var(--glass-border); border-radius: 50px;
+            display: flex; align-items: center; padding: 6px 10px; gap: 5px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.5);
+        }
+        .nav-item {
+            display: flex; align-items: center; gap: 8px; padding: 10px 22px; border-radius: 40px;
+            color: var(--text-primary); text-decoration: none; font-size: 15px; font-weight: 600;
+            cursor: pointer; opacity: 0.7;
+        }
+        .nav-item:hover { opacity: 1; background: var(--surface); }
+        .nav-item.active { background: var(--pill-active-bg); color: var(--pill-active-text); opacity: 1; }
+        .nav-divider { width: 1px; height: 20px; background: var(--glass-border); margin: 0 5px; }
+        .nav-icon-btn {
+            width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            color: var(--text-primary); cursor: pointer; opacity: 0.7; font-size: 16px; background: transparent; border: none;
+        }
+        .nav-icon-btn:hover { background: var(--surface); opacity: 1; }
+
+        /* --- 4. YOUTUBE HERO --- */
+        .hero { position: relative; height: 85vh; display: flex; align-items: flex-end; padding-bottom: 80px; overflow: hidden; background: #000; }
+        .hero-poster { position: absolute; inset: 0; background-size: cover; background-position: center top; z-index: 0; opacity: 0.4; transition: opacity 1s; filter: blur(5px); }
+        .hero-video-wrapper {
+            position: absolute; top: 50%; left: 50%; width: 100vw; height: 56.25vw; min-height: 100vh; min-width: 177.77vh;
+            transform: translate(-50%, -50%) scale(1.35); z-index: 1; pointer-events: none;
+            mask-image: linear-gradient(to top, transparent 0%, black 70%);
+            -webkit-mask-image: linear-gradient(to top, transparent 0%, black 70%);
+        }
+        .hero-video-wrapper iframe { width: 100%; height: 100%; border: none; }
+        .hero-gradient { position: absolute; inset: 0; background: linear-gradient(to right, rgba(0,0,0,0.95) 0%, transparent 70%), linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 40%); z-index: 2; pointer-events: none; }
+        
+        .hero-content { position: relative; z-index: 10; padding: 0 5%; max-width: 850px; }
+        .hero-title { font-size: clamp(3rem, 7vw, 5.5rem); font-weight: 900; letter-spacing: -2px; line-height: 1; margin-bottom: 15px; color: #fff; text-shadow: 0 4px 20px rgba(0,0,0,0.8); }
+        .hero-meta { display: flex; align-items: center; gap: 15px; margin-bottom: 15px; font-weight: 700; color: #fff; font-size: 1.1rem; }
+        .hero-imdb { color: #f5c518; display: flex; align-items: center; gap: 5px; background: rgba(0,0,0,0.5); padding: 5px 10px; border-radius: 8px; backdrop-filter: blur(5px); }
+        .hero-desc { font-size: 1.1rem; color: #ddd; margin-bottom: 30px; font-weight: 500; line-height: 1.6; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; text-shadow: 0 2px 10px rgba(0,0,0,0.8); }
+        
+        .hero-buttons { display: flex; gap: 15px; }
+        .btn-play { background: #fff; color: #000; border: none; padding: 14px 35px; border-radius: 30px; font-size: 16px; font-weight: 800; cursor: pointer; display: flex; align-items: center; gap: 10px; transition: 0.3s; box-shadow: 0 5px 15px rgba(255,255,255,0.3); }
+        .btn-play:hover { transform: scale(1.05); }
+        .btn-list { background: rgba(255,255,255,0.2); backdrop-filter: blur(10px); color: #fff; border: 1px solid rgba(255,255,255,0.3); padding: 14px 35px; border-radius: 30px; font-size: 16px; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 10px; transition: 0.3s; }
+        .btn-list:hover { background: rgba(255,255,255,0.3); }
+        .btn-list.added { background: rgba(255,255,255,0.9); color: #000; border-color: #fff; }
+
+        /* --- 5. İÇERİK SATIRLARI VE SLİDER BUTONLARI --- */
+        .main-content { position: relative; z-index: 20; margin-top: -60px; padding-bottom: 60px; }
+        .row-container { margin-bottom: 40px; padding: 0 5%; position: relative; }
+        .row-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 15px; }
+        .row-title { font-size: 1.4rem; font-weight: 700; color: var(--text-primary); display: flex; align-items: center; gap: 10px; }
+        
+        .slider-wrapper { position: relative; }
+        .slider-btn { position: absolute; top: 50%; transform: translateY(-50%); width: 45px; height: 45px; border-radius: 50%; background: rgba(0,0,0,0.6); color: white; border: 1px solid var(--glass-border); cursor: pointer; z-index: 15; display: flex; align-items: center; justify-content: center; opacity: 0; transition: 0.3s; backdrop-filter: blur(5px); font-size: 18px; }
+        .row-container:hover .slider-btn { opacity: 1; }
+        .slider-btn:hover { background: var(--brand-accent); color: var(--btn-text-on-accent); border-color: var(--brand-accent); transform: translateY(-50%) scale(1.1); }
+        .slider-btn.left { left: -15px; }
+        .slider-btn.right { right: -15px; }
+        @media (max-width: 768px) { .slider-btn { display: none; } } 
+
+        .scroll-wrapper { display: flex; gap: 15px; overflow-x: auto; padding-bottom: 20px; scrollbar-width: none; cursor: grab; scroll-behavior: smooth; }
+        .scroll-wrapper::-webkit-scrollbar { display: none; }
+        .scroll-wrapper:active { cursor: grabbing; }
+
+        .card { flex: 0 0 auto; width: 200px; cursor: pointer; position: relative; transition: 0.3s; }
+        .card:hover { transform: translateY(-10px); z-index: 10; }
+        .poster { width: 100%; height: 300px; border-radius: 12px; overflow: hidden; background: var(--surface); border: 1px solid var(--glass-border); position: relative; }
+        .poster img { width: 100%; height: 100%; object-fit: cover; pointer-events: none; transition: 0.3s; }
+        .card:hover .poster img { transform: scale(1.05); filter: brightness(1.1); }
+        
+        .card-rating { position: absolute; top: 10px; left: 10px; background: rgba(0,0,0,0.7); color: #fff; font-size: 12px; font-weight: 800; padding: 5px 8px; border-radius: 8px; z-index: 5; backdrop-filter: blur(5px); display: flex; align-items: center; gap: 4px; border: 1px solid rgba(255,255,255,0.15); pointer-events: none; }
+        .card-rating i { color: #f5c518; }
+
+        .card-add-btn { position: absolute; top: 10px; right: 10px; width: 32px; height: 32px; border-radius: 50%; background: rgba(0,0,0,0.6); color: white; display: flex; align-items: center; justify-content: center; z-index: 5; opacity: 1; transition: 0.3s; border: 1px solid rgba(255,255,255,0.2); backdrop-filter: blur(5px); }
+        .card-add-btn:hover { background: #fff; color: #000; transform: scale(1.1); }
+        .card-add-btn.added { background: #fff; color: #000; opacity: 1; }
+
+        .card-title { margin-top: 12px; font-size: 14px; font-weight: 600; color: var(--text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .card-meta { font-size: 12px; color: var(--text-secondary); margin-top: 3px; font-weight: 500; }
+
+        /* --- 6. ARAMA VE LİSTEM EKRANLARI --- */
+        .overlay-menu { position: fixed; inset: 0; background: rgba(0,0,0,0.95); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); z-index: 2000; display: flex; flex-direction: column; padding: 60px 5%; overflow-y: auto; opacity: 0; visibility: hidden; transition: opacity 0.3s; }
+        .overlay-menu.active { opacity: 1; visibility: visible; }
+        
+        .overlay-header { display: flex; justify-content: center; position: relative; margin-bottom: 30px; align-items: center; }
+        .overlay-title { color: #fff; font-size: 2rem; font-weight: 800; }
+        
+        .search-input-wrapper { width: 100%; max-width: 800px; background: rgba(255,255,255,0.1); border-radius: 16px; padding: 15px 25px; display: flex; align-items: center; gap: 15px; }
+        .search-input-wrapper input { background: transparent; border: none; color: #fff; font-size: 20px; width: 100%; font-weight: 500; outline: none; }
+        
+        .overlay-close-btn { position: absolute; right: 0; top: 50%; transform: translateY(-50%); background: transparent; border: none; color: #fff; font-size: 15px; cursor: pointer; opacity: 0.6; }
+        .overlay-close-btn:hover { opacity: 1; }
+
+        .search-filters { display: flex; justify-content: center; gap: 10px; margin-bottom: 40px; flex-wrap: wrap; }
+        .filter-pill { background: rgba(255,255,255,0.08); color: #fff; border: 1px solid rgba(255,255,255,0.15); padding: 8px 20px; border-radius: 30px; font-size: 14px; font-weight: 600; cursor: pointer; transition: 0.3s; }
+        .filter-pill:hover { background: rgba(255,255,255,0.2); }
+        .filter-pill.active { background: #fff; color: #000; }
+
+        .grid-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 25px 15px; max-width: 1400px; margin: 0 auto; width: 100%; }
+        .empty-list-msg { color: var(--text-secondary); text-align: center; width: 100%; font-size: 1.2rem; padding: 50px 0; grid-column: 1 / -1; }
+    </style>
+
+    <script src="https://www.youtube.com/iframe_api"></script>
+</head>
+<body>
+
+    <div id="preloader">
+        <div class="loader-logo">SINEO.</div>
+        <div class="loading-bar-container"><div class="loading-bar" id="loading-bar"></div></div>
+    </div>
+
+    <div class="navbar-wrapper" id="navbar-wrapper">
+        <nav class="pill-nav">
+            <a href="index.html" class="nav-item"><i class="fas fa-home"></i> Ana Sayfa</a>
+            <a href="filmler.html" class="nav-item active"><i class="fas fa-film"></i> Filmler</a>
+            <a href="diziler.html" class="nav-item"><i class="fas fa-tv"></i> Diziler</a>
+            <a href="animeler.html" class="nav-item"><i class="fas fa-dragon"></i> Animeler</a>
+
+            <a href="#" class="nav-item" onclick="openMyList()"><i class="fas fa-list"></i> Listem</a>
+            
+            <div class="nav-divider"></div>
+            
+            <button class="nav-icon-btn" onclick="openSearch()"><i class="fas fa-search"></i></button>
+            <button class="nav-icon-btn" onclick="toggleTheme()" id="theme-icon-btn"><i class="fas fa-moon"></i></button>
+            <button class="nav-icon-btn" onclick="location.href='auth.html'">
+    <i class="fas fa-user-circle"></i>
+</button>
+        </nav>
+    </div>
+
+    <div id="search-overlay" class="overlay-menu">
+        <div class="overlay-header">
+            <div class="search-input-wrapper">
+                <i class="fas fa-search" style="color:var(--text-primary); font-size:20px;"></i>
+                <input type="text" id="searchInput" placeholder="Sadece filmlerde ara..." onkeyup="handleSearch(event)">
+            </div>
+            <button class="overlay-close-btn" onclick="closeSearch()">Kapat</button>
+        </div>
+        <div class="search-filters">
+            <div class="filter-pill active">Sadece Filmler</div>
+        </div>
+        <div class="grid-container" id="search-grid"></div>
+    </div>
+
+    <div id="list-overlay" class="overlay-menu">
+        <div class="overlay-header">
+            <h2 class="overlay-title">Senin Listen</h2>
+            <button class="overlay-close-btn" onclick="closeMyList()">Kapat</button>
+        </div>
+        <div class="grid-container" id="list-grid"></div>
+    </div>
+
+    <div>
+        <div class="hero">
+            <div class="hero-poster" id="hero-poster"></div>
+            <div class="hero-video-wrapper" id="hero-video-wrapper">
+                <div id="yt-player"></div>
+            </div>
+            <div class="hero-gradient"></div>
+            <div class="hero-content">
+                <h1 class="hero-title" id="hero-title">Yükleniyor...</h1>
+                <div class="hero-meta" id="hero-meta">
+                    <span class="hero-imdb"><i class="fas fa-star"></i> <span id="hero-rating">--</span></span>
+                    <span id="hero-year">--</span>
+                    <span id="hero-genre">--</span>
+                </div>
+                <p class="hero-desc" id="hero-desc">Lütfen bekleyin, sinema dünyası hazırlanıyor.</p>
+                <div class="hero-buttons">
+                    <button class="btn-play" id="hero-play"><i class="fas fa-play"></i> Oynat</button>
+                    <button class="btn-list" id="hero-list"><i class="fas fa-plus"></i> Listeme Ekle</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="main-content" id="content-rows"></div>
+    </div>
+
+    <script>
+        const API_KEY = 'f709a1ae';
+        const CORS = 'https://mac.filmolojilive.workers.dev/';
+
+        // HERO FİLMLERİ (SADECE SİNEMA BAŞYAPITLARI)
+        const heroMovies = [
+            { imdbID: 'tt15239678', ytID: 'Way9M_KqEGE', trTitle: 'Dune: Çöl Gezegeni', trGenre: 'Bilim Kurgu', trPlot: 'Efsanevi yolculuk devam ediyor. Paul Atreides, ailesini yok eden komploculara karşı intikam savaşı başlatıyor.' },
+            { imdbID: 'tt15398776', ytID: 'bK6ldnjE3Y0', trTitle: 'Oppenheimer', trGenre: 'Dram / Tarih', trPlot: 'Amerikalı bilim insanı J. Robert Oppenheimer\'ın atom bombasını geliştirme sürecindeki rolünü anlatan çarpıcı bir hikaye.' },
+            { imdbID: 'tt10366206', ytID: 'qEVUtrk8_B4', trTitle: 'John Wick 4', trGenre: 'Aksiyon', trPlot: 'John Wick, High Table\'ı yenmenin yolunu bulur. Ancak özgürlüğünü kazanmadan önce yeni bir düşmanla yüzleşmek zorundadır.' },
+            { imdbID: 'tt12037194', ytID: 'pP3H7oW9J00', trTitle: 'Furiosa', trGenre: 'Aksiyon', trPlot: 'Dünya çökerken Genç Furiosa, Savaş Lordu Dementus\'un liderliğindeki büyük bir Motorcu Sürüsü\'nün eline düşer.' },
+            { imdbID: 'tt0816692',  ytID: '2LqzF5WauAw', trTitle: 'Yıldızlararası', trGenre: 'Bilim Kurgu', trPlot: 'Bir grup kaşif, insanlığın hayatta kalabilmesi için uzayda yeni bir yuva bulmak amacıyla yıldızlararası bir yolculuğa çıkar.' }
+        ];
+
+        let shuffledHeroes = [...heroMovies].sort(() => 0.5 - Math.random());
+        let currentHeroIdx = 0;
+        let ytPlayer;
+        let currentHeroPosterUrl = '';
+
+        // SADECE FİLM KATEGORİLERİ (type: 'movie' zorunluluğu)
+        const categories = [
+            { title: 'Yılın En İyileri', q: '2024', type: 'movie' },
+            { title: 'Aksiyon & Macera', q: 'action', type: 'movie' },
+            { title: 'Bilim Kurgu Başyapıtları', q: 'sci-fi', type: 'movie' },
+            { title: 'Korku Sineması', q: 'horror', type: 'movie' },
+            { title: 'Romantik Sinema', q: 'romance', type: 'movie' },
+            { title: 'Komedi Şöleni', q: 'comedy', type: 'movie' },
+            { title: 'Ödüllü Dramalar', q: 'oscar', type: 'movie' },
+            { title: 'Savaş ve Tarih', q: 'war', type: 'movie' },
+            { title: 'Marvel Sinematik Evreni', q: 'marvel', type: 'movie' },
+            { title: 'DC Genişletilmiş Evreni', q: 'batman', type: 'movie' },
+            { title: 'Fantastik Dünyalar', q: 'fantasy', type: 'movie' },
+            { title: 'Suç ve Gizem', q: 'murder', type: 'movie' }
+        ];
+
+        function getHD(url) { return (!url || url === "N/A") ? "N/A" : url.replace('SX300', 'SX1080'); }
+        function getMockRating(imdbID) {
+            let num = 0;
+            for(let i = 0; i < imdbID.length; i++) num += imdbID.charCodeAt(i);
+            return (6.0 + (num % 35) / 10).toFixed(1);
+        }
+
+        // LİSTEM
+        function getSavedList() { return JSON.parse(localStorage.getItem('sineo_my_list')) || []; }
+        function isSaved(imdbID) { return getSavedList().some(item => item.imdbID === imdbID); }
+
+        function toggleSave(imdbID, title, year, poster, rating, btnElement, isHero = false) {
+            let list = getSavedList();
+            const index = list.findIndex(m => m.imdbID === imdbID);
+            if (index > -1) {
+                list.splice(index, 1);
+                btnElement.classList.remove('added');
+                btnElement.innerHTML = isHero ? '<i class="fas fa-plus"></i> Listeme Ekle' : '<i class="fas fa-plus"></i>';
+            } else {
+                list.push({ imdbID, title, year, poster, rating });
+                btnElement.classList.add('added');
+                btnElement.innerHTML = isHero ? '<i class="fas fa-check"></i> Listeye Eklendi' : '<i class="fas fa-check"></i>';
+            }
+            localStorage.setItem('sineo_my_list', JSON.stringify(list));
+            if(document.getElementById('list-overlay').classList.contains('active')) renderMyList();
+        }
+
+        async function loadHeroDOM(heroObj) {
+            document.getElementById('hero-title').innerText = heroObj.trTitle;
+            document.getElementById('hero-genre').innerText = heroObj.trGenre;
+            document.getElementById('hero-desc').innerText = heroObj.trPlot;
+            document.getElementById('hero-play').onclick = () => location.href = `film-izle.html?id=${heroObj.imdbID}`;
+
+            try {
+                const hRes = await fetch(`https://www.omdbapi.com/?i=${heroObj.imdbID}&apikey=${API_KEY}`).then(r => r.json());
+                currentHeroPosterUrl = hRes.Poster;
+                document.getElementById('hero-poster').style.backgroundImage = `url('${CORS}${getHD(hRes.Poster)}')`;
+                document.getElementById('hero-rating').innerText = hRes.imdbRating || getMockRating(heroObj.imdbID);
+                document.getElementById('hero-year').innerText = hRes.Year || '2024';
+            } catch(e) {}
+
+            const heroBtn = document.getElementById('hero-list');
+            if (isSaved(heroObj.imdbID)) {
+                heroBtn.classList.add('added');
+                heroBtn.innerHTML = '<i class="fas fa-check"></i> Listeye Eklendi';
+            } else {
+                heroBtn.classList.remove('added');
+                heroBtn.innerHTML = '<i class="fas fa-plus"></i> Listeme Ekle';
+            }
+            heroBtn.onclick = function() {
+                const yr = document.getElementById('hero-year').innerText;
+                const rtg = document.getElementById('hero-rating').innerText;
+                toggleSave(heroObj.imdbID, heroObj.trTitle, yr, currentHeroPosterUrl, rtg, this, true);
+            };
+        }
+
+        async function initSineo() {
+            const bar = document.getElementById('loading-bar');
+            await loadHeroDOM(shuffledHeroes[currentHeroIdx]);
+            bar.style.width = "20%";
+
+            for (let i = 0; i < categories.length; i++) {
+                await fetchAndRenderRow(categories[i]);
+                bar.style.width = `${20 + ((i + 1) * (80 / categories.length))}%`;
+            }
+
+            bar.style.width = "100%";
+        }
+
+        function onYouTubeIframeAPIReady() {
+            let initialHero = shuffledHeroes[currentHeroIdx];
+            ytPlayer = new YT.Player('yt-player', {
+                videoId: initialHero.ytID,
+                playerVars: {
+                    'autoplay': 1, 'controls': 0, 'mute': 1, 'loop': 1,
+                    'playlist': initialHero.ytID, 'playsinline': 1, 'modestbranding': 1, 
+                    'rel': 0, 'start': 3, 'vq': 'hd1080'
+                },
+                events: {
+                    'onReady': function(event) { event.target.playVideo(); },
+                    'onStateChange': function(event) {
+                        if (event.data === YT.PlayerState.PLAYING) {
+                            document.getElementById('hero-video-wrapper').style.opacity = '1';
+                            document.getElementById('hero-poster').style.opacity = '0.3';
+                            document.getElementById('preloader').style.opacity = '0';
+                            setTimeout(() => document.getElementById('preloader').style.display = 'none', 500);
+                        }
+                    },
+                    'onError': async function(event) {
+                        currentHeroIdx++;
+                        if (currentHeroIdx < shuffledHeroes.length) {
+                            let nextHero = shuffledHeroes[currentHeroIdx];
+                            await loadHeroDOM(nextHero);
+                            ytPlayer.loadVideoById({videoId: nextHero.ytID, startSeconds: 3});
+                        } else {
+                            document.getElementById('hero-video-wrapper').style.display = 'none';
+                            document.getElementById('preloader').style.opacity = '0';
+                            setTimeout(() => document.getElementById('preloader').style.display = 'none', 500);
+                        }
+                    }
+                }
+            });
+        }
+
+        async function fetchAndRenderRow(cat) {
+            const container = document.getElementById('content-rows');
+            const rowId = `row-${cat.q.replace(/\s+/g, '')}`;
+            
+            container.innerHTML += `
+                <div class="row-container">
+                    <div class="row-header"><h2 class="row-title">${cat.title}</h2></div>
+                    <div class="slider-wrapper">
+                        <button class="slider-btn left" onclick="slideLeft('${rowId}')"><i class="fas fa-chevron-left"></i></button>
+                        <div class="scroll-wrapper" id="${rowId}"></div>
+                        <button class="slider-btn right" onclick="slideRight('${rowId}')"><i class="fas fa-chevron-right"></i></button>
+                    </div>
+                </div>`;
+
+            const wrapper = document.getElementById(rowId);
+            const res1 = await fetch(`https://www.omdbapi.com/?s=${cat.q}&type=${cat.type}&page=1&apikey=${API_KEY}`).then(r => r.json());
+            const res2 = await fetch(`https://www.omdbapi.com/?s=${cat.q}&type=${cat.type}&page=2&apikey=${API_KEY}`).then(r => r.json());
+            
+            let combined = [];
+            if(res1.Search) combined = combined.concat(res1.Search);
+            if(res2.Search) combined = combined.concat(res2.Search);
+
+            if(combined.length > 0) {
+                combined.forEach(m => {
+                    if(m.Poster !== "N/A") {
+                        const rating = getMockRating(m.imdbID); 
+                        const safeTitle = m.Title.replace(/'/g, "&#39;");
+                        const addedClass = isSaved(m.imdbID) ? 'added' : '';
+                        const iconHtml = isSaved(m.imdbID) ? '<i class="fas fa-check"></i>' : '<i class="fas fa-plus"></i>';
+                        
+                        wrapper.innerHTML += `
+                            <div class="card" onclick="location.href='film-izle.html?id=${m.imdbID}'">
+                                <div class="card-rating"><i class="fas fa-star"></i> ${rating}</div>
+                                <div class="card-add-btn ${addedClass}" onclick="event.stopPropagation(); toggleSave('${m.imdbID}', '${safeTitle}', '${m.Year}', '${m.Poster}', '${rating}', this)">${iconHtml}</div>
+                                <div class="poster"><img src="${CORS}${getHD(m.Poster)}" onerror="this.parentElement.parentElement.remove()"></div>
+                                <div class="card-title">${m.Title}</div>
+                                <div class="card-meta">${m.Year}</div>
+                            </div>`;
+                    }
+                });
+                enableDragScroll(wrapper);
+            }
+        }
+
+        function openMyList() { document.getElementById('list-overlay').classList.add('active'); document.body.style.overflow = 'hidden'; renderMyList(); }
+        function closeMyList() { document.getElementById('list-overlay').classList.remove('active'); document.body.style.overflow = 'auto'; location.reload(); }
+
+        function renderMyList() {
+            const grid = document.getElementById('list-grid');
+            let list = getSavedList();
+            if(list.length === 0) {
+                grid.innerHTML = '<div class="empty-list-msg">Listeniz şu an boş. Film keşfederek listenize ekleyin.</div>';
+                return;
+            }
+            grid.innerHTML = '';
+            list.forEach(m => {
+                const safeTitle = m.title.replace(/'/g, "&#39;");
+                grid.innerHTML += `
+                    <div class="card" style="width:100%;" onclick="location.href='film-izle.html?id=${m.imdbID}'">
+                        <div class="card-rating"><i class="fas fa-star"></i> ${m.rating}</div>
+                        <div class="card-add-btn added" onclick="event.stopPropagation(); toggleSave('${m.imdbID}', '${safeTitle}', '${m.year}', '${m.poster}', '${m.rating}', this); renderMyList();"><i class="fas fa-check"></i></div>
+                        <div class="poster"><img src="${CORS}${getHD(m.poster)}" onerror="this.parentElement.parentElement.remove()"></div>
+                        <div class="card-title">${m.title}</div>
+                        <div class="card-meta">${m.year}</div>
+                    </div>`;
+            });
+        }
+
+        function slideLeft(rowId) { document.getElementById(rowId).scrollBy({ left: -600, behavior: 'smooth' }); }
+        function slideRight(rowId) { document.getElementById(rowId).scrollBy({ left: 600, behavior: 'smooth' }); }
+        function toggleTheme() { const html = document.documentElement; const icon = document.querySelector('#theme-icon-btn i'); if(html.getAttribute('data-theme') === 'light') { html.setAttribute('data-theme', 'dark'); icon.className = 'fas fa-moon'; } else { html.setAttribute('data-theme', 'light'); icon.className = 'fas fa-sun'; } }
+        function openSearch() { document.getElementById('search-overlay').classList.add('active'); document.body.style.overflow = 'hidden'; setTimeout(() => document.getElementById('searchInput').focus(), 100); }
+        function closeSearch() { document.getElementById('search-overlay').classList.remove('active'); document.body.style.overflow = 'auto'; }
+
+        let searchTimer;
+        async function handleSearch(e) {
+            clearTimeout(searchTimer);
+            const q = e.target.value;
+            const grid = document.getElementById('search-grid');
+            if(q.length > 2) {
+                searchTimer = setTimeout(async () => {
+                    grid.innerHTML = '<div style="color:var(--text-primary); text-align:center; width:100%; grid-column:1/-1;">Aranıyor...</div>';
+                    // Arama sonuçlarını da SADECE FİLMLER olarak kısıtladık (&type=movie)
+                    const res = await fetch(`https://www.omdbapi.com/?s=${q}&type=movie&apikey=${API_KEY}`).then(r => r.json());
+                    grid.innerHTML = '';
+                    if(res.Search) {
+                        res.Search.forEach(m => {
+                            if(m.Poster !== "N/A") {
+                                const rating = getMockRating(m.imdbID);
+                                const safeTitle = m.Title.replace(/'/g, "&#39;");
+                                const addedClass = isSaved(m.imdbID) ? 'added' : '';
+                                const iconHtml = isSaved(m.imdbID) ? '<i class="fas fa-check"></i>' : '<i class="fas fa-plus"></i>';
+                                grid.innerHTML += `
+                                    <div class="card" style="width:100%;" onclick="location.href='film-izle.html?id=${m.imdbID}'">
+                                        <div class="card-rating"><i class="fas fa-star"></i> ${rating}</div>
+                                        <div class="card-add-btn ${addedClass}" onclick="event.stopPropagation(); toggleSave('${m.imdbID}', '${safeTitle}', '${m.Year}', '${m.Poster}', '${rating}', this)">${iconHtml}</div>
+                                        <div class="poster"><img src="${CORS}${getHD(m.Poster)}" onerror="this.parentElement.parentElement.remove()"></div>
+                                        <div class="card-title">${m.Title}</div>
+                                    </div>`;
+                            }
+                        });
+                    } else { grid.innerHTML = '<div class="empty-list-msg">Sonuç bulunamadı.</div>'; }
+                }, 400); 
+            } else { grid.innerHTML = ''; }
+        }
+
+        function enableDragScroll(el) {
+            let isDown = false; let startX; let scrollLeft;
+            el.addEventListener('mousedown', (e) => { isDown = true; startX = e.pageX - el.offsetLeft; scrollLeft = el.scrollLeft; el.style.cursor = 'grabbing'; });
+            el.addEventListener('mouseleave', () => { isDown = false; el.style.cursor = 'grab'; });
+            el.addEventListener('mouseup', () => { isDown = false; el.style.cursor = 'grab'; });
+            el.addEventListener('mousemove', (e) => { if(!isDown) return; e.preventDefault(); const x = e.pageX - el.offsetLeft; const walk = (x - startX) * 2; el.scrollLeft = scrollLeft - walk; });
+        }
+
+        window.onscroll = () => { const wrapper = document.getElementById('navbar-wrapper'); if (window.scrollY > 50) wrapper.style.transform = 'scale(0.97) translateY(-5px)'; else wrapper.style.transform = 'scale(1) translateY(0)'; };
+        window.onload = initSineo;
+    </script>
+</body>
+</html>

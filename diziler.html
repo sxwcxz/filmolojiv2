@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="tr" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>SINEO. | Premium Diziler</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- 1. TEMA VE RENKLER --- */
+        :root {
+            --brand-accent: #ffffff; 
+            --btn-text-on-accent: #000000; 
+            --bg: #050505;
+            --surface: #111111;
+            --surface-hover: #1a1a1a;
+            --text-primary: #ffffff;
+            --text-secondary: #aaaaaa;
+            --glass: rgba(15, 15, 15, 0.75);
+            --glass-border: rgba(255, 255, 255, 0.15);
+            --blur: blur(30px);
+            --pill-active-bg: #ffffff;
+            --pill-active-text: #000000;
+        }
+
+        [data-theme="light"] {
+            --bg: #f5f5f7;
+            --surface: #ffffff;
+            --text-primary: #111111;
+            --text-secondary: #666666;
+            --glass: rgba(255, 255, 255, 0.85);
+            --glass-border: rgba(0, 0, 0, 0.1);
+            --pill-active-bg: #000000;
+            --pill-active-text: #ffffff;
+            --brand-accent: #000000;
+            --btn-text-on-accent: #ffffff;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; outline: none; transition: background-color 0.3s, color 0.3s; }
+        body { background-color: var(--bg); color: var(--text-primary); font-family: 'Inter', sans-serif; overflow-x: hidden; }
+
+        /* --- 2. YÜKLEME EKRANI --- */
+        #preloader {
+            position: fixed; inset: 0; background: var(--bg); z-index: 999999;
+            display: flex; align-items: center; justify-content: center; flex-direction: column;
+            transition: opacity 0.5s ease;
+        }
+        .loader-logo { font-size: 60px; font-weight: 900; letter-spacing: -3px; margin-bottom: 20px; animation: pulse 1.5s infinite alternate; }
+        .loading-bar-container { width: 200px; height: 4px; background: var(--glass-border); border-radius: 10px; overflow: hidden; }
+        .loading-bar { height: 100%; width: 0%; background: var(--brand-accent); transition: width 0.3s ease; box-shadow: 0 0 10px var(--brand-accent); }
+        @keyframes pulse { from { opacity: 0.7; transform: scale(0.98); } to { opacity: 1; transform: scale(1.02); } }
+
+        /* --- 3. PILL NAVBAR (TAM SÜRÜM) --- */
+        .navbar-wrapper { position: fixed; top: 20px; left: 0; width: 100%; display: flex; justify-content: center; z-index: 1000; transition: transform 0.4s ease; }
+        .pill-nav { background: var(--glass); backdrop-filter: var(--blur); border: 1px solid var(--glass-border); border-radius: 50px; display: flex; align-items: center; padding: 6px 10px; gap: 5px; box-shadow: 0 15px 40px rgba(0,0,0,0.5); }
+        .nav-item { display: flex; align-items: center; gap: 8px; padding: 10px 22px; border-radius: 40px; color: var(--text-primary); text-decoration: none; font-size: 15px; font-weight: 600; cursor: pointer; opacity: 0.7; }
+        .nav-item:hover { opacity: 1; background: var(--surface); }
+        .nav-item.active { background: var(--pill-active-bg); color: var(--pill-active-text); opacity: 1; }
+        .nav-divider { width: 1px; height: 20px; background: var(--glass-border); margin: 0 5px; }
+        .nav-icon-btn { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--text-primary); cursor: pointer; opacity: 0.7; font-size: 16px; background: transparent; border: none; }
+        .nav-icon-btn:hover { background: var(--surface); opacity: 1; }
+
+        /* --- 4. YOUTUBE HERO --- */
+        .hero { position: relative; height: 85vh; display: flex; align-items: flex-end; padding-bottom: 80px; overflow: hidden; background: #000; }
+        .hero-poster { position: absolute; inset: 0; background-size: cover; background-position: center top; z-index: 0; opacity: 0.4; transition: opacity 1.5s ease; filter: blur(5px); }
+        .hero-video-wrapper { position: absolute; top: 50%; left: 50%; width: 100vw; height: 56.25vw; min-height: 100vh; min-width: 177.77vh; transform: translate(-50%, -50%) scale(1.35); z-index: 1; pointer-events: none; opacity: 0; transition: opacity 1.5s ease; mask-image: linear-gradient(to top, transparent 0%, black 70%); }
+        .hero-video-wrapper iframe { width: 100%; height: 100%; border: none; }
+        .hero-gradient { position: absolute; inset: 0; background: linear-gradient(to right, rgba(0,0,0,0.95) 0%, transparent 70%), linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 40%); z-index: 2; pointer-events: none; }
+        .hero-content { position: relative; z-index: 10; padding: 0 5%; max-width: 850px; }
+        .hero-title { font-size: clamp(3rem, 7vw, 5.5rem); font-weight: 900; letter-spacing: -2px; margin-bottom: 15px; color: #fff; text-shadow: 0 4px 20px rgba(0,0,0,0.8); }
+        .hero-meta { display: flex; align-items: center; gap: 15px; margin-bottom: 15px; font-weight: 700; color: #fff; font-size: 1.1rem; }
+        .hero-imdb { color: #f5c518; display: flex; align-items: center; gap: 5px; background: rgba(0,0,0,0.5); padding: 5px 10px; border-radius: 8px; backdrop-filter: blur(5px); }
+        .hero-desc { font-size: 1.1rem; color: #ddd; margin-bottom: 30px; font-weight: 500; line-height: 1.6; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; text-shadow: 0 2px 10px rgba(0,0,0,0.8); }
+        .hero-buttons { display: flex; gap: 15px; }
+        .btn-play { background: #fff; color: #000; border: none; padding: 14px 35px; border-radius: 30px; font-size: 16px; font-weight: 800; cursor: pointer; transition: 0.3s; }
+        .btn-play:hover { transform: scale(1.05); }
+        .btn-list { background: rgba(255,255,255,0.2); backdrop-filter: blur(10px); color: #fff; border: 1px solid rgba(255,255,255,0.3); padding: 14px 35px; border-radius: 30px; font-size: 16px; font-weight: 700; cursor: pointer; transition: 0.3s; }
+        .btn-list.added { background: rgba(255,255,255,0.9); color: #000; border-color: #fff; }
+
+        /* --- 5. İÇERİK SATIRLARI --- */
+        .main-content { position: relative; z-index: 20; margin-top: -60px; padding-bottom: 60px; }
+        .row-container { margin-bottom: 40px; padding: 0 5%; position: relative; }
+        .row-title { font-size: 1.4rem; font-weight: 700; color: var(--text-primary); margin-bottom: 15px; }
+        .slider-wrapper { position: relative; }
+        .slider-btn { position: absolute; top: 50%; transform: translateY(-50%); width: 45px; height: 45px; border-radius: 50%; background: rgba(0,0,0,0.6); color: white; border: 1px solid var(--glass-border); cursor: pointer; z-index: 15; display: flex; align-items: center; justify-content: center; opacity: 0; transition: 0.3s; font-size: 18px; }
+        .row-container:hover .slider-btn { opacity: 1; }
+        .slider-btn:hover { background: var(--brand-accent); color: var(--btn-text-on-accent); transform: translateY(-50%) scale(1.1); }
+        .slider-btn.left { left: -15px; }
+        .slider-btn.right { right: -15px; }
+        .scroll-wrapper { display: flex; gap: 15px; overflow-x: auto; padding-bottom: 20px; scrollbar-width: none; scroll-behavior: smooth; }
+        .scroll-wrapper::-webkit-scrollbar { display: none; }
+
+        /* --- 6. KART TASARIMI --- */
+        .card { flex: 0 0 auto; width: 200px; cursor: pointer; position: relative; transition: 0.3s; }
+        .card:hover { transform: translateY(-10px); z-index: 10; }
+        .poster { width: 100%; height: 300px; border-radius: 12px; overflow: hidden; background: var(--surface); border: 1px solid var(--glass-border); position: relative; }
+        .poster img { width: 100%; height: 100%; object-fit: cover; }
+        .card-rating { position: absolute; top: 10px; left: 10px; background: rgba(0,0,0,0.7); color: #fff; font-size: 12px; font-weight: 800; padding: 5px 8px; border-radius: 8px; z-index: 5; backdrop-filter: blur(5px); display: flex; align-items: center; gap: 4px; border: 1px solid rgba(255,255,255,0.15); }
+        .card-rating i { color: #f5c518; }
+        .card-add-btn { position: absolute; top: 10px; right: 10px; width: 32px; height: 32px; border-radius: 50%; background: rgba(0,0,0,0.6); color: white; display: flex; align-items: center; justify-content: center; z-index: 5; opacity: 1; border: 1px solid rgba(255,255,255,0.2); transition: 0.3s; backdrop-filter: blur(5px); }
+        .card-add-btn:hover { background: #fff; color: #000; transform: scale(1.1); }
+        .card-add-btn.added { background: #fff; color: #000; }
+        .card-title { margin-top: 12px; font-size: 14px; font-weight: 600; color: var(--text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .card-year { font-size: 12px; color: var(--text-secondary); margin-top: 4px; }
+
+        /* --- 7. OVERLAYS --- */
+        .overlay-menu { position: fixed; inset: 0; background: rgba(0,0,0,0.95); backdrop-filter: blur(20px); z-index: 2000; display: none; padding: 60px 5%; overflow-y: auto; }
+        .overlay-menu.active { display: flex; flex-direction: column; }
+        .grid-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 25px 15px; max-width: 1400px; margin: 0 auto; width: 100%; }
+        .overlay-close-btn { position: absolute; right: 30px; top: 30px; background: white; color: black; border: none; padding: 10px 25px; border-radius: 30px; cursor: pointer; font-weight: 800; z-index: 2001; }
+    </style>
+</head>
+<body>
+
+    <div id="preloader">
+        <div class="loader-logo">SINEO.</div>
+        <div class="loading-bar-container"><div class="loading-bar" id="loading-bar"></div></div>
+    </div>
+
+    <div class="navbar-wrapper">
+        <nav class="pill-nav">
+            <a href="index.html" class="nav-item"><i class="fas fa-home"></i> Ana Sayfa</a>
+            <a href="filmler.html" class="nav-item"><i class="fas fa-film"></i> Filmler</a>
+            <a href="diziler.html" class="nav-item active"><i class="fas fa-tv"></i> Diziler</a>
+            <a href="animeler.html" class="nav-item"><i class="fas fa-dragon"></i> Animeler</a>
+            
+            <div class="nav-divider"></div>
+            
+            <a href="#" class="nav-item" onclick="openMyList()"><i class="fas fa-list"></i> Listem</a>
+            
+            <div class="nav-divider"></div>
+            
+            <button class="nav-icon-btn" onclick="openSearch()"><i class="fas fa-search"></i></button>
+            <button class="nav-icon-btn" onclick="toggleTheme()" id="theme-icon-btn"><i class="fas fa-moon"></i></button>
+            <button class="nav-icon-btn" onclick="location.href='auth.html'">
+    <i class="fas fa-user-circle"></i>
+</button>
+        </nav>
+    </div>
+
+    <div id="search-overlay" class="overlay-menu">
+        <button class="overlay-close-btn" onclick="closeSearch()">Kapat</button>
+        <input type="text" id="searchInput" placeholder="Dizi dünyasında ara..." onkeyup="handleSearch(event)" style="width: 80%; max-width:800px; margin: 0 auto 50px; padding: 20px; background: rgba(255,255,255,0.1); border: none; color: white; border-radius: 20px; font-size: 22px; text-align: center; align-self: center;">
+        <div class="grid-container" id="search-grid"></div>
+    </div>
+
+    <div id="list-overlay" class="overlay-menu">
+        <button class="overlay-close-btn" onclick="closeMyList()">Kapat</button>
+        <h2 style="text-align:center; color:white; margin-bottom:50px; font-size: 2.5rem; font-weight: 900;">İzleme Listem</h2>
+        <div class="grid-container" id="list-grid"></div>
+    </div>
+
+    <div class="hero">
+        <div class="hero-poster" id="hero-poster"></div>
+        <div class="hero-video-wrapper" id="hero-video-wrapper"><div id="yt-player"></div></div>
+        <div class="hero-gradient"></div>
+        <div class="hero-content">
+            <h1 class="hero-title" id="hero-title">Yükleniyor...</h1>
+            <div class="hero-meta">
+                <span class="hero-imdb"><i class="fas fa-star"></i> <span id="hero-rating">--</span></span>
+                <span id="hero-year">--</span>
+                <span id="hero-genre">--</span>
+            </div>
+            <p class="hero-desc" id="hero-desc">Lütfen bekleyin...</p>
+            <div class="hero-buttons">
+                <button class="btn-play" id="hero-play"><i class="fas fa-play"></i> Oynat</button>
+                <button class="btn-list" id="hero-list-btn"><i class="fas fa-plus"></i> Listeme Ekle</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-content" id="content-rows"></div>
+
+    <script src="https://www.youtube.com/iframe_api"></script>
+    <script>
+        const API_KEY = 'f709a1ae';
+        const CORS = 'https://mac.filmolojilive.workers.dev/';
+
+        // DIZI HERO LISTESI
+        const heroSeries = [
+            { imdbID: 'tt11019134', ytID: 'uLtkt8BonwM', trTitle: 'The Last of Us', trGenre: 'Dram / Macera', trPlot: 'Salgın sonrası Joel ve Ellie\'nin tehlikeli yolculuğu.' },
+            { imdbID: 'tt0903747', ytID: 'HhesaQXLuRY', trTitle: 'Breaking Bad', trPlot: 'Bir öğretmenin uyuşturucu baronuna dönüşümü.' },
+            { imdbID: 'tt11198330', ytID: 'DotnJ7tTA34', trTitle: 'House of the Dragon', trPlot: 'Targaryen hanedanlığının iç savaşı.' },
+            { imdbID: 'tt5056980',  ytID: 'b9EkMc79ZSU', trTitle: 'Stranger Things', trPlot: 'Doğaüstü olaylarla dolu bir kasaba hikayesi.' },
+            { imdbID: 'tt11737520', ytID: 'V-mug_G0-A', trTitle: 'The Bear', trPlot: 'Genç bir şefin aile restoranı mücadelesi.' }
+        ];
+
+        let shuffledHeroes = heroSeries.sort(() => 0.5 - Math.random());
+        let currentHeroIdx = 0;
+        let ytPlayer;
+
+        const categories = [
+            { title: 'Şu An Popüler', q: '2024', type: 'series' },
+            { title: 'HBO Başyapıtları', q: 'hbo', type: 'series' },
+            { title: 'K-Drama Dünyası', q: 'korea', type: 'series' },
+            { title: 'Netflix Orijinalleri', q: 'netflix', type: 'series' },
+            { title: 'Suç & Polisiye', q: 'crime', type: 'series' },
+            { title: 'Bilim Kurgu & Uzay', q: 'space', type: 'series' },
+            { title: 'Komedi Maratonu', q: 'sitcom', type: 'series' },
+            { title: 'Marvel Dizileri', q: 'marvel', type: 'series' },
+            { title: 'Star Wars Evreni', q: 'star wars', type: 'series' },
+            { title: 'Fantastik Dünyalar', q: 'fantasy', type: 'series' },
+            { title: 'Gençlik & Dram', q: 'teen', type: 'series' },
+            { title: 'Unutulmaz Klasikler', q: 'classic', type: 'series' }
+        ];
+
+        function getHD(url) { return (url && url !== "N/A") ? url.replace('SX300', 'SX1080') : ""; }
+        function formatYear(y) { return (!y || y === "N/A") ? "Devam Ediyor" : (y.endsWith("–") ? y + "Devam Ediyor" : y); }
+        function getSavedList() { return JSON.parse(localStorage.getItem('sineo_my_list')) || []; }
+        function isSaved(imdbID) { return getSavedList().some(item => item.imdbID === imdbID); }
+
+        function hidePreloader() { 
+            const pre = document.getElementById('preloader');
+            if(pre) { pre.style.opacity = '0'; setTimeout(() => pre.style.display = 'none', 500); }
+        }
+
+        async function loadHeroDOM(heroObj) {
+            document.getElementById('hero-title').innerText = heroObj.trTitle;
+            document.getElementById('hero-desc').innerText = heroObj.trPlot;
+            const hRes = await fetch(`https://www.omdbapi.com/?i=${heroObj.imdbID}&apikey=${API_KEY}`).then(r => r.json());
+            document.getElementById('hero-poster').style.backgroundImage = `url('${CORS}${getHD(hRes.Poster)}')`;
+            document.getElementById('hero-rating').innerText = hRes.imdbRating || '8.5';
+            document.getElementById('hero-year').innerText = formatYear(hRes.Year);
+            document.getElementById('hero-genre').innerText = heroObj.trGenre;
+            document.getElementById('hero-play').onclick = () => location.href = `film-izle.html?id=${heroObj.imdbID}`;
+            
+            const btn = document.getElementById('hero-list-btn');
+            btn.innerHTML = isSaved(heroObj.imdbID) ? '<i class="fas fa-check"></i> Listede' : '<i class="fas fa-plus"></i> Listeme Ekle';
+            btn.onclick = () => toggleSave(heroObj.imdbID, heroObj.trTitle, hRes.Year, hRes.Poster, btn, true);
+        }
+
+        function onYouTubeIframeAPIReady() {
+            ytPlayer = new YT.Player('yt-player', {
+                videoId: shuffledHeroes[currentHeroIdx].ytID,
+                playerVars: { 'autoplay': 1, 'controls': 0, 'mute': 1, 'loop': 1, 'playlist': shuffledHeroes[currentHeroIdx].ytID, 'start': 3, 'vq': 'hd1080' },
+                events: {
+                    'onStateChange': (e) => { if(e.data === 1) { document.getElementById('hero-video-wrapper').style.opacity = '1'; document.getElementById('hero-poster').style.opacity = '0.3'; hidePreloader(); } },
+                    'onError': () => { 
+                        currentHeroIdx++; 
+                        if(shuffledHeroes[currentHeroIdx]) { loadHeroDOM(shuffledHeroes[currentHeroIdx]); ytPlayer.loadVideoById(shuffledHeroes[currentHeroIdx].ytID); } 
+                        else { hidePreloader(); }
+                    }
+                }
+            });
+        }
+
+        async function init() {
+            const bar = document.getElementById('loading-bar');
+            setTimeout(hidePreloader, 6000); 
+            await loadHeroDOM(shuffledHeroes[0]);
+            bar.style.width = "20%";
+            for (let i = 0; i < categories.length; i++) {
+                await fetchRow(categories[i]);
+                bar.style.width = (20 + ((i + 1) * 6.5)) + "%";
+            }
+            bar.style.width = "100%";
+        }
+
+        async function fetchRow(cat) {
+            const container = document.getElementById('content-rows');
+            const rowId = `row-${cat.q.replace(/\s+/g, '')}`;
+            container.innerHTML += `<div class="row-container"><h2 class="row-title">${cat.title}</h2><div class="slider-wrapper"><button class="slider-btn left" onclick="document.getElementById('${rowId}').scrollBy({left:-600, behavior:'smooth'})"><i class="fas fa-chevron-left"></i></button><div class="scroll-wrapper" id="${rowId}"></div><button class="slider-btn right" onclick="document.getElementById('${rowId}').scrollBy({left:600, behavior:'smooth'})"><i class="fas fa-chevron-right"></i></button></div></div>`;
+            
+            const res1 = await fetch(`https://www.omdbapi.com/?s=${cat.q}&type=${cat.type}&page=1&apikey=${API_KEY}`).then(r => r.json());
+            const res2 = await fetch(`https://www.omdbapi.com/?s=${cat.q}&type=${cat.type}&page=2&apikey=${API_KEY}`).then(r => r.json());
+            let combined = [...(res1.Search || []), ...(res2.Search || [])];
+
+            combined.forEach(m => {
+                if(m.Poster && m.Poster !== "N/A") {
+                    const icon = isSaved(m.imdbID) ? '<i class="fas fa-check"></i>' : '<i class="fas fa-plus"></i>';
+                    const displayYear = formatYear(m.Year);
+                    document.getElementById(rowId).innerHTML += `
+                        <div class="card" onclick="location.href='film-izle.html?id=${m.imdbID}'">
+                            <div class="card-rating"><i class="fas fa-star"></i> 8.5</div>
+                            <div class="card-add-btn ${isSaved(m.imdbID) ? 'added' : ''}" onclick="event.stopPropagation(); toggleSave('${m.imdbID}','${m.Title.replace(/'/g,"")}', '${displayYear}', '${m.Poster}', this)">${icon}</div>
+                            <div class="poster"><img src="${CORS}${getHD(m.Poster)}" onerror="this.closest('.card').remove()"></div>
+                            <div class="card-title">${m.Title}</div>
+                            <div class="card-year">${displayYear}</div>
+                        </div>`;
+                }
+            });
+        }
+
+        function toggleSave(id, t, y, p, btn, hero=false) {
+            let list = getSavedList();
+            const idx = list.findIndex(i => i.imdbID === id);
+            if(idx > -1) { list.splice(idx, 1); btn.innerHTML = hero ? '<i class="fas fa-plus"></i> Listeme Ekle' : '<i class="fas fa-plus"></i>'; btn.classList.remove('added'); }
+            else { list.push({imdbID:id, title:t, year:y, poster:p}); btn.innerHTML = hero ? '<i class="fas fa-check"></i> Listede' : '<i class="fas fa-check"></i>'; btn.classList.add('added'); }
+            localStorage.setItem('sineo_my_list', JSON.stringify(list));
+        }
+
+        function openSearch() { document.getElementById('search-overlay').classList.add('active'); document.getElementById('searchInput').focus(); }
+        function closeSearch() { document.getElementById('search-overlay').classList.remove('active'); }
+        function openMyList() { 
+            const list = getSavedList();
+            const grid = document.getElementById('list-grid');
+            grid.innerHTML = list.length ? "" : '<p style="color:gray; text-align:center; grid-column:1/-1;">Listeniz boş.</p>';
+            list.forEach(m => { grid.innerHTML += `<div class="card" onclick="location.href='film-izle.html?id=${m.imdbID}'"><div class="poster"><img src="${CORS}${getHD(m.poster)}"></div><div class="card-title">${m.title}</div></div>`; });
+            document.getElementById('list-overlay').classList.add('active'); 
+        }
+        function closeMyList() { document.getElementById('list-overlay').classList.remove('active'); }
+        function toggleTheme() { document.documentElement.setAttribute('data-theme', document.documentElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light'); }
+
+        let searchTimer;
+        function handleSearch(e) {
+            clearTimeout(searchTimer);
+            const q = e.target.value;
+            if(q.length > 2) {
+                searchTimer = setTimeout(async () => {
+                    const grid = document.getElementById('search-grid');
+                    grid.innerHTML = '<p style="color:white; text-align:center; grid-column:1/-1;">Aranıyor...</p>';
+                    const res = await fetch(`https://www.omdbapi.com/?s=${q}&type=series&apikey=${API_KEY}`).then(r => r.json());
+                    grid.innerHTML = '';
+                    if(res.Search) {
+                        res.Search.forEach(m => {
+                            if(m.Poster && m.Poster !== "N/A") {
+                                grid.innerHTML += `<div class="card" onclick="location.href='film-izle.html?id=${m.imdbID}'"><div class="poster"><img src="${CORS}${getHD(m.Poster)}" onerror="this.closest('.card').remove()"></div><div class="card-title">${m.Title}</div></div>`;
+                            }
+                        });
+                    } else { grid.innerHTML = '<p style="color:gray; text-align:center; grid-column:1/-1;">Sonuç yok.</p>'; }
+                }, 500);
+            }
+        }
+
+        window.onload = init;
+    </script>
+</body>
+</html>

@@ -2,551 +2,773 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <title>Animoloji</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    
-    <link rel="icon" href="anime.png" type="image/png">
+    <title>Animoloji | Sınırsız Anime Evreni</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="manifest" href="/manifest.json">
-    <script src="animeData.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
     <style>
-        /* --- TEMEL AYARLAR --- */
-        @import url('https://fonts.googleapis.com/css2?family=Exo+2:wght@400;700;900&display=swap');
+        /* =========================================
+           1. PREMIUM ANİME TEMASI
+           ========================================= */
+        :root {
+            --primary: #9146FF; 
+            --secondary: #FF4655; 
+            --bg-dark: #08080a; 
+            --bg-card: #15151a; 
+            --text-main: #ffffff;
+            --text-muted: #9aa0a6;
+            --sidebar-w: 85px;
+        }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; outline: none; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; outline: none; user-select: none; }
+        body { background-color: var(--bg-dark); color: var(--text-main); overflow-x: hidden; }
+
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: var(--bg-dark); }
+        ::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--primary); }
+
+        /* =========================================
+           2. SPA KONTROLÜ VE YÜKLEME EKRANI
+           ========================================= */
+        #preloader { position: fixed; inset: 0; background: var(--bg-dark); z-index: 99999; display: flex; align-items: center; justify-content: center; flex-direction: column; transition: 0.5s; }
+        .loader-ring { width: 60px; height: 60px; border: 4px solid rgba(255,255,255,0.1); border-top-color: var(--primary); border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 20px; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .view { display: none; opacity: 0; animation: fadeIn 0.4s ease forwards; min-height: 100vh; position: relative; padding-left: var(--sidebar-w); }
+        .view.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* =========================================
+           3. YAN MENÜ (SIDEBAR)
+           ========================================= */
+        .sidebar { position: fixed; top: 0; left: 0; width: var(--sidebar-w); height: 100vh; background: rgba(8, 8, 10, 0.95); border-right: 1px solid rgba(255,255,255,0.05); display: flex; flex-direction: column; align-items: center; padding: 30px 0; z-index: 5000; backdrop-filter: blur(10px); }
+        .logo { font-size: 28px; font-weight: 900; color: var(--primary); text-decoration: none; margin-bottom: 40px; cursor: pointer; display: flex; align-items: center; justify-content: center; width: 50px; height: 50px; background: rgba(145, 70, 255, 0.1); border-radius: 12px; }
+        .nav-links { display: flex; flex-direction: column; gap: 20px; width: 100%; }
+        .nav-item { color: var(--text-muted); font-size: 20px; display: flex; justify-content: center; align-items: center; width: 50px; height: 50px; margin: 0 auto; border-radius: 12px; cursor: pointer; transition: 0.3s; }
+        .nav-item:hover { color: #fff; background: rgba(255,255,255,0.05); transform: translateY(-3px); }
+        .nav-item.active { color: #fff; background: var(--primary); box-shadow: 0 5px 15px rgba(145, 70, 255, 0.4); }
+        .nav-bottom { margin-top: auto; }
+
+        /* =========================================
+           4. ANA SAYFA & HERO FRAGMAN
+           ========================================= */
+        .hero { position: relative; width: 100%; height: 85vh; display: flex; align-items: flex-end; padding: 0 4% 5%; background: #000; overflow: hidden; }
+        .hero-poster { position: absolute; inset: 0; background-size: cover; background-position: center 20%; z-index: 1; opacity: 0.6; transition: 1s; }
+        .hero-video-wrapper { position: absolute; top: 50%; left: 50%; width: 100vw; height: 56.25vw; min-height: 100vh; min-width: 177.77vh; transform: translate(-50%, -50%); z-index: 2; opacity: 0; transition: opacity 1.5s; pointer-events: none; }
+        .hero-video-wrapper iframe { width: 100%; height: 100%; border: none; }
+        .hero-vignette { position: absolute; inset: 0; background: linear-gradient(to top, var(--bg-dark) 0%, transparent 60%), linear-gradient(to right, var(--bg-dark) 0%, transparent 80%); z-index: 3; pointer-events: none; }
         
-        html { scroll-behavior: auto; }
-
-        body {
-            background-color: #0f0518;
-            background-image: radial-gradient(circle at 50% 0%, #2b1055 0%, #0f0518 80%);
-            color: white;
-            font-family: 'Exo 2', sans-serif;
-            overflow-x: hidden;
-            min-height: 100vh;
-        }
-
-        /* --- NAVBAR --- */
-        .anime-navbar {
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 10px 3%;
-            background: rgba(15, 5, 24, 0.95);
-            backdrop-filter: blur(15px);
-            border-bottom: 2px solid #d600ff;
-            position: sticky; top: 0; z-index: 2000;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.6);
-            height: 80px;
-            gap: 20px;
-        }
-
-        .anime-logo {
-            font-size: 24px; font-weight: 900; color: #fff; 
-            text-transform: uppercase;
-            text-shadow: 0 0 10px #d600ff;
-            cursor: pointer; letter-spacing: 1px;
-            display: flex; align-items: center; gap: 10px;
-            flex-shrink: 0; z-index: 2001;
-        }
-        .anime-logo i {
-            color: #fff; font-size: 30px;
-            text-shadow: 0 0 15px #d600ff; transition: 0.3s;
-        }
-        .anime-logo:hover i { transform: rotate(-10deg) scale(1.1); }
-
-        /* --- DESKTOP NAV GRUPLARI --- */
-        .nav-center {
-            display: flex; gap: 15px; align-items: center; flex: 1; 
-            justify-content: center; position: relative; min-width: 0;
-        }
-        .nav-right {
-            display: flex; align-items: center; gap: 15px; flex-shrink: 0; min-width: max-content;
-        }
-
-        /* HAMBURGER BUTONU (Mobilde Görünür) */
-        .menu-toggle {
-            display: none; /* Masaüstünde gizli */
-            background: none; border: none; color: white;
-            font-size: 28px; cursor: pointer; z-index: 2002;
-        }
-
-        /* --- MOBİL MENÜ OVERLAY (Yan Panel) --- */
-        .mobile-menu-overlay {
-            position: fixed; top: 0; right: -100%; /* Başlangıçta gizli */
-            width: 280px; height: 100vh;
-            background: rgba(15, 5, 24, 0.98);
-            border-left: 2px solid #d600ff;
-            backdrop-filter: blur(20px);
-            display: flex; flex-direction: column; gap: 20px;
-            padding: 80px 20px 20px 20px;
-            transition: 0.4s ease-in-out;
-            z-index: 2000;
-            box-shadow: -10px 0 30px rgba(0,0,0,0.8);
-            overflow-y: auto;
-        }
-        .mobile-menu-overlay.active { right: 0; }
-
-        /* Mobile Backdrop (Arka planı karartma) */
-        .mobile-backdrop {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.7); z-index: 1999;
-            display: none; opacity: 0; transition: opacity 0.3s;
-        }
-        .mobile-backdrop.active { display: block; opacity: 1; }
-
-
-        /* --- ORTAK BİLEŞENLER --- */
+        .hero-content { position: relative; z-index: 10; max-width: 800px; width: 100%; }
+        .hero-title { font-size: clamp(3rem, 5vw, 5rem); font-weight: 900; line-height: 1.1; margin-bottom: 15px; color: #fff; text-shadow: 0 5px 20px rgba(0,0,0,0.8); text-transform: uppercase; }
+        .hero-meta { display: flex; align-items: center; gap: 15px; margin-bottom: 20px; font-weight: 600; color: #fff; font-size: 14px; }
+        .badge { background: var(--primary); color: #fff; padding: 4px 10px; border-radius: 6px; font-weight: 800; font-size: 13px; }
+        .hero-desc { font-size: 1.1rem; color: #ccc; margin-bottom: 30px; line-height: 1.6; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; text-shadow: 0 2px 10px rgba(0,0,0,0.8); }
         
-        /* Dropdownlar */
-        .custom-select { position: relative; cursor: pointer; flex-shrink: 0; }
-        .select-btn {
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(0, 210, 255, 0.3);
-            padding: 8px 15px; border-radius: 20px;
-            color: #fff; font-size: 13px; display: flex; align-items: center; gap: 8px;
-            transition: 0.3s; white-space: nowrap;
-            width: 100%; justify-content: space-between; /* Mobilde tam genişlik */
-        }
-        .select-btn:hover { border-color: #00d2ff; box-shadow: 0 0 10px rgba(0, 210, 255, 0.3); }
+        .hero-btns { display: flex; gap: 15px; align-items: center; }
+        .btn-play { background: #fff; color: #000; border: none; padding: 14px 35px; border-radius: 8px; font-size: 16px; font-weight: 800; cursor: pointer; display: flex; align-items: center; gap: 10px; transition: 0.2s; box-shadow: 0 5px 15px rgba(255,255,255,0.2); }
+        .btn-play:hover { transform: scale(1.05); }
+        .btn-add { background: rgba(255,255,255,0.1); color: #fff; border: 1px solid rgba(255,255,255,0.2); padding: 14px 35px; border-radius: 8px; font-size: 16px; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 10px; transition: 0.2s; backdrop-filter: blur(5px); }
+        .btn-add:hover { background: rgba(255,255,255,0.2); }
+        .btn-add.saved { background: var(--secondary); border-color: var(--secondary); }
+        .btn-icon { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: #fff; width: 50px; height: 50px; border-radius: 50%; font-size: 18px; cursor: pointer; transition: 0.3s; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(5px); }
+        .btn-icon:hover { background: rgba(255,255,255,0.2); transform: scale(1.1); }
+
+        /* =========================================
+           5. KATEGORİLER VE KARTLAR
+           ========================================= */
+        .rows-container { margin-top: -60px; position: relative; z-index: 20; padding-bottom: 50px; }
+        .row { margin-bottom: 40px; }
+        .row-title { font-size: 1.4rem; font-weight: 800; color: #fff; margin-bottom: 15px; padding-left: 4%; display: flex; align-items: center; gap: 10px; }
+        .row-title i { color: var(--primary); }
         
-        .dropdown-menu {
-            position: absolute; top: 120%; left: 0;
-            background: #150a25; border: 1px solid #00d2ff;
-            border-radius: 8px; min-width: 180px; width: 100%;
-            display: none; flex-direction: column;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.8);
-            z-index: 1002; max-height: 300px; overflow-y: auto; 
-        }
-        .dropdown-menu::-webkit-scrollbar { width: 6px; }
-        .dropdown-menu::-webkit-scrollbar-thumb { background: #d600ff; border-radius: 3px; }
-        .dropdown-item { padding: 10px 15px; color: #ccc; font-size: 13px; border-bottom: 1px solid rgba(255,255,255,0.05); transition: 0.2s; }
-        .dropdown-item:hover { background: #00d2ff; color: #000; font-weight: bold; }
-        .show { display: flex !important; }
+        .row-slider { display: flex; gap: 15px; overflow-x: auto; padding: 10px 4% 30px; scrollbar-width: none; scroll-behavior: smooth; cursor: grab; }
+        .row-slider::-webkit-scrollbar { display: none; }
+        
+        .card { flex: 0 0 auto; width: 200px; position: relative; border-radius: 12px; overflow: hidden; cursor: pointer; transition: 0.3s; background: var(--bg-card); box-shadow: 0 5px 15px rgba(0,0,0,0.5); }
+        .card:hover { transform: translateY(-8px); box-shadow: 0 15px 30px rgba(145, 70, 255, 0.2); }
+        .card-poster { width: 100%; aspect-ratio: 2/3; position: relative; overflow: hidden; background: #222; }
+        .card-poster img { width: 100%; height: 100%; object-fit: cover; transition: 0.4s; }
+        .card:hover .card-poster img { filter: brightness(0.5); transform: scale(1.1); }
+        
+        .card-play { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; opacity: 0; transition: 0.3s; }
+        .card:hover .card-play { opacity: 1; }
+        .card-play i { font-size: 45px; color: #fff; text-shadow: 0 0 20px var(--primary); transition: 0.2s; }
+        .card-play i:hover { color: var(--primary); transform: scale(1.1); }
 
-        /* Arama */
-        .search-wrapper { position: relative; width: 100%; max-width: 350px; z-index: 2001; }
-        .search-input {
-            width: 100%; padding: 10px 40px 10px 15px;
-            border-radius: 25px; border: 2px solid rgba(214, 0, 255, 0.3);
-            background: rgba(255, 255, 255, 0.05);
-            color: white; font-size: 14px; outline: none; transition: 0.3s;
-        }
-        .search-input:focus { border-color: #d600ff; box-shadow: 0 0 15px rgba(214, 0, 255, 0.3); background: rgba(0,0,0,0.6); }
-        .search-icon-btn { position: absolute; right: 15px; top: 50%; transform: translateY(-50%); color: #d600ff; pointer-events: none; }
+        .card-rating { position: absolute; top: 10px; left: 10px; background: rgba(0,0,0,0.8); padding: 4px 8px; border-radius: 6px; font-size: 12px; font-weight: 800; color: #fff; display: flex; align-items: center; gap: 4px; border: 1px solid rgba(255,255,255,0.1); }
+        .card-rating i { color: #f5c518; }
+        
+        .card-add-btn { position: absolute; top: 10px; right: 10px; width: 35px; height: 35px; border-radius: 50%; background: rgba(0,0,0,0.8); color: white; display: flex; align-items: center; justify-content: center; z-index: 10; border: 1px solid rgba(255,255,255,0.3); transition: 0.3s; opacity: 0; font-size: 14px; backdrop-filter: blur(5px); }
+        .card:hover .card-add-btn { opacity: 1; }
+        .card-add-btn:hover { background: var(--primary); border-color: var(--primary); transform: scale(1.1); }
+        .card-add-btn.saved { background: var(--primary); border-color: var(--primary); color: #fff; opacity: 1; }
 
-        /* Canlı Sonuçlar */
-        .live-search-results {
-            position: absolute; top: 110%; left: 0; width: 100%;
-            background: #1a0b2e; border: 1px solid #d600ff;
-            border-radius: 10px; overflow: hidden;
-            display: none; flex-direction: column;
-            z-index: 1001; box-shadow: 0 10px 30px rgba(0,0,0,0.9);
-            max-height: 400px; overflow-y: auto;
-        }
-        .live-search-results.active { display: flex; }
-        .live-item { display: flex; align-items: center; gap: 10px; padding: 10px; cursor: pointer; border-bottom: 1px solid rgba(255,255,255,0.05); transition:0.2s;}
-        .live-item:hover { background: rgba(214, 0, 255, 0.2); }
-        .live-item img { width: 40px; height: 55px; object-fit: cover; border-radius: 4px; }
-        .live-info h4 { font-size: 14px; color: #fff; margin: 0; }
-        .live-info span { font-size: 11px; color: #aaa; }
+        .card-remove-btn { position: absolute; top: 10px; right: 10px; width: 35px; height: 35px; border-radius: 50%; background: rgba(255, 70, 85, 0.9); color: white; display: flex; align-items: center; justify-content: center; z-index: 10; border: 1px solid rgba(255,255,255,0.3); transition: 0.3s; opacity: 0; font-size: 14px; backdrop-filter: blur(5px); }
+        .card:hover .card-remove-btn { opacity: 1; }
+        .card-remove-btn:hover { background: #ff1e33; transform: scale(1.1); }
 
-        /* Butonlar */
-        .request-btn {
-            background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(214, 0, 255, 0.5);
-            padding: 8px 15px; border-radius: 20px; color: #fff; font-size: 13px; 
-            display: flex; align-items: center; gap: 8px; transition: 0.3s; cursor: pointer; flex-shrink: 0;
-            justify-content: center; /* Mobil için */
-        }
-        .request-btn:hover { background: rgba(214, 0, 255, 0.2); box-shadow: 0 0 15px rgba(214, 0, 255, 0.4); border-color: #d600ff; }
-        .request-btn i { color: #d600ff; }
+        .card-info { padding: 12px; }
+        .c-title { font-size: 14px; font-weight: 700; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 4px; }
+        .c-meta { font-size: 12px; color: var(--text-muted); font-weight: 500; }
 
-        .return-btn {
-            text-decoration: none; color: #00d2ff; border: 1px solid #00d2ff;
-            padding: 8px 20px; border-radius: 4px; font-weight: bold;
-            transition: 0.3s; text-transform: uppercase; font-size: 14px;
-            display: flex; align-items: center; gap: 8px; white-space: nowrap; flex-shrink: 0;
-            justify-content: center; /* Mobil için */
-        }
-        .return-btn:hover { background: #00d2ff; color: #000; box-shadow: 0 0 15px #00d2ff; }
+        /* =========================================
+           6. DETAYLAR EKRANI
+           ========================================= */
+        .details-bg { position: absolute; inset: 0; background-size: cover; background-position: center; filter: blur(20px) brightness(0.2); z-index: -1; }
+        .details-content { padding: 80px 4% 50px; display: flex; gap: 50px; max-width: 1400px; margin: 0 auto; align-items: flex-start; }
+        .d-poster { width: 320px; flex-shrink: 0; border-radius: 16px; box-shadow: 0 20px 50px rgba(0,0,0,0.8); border: 2px solid rgba(255,255,255,0.05); }
+        .d-info { flex: 1; padding-top: 20px; }
+        .d-title { font-size: clamp(2.5rem, 4vw, 4rem); font-weight: 900; margin-bottom: 15px; line-height: 1.1; color: #fff; text-transform: uppercase; }
+        .d-meta { display: flex; gap: 15px; margin-bottom: 25px; font-size: 15px; font-weight: 600; color: var(--text-muted); align-items: center; flex-wrap: wrap; }
+        .d-tag { background: rgba(255,255,255,0.05); padding: 6px 12px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.1); color: #fff; }
+        .d-plot { font-size: 1.1rem; line-height: 1.7; color: #ddd; margin-bottom: 40px; max-width: 800px; font-weight: 300; }
+        .d-crew { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-top: 40px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 30px; }
+        .crew-item span { display: block; font-size: 12px; color: var(--primary); font-weight: 800; text-transform: uppercase; margin-bottom: 5px; }
+        .crew-item p { font-size: 15px; color: #fff; font-weight: 500; }
 
-        /* --- HERO BÖLÜMÜ --- */
-        .hero-section {
-            position: relative; width: 100%; height: 60vh;
-            display: flex; align-items: flex-end; padding-bottom: 60px;
-            overflow: hidden; margin-bottom: 40px;
-            border-bottom: 4px solid #d600ff;
-            background: #000;
-        }
-        .hero-bg {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background-size: cover; background-position: center center; background-repeat: no-repeat;
-            mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 60%, rgba(0,0,0,0) 100%);
-            -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 60%, rgba(0,0,0,0) 100%);
-            z-index: 1; opacity: 0.7; transition: 0.5s;
-        }
-        .hero-content { position: relative; z-index: 5; padding-left: 5%; width: 100%; max-width: 800px; }
-        .badge { background: #d600ff; color: #fff; padding: 5px 12px; font-size: 12px; font-weight: bold; border-radius: 2px; display: inline-block; margin-bottom: 15px; box-shadow: 0 0 10px #d600ff; letter-spacing: 1px; }
-        .hero-title { font-size: 3.5rem; line-height: 1; margin-bottom: 15px; text-shadow: 3px 3px 0 #2b1055, 0 0 20px rgba(214, 0, 255, 0.5); }
-        .hero-desc { font-size: 1.1rem; color: #ccc; margin-bottom: 25px; max-width: 600px; line-height: 1.5; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
-        .play-btn { background: #d600ff; color: white; border: none; padding: 12px 40px; font-size: 18px; font-weight: bold; border-radius: 4px; cursor: pointer; display: inline-flex; align-items: center; gap: 10px; clip-path: polygon(10% 0, 100% 0, 100% 80%, 90% 100%, 0 100%, 0 20%); transition: 0.3s; }
-        .play-btn:hover { background: #f05aff; transform: scale(1.05); box-shadow: 0 0 20px #d600ff; }
+        /* =========================================
+           7. OYNATICI (PLAYER) & BÖLÜM SEÇİCİ
+           ========================================= */
+        #view-player { padding-left: 0; display: none; flex-direction: column; background: #000; z-index: 9000; position: fixed; inset: 0; }
+        #view-player.active { display: flex; }
+        
+        .player-header { padding: 20px 30px; display: flex; justify-content: space-between; align-items: center; background: #0b0c10; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .back-btn { color: #fff; font-size: 15px; cursor: pointer; display: flex; align-items: center; gap: 10px; font-weight: 600; transition: 0.2s; padding: 8px 15px; background: rgba(255,255,255,0.05); border-radius: 8px; }
+        .back-btn:hover { background: rgba(255,255,255,0.1); color: var(--primary); }
+        .p-title { font-weight: 800; color: #fff; font-size: 16px; display: flex; align-items: center; gap: 10px; }
+        .p-title span { color: var(--primary); }
 
-        /* --- GRID LİSTE --- */
-        .container { padding: 0 5% 50px 5%; }
-        .section-header { font-size: 24px; font-weight: bold; margin-bottom: 25px; display: flex; align-items: center; gap: 10px; color: #00d2ff; text-shadow: 0 0 10px rgba(0, 210, 255, 0.4); }
-        .anime-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 25px; }
-        .anime-card { background: #150a25; border-radius: 8px; overflow: hidden; position: relative; transition: 0.3s; cursor: pointer; border: 1px solid rgba(255,255,255,0.05); }
-        .anime-card:hover { transform: translateY(-10px); box-shadow: 0 0 20px rgba(214, 0, 255, 0.3); border-color: #d600ff; }
-        .poster-wrapper { width: 100%; height: 260px; overflow: hidden; position: relative; }
-        .poster-wrapper img { width: 100%; height: 100%; object-fit: cover; transition: 0.4s; }
-        .anime-card:hover .poster-wrapper img { transform: scale(1.1); }
-        .card-info { padding: 15px; position: relative; z-index: 2; }
-        .card-title { font-size: 15px; font-weight: 700; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .card-meta { display: flex; justify-content: space-between; margin-top: 8px; font-size: 12px; color: #aaa; }
-        .rating { color: #ffd700; font-weight: bold; }
+        .player-body { display: flex; flex: 1; overflow: hidden; }
+        .iframe-container { flex: 1; background: #000; position: relative; }
+        .iframe-container iframe { width: 100%; height: 100%; border: none; }
+        
+        .player-sidebar { width: 350px; background: var(--bg-card); display: flex; flex-direction: column; border-left: 1px solid rgba(255,255,255,0.05); overflow-y: auto; }
+        .panel-section { padding: 20px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .panel-title { font-size: 14px; font-weight: 800; color: var(--text-muted); text-transform: uppercase; margin-bottom: 15px; display: flex; align-items: center; gap: 8px; }
+        
+        .season-dropdown { width: 100%; background: rgba(0,0,0,0.5); color: #fff; border: 1px solid rgba(255,255,255,0.1); padding: 12px; border-radius: 8px; margin-bottom: 15px; font-size: 14px; font-weight: 600; cursor: pointer; outline: none; }
+        .episodes-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; max-height: 300px; overflow-y: auto; padding-right: 5px; }
+        .episodes-grid::-webkit-scrollbar { width: 4px; }
+        .ep-btn { background: rgba(255,255,255,0.05); border: 1px solid transparent; color: #ccc; padding: 10px 0; border-radius: 6px; cursor: pointer; font-weight: 700; font-size: 13px; transition: 0.2s; }
+        .ep-btn:hover { background: rgba(255,255,255,0.1); color: #fff; }
+        .ep-btn.active { background: var(--primary); color: #fff; box-shadow: 0 0 10px rgba(145, 70, 255, 0.4); border-color: var(--primary); }
 
-        /* --- İSTEK KUTUSU --- */
-        .suggestion-section-wrapper { width: 100%; display: flex; justify-content: center; padding: 40px 20px; margin-top: 50px; background: rgba(0,0,0,0.3); border-top: 1px solid rgba(214,0,255,0.1); }
-        .suggestion-section { width: 100%; max-width: 800px; background: rgba(21, 10, 37, 0.8); border: 1px solid #d600ff; border-radius: 15px; padding: 30px; text-align: center; backdrop-filter: blur(10px); box-shadow: 0 0 30px rgba(214, 0, 255, 0.15); }
-        .suggestion-section h3 { color: #fff; margin-bottom: 20px; font-size: 1.8rem; text-shadow: 0 0 10px #d600ff; }
-        .form-group { margin-bottom: 15px; }
-        .form-control { width: 100%; padding: 12px; background: rgba(0,0,0,0.4); border: 1px solid rgba(214, 0, 255, 0.3); color: white; border-radius: 8px; font-family: 'Exo 2', sans-serif; font-size: 14px; transition: 0.3s; }
-        .form-control:focus { border-color: #d600ff; box-shadow: 0 0 10px rgba(214, 0, 255, 0.3); background: rgba(0,0,0,0.6); }
-        select.form-control option { background-color: #0f0518; color: white; }
-        textarea.form-control { min-height: 100px; resize: vertical; }
-        .btn-submit { width: 100%; padding: 12px; background: #d600ff; color: white; border: none; border-radius: 50px; font-weight: bold; font-size: 16px; cursor: pointer; transition: 0.3s; box-shadow: 0 0 15px rgba(214, 0, 255, 0.4); display: inline-flex; align-items: center; justify-content: center; gap: 10px; }
-        .btn-submit:hover { background: #f05aff; transform: scale(1.02); box-shadow: 0 0 25px rgba(214, 0, 255, 0.6); }
+        .servers-grid { display: flex; flex-direction: column; gap: 8px; }
+        .srv-btn { background: rgba(0,0,0,0.3); color: #fff; border: 1px solid rgba(255,255,255,0.1); padding: 12px 15px; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 13px; text-align: left; display: flex; align-items: center; justify-content: space-between; transition: 0.2s; }
+        .srv-btn:hover { background: rgba(255,255,255,0.05); }
+        .srv-btn.active { background: var(--primary); border-color: var(--primary); box-shadow: 0 0 15px rgba(145, 70, 255, 0.3); }
 
-        /* --- MEDIA QUERY (MOBİL UYUM) --- */
-        @media (max-width: 1000px) {
-            /* Masaüstü Nav Elemanlarını Gizle */
-            .nav-center, .nav-right { display: none; }
-            /* Hamburger Menü Butonunu Göster */
-            .menu-toggle { display: block; }
-            
-            .hero-title { font-size: 2rem; }
-            .hero-section { height: 50vh; }
-            .anime-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 15px; }
-            .poster-wrapper { height: 200px; }
-            .anime-navbar { padding: 10px 5%; }
+        /* =========================================
+           8. ARAMA VE OVERLAY EKRANLARI
+           ========================================= */
+        .overlay { position: fixed; inset: 0; background: rgba(11, 12, 16, 0.98); z-index: 6000; padding: 80px 4% 50px var(--sidebar-w); display: none; overflow-y: auto; opacity: 0; animation: fadeIn 0.3s forwards; }
+        .overlay.active { display: block; }
+        
+        .btn-close-overlay { position: fixed; top: 25px; right: 4%; background: rgba(255, 70, 85, 0.1); border: 1px solid var(--secondary); color: var(--secondary); padding: 10px 20px; border-radius: 8px; font-weight: 700; font-size: 16px; cursor: pointer; display: flex; align-items: center; gap: 10px; transition: 0.3s; z-index: 6001; }
+        .btn-close-overlay:hover { background: var(--secondary); color: #fff; transform: scale(1.05); box-shadow: 0 5px 15px rgba(255, 70, 85, 0.4); }
+
+        .overlay-header { max-width: 1000px; margin: 0 auto 40px; position: relative; }
+        .search-box { width: 100%; display: flex; align-items: center; background: var(--bg-card); border: 2px solid rgba(255,255,255,0.1); border-radius: 16px; padding: 15px 25px; transition: 0.3s; }
+        .search-box:focus-within { border-color: var(--primary); box-shadow: 0 0 20px rgba(145, 70, 255, 0.2); }
+        .search-box input { flex: 1; background: transparent; border: none; color: #fff; font-size: 22px; font-weight: 600; padding-left: 15px; }
+        
+        .grid-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 30px 15px; max-width: 1200px; margin: 0 auto; }
+        .msg-text { color: var(--text-muted); text-align: center; font-size: 1.2rem; font-weight: 500; margin-top: 50px; grid-column: 1/-1; }
+
+        @media (max-width: 900px) {
+            :root { --sidebar-w: 0px; }
+            .sidebar { width: 100%; height: 65px; flex-direction: row; justify-content: space-around; padding: 0 10px; top: auto; bottom: 0; border-right: none; border-top: 1px solid rgba(255,255,255,0.05); }
+            .logo, .nav-bottom { display: none; }
+            .nav-links { flex-direction: row; justify-content: space-around; }
+            .view { padding-bottom: 70px; }
+            .hero { height: 75vh; }
+            .hero-title { font-size: 2.5rem; }
+            .details-content { flex-direction: column; align-items: center; text-align: center; }
+            .d-poster { width: 250px; }
+            .d-meta, .hero-btns { justify-content: center; flex-wrap: wrap; }
+            .player-body { flex-direction: column; }
+            .iframe-container { height: 40vh; flex: none; }
+            .player-sidebar { width: 100%; flex: 1; border-left: none; border-top: 1px solid rgba(255,255,255,0.05); }
+            .overlay { padding-left: 4%; }
+            .btn-close-overlay { top: 15px; right: 15px; padding: 8px 15px; font-size: 14px; position: absolute; }
         }
     </style>
 </head>
 <body>
 
-    <nav class="anime-navbar">
-        <div class="anime-logo" onclick="forceReload()">
-            <i class="fas fa-dragon"></i> ANİMOLOJİ
-        </div>
+    <div id="preloader">
+        <div class="loader-ring"></div>
+        <h2 style="font-weight: 900; letter-spacing: 2px;">ANIMOLOJI</h2>
+    </div>
 
-        <div class="nav-center">
-            <div class="custom-select" id="category-dropdown">
-                <div class="select-btn" onclick="toggleDropdown('cat-list')">
-                    <i class="fas fa-layer-group"></i> <span id="selected-cat">Kategoriler</span> <i class="fas fa-caret-down"></i>
+    <aside class="sidebar">
+        <a onclick="goHome()" class="logo">A.</a>
+        <div class="nav-links">
+            <a onclick="goHome()" class="nav-item active" id="nav-home" title="Keşfet"><i class="fas fa-compass"></i></a>
+            <a onclick="openSearch()" class="nav-item" title="Ara"><i class="fas fa-search"></i></a>
+            <a onclick="openMyList()" class="nav-item" title="Listem"><i class="fas fa-bookmark"></i></a>
+        </div>
+        <div class="nav-bottom">
+            <a href="auth.html" class="nav-item" title="Profil"><i class="fas fa-user"></i></a>
+        </div>
+    </aside>
+
+    <main id="view-home" class="view active">
+        <section class="hero">
+            <div class="hero-poster" id="hero-poster"></div>
+            <div class="hero-video-wrapper" id="hero-video-wrapper">
+                <div id="yt-player"></div>
+            </div>
+            <div class="hero-vignette"></div>
+            
+            <div class="hero-content">
+                <h1 class="hero-title" id="hero-title">Yükleniyor...</h1>
+                <div class="hero-meta">
+                    <span class="badge"><i class="fas fa-star"></i> <span id="hero-rating">--</span></span>
+                    <span id="hero-year">--</span>
+                    <span id="hero-genre">--</span>
                 </div>
-                <div class="dropdown-menu" id="cat-list">
-                    <div class="dropdown-item active" onclick="selectCategory('all', 'Tümü')">Tümü</div>
+                <p class="hero-desc" id="hero-desc">Lütfen bekleyin...</p>
+                <div class="hero-btns">
+                    <button class="btn-play" id="hero-play"><i class="fas fa-play"></i> İncele & İzle</button>
+                    <button class="btn-add" id="hero-list"><i class="fas fa-plus"></i> Listem</button>
+                    <button class="btn-icon" id="hero-mute-btn" onclick="toggleHeroMute()" title="Sesi Aç/Kapat"><i class="fas fa-volume-mute"></i></button>
                 </div>
             </div>
+        </section>
 
-            <div class="search-wrapper">
-                <input type="text" class="search-input" id="search-input" placeholder="İçerik ara..." autocomplete="off">
-                <i class="fas fa-search search-icon-btn"></i>
-                <div class="live-search-results" id="live-results"></div>
-            </div>
+        <section class="rows-container" id="rows-container"></section>
+    </main>
 
-            <div class="custom-select" id="sort-dropdown">
-                <div class="select-btn" onclick="toggleDropdown('sort-list')">
-                    <i class="fas fa-sort-amount-down"></i> <span id="selected-sort">Sıralama</span> <i class="fas fa-caret-down"></i>
+    <main id="view-details" class="view">
+        <div class="details-bg" id="d-bg"></div>
+        <div class="details-content">
+            <img class="d-poster" id="d-poster" src="" alt="Poster">
+            <div class="d-info">
+                <h1 class="d-title" id="d-title">Yükleniyor...</h1>
+                <div class="d-meta">
+                    <span class="badge"><i class="fas fa-star"></i> <span id="d-rating">--</span></span>
+                    <span class="d-tag" id="d-year">--</span>
+                    <span class="d-tag" id="d-runtime">--</span>
+                    <span class="d-tag" id="d-type" style="color:var(--primary); font-weight:800;">--</span>
                 </div>
-                <div class="dropdown-menu" id="sort-list">
-                    <div class="dropdown-item" onclick="selectSort('newest', 'En Yeni')"><i class="fas fa-calendar-plus"></i> En Yeni</div>
-                    <div class="dropdown-item" onclick="selectSort('oldest', 'En Eski')"><i class="fas fa-history"></i> En Eski</div>
-                    <div class="dropdown-item" onclick="selectSort('rating_high', 'Puan (Yüksek)')"><i class="fas fa-star"></i> Puan (Yüksek)</div>
-                    <div class="dropdown-item" onclick="selectSort('rating_low', 'Puan (Düşük)')"><i class="fas fa-star-half-alt"></i> Puan (Düşük)</div>
-                    <div class="dropdown-item" onclick="selectSort('az', 'İsim (A-Z)')"><i class="fas fa-font"></i> İsim (A-Z)</div>
+                <p class="d-plot" id="d-plot">Veriler çekiliyor...</p>
+                
+                <div class="hero-btns" style="margin-bottom: 40px;">
+                    <button class="btn-play" id="d-play-btn"><i class="fas fa-play"></i> Oynatıcıyı Aç</button>
+                    <button class="btn-add" id="d-list-btn"><i class="fas fa-plus"></i> Listeme Ekle</button>
+                    <button class="btn-add" id="d-trailer-btn" style="border-color: var(--secondary); color: var(--secondary);"><i class="fab fa-youtube"></i> Fragman</button>
+                </div>
+
+                <div class="d-crew">
+                    <div class="crew-item"><span>Yönetmen / Yaratıcı</span><p id="d-director">--</p></div>
+                    <div class="crew-item"><span>Seslendirmenler</span><p id="d-actors">--</p></div>
+                    <div class="crew-item"><span>Tür</span><p id="d-genre">--</p></div>
+                    <div class="crew-item"><span>Dil / Ülke</span><p id="d-lang">--</p></div>
                 </div>
             </div>
         </div>
+    </main>
 
-        <div class="nav-right">
-            <div class="request-btn" onclick="scrollToSuggestions()">
-                <i class="fas fa-paper-plane"></i> <span>İstek & Öneri</span>
-            </div>
-            <a href="index.html" class="return-btn"><i class="fas fa-arrow-left"></i> Filmoloji</a>
-        </div>
-
-        <button class="menu-toggle" onclick="toggleMobileMenu()">
-            <i class="fas fa-bars"></i>
-        </button>
-    </nav>
-
-    <div class="mobile-backdrop" id="mobile-backdrop" onclick="toggleMobileMenu()"></div>
-    <div class="mobile-menu-overlay" id="mobile-menu">
-        <div class="search-wrapper" style="width:100%; max-width:none;">
-            <input type="text" class="search-input" id="mobile-search-input" placeholder="Anime ara..." autocomplete="off">
-            <i class="fas fa-search search-icon-btn"></i>
-            <div class="live-search-results" id="mobile-live-results"></div>
-        </div>
-
-        <div class="custom-select">
-            <div class="select-btn" onclick="toggleDropdown('mob-cat-list')">
-                <i class="fas fa-layer-group"></i> <span id="mob-selected-cat">Kategoriler</span> <i class="fas fa-caret-down"></i>
-            </div>
-            <div class="dropdown-menu" id="mob-cat-list" style="position:relative; top:0; margin-top:5px;">
-                <div class="dropdown-item active" onclick="selectCategory('all', 'Tümü'); toggleMobileMenu()">Tümü</div>
-            </div>
-        </div>
-
-        <div class="custom-select">
-            <div class="select-btn" onclick="toggleDropdown('mob-sort-list')">
-                <i class="fas fa-sort-amount-down"></i> <span id="mob-selected-sort">Sıralama</span> <i class="fas fa-caret-down"></i>
-            </div>
-            <div class="dropdown-menu" id="mob-sort-list" style="position:relative; top:0; margin-top:5px;">
-                <div class="dropdown-item" onclick="selectSort('newest', 'En Yeni'); toggleMobileMenu()">En Yeni</div>
-                <div class="dropdown-item" onclick="selectSort('oldest', 'En Eski'); toggleMobileMenu()">En Eski</div>
-                <div class="dropdown-item" onclick="selectSort('rating_high', 'Puan (Yüksek)'); toggleMobileMenu()">Puan Yüksek</div>
-                <div class="dropdown-item" onclick="selectSort('rating_low', 'Puan (Düşük)'); toggleMobileMenu()">Puan Düşük</div>
-                <div class="dropdown-item" onclick="selectSort('az', 'İsim (A-Z)'); toggleMobileMenu()">A-Z</div>
-            </div>
-        </div>
-
-        <div class="request-btn" onclick="scrollToSuggestions(); toggleMobileMenu()">
-            <i class="fas fa-paper-plane"></i> <span>İstek & Öneri</span>
+    <main id="view-player" class="view">
+        <div class="player-header">
+            <div class="back-btn" onclick="closePlayer()"><i class="fas fa-arrow-left"></i> Detaylara Dön</div>
+            <div class="p-title" id="p-title">Oynatılıyor <span id="p-badge" style="color:var(--primary); margin-left:10px; font-size:14px;"></span></div>
+            <div style="width: 100px;"></div>
         </div>
         
-        <a href="index.html" class="return-btn">
-            <i class="fas fa-arrow-left"></i> Filmoloji
-        </a>
-    </div>
-
-    <div class="hero-section">
-        <div class="hero-bg" id="hero-bg"></div>
-        <div class="hero-content">
-            <span class="badge">HAFTANIN ÖNERİSİ</span>
-            <h1 class="hero-title" id="hero-title">Yükleniyor...</h1>
-            <p class="hero-desc" id="hero-desc">Veriler veritabanından çekiliyor...</p>
-            <button class="play-btn" id="hero-btn"><i class="fas fa-play"></i> İZLE</button>
-        </div>
-    </div>
-
-    <div class="container">
-        <div class="section-header">
-            <i class="fas fa-bolt"></i> 
-            <span id="grid-title">Tüm İçerikler</span> 
-            <span style="font-size: 14px; color: #666; margin-left: 10px;" id="count-label"></span>
-        </div>
-        <div class="anime-grid" id="anime-grid"></div>
-    </div>
-
-    <div class="suggestion-section-wrapper" id="suggestions">
-        <div class="suggestion-section">
-            <h3><i class="fas fa-paper-plane"></i> İstek & Öneri Kutusu</h3>
-            <form action="https://formspree.io/f/myzoeepz" method="POST">
-                <div class="form-group"><input type="text" name="Gonderen" class="form-control" placeholder="Adınız (İsteğe bağlı)"></div>
-                <div class="form-group">
-                    <select name="Konu" class="form-control">
-                        <option>Anime İsteği</option><option>Bölüm Açılmıyor / Hata</option><option>Çeviri Hatası</option><option>Diğer</option>
-                    </select>
+        <div class="player-body">
+            <div class="iframe-container">
+                <iframe id="main-player" frameborder="0" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true" allow="autoplay; fullscreen"></iframe>
+            </div>
+            
+            <div class="player-sidebar">
+                <div class="panel-section" id="episode-selector-section" style="display:none;">
+                    <div class="panel-title"><i class="fas fa-list-ol"></i> Sezon & Bölümler</div>
+                    <select id="season-select" class="season-dropdown" onchange="changeSeason(this.value)"></select>
+                    <div class="episodes-grid" id="episodes-list"></div>
                 </div>
-                <div class="form-group"><textarea name="Mesaj" class="form-control" placeholder="Mesajınızı buraya yazın..." required></textarea></div>
-                <button type="submit" class="btn-submit"><i class="fas fa-paper-plane"></i> GÖNDER</button>
-            </form>
+
+                <div class="panel-section">
+                    <div class="panel-title"><i class="fas fa-server"></i> Kaynaklar (Sunucular)</div>
+                    <div class="servers-grid" id="servers-panel"></div>
+                </div>
+            </div>
         </div>
+    </main>
+
+    <div id="search-overlay" class="overlay">
+        <button class="btn-close-overlay" onclick="closeSearch()"><i class="fas fa-times"></i> Kapat</button>
+        <div class="overlay-header">
+            <div class="search-box">
+                <i class="fas fa-search" style="color:var(--primary); font-size:24px;"></i>
+                <input type="text" id="searchInput" placeholder="Anime, film veya karakter adını tam yazın..." onkeyup="handleSearch(event)">
+            </div>
+        </div>
+        <div class="grid-container" id="search-grid"></div>
+    </div>
+
+    <div id="list-overlay" class="overlay">
+        <button class="btn-close-overlay" onclick="closeMyList()"><i class="fas fa-times"></i> Kapat</button>
+        <div class="overlay-header">
+            <h2 style="font-size: 2.5rem; font-weight: 900; color: #fff;">İzleme <span style="color:var(--primary);">Listem</span></h2>
+        </div>
+        <div class="grid-container" id="list-grid"></div>
     </div>
 
     <script>
-        // --- KORUMA VE KISAYOL ENGELLEME MANTIĞI ---
-
-// (1) Sağ Tık ve Sürüklemeyi Engelleme
-document.addEventListener('contextmenu', event => event.preventDefault());
-
-// (2) Klavye Kısayollarını Engelleme (F12, Ctrl+Shift+I, Ctrl+U, Ctrl+S)
-document.onkeydown = function(e) {
-    // F12 Engeli
-    if (e.keyCode == 123) return false;
-
-    // Ctrl + (U, S) Engeli
-    if (e.ctrlKey && (e.keyCode == 'U'.charCodeAt(0) || e.keyCode == 'S'.charCodeAt(0))) {
-        return false;
-    }
-
-    // Ctrl + Shift + (I, C, J) Engeli
-    if (e.ctrlKey && e.shiftKey && (e.keyCode == 'I'.charCodeAt(0) || e.keyCode == 'C'.charCodeAt(0) || e.keyCode == 'J'.charCodeAt(0))) {
-        return false;
-    }
+        window.ytApiReady = false;
+        function onYouTubeIframeAPIReady() {
+            window.ytApiReady = true;
+        }
+    </script>
+    <script src="https://www.youtube.com/iframe_api"></script>
     
-    // (Ayrıca, tarayıcının resim sürükleme özelliğini CSS ile engellemek daha temizdir, onu da aşağıda belirtiyorum.)
-};
-        // Scroll Reset
-        if ('scrollRestoration' in history) { history.scrollRestoration = 'manual'; }
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-        let activeCategory = 'all';
-        let activeSort = 'newest';
-
-        window.onload = function() {
-            window.scrollTo(0, 0);
-            if (typeof DATABASE === 'undefined') { alert("Hata: Veritabanı bulunamadı!"); return; }
-            initCategories();
-            initHero();
-            filterAndSort();
-            setTimeout(() => { document.documentElement.style.scrollBehavior = 'smooth'; }, 500);
-
-            document.addEventListener('click', function(e) {
-                if (!e.target.closest('.custom-select')) {
-                    document.querySelectorAll('.dropdown-menu').forEach(m => {
-                        // Mobil menü içindeki statik dropdownları kapatma
-                        if(m.id !== 'mob-cat-list' && m.id !== 'mob-sort-list') m.classList.remove('show');
-                    });
-                }
-                if (!e.target.closest('.search-wrapper')) {
-                    document.querySelectorAll('.live-search-results').forEach(r => r.classList.remove('show'));
-                }
-            });
+        const firebaseConfig = {
+            apiKey: "AIzaSyBoBncXwy7XkVVFyl3apBkVZOKljEu52ng",
+            authDomain: "sineo-app.firebaseapp.com",
+            projectId: "sineo-app",
+            storageBucket: "sineo-app.firebasestorage.app",
+            messagingSenderId: "646631390711",
+            appId: "1:646631390711:web:58b7048964b2aa6e6742f2"
         };
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
 
-        function forceReload() { window.location.href = 'animoloji.html'; }
-        function scrollToSuggestions() { document.getElementById('suggestions').scrollIntoView({ behavior: 'smooth' }); }
+        const API_KEY = 'f709a1ae'; 
+        const CORS = 'https://mac.filmolojilive.workers.dev/';
 
-        // Mobil Menü Aç/Kapa
-        function toggleMobileMenu() {
-            const menu = document.getElementById('mobile-menu');
-            const backdrop = document.getElementById('mobile-backdrop');
-            menu.classList.toggle('active');
-            backdrop.classList.toggle('active');
+        const SERVERS = [
+            { name: "VidSrc.me", icon: "fa-server", getUrl: (id, s, e, t) => t==='movie' ? `https://vidsrc.me/embed/movie?imdb=${id}` : `https://vidsrc.me/embed/tv?imdb=${id}&season=${s}&episode=${e}` },
+            { name: "MultiEmbed", icon: "fa-layer-group", getUrl: (id, s, e, t) => t==='movie' ? `https://multiembed.mov/?video_id=${id}` : `https://multiembed.mov/?video_id=${id}&s=${s}&e=${e}` },
+            { name: "VidSrc.to (VIP)", icon: "fa-crown", getUrl: (id, s, e, t) => t==='movie' ? `https://vidsrc.to/embed/movie/${id}` : `https://vidsrc.to/embed/tv/${id}/${s}/${e}` },
+            { name: "VidLink (Hızlı)", icon: "fa-bolt", getUrl: (id, s, e, t) => t==='movie' ? `https://vidlink.pro/movie/${id}` : `https://vidlink.pro/tv/${id}/${s}/${e}` },
+            { name: "Embed.su", icon: "fa-tv", getUrl: (id, s, e, t) => t==='movie' ? `https://embed.su/embed/movie/${id}` : `https://embed.su/embed/tv/${id}/${s}/${e}` },
+            { name: "AutoEmbed", icon: "fa-robot", getUrl: (id, s, e, t) => t==='movie' ? `https://autoembed.to/movie/imdb/${id}` : `https://autoembed.to/tv/imdb/${id}-${s}-${e}` },
+            { name: "SmashyStream", icon: "fa-play-circle", getUrl: (id, s, e, t) => t==='movie' ? `https://embed.smashystream.com/playere.php?imdb=${id}` : `https://embed.smashystream.com/playere.php?imdb=${id}&season=${s}&episode=${e}` },
+            { name: "Noxx", icon: "fa-compact-disc", getUrl: (id, s, e, t) => t==='movie' ? `https://noxx.to/embed/movie/${id}` : `https://noxx.to/embed/tv/${id}/${s}/${e}` }
+        ];
+
+        // Telifsiz ve Sorunsuz Resmi Fragman ID'leri
+        const HEROES = [
+            { imdbID: 'tt2560140', ytID: 'MGRm4IzK1SQ', trTitle: 'Attack on Titan', type: 'series', fallbackPoster: 'https://m.media-amazon.com/images/M/MV5BNDFjYTIxZjctYTQ2ZC00OTEzLTk3NDMtNmZiMjdjNDQwODg5XkEyXkFqcGdeQXVyNjAwNDUxODI@._V1_SX1080.jpg', fallbackPlot: "İnsanlığın devlere karşı verdiği son büyük hayatta kalma savaşı." },
+            { imdbID: 'tt12343534', ytID: 'V1Z_90e5o7g', trTitle: 'Jujutsu Kaisen', type: 'series', fallbackPoster: 'https://m.media-amazon.com/images/M/MV5BNGY4MTg3NzgtNjAwMC00ZTAyLWI5NDYtYjRhYWE0NzczZWJkXkEyXkFqcGdeQXVyMTA1NjQyNjkw._V1_SX1080.jpg', fallbackPlot: "Lanetlerle dolu bir dünyada büyücülerin amansız mücadelesi." },
+            { imdbID: 'tt11032374', ytID: 'VQGCKyvzIM4', trTitle: 'Demon Slayer', type: 'series', fallbackPoster: 'https://m.media-amazon.com/images/M/MV5BZjZjNzI5MDctY2Y4YS00NmM4LTljMTItZTFkOTExZTNhYTJhXkEyXkFqcGdeQXVyODMyNTM0MjM@._V1_SX1080.jpg', fallbackPlot: "Tanjiro'nun iblislere karşı verdiği intikam hikayesi." },
+            { imdbID: 'tt0877057', ytID: 'NlJZ-YgAt-c', trTitle: 'Death Note', type: 'series', fallbackPoster: 'https://m.media-amazon.com/images/M/MV5BODkzMjhjYTQtYmQyOS00NmZlLTg3Y2UtYjkzN2JkNmRjY2FhXkEyXkFqcGdeQXVyNTM4MDQ5NDc@._V1_SX1080.jpg', fallbackPlot: "Sahibine, ismini yazdığı kişiyi öldürme gücü veren defterin korkunç hikayesi." }
+        ];
+        let currentHeroIdx = Math.floor(Math.random() * HEROES.length);
+
+        const CATEGORIES = [
+            { title: "Efsanevi Shounen Serileri", q: "naruto,bleach,one piece,dragon ball", type: "series" },
+            { title: "Gündemdeki Animeler", q: "jujutsu kaisen,demon slayer,frieren,solo leveling", type: "series" },
+            { title: "Anime Filmleri (Başyapıtlar)", q: "spirited away,your name,howl's moving,suzume", type: "movie" },
+            { title: "Karanlık ve Psikolojik", q: "death note,evangelion,monster,tokyo ghoul", type: "series" },
+            { title: "Kılıç ve Büyü (İsekai)", q: "sword art online,shield hero,re:zero,overlord", type: "series" }
+        ];
+
+        const trDict = { "Action": "Aksiyon", "Adventure": "Macera", "Animation": "Anime", "Comedy": "Komedi", "Crime": "Suç", "Drama": "Dram", "Fantasy": "Fantastik", "Horror": "Korku", "Mystery": "Gizem", "Romance": "Romantik", "Sci-Fi": "Bilim Kurgu", "Thriller": "Gerilim" };
+        function tr(str) { if (!str || str === "N/A") return "Bilinmiyor"; return str.split(', ').map(i => trDict[i] || i).join(', '); }
+        function getMockRating(id) { let n=0; for(let i=0; i<id.length; i++) n+=id.charCodeAt(i); return (7.5 + (n%20)/10).toFixed(1); }
+
+        function hidePreloader() {
+            const p = document.getElementById('preloader');
+            if(p) { p.style.opacity = '0'; setTimeout(() => p.style.display = 'none', 500); }
         }
+        setTimeout(hidePreloader, 3000); // Failsafe (Maksimum 3s bekler)
 
-        if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/service-worker.js')
-            .then(registration => {
-                console.log('PWA ServiceWorker kaydı başarılı.');
-            })
-            .catch(err => {
-                console.log('PWA ServiceWorker kaydı başarısız:', err);
-            });
-    });
-}
+        let currentUser = null;
+        let userList = []; 
+        let isGuest = true; 
 
-        function initCategories() {
-            const allGenres = new Set();
-            DATABASE.forEach(item => { if(item.genre) item.genre.split(',').forEach(g => allGenres.add(g.trim())); });
-            
-            const list = document.getElementById('cat-list');
-            const mobList = document.getElementById('mob-cat-list'); // Mobil Liste
-            const sortedGenres = Array.from(allGenres).sort();
-
-            sortedGenres.forEach(genre => {
-                const itemHTML = `<div class="dropdown-item" onclick="selectCategory('${genre}', '${genre}')">${genre}</div>`;
-                list.innerHTML += itemHTML;
-                // Mobilde tıklandığında menüyü de kapat
-                mobList.innerHTML += `<div class="dropdown-item" onclick="selectCategory('${genre}', '${genre}'); toggleMobileMenu()">${genre}</div>`;
-            });
-        }
-
-        function toggleDropdown(id) {
-            // Mobildekiler relative olduğu için diğerlerini kapatmaya gerek yok
-            if(!id.startsWith('mob')) {
-                document.querySelectorAll('.dropdown-menu').forEach(m => { if(m.id !== id && !m.id.startsWith('mob')) m.classList.remove('show'); });
+        onAuthStateChanged(auth, async (user) => {
+            currentUser = user;
+            if (user) {
+                isGuest = false;
+                try {
+                    const docSnap = await getDoc(doc(db, "users", user.uid));
+                    userList = docSnap.exists() ? docSnap.data().watched || [] : [];
+                } catch(e) { userList = []; }
+            } else {
+                isGuest = true;
+                const localData = localStorage.getItem('animoloji_list');
+                userList = localData ? JSON.parse(localData) : [];
             }
-            document.getElementById(id).classList.toggle('show');
-        }
-
-        function selectCategory(val, text) {
-            activeCategory = val;
-            document.getElementById('selected-cat').innerText = text;
-            document.getElementById('mob-selected-cat').innerText = text;
-            filterAndSort(); 
-        }
-
-        function selectSort(val, text) {
-            activeSort = val;
-            document.getElementById('selected-sort').innerText = text;
-            document.getElementById('mob-selected-sort').innerText = text;
-            filterAndSort();
-        }
-
-        // Arama (Hem masaüstü hem mobil inputu dinle)
-        ['search-input', 'mobile-search-input'].forEach(id => {
-            const input = document.getElementById(id);
-            const resultsId = id === 'search-input' ? 'live-results' : 'mobile-live-results';
-            
-            if(input) {
-                input.addEventListener('input', function() {
-                    const term = this.value.toLowerCase();
-                    const resultsBox = document.getElementById(resultsId);
-                    
-                    if(term.length < 2) { resultsBox.classList.remove('show'); return; }
-
-                    const matches = DATABASE.filter(item => item.title.toLowerCase().includes(term));
-                    let html = '';
-                    if(matches.length > 0) {
-                        matches.slice(0, 5).forEach(item => {
-                            html += `<div class="live-item" onclick="window.location.href='anime-izle.html?id=${item.id}'"><img src="${item.poster}" onerror="this.src='https://via.placeholder.com/40x60'"><div class="live-info"><h4>${item.title}</h4><span>${item.year || ''}</span></div></div>`;
-                        });
-                    } else { html = '<div style="padding:15px; color:#aaa; text-align:center;">Sonuç yok.</div>'; }
-                    resultsBox.innerHTML = html;
-                    resultsBox.classList.add('show');
-                });
-            }
+            initApp();
         });
 
-        function filterAndSort() {
-            let filtered = DATABASE.filter(item => {
-                const catMatch = activeCategory === 'all' || (item.genre && item.genre.includes(activeCategory));
-                return catMatch;
-            });
+        window.isSaved = function(id) { return userList.some(item => item.imdbID === id); }
+        
+        window.toggleSave = async function(imdbID, encodedTitle, year, encodedPoster, rating, type, btnElement, context = 'card') {
+            const title = decodeURIComponent(encodedTitle);
+            const poster = decodeURIComponent(encodedPoster);
+            const index = userList.findIndex(m => m.imdbID === imdbID);
 
-            filtered.sort((a, b) => {
-                let pA = parseFloat((a.puan || '0').replace('IMDB ', ''));
-                let pB = parseFloat((b.puan || '0').replace('IMDB ', ''));
-                let yA = parseInt(a.year || 0);
-                let yB = parseInt(b.year || 0);
+            if (index > -1) {
+                userList.splice(index, 1);
+                if(btnElement) {
+                    btnElement.classList.remove('saved', 'added');
+                    if(context === 'card') btnElement.innerHTML = '<i class="fas fa-plus"></i>';
+                    else btnElement.innerHTML = '<i class="fas fa-plus"></i> Listem';
+                }
+            } else {
+                userList.push({ imdbID, title, year, poster, rating, type: type || 'series' });
+                if(btnElement) {
+                    btnElement.classList.add('saved', 'added');
+                    if(context === 'card') btnElement.innerHTML = '<i class="fas fa-check"></i>';
+                    else btnElement.innerHTML = '<i class="fas fa-check"></i> Listede';
+                }
+            }
+            
+            if (isGuest) {
+                localStorage.setItem('animoloji_list', JSON.stringify(userList));
+                if(document.getElementById('list-overlay').classList.contains('active')) window.renderMyList(); 
+            } else {
+                try {
+                    await setDoc(doc(db, "users", currentUser.uid), { watched: userList }, { merge: true });
+                    if(document.getElementById('list-overlay').classList.contains('active')) window.renderMyList(); 
+                } catch (error) {}
+            }
+        }
 
-                if (activeSort === 'newest') return yB - yA;
-                if (activeSort === 'oldest') return yA - yB;
-                if (activeSort === 'rating_high') return pB - pA;
-                if (activeSort === 'rating_low') return pA - pB;
-                if (activeSort === 'az') return a.title.localeCompare(b.title);
-            });
-
-            renderGrid(filtered);
+        window.switchView = function(viewId) {
+            document.querySelectorAll('.view').forEach(el => el.classList.remove('active'));
+            document.getElementById(viewId).classList.add('active');
             window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+            if(viewId === 'view-home') document.getElementById('nav-home').classList.add('active');
+
+            if(window.ytPlayer && window.ytPlayer.pauseVideo && window.ytPlayer.playVideo) {
+                if(viewId !== 'view-home') window.ytPlayer.pauseVideo();
+                else {
+                    if(!window.heroMuted) window.ytPlayer.unMute();
+                    window.ytPlayer.playVideo();
+                }
+            }
+            if(viewId !== 'view-player') document.getElementById('main-player').src = "";
+        }
+        window.goHome = function() { closeSearch(); closeMyList(); switchView('view-home'); }
+
+        window.heroMuted = true;
+        window.toggleHeroMute = function() {
+            if(window.ytPlayer && window.ytPlayer.isMuted) {
+                if(window.heroMuted) {
+                    window.ytPlayer.unMute();
+                    window.heroMuted = false;
+                    document.getElementById('hero-mute-btn').innerHTML = '<i class="fas fa-volume-up"></i>';
+                } else {
+                    window.ytPlayer.mute();
+                    window.heroMuted = true;
+                    document.getElementById('hero-mute-btn').innerHTML = '<i class="fas fa-volume-mute"></i>';
+                }
+            }
         }
 
-        function renderGrid(data) {
-            const grid = document.getElementById('anime-grid');
-            const countLabel = document.getElementById('count-label');
-            grid.innerHTML = '';
-            countLabel.innerText = `(${data.length})`;
+        async function loadHero(hero) {
+            // FailSafe (Ön yükleme)
+            document.getElementById('hero-title').innerText = hero.trTitle;
+            document.getElementById('hero-desc').innerText = hero.fallbackPlot;
+            document.getElementById('hero-poster').style.backgroundImage = `url('${hero.fallbackPoster}')`;
+            document.getElementById('hero-rating').innerText = "9.0";
+            document.getElementById('hero-year').innerText = "2024";
+            document.getElementById('hero-genre').innerText = "Aksiyon, Anime";
 
-            if (data.length === 0) {
-                grid.innerHTML = '<div style="width:100%; text-align:center; color:#666; padding:50px;">Bu kategoride içerik yok.</div>';
-                return;
+            try {
+                const res = await fetch(`https://www.omdbapi.com/?i=${hero.imdbID}&apikey=${API_KEY}`);
+                const data = await res.json();
+                
+                if(data.Response !== "False") {
+                    const hdPoster = data.Poster !== "N/A" ? data.Poster.replace('SX300', 'SX1080') : hero.fallbackPoster;
+                    document.getElementById('hero-poster').style.backgroundImage = `url('${hdPoster}')`;
+                    document.getElementById('hero-rating').innerText = data.imdbRating;
+                    document.getElementById('hero-year').innerText = data.Year;
+                    document.getElementById('hero-genre').innerText = tr(data.Genre);
+                    document.getElementById('hero-desc').innerText = data.Plot !== "N/A" ? data.Plot : hero.fallbackPlot;
+                }
+                
+                document.getElementById('hero-play').onclick = () => window.openDetails(hero.imdbID, hero.type);
+                
+                const btn = document.getElementById('hero-list');
+                if (window.isSaved(hero.imdbID)) { btn.classList.add('saved'); btn.innerHTML = '<i class="fas fa-check"></i> Listede'; } 
+                else { btn.classList.remove('saved'); btn.innerHTML = '<i class="fas fa-plus"></i> Listem'; }
+                btn.onclick = function() { window.toggleSave(hero.imdbID, encodeURIComponent(hero.trTitle), data.Year || "2024", encodeURIComponent(data.Poster || hero.fallbackPoster), data.imdbRating || "9.0", hero.type, this, 'hero'); };
+            } catch(e) {}
+        }
+
+        async function initApp() {
+            await loadHero(HEROES[currentHeroIdx]);
+
+            function initYouTubePlayer() {
+                if (window.ytApiReady && typeof YT !== 'undefined' && YT.Player) {
+                    window.ytPlayer = new YT.Player('yt-player', {
+                        videoId: HEROES[currentHeroIdx].ytID,
+                        playerVars: { 'autoplay': 1, 'controls': 0, 'mute': 1, 'playsinline': 1, 'start': 5, 'modestbranding': 1, 'rel': 0, 'origin': window.location.origin },
+                        events: {
+                            'onReady': (e) => {
+                                e.target.mute(); e.target.playVideo();
+                                // İlk 5 saniyeyi geç, son 5 saniyede başa sar döngüsü
+                                setInterval(() => {
+                                    if(window.ytPlayer && window.ytPlayer.getCurrentTime) {
+                                        let dur = window.ytPlayer.getDuration();
+                                        let cur = window.ytPlayer.getCurrentTime();
+                                        if(dur > 10 && cur >= dur - 5) window.ytPlayer.seekTo(5);
+                                    }
+                                }, 500);
+                            },
+                            'onStateChange': (e) => {
+                                if(e.data === 1) document.getElementById('hero-video-wrapper').style.opacity = '1';
+                            },
+                            'onError': async (e) => {
+                                currentHeroIdx = (currentHeroIdx + 1) % HEROES.length;
+                                await loadHero(HEROES[currentHeroIdx]);
+                                window.ytPlayer.loadVideoById({videoId: HEROES[currentHeroIdx].ytID, startSeconds: 5});
+                            }
+                        }
+                    });
+                } else { setTimeout(initYouTubePlayer, 100); }
+            }
+            initYouTubePlayer();
+
+            const container = document.getElementById('rows-container');
+            
+            try {
+                for (let cat of CATEGORIES) {
+                    const queries = cat.q.split(',');
+                    const fetchPromises = queries.map(q => fetch(`https://www.omdbapi.com/?s=${q.trim()}&type=${cat.type}&apikey=${API_KEY}`).then(r => r.json()));
+                    const results = await Promise.all(fetchPromises);
+                    
+                    let combined = [];
+                    results.forEach(res => { if(res.Search) combined = [...combined, ...res.Search]; });
+
+                    let uniqueItems = Array.from(new Set(combined.map(a => a.imdbID)))
+                        .map(id => combined.find(a => a.imdbID === id))
+                        .filter(m => m.Poster && m.Poster !== "N/A" && m.Year);
+                    
+                    uniqueItems.sort((a, b) => parseInt(b.Year) - parseInt(a.Year));
+
+                    if(uniqueItems.length > 0) {
+                        let rowHTML = `<div class="row"><h2 class="row-title"><i class="fas fa-play-circle"></i> ${cat.title}</h2><div class="row-slider" id="slider-${cat.title.replace(/\s/g,'')}">`;
+                        uniqueItems.forEach(m => {
+                            const r = getMockRating(m.imdbID);
+                            const isSvd = window.isSaved(m.imdbID);
+                            rowHTML += `
+                                <div class="card" onclick="window.openDetails('${m.imdbID}', '${cat.type}')">
+                                    <div class="card-poster">
+                                        <img src="${CORS}${m.Poster.replace('SX300', 'SX1080')}" onerror="this.parentElement.parentElement.remove()">
+                                        <div class="card-play"><i class="fas fa-play-circle"></i></div>
+                                        <div class="card-rating"><i class="fas fa-star"></i> ${r}</div>
+                                    </div>
+                                    <div class="card-add-btn ${isSvd?'saved':''}" onclick="event.stopPropagation(); window.toggleSave('${m.imdbID}', '${encodeURIComponent(m.Title)}', '${m.Year}', '${encodeURIComponent(m.Poster)}', '${r}', '${cat.type}', this, 'card')">${isSvd?'<i class="fas fa-check"></i>':'<i class="fas fa-plus"></i>'}</div>
+                                    <div class="card-info">
+                                        <div class="c-title">${m.Title}</div>
+                                        <div class="c-meta">${m.Year} • ${m.Type==='series'?'Anime Serisi':'Anime Filmi'}</div>
+                                    </div>
+                                </div>`;
+                        });
+                        rowHTML += `</div></div>`;
+                        container.innerHTML += rowHTML;
+                        enableDragScroll(document.getElementById(`slider-${cat.title.replace(/\s/g,'')}`));
+                    }
+                }
+            } catch(e) { console.error("Kategoriler yüklenirken hata:", e); }
+
+            hidePreloader();
+        }
+
+        let currentDetailsData = null;
+
+        window.openDetails = async function(id, type) {
+            closeSearch(); switchView('view-details');
+            document.getElementById('d-title').innerText = "Yükleniyor...";
+            document.getElementById('d-poster').src = "https://via.placeholder.com/350x500?text=Yukleniyor";
+
+            try {
+                const data = await fetch(`https://www.omdbapi.com/?i=${id}&plot=full&apikey=${API_KEY}`).then(r=>r.json());
+                currentDetailsData = { ...data, requestType: type };
+
+                const hdPoster = data.Poster !== "N/A" ? data.Poster.replace('SX300', 'SX1080') : "";
+                document.getElementById('d-bg').style.backgroundImage = `url(${hdPoster})`;
+                document.getElementById('d-poster').src = hdPoster;
+                
+                document.getElementById('d-title').innerText = data.Title;
+                document.getElementById('d-rating').innerText = data.imdbRating !== "N/A" ? data.imdbRating : "Yok";
+                document.getElementById('d-year').innerText = data.Year;
+                document.getElementById('d-runtime').innerText = data.Runtime !== "N/A" ? data.Runtime.replace('min','dk') : (data.totalSeasons ? `${data.totalSeasons} Sezon` : "?");
+                document.getElementById('d-type').innerText = type === 'series' ? "Anime Serisi" : "Anime Filmi";
+                document.getElementById('d-plot').innerText = data.Plot !== "N/A" ? data.Plot : "Özet bulunamadı.";
+                
+                document.getElementById('d-director').innerText = data.Writer !== "N/A" ? data.Writer : (data.Director !== "N/A" ? data.Director : "-");
+                document.getElementById('d-actors').innerText = data.Actors !== "N/A" ? data.Actors : "-";
+                document.getElementById('d-genre').innerText = tr(data.Genre);
+                document.getElementById('d-lang').innerText = `${tr(data.Language)} / ${tr(data.Country)}`;
+
+                document.getElementById('d-play-btn').onclick = () => window.openPlayer(id, type, data.Title, data.totalSeasons);
+                
+                document.getElementById('d-trailer-btn').onclick = () => {
+                    window.open(`https://www.youtube.com/results?search_query=${encodeURIComponent(data.Title + ' official anime trailer')}`, '_blank');
+                };
+
+                const btnList = document.getElementById('d-list-btn');
+                if (window.isSaved(data.imdbID)) { btnList.classList.add('saved'); btnList.innerHTML = '<i class="fas fa-check"></i> Listede'; } 
+                else { btnList.classList.remove('saved'); btnList.innerHTML = '<i class="fas fa-plus"></i> Listeme Ekle'; }
+                btnList.onclick = function() { window.toggleSave(data.imdbID, encodeURIComponent(data.Title), data.Year, encodeURIComponent(data.Poster), data.imdbRating, type, this, 'hero'); }
+            } catch(e) {}
+        }
+
+        let p_activeServerIndex = 0;
+        let p_activeSeason = 1;
+        let p_activeEpisode = 1;
+
+        window.openPlayer = async function(id, type, title, totalSeasons) {
+            switchView('view-player');
+            document.getElementById('p-title').innerHTML = `${title} <span id="p-badge" style="color:var(--primary); margin-left:10px; font-size:14px;"></span>`;
+            
+            const epSection = document.getElementById('episode-selector-section');
+            const seasonSelect = document.getElementById('season-select');
+            
+            if (type === 'series') {
+                epSection.style.display = 'block';
+                p_activeSeason = 1; p_activeEpisode = 1;
+                
+                seasonSelect.innerHTML = '';
+                let tSeasons = parseInt(totalSeasons) || 1;
+                for(let i=1; i<=tSeasons; i++) {
+                    seasonSelect.innerHTML += `<option value="${i}">${i}. Sezon</option>`;
+                }
+                
+                await loadEpisodesData(id, 1);
+            } else {
+                epSection.style.display = 'none';
             }
 
-            data.forEach(item => {
-                const page = 'anime-izle.html';
-                const year = item.year || '2023';
-                const puan = item.puan ? item.puan.replace('IMDB ', '') : '8.5';
+            renderServers(id, type);
+        }
+
+        window.loadEpisodesData = async function(id, season) {
+            const epGrid = document.getElementById('episodes-list');
+            epGrid.innerHTML = '<div style="color:#888; text-align:center; padding:10px; grid-column:1/-1;">Bölümler yükleniyor...</div>';
+            try {
+                const res = await fetch(`https://www.omdbapi.com/?i=${id}&Season=${season}&apikey=${API_KEY}`).then(r=>r.json());
+                epGrid.innerHTML = '';
+                if(res.Response === "True" && res.Episodes) {
+                    res.Episodes.forEach(ep => {
+                        const isActive = (ep.Episode == p_activeEpisode) ? 'active' : '';
+                        epGrid.innerHTML += `<button class="ep-btn ${isActive}" onclick="playEpisode(${ep.Episode}, event)">${ep.Episode}. Bölüm</button>`;
+                    });
+                } else {
+                    epGrid.innerHTML = '<div style="color:#ff4655; font-size:12px; grid-column:1/-1;">Bu sezon için bölüm bulunamadı.</div>';
+                }
+            } catch(e) { epGrid.innerHTML = '<div style="grid-column:1/-1;">Hata oluştu.</div>'; }
+        }
+
+        window.changeSeason = function(val) {
+            p_activeSeason = val;
+            p_activeEpisode = 1;
+            loadEpisodesData(currentDetailsData.imdbID, val);
+            renderServers(currentDetailsData.imdbID, currentDetailsData.requestType);
+        }
+
+        window.playEpisode = function(epNum, event) {
+            p_activeEpisode = epNum;
+            const btns = document.querySelectorAll('.ep-btn');
+            btns.forEach(b => b.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            renderServers(currentDetailsData.imdbID, currentDetailsData.requestType);
+        }
+
+        function renderServers(id, type) {
+            const panel = document.getElementById('servers-panel');
+            panel.innerHTML = '';
+            
+            SERVERS.forEach((srv, index) => {
+                const isActive = index === p_activeServerIndex ? 'active' : '';
+                panel.innerHTML += `<button class="srv-btn ${isActive}" onclick="changeServer(${index}, '${id}', '${type}')"><i class="fas ${srv.icon}" style="margin-right:8px;"></i> ${srv.name}</button>`;
+            });
+
+            if(type === 'series') document.getElementById('p-title').innerHTML = `${currentDetailsData.Title} <span style="color:var(--primary); margin-left:10px; font-size:14px;">(S${p_activeSeason} E${p_activeEpisode})</span>`;
+
+            document.getElementById('main-player').src = SERVERS[p_activeServerIndex].getUrl(id, p_activeSeason, p_activeEpisode, type);
+        }
+
+        window.changeServer = function(index, id, type) {
+            p_activeServerIndex = index;
+            renderServers(id, type);
+        }
+
+        window.closePlayer = function() {
+            if(currentDetailsData) switchView('view-details');
+            else goHome();
+        }
+
+        // ==========================================
+        // ARAMA VE LİSTEM KONTROLÜ
+        // ==========================================
+        window.openMyList = function() { document.getElementById('list-overlay').classList.add('active'); window.renderMyList(); }
+        window.closeMyList = function() { document.getElementById('list-overlay').classList.remove('active'); }
+        
+        window.renderMyList = function() {
+            const grid = document.getElementById('list-grid');
+            if(userList.length === 0) { grid.innerHTML = '<div class="msg-text">Listeniz şu an boş. Eklemeye başlayın.</div>'; return; }
+            grid.innerHTML = '';
+            userList.forEach(m => {
+                const encTitle = encodeURIComponent(m.title);
+                const encPoster = encodeURIComponent(m.poster);
                 grid.innerHTML += `
-                    <div class="anime-card" onclick="window.location.href='${page}?id=${item.id}'">
-                        <div class="poster-wrapper"><img src="${item.poster}" loading="lazy" onerror="this.src='https://via.placeholder.com/200x300'"></div>
-                        <div class="card-info"><div class="card-title">${item.title}</div><div class="card-meta"><span class="rating"><i class="fas fa-star"></i> ${puan}</span></div></div>
-                    </div>
-                `;
+                    <div class="card" onclick="window.openDetails('${m.imdbID}', '${m.type}')">
+                        <div class="card-poster"><img src="${m.poster.includes('http') ? m.poster : CORS + m.poster}" onerror="this.parentElement.parentElement.remove()"><div class="card-play"><i class="fas fa-play-circle"></i></div></div>
+                        <div class="card-remove-btn" onclick="event.stopPropagation(); window.toggleSave('${m.imdbID}', '${encTitle}', '${m.year}', '${encPoster}', '${m.rating}', '${m.type}', null, 'remove')" title="Listeden Çıkar"><i class="fas fa-trash-alt"></i></div>
+                        <div class="card-info"><div class="c-title">${m.title}</div><div class="c-meta">${m.year || ''} • <i class="fas fa-star" style="color:#f5c518"></i> ${m.rating}</div></div>
+                    </div>`;
             });
         }
 
-        function initHero() {
-            const heroItem = DATABASE[Math.floor(Math.random() * DATABASE.length)];
-            if(heroItem) {
-                document.getElementById('hero-title').innerText = heroItem.title;
-                document.getElementById('hero-desc').innerText = heroItem.description;
-                document.getElementById('hero-bg').style.backgroundImage = `url('${heroItem.backdrop || heroItem.poster}')`;
-                document.getElementById('hero-btn').onclick = () => window.location.href = `anime-izle.html?id=${heroItem.id}`;
-            }
+        window.openSearch = function() { 
+            document.getElementById('search-overlay').classList.add('active'); 
+            document.getElementById('searchInput').value = '';
+            document.getElementById('search-grid').innerHTML = '';
+            setTimeout(() => document.getElementById('searchInput').focus(), 100); 
         }
+        window.closeSearch = function() { 
+            document.getElementById('search-overlay').classList.remove('active'); 
+        }
+
+        let searchTimer;
+        window.handleSearch = async function(e) {
+            clearTimeout(searchTimer); 
+            const q = e.target.value; 
+            const grid = document.getElementById('search-grid');
+            if(q.length > 2) {
+                searchTimer = setTimeout(async () => {
+                    grid.innerHTML = '<div class="msg-text"><i class="fas fa-spinner fa-spin"></i> Aranıyor...</div>';
+                    const res = await fetch(`https://www.omdbapi.com/?s=${encodeURIComponent(q)}&apikey=${API_KEY}`).then(r => r.json());
+                    grid.innerHTML = '';
+                    if(res.Search && res.Search.length > 0) {
+                        res.Search.forEach(m => {
+                            if(m.Poster !== "N/A") {
+                                const isSvd = window.isSaved(m.imdbID);
+                                grid.innerHTML += `
+                                    <div class="card" onclick="window.openDetails('${m.imdbID}', '${m.Type || 'series'}')">
+                                        <div class="card-poster"><img src="${m.Poster}" onerror="this.parentElement.parentElement.remove()"><div class="card-play"><i class="fas fa-play-circle"></i></div></div>
+                                        <div class="card-add-btn ${isSvd?'saved':''}" onclick="event.stopPropagation(); window.toggleSave('${m.imdbID}', '${encodeURIComponent(m.Title)}', '${m.Year}', '${encodeURIComponent(m.Poster)}', '8.5', '${m.Type || 'series'}', this, 'card')">${isSvd?'<i class="fas fa-check"></i>':'<i class="fas fa-plus"></i>'}</div>
+                                        <div class="card-info" style="opacity:1; position:relative; background:transparent; padding:10px 0 0;"><div class="c-title">${m.Title}</div></div>
+                                    </div>`;
+                            }
+                        });
+                    } else { grid.innerHTML = '<div class="msg-text">Sonuç bulunamadı.</div>'; }
+                }, 600); 
+            } else { grid.innerHTML = ''; }
+        }
+
+        function enableDragScroll(el) { let isDown = false; let startX; let scrollLeft; el.addEventListener('mousedown', (e) => { isDown = true; startX = e.pageX - el.offsetLeft; scrollLeft = el.scrollLeft; el.style.cursor = 'grabbing'; }); el.addEventListener('mouseleave', () => { isDown = false; el.style.cursor = 'grab'; }); el.addEventListener('mouseup', () => { isDown = false; el.style.cursor = 'grab'; }); el.addEventListener('mousemove', (e) => { if(!isDown) return; e.preventDefault(); const x = e.pageX - el.offsetLeft; const walk = (x - startX) * 2; el.scrollLeft = scrollLeft - walk; }); }
     </script>
 </body>
 </html>

@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SINEO. | Dizi Detay</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800;900&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #050505; --accent: #ffffff; --grey: #111; }
+        * { box-sizing: border-box; margin: 0; padding: 0; outline: none; }
+        body { background: var(--bg); color: #fff; font-family: 'Inter', sans-serif; overflow-x: hidden; min-height: 100vh; }
+
+        .backdrop { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background-size: cover; background-position: center; filter: blur(25px) brightness(0.25); z-index: -1; transform: scale(1.1); }
+        .nav { padding: 30px 5%; display: flex; justify-content: space-between; align-items: center; position: absolute; width: 100%; top: 0; z-index: 100; }
+        .logo { font-size: 24px; font-weight: 900; letter-spacing: -2px; color: #fff; text-decoration: none; }
+        .btn-back { color: #fff; text-decoration: none; font-size: 16px; font-weight: 600; display: flex; align-items: center; gap: 8px; opacity: 0.7; transition: 0.3s; }
+        .btn-back:hover { opacity: 1; }
+        .btn-home { color: white; font-size: 24px; opacity: 0.8; transition: 0.3s; text-decoration: none; }
+        .btn-home:hover { opacity: 1; transform: scale(1.1); }
+
+        .content { max-width: 1200px; margin: 120px auto 50px; display: flex; gap: 50px; padding: 0 5%; align-items: flex-start; }
+        
+        .poster-side { width: 350px; flex-shrink: 0; position: relative; }
+        .poster-side img { width: 100%; border-radius: 24px; box-shadow: 0 30px 60px rgba(0,0,0,0.8); border: 1px solid rgba(255,255,255,0.1); }
+
+        .info-side { flex: 1; }
+        .info-side h1 { font-size: clamp(40px, 5vw, 64px); font-weight: 900; letter-spacing: -2px; line-height: 1.1; margin-bottom: 20px; }
+        
+        .meta-tags { display: flex; gap: 15px; margin-bottom: 30px; align-items: center; flex-wrap: wrap; }
+        .tag { padding: 6px 14px; background: rgba(255,255,255,0.1); border-radius: 8px; font-size: 13px; font-weight: 700; border: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(5px); }
+        .imdb { color: #f5c518; font-weight: 900; }
+
+        .plot { font-size: 17px; line-height: 1.6; color: #ccc; margin-bottom: 40px; max-width: 800px; transition: 0.3s; }
+
+        .action-btns { display: flex; gap: 20px; flex-wrap: wrap; }
+        .btn { padding: 16px 32px; border-radius: 15px; border: none; font-weight: 800; cursor: pointer; font-size: 16px; transition: 0.3s; display: flex; align-items: center; gap: 10px; }
+        .btn-play { background: #fff; color: #000; box-shadow: 0 10px 20px rgba(255,255,255,0.2); }
+        .btn-list { background: rgba(255,255,255,0.1); color: #fff; border: 1px solid rgba(255,255,255,0.2); backdrop-filter: blur(5px); }
+        .btn-play:hover { transform: translateY(-5px) scale(1.02); }
+        .btn-list:hover { background: rgba(255,255,255,0.2); transform: translateY(-3px); }
+        .btn-list.added { background: #fff; color: #000; }
+
+        .details-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 30px; margin-top: 50px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 40px; }
+        .detail-item span { display: block; color: #888; font-size: 12px; font-weight: 800; text-transform: uppercase; margin-bottom: 8px; letter-spacing: 1px; }
+        .detail-item p { font-size: 16px; font-weight: 600; line-height: 1.4; color: #eee; }
+
+        #error-msg { display: none; background: #ff4d4d22; border: 1px solid #ff4d4d; color: #ff4d4d; padding: 20px; border-radius: 15px; margin-top: 20px; font-weight: bold; text-align: center; }
+
+        @media (max-width: 900px) {
+            .content { flex-direction: column; align-items: center; text-align: center; margin-top: 100px; }
+            .poster-side { width: 80%; max-width: 300px; }
+            .action-btns, .meta-tags { justify-content: center; }
+            .details-grid { text-align: left; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="backdrop" id="bg"></div>
+
+    <nav class="nav">
+        <a href="javascript:history.back()" class="btn-back"><i class="fas fa-arrow-left"></i> Geri Dön</a>
+        <a href="index.html" class="logo">SINEO.</a>
+        <a href="index.html" class="btn-home"><i class="fas fa-home"></i></a>
+    </nav>
+
+    <div class="content">
+        <div class="poster-side">
+            <img id="m-poster" src="https://via.placeholder.com/350x500?text=Y%C3%BCkleniyor..." alt="Poster">
+        </div>
+        <div class="info-side">
+            <div id="error-msg">Bir hata oluştu.</div>
+            
+            <div id="series-data" style="display:none;">
+                <div class="meta-tags">
+                    <span class="tag imdb"><i class="fas fa-star"></i> <span id="m-rating">--</span></span>
+                    <span class="tag" id="m-year">--</span>
+                    <span class="tag" id="m-genre">--</span>
+                    <span class="tag" id="m-seasons">-- Sezon</span>
+                </div>
+                
+                <h1 id="m-title">İçerik Yükleniyor...</h1>
+                
+                <p class="plot" id="m-plot">Detaylar sunucudan çekiliyor...</p>
+
+                <div class="action-btns">
+                    <button class="btn btn-play" id="play-btn"><i class="fas fa-play"></i> Bölümleri İzle</button>
+                    <button class="btn btn-list" id="list-btn"><i class="fas fa-plus"></i> Listeme Ekle</button>
+                </div>
+
+                <div class="details-grid">
+                    <div class="detail-item"><span>Yaratıcı / Yazar</span><p id="m-director">--</p></div>
+                    <div class="detail-item"><span>Oyuncular</span><p id="m-actors">--</p></div>
+                    <div class="detail-item"><span>Dil & Ülke</span><p id="m-lang">--</p></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { getFirestore, doc, updateDoc, arrayUnion, getDoc, arrayRemove } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBoBncXwy7XkVVFyl3apBkVZOKljEu52ng",
+            authDomain: "sineo-app.firebaseapp.com",
+            projectId: "sineo-app",
+            storageBucket: "sineo-app.firebasestorage.app",
+            messagingSenderId: "646631390711",
+            appId: "1:646631390711:web:58b7048964b2aa6e6742f2"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        const API_KEY = 'f709a1ae'; 
+        
+        const urlParams = new URLSearchParams(window.location.search);
+        const seriesID = urlParams.get('id');
+
+        // --- İNGİLİZCE / TÜRKÇE ÇEVİRİ SÖZLÜĞÜ ---
+        const trDict = {
+            "Action": "Aksiyon", "Adventure": "Macera", "Animation": "Animasyon", "Biography": "Biyografi",
+            "Comedy": "Komedi", "Crime": "Suç", "Documentary": "Belgesel", "Drama": "Dram",
+            "Family": "Aile", "Fantasy": "Fantastik", "History": "Tarih", "Horror": "Korku",
+            "Music": "Müzik", "Musical": "Müzikal", "Mystery": "Gizem", "Romance": "Romantik",
+            "Sci-Fi": "Bilim Kurgu", "Short": "Kısa Film", "Sport": "Spor", "Thriller": "Gerilim",
+            "War": "Savaş", "Western": "Vahşi Batı",
+            "English": "İngilizce", "Japanese": "Japonca", "Spanish": "İspanyolca", "French": "Fransızca",
+            "German": "Almanca", "Italian": "İtalyanca", "Korean": "Korece", "Chinese": "Çince",
+            "Turkish": "Türkçe", "Russian": "Rusça", "Hindi": "Hintçe", "Portuguese": "Portekizce",
+            "United States": "ABD", "United Kingdom": "İngiltere", "Japan": "Japonya", "South Korea": "Güney Kore",
+            "France": "Fransa", "Canada": "Kanada", "Germany": "Almanya", "Italy": "İtalya", "Spain": "İspanya",
+            "Turkey": "Türkiye", "India": "Hindistan", "China": "Çin", "Australia": "Avustralya"
+        };
+
+        function translateData(str) {
+            if (!str || str === "N/A") return "Bilinmiyor";
+            return str.split(', ').map(item => trDict[item] || item).join(', ');
+        }
+
+        // --- CANLI ÇEVİRİ MOTORU (Özet için) ---
+        async function translatePlot(text) {
+            if (!text || text === "N/A") return "Bu içerik için özet bilgisi girilmemiştir.";
+            try {
+                const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=tr&dt=t&q=${encodeURIComponent(text)}`;
+                const response = await fetch(url);
+                const data = await response.json();
+                let translatedText = "";
+                data[0].forEach(item => translatedText += item[0]);
+                return translatedText;
+            } catch (error) {
+                console.error("Çeviri hatası:", error);
+                return text; 
+            }
+        }
+
+        async function fetchSeriesDetails() {
+            if (!seriesID) { showError("Dizi ID'si bulunamadı."); return; }
+
+            try {
+                const response = await fetch(`https://www.omdbapi.com/?i=${seriesID}&plot=full&apikey=${API_KEY}`);
+                const data = await response.json();
+
+                if (data.Response === "False") { showError("Dizi veritabanında bulunamadı."); return; }
+
+                document.getElementById('m-title').innerText = data.Title;
+                
+                // Özet Çeviri İşlemi
+                document.getElementById('m-plot').innerHTML = '<i class="fas fa-spinner fa-spin"></i> Özet Türkçeye çevriliyor...';
+                document.getElementById('m-plot').style.opacity = '0.5';
+                
+                const trPlot = await translatePlot(data.Plot);
+                document.getElementById('m-plot').innerText = trPlot;
+                document.getElementById('m-plot').style.opacity = '1';
+                
+                const highResPoster = data.Poster !== "N/A" ? data.Poster.replace('SX300', 'SX1080') : "https://via.placeholder.com/350x500?text=Afiş+Yok";
+                document.getElementById('m-poster').src = highResPoster;
+                document.getElementById('bg').style.backgroundImage = `url(${highResPoster})`;
+                
+                document.getElementById('m-rating').innerText = data.imdbRating !== "N/A" ? data.imdbRating : "Puan Yok";
+                document.getElementById('m-year').innerText = data.Year;
+                document.getElementById('m-genre').innerText = translateData(data.Genre);
+                
+                const totalSeasons = data.totalSeasons && data.totalSeasons !== "N/A" ? data.totalSeasons : "?";
+                document.getElementById('m-seasons').innerText = `${totalSeasons} Sezon`;
+                
+                document.getElementById('m-director').innerText = data.Writer !== "N/A" ? data.Writer : (data.Director !== "N/A" ? data.Director : "Bilinmiyor");
+                document.getElementById('m-actors').innerText = data.Actors !== "N/A" ? data.Actors : "Bilinmiyor";
+                
+                const lang = translateData(data.Language);
+                const country = translateData(data.Country);
+                document.getElementById('m-lang').innerText = `${lang} / ${country}`;
+
+                document.getElementById('series-data').style.display = 'block';
+
+                document.getElementById('play-btn').onclick = () => {
+                    window.location.href = `dizi-izle.html?id=${data.imdbID}`;
+                };
+
+                checkUserAuth(data);
+
+            } catch (err) {
+                showError("Sunucuya bağlanırken ağ hatası oluştu.");
+            }
+        }
+
+        function showError(message) {
+            document.getElementById('error-msg').innerText = message;
+            document.getElementById('error-msg').style.display = 'block';
+        }
+
+        function checkUserAuth(seriesData) {
+            onAuthStateChanged(auth, async (user) => {
+                const btn = document.getElementById('list-btn');
+
+                if (user) {
+                    const userRef = doc(db, "users", user.uid);
+                    const userSnap = await getDoc(userRef);
+                    if (userSnap.exists()) {
+                        const list = userSnap.data().watched || [];
+                        if (list.some(m => m.imdbID === seriesData.imdbID)) {
+                            btn.classList.add('added');
+                            btn.innerHTML = '<i class="fas fa-check"></i> Listede';
+                        }
+
+                        btn.onclick = async () => {
+                            btn.disabled = true;
+                            try {
+                                const currentList = (await getDoc(userRef)).data().watched || [];
+                                if (currentList.some(m => m.imdbID === seriesData.imdbID)) {
+                                    const itemToRemove = currentList.find(m => m.imdbID === seriesData.imdbID);
+                                    await updateDoc(userRef, { watched: arrayRemove(itemToRemove) });
+                                    btn.classList.remove('added');
+                                    btn.innerHTML = '<i class="fas fa-plus"></i> Listeme Ekle';
+                                } else {
+                                    await updateDoc(userRef, {
+                                        watched: arrayUnion({
+                                            title: seriesData.Title, poster: seriesData.Poster,
+                                            imdbID: seriesData.imdbID, rating: seriesData.imdbRating,
+                                            year: seriesData.Year, type: "series"
+                                        })
+                                    });
+                                    btn.classList.add('added');
+                                    btn.innerHTML = '<i class="fas fa-check"></i> Listede';
+                                }
+                            } catch (e) {}
+                            btn.disabled = false;
+                        };
+                    }
+                } else {
+                    btn.onclick = () => window.location.href = 'auth.html';
+                }
+            });
+        }
+
+        fetchSeriesDetails();
+    </script>
+</body>
+</html>

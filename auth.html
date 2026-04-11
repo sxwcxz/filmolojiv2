@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SINEO. | Geliştirme Notları</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #050505;
+            --accent: #ffffff;
+            --grey: #1a1a1a;
+            --text-muted: #888;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; outline: none; }
+        body { 
+            background-color: var(--bg); 
+            color: #fff; 
+            font-family: 'Inter', sans-serif; 
+            overflow-x: hidden;
+        }
+
+        .glow {
+            position: fixed;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 600px; height: 600px;
+            background: radial-gradient(circle, rgba(255,255,255,0.03) 0%, transparent 70%);
+            z-index: -1;
+        }
+
+        .container { max-width: 1000px; margin: 0 auto; padding: 100px 20px; }
+
+        .header { text-align: center; margin-bottom: 80px; }
+        .logo { font-size: 14px; font-weight: 900; letter-spacing: 5px; margin-bottom: 20px; display: block; opacity: 0.5; }
+        .header h1 { font-size: clamp(32px, 7vw, 64px); font-weight: 900; letter-spacing: -2px; line-height: 1.1; }
+        .header p { color: var(--text-muted); margin-top: 20px; font-size: 18px; font-weight: 500; max-width: 700px; margin-left: auto; margin-right: auto; }
+
+        .grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
+            gap: 20px; 
+        }
+
+        .feature-card {
+            background: var(--grey);
+            padding: 40px;
+            border-radius: 30px;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(255,255,255,0.2);
+            background: #222;
+        }
+
+        .feature-card i {
+            font-size: 30px;
+            margin-bottom: 25px;
+            display: block;
+            color: var(--accent);
+        }
+
+        .feature-card h3 { font-size: 22px; font-weight: 800; margin-bottom: 15px; }
+        .feature-card p { color: var(--text-muted); font-size: 15px; line-height: 1.6; }
+
+        .status {
+            position: absolute;
+            top: 20px; right: 20px;
+            font-size: 10px;
+            font-weight: 900;
+            padding: 5px 12px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-back {
+            display: inline-block;
+            margin-top: 50px;
+            color: #fff;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 14px;
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 15px 30px;
+            border-radius: 50px;
+            transition: 0.3s;
+        }
+
+        .btn-back:hover { background: #fff; color: #000; }
+
+        footer { text-align: center; margin-top: 100px; color: #333; font-weight: 900; font-size: 12px; letter-spacing: 2px; }
+    </style>
+</head>
+<body>
+
+    <div class="glow"></div>
+
+    <div class="container">
+        <header class="header">
+            <h1>SINEO.</h1>
+            <p>ÇOK YAKINDA</p>
+        </header>
+
+        <div class="grid">
+            <div class="feature-card">
+                <span class="status">Geliştiriliyor</span>
+                <i class="fas fa-tv"></i>
+                <h3>Ultra HD 4K</h3>
+                <p>Sınırları zorlayan görüntü kalitesi. Her karede kristal netliğinde bir sinema deneyimi sunuyoruz.</p>
+            </div>
+
+            <div class="feature-card">
+                <span class="status">Geliştiriliyor</span>
+                <i class="fas fa-users"></i>
+                <h3>Watch Party</h3>
+                <p>Arkadaşlarınla mesafeleri yok et. Senkronize izleme ve anlık sesli sohbet ile sinemayı eve taşı.</p>
+            </div>
+
+            <div class="feature-card">
+                <span class="status">Geliştiriliyor</span>
+                <i class="fas fa-download"></i>
+                <h3>Çevrimdışı Mod</h3>
+                <p>İnternetin olmadığı yerlerde bile SINEO seninle. En sevdiğin içerikleri indir, uçakta veya yolda izle.</p>
+            </div>
+
+            <div class="feature-card">
+                <span class="status">Geliştiriliyor</span>
+                <i class="fas fa-user-shield"></i>
+                <h3>Sosyal Profil 2.0</h3>
+                <p>Gelişmiş kullanıcı paneliyle izleme geçmişini yönet, arkadaş edin ve sana özel rozetler kazan.</p>
+            </div>
+
+            <div class="feature-card">
+                <span class="status">Geliştiriliyor</span>
+                <i class="fas fa-brain"></i>
+                <h3>AI "Mood" Algoritması</h3>
+                <p>Yapay zekamız o anki ruh haline göre sana en uygun içerikleri analiz ederek tavsiye motorunu kişiselleştirir.</p>
+            </div>
+
+            <div class="feature-card">
+                <span class="status">Geliştiriliyor</span>
+                <i class="fas fa-server"></i>
+                <h3>Global CDN Entegrasyonu</h3>
+                <p>Dünya çapındaki sunucu ağımızı genişleterek veri transfer hızlarını ve yükleme sürelerini optimize ediyoruz.</p>
+            </div>
+        </div>
+
+        <div style="text-align: center;">
+            <a href="index.html" class="btn-back"><i class="fas fa-chevron-left"></i> SİSTEME GERİ DÖN</a>
+        </div>
+
+        <footer>© 2026 SINEO </footer>
+    </div>
+
+</body>
+</html>
