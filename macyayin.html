@@ -197,6 +197,73 @@
         .hide-ui .overlay { opacity: 0; }
         .hide-ui .brand-logo { opacity: 0; }
         .hide-ui .center-action { opacity: 0; pointer-events: none; }
+
+        /* MOBİL UYUM (Medya Sorguları) */
+        @media (max-width: 768px) {
+            .brand-logo {
+                top: 20px;
+                left: 20px;
+                font-size: 28px; /* Logoyu küçült */
+                letter-spacing: -1px;
+            }
+
+            .controls-container {
+                bottom: 20px;
+                width: 95%;
+                padding: 10px 15px;
+                border-radius: 12px;
+            }
+
+            .controls-left, .controls-right {
+                gap: 12px;
+            }
+
+            /* Mobilde yer kazanmak için ses kaydırıcısını gizle (Fiziksel tuşlar var) */
+            #volume-slider {
+                display: none;
+            }
+
+            button svg {
+                width: 24px;
+                height: 24px;
+            }
+
+            .live-badge {
+                font-size: 12px;
+            }
+
+            select {
+                padding: 6px 20px 6px 10px;
+                font-size: 12px;
+            }
+
+            .center-action {
+                width: 60px;
+                height: 60px;
+            }
+
+            .center-action svg {
+                width: 30px;
+                height: 30px;
+            }
+        }
+
+        /* Çok Küçük Ekranlar (Telefonlar) */
+        @media (max-width: 480px) {
+            .live-badge {
+                /* Sadece kırmızı noktayı bırak, 'CANLI' yazısını gizle */
+                font-size: 0; 
+                gap: 0;
+            }
+            
+            .controls-left, .controls-right {
+                gap: 10px;
+            }
+            
+            .brand-logo {
+                font-size: 24px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -356,6 +423,7 @@
         }
 
         playerWrapper.addEventListener('mousemove', resetTimer);
+        playerWrapper.addEventListener('touchstart', resetTimer); // Mobilde dokunma ile arayüzü uyandır
         playerWrapper.addEventListener('mouseleave', hideUI);
         
         // Başlangıçta timer'ı başlat
