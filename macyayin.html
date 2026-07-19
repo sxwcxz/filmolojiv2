@@ -2,22 +2,25 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <!-- Viewport ayarı güncellendi: Ölçekleme sorunları için user-scalable=no eklendi -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>sineo</title>
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&family=Archivo+Black&display=swap" rel="stylesheet">
-    <!-- HLS.js -->
+    <title>sineo Modern Oynatıcı</title>
+    
+    <!-- Google Fonts: Arayüz için Poppins, Logo için Archivo Black -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Archivo+Black&display=swap" rel="stylesheet">
+    
+    <!-- HLS.js (M3U8 Oynatma Motoru) -->
     <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
     
     <style>
-        /* CSS Reset ve Kutu Modeli (Responsive için kritik) */
-        *, *::before, *::after {
+        * {
             box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent; /* Mobilde dokunma mavisini engeller */
         }
 
         :root {
-            --primary: #e50914; 
+            --primary: #e50914; /* Kırmızı vurgu rengi */
             --bg-glass: rgba(15, 15, 15, 0.6);
         }
 
@@ -26,18 +29,16 @@
             width: 100%; height: 100%;
             background-color: #000;
             font-family: 'Poppins', sans-serif;
-            overflow: hidden; /* Mobilde istemsiz kaydırmaları önler */
-            -webkit-tap-highlight-color: transparent; /* Mobilde dokunma mavisini kaldırır */
+            overflow: hidden; /* Taşmaları engeller */
         }
 
-        /* 100vw/vh yerine mutlak pozisyonlama - Mobil tarayıcı barlarına uyum sağlar */
         #player-wrapper {
             position: absolute;
-            top: 0; left: 0; bottom: 0; right: 0;
-            width: 100%; height: 100%;
+            top: 0; left: 0; right: 0; bottom: 0;
             display: flex;
             justify-content: center;
             align-items: center;
+            background: #000;
         }
 
         video {
@@ -46,25 +47,24 @@
             cursor: pointer;
         }
 
-        /* sineo Logosu */
+        /* "SINEO." Özel Logosu */
         .brand-logo {
             position: absolute;
-            top: max(20px, env(safe-area-inset-top)); /* iPhone çentik koruması */
-            left: max(20px, env(safe-area-inset-left));
-            color: #fff; 
+            top: clamp(15px, 4vw, 35px);
+            left: clamp(20px, 5vw, 45px);
             font-family: 'Archivo Black', sans-serif;
-            font-size: clamp(24px, 5vw, 52px); /* Ekrana göre otomatik boyutlanır */
-            font-weight: 900; 
-            letter-spacing: -2px; 
+            font-size: clamp(24px, 5vw, 52px);
+            color: #fff;
+            letter-spacing: -2px; /* Harfleri sıkıştır */
+            line-height: 1;
             z-index: 20;
-            text-shadow: 0 4px 20px rgba(0,0,0,0.8);
+            text-shadow: 0 4px 15px rgba(0,0,0,0.8);
             transition: opacity 0.5s ease;
-            user-select: none;
             pointer-events: none;
-            line-height: 1; 
+            user-select: none;
         }
 
-        /* Video Üzeri Karartma ve Efektler */
+        /* Video Üzeri Karartma (Alt kısım) */
         .overlay {
             position: absolute;
             bottom: 0; left: 0; right: 0;
@@ -72,6 +72,7 @@
             background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
             pointer-events: none;
             transition: opacity 0.5s ease;
+            z-index: 10;
         }
 
         /* Merkez Oynat Butonu ve Yükleniyor */
@@ -80,15 +81,15 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            width: clamp(50px, 15vw, 80px); 
-            height: clamp(50px, 15vw, 80px);
+            width: clamp(60px, 10vw, 80px);
+            height: clamp(60px, 10vw, 80px);
             background: var(--bg-glass);
             border-radius: 50%;
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
             cursor: pointer;
             transition: all 0.3s ease;
-            z-index: 10;
+            z-index: 15;
         }
 
         .center-action:hover {
@@ -99,23 +100,25 @@
         .center-action svg {
             width: 50%; height: 50%;
             fill: #fff;
-            margin-left: 5%; /* Oynatma üçgenini ortalamak için hafif sağa kaydırma */
+            margin-left: 5px; /* Play ikonunu hafif sağa ortala */
         }
 
+        /* Spinner (Yükleniyor) */
         .spinner {
             display: none;
-            width: clamp(50px, 15vw, 60px); 
-            height: clamp(50px, 15vw, 60px);
-            border: 5px solid rgba(255,255,255,0.2);
+            width: clamp(50px, 8vw, 60px);
+            height: clamp(50px, 8vw, 60px);
+            border: 4px solid rgba(255,255,255,0.2);
             border-top-color: var(--primary);
             border-radius: 50%;
             animation: spin 1s linear infinite;
             position: absolute;
+            z-index: 15;
         }
 
         @keyframes spin { 100% { transform: rotate(360deg); } }
 
-        /* Alt Kontrol Çubuğu */
+        /* Alt Kontrol Çubuğu (Glassmorphism) */
         .controls-container {
             position: absolute;
             bottom: max(20px, env(safe-area-inset-bottom)); /* iPhone home bar koruması */
@@ -133,29 +136,31 @@
             align-items: center;
             z-index: 20;
             transition: opacity 0.5s ease, transform 0.5s ease;
+            flex-wrap: nowrap; /* Asla alt satıra geçmesin */
+            white-space: nowrap;
         }
 
         .controls-left, .controls-right {
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: clamp(8px, 2vw, 20px); /* Ekran küçülünce boşluklar daralır */
         }
 
         /* İkonlar ve Butonlar */
         button {
             background: none; border: none;
-            cursor: pointer; padding: 5px;
+            cursor: pointer; padding: 0;
             display: flex; align-items: center;
             justify-content: center;
             transition: transform 0.2s;
-            outline: none;
         }
 
-        button:active { transform: scale(0.9); }
+        button:hover { transform: scale(1.15); }
         button svg { 
-            width: clamp(20px, 4vw, 28px); 
-            height: clamp(20px, 4vw, 28px); 
-            fill: #fff; transition: fill 0.3s; 
+            width: clamp(22px, 4vw, 28px); 
+            height: clamp(22px, 4vw, 28px); 
+            fill: #fff; 
+            transition: fill 0.3s; 
         }
         button:hover svg { fill: var(--primary); }
 
@@ -163,7 +168,8 @@
         .volume-container { display: flex; align-items: center; gap: 10px; }
         input[type="range"] {
             -webkit-appearance: none;
-            width: clamp(50px, 10vw, 80px); height: 6px;
+            width: clamp(50px, 8vw, 80px); 
+            height: 6px;
             background: rgba(255,255,255,0.2);
             border-radius: 5px; outline: none;
             cursor: pointer;
@@ -172,13 +178,15 @@
             -webkit-appearance: none;
             width: 14px; height: 14px;
             background: #fff; border-radius: 50%;
+            transition: background 0.3s;
         }
+        input[type="range"]::-webkit-slider-thumb:hover { background: var(--primary); }
 
         /* Canlı Yayın Rozeti */
         .live-badge {
             display: flex; align-items: center; gap: 6px;
             color: #fff; font-weight: 600; 
-            font-size: clamp(10px, 2.5vw, 14px);
+            font-size: clamp(12px, 2.5vw, 14px);
             letter-spacing: 1px;
             user-select: none;
         }
@@ -195,75 +203,73 @@
             100% { box-shadow: 0 0 0 0 rgba(229, 9, 20, 0); }
         }
 
-        /* Kalite Seçici Özel Tasarım */
+        /* Kalite Seçici */
         select {
             appearance: none;
             background: rgba(255,255,255,0.1);
             color: #fff; font-family: 'Poppins', sans-serif;
-            font-size: clamp(10px, 2.5vw, 14px); font-weight: 600;
+            font-size: clamp(11px, 2.5vw, 14px); font-weight: 600;
             border: 1px solid rgba(255,255,255,0.2);
-            padding: 6px 12px;
+            padding: 6px 10px;
             border-radius: 8px; outline: none; cursor: pointer;
             text-align: center;
+            max-width: 90px;
+            transition: all 0.3s;
         }
+        select:hover { background: rgba(255,255,255,0.2); }
         select option { background: #1a1a1a; color: #fff; }
 
-        /* Menü ve Logo Gizleme Sınıfı */
+        /* Menü Gizleme (Fare/Dokunma Hareketsizliğinde) */
         .hide-ui .controls-container { opacity: 0; transform: translate(-50%, 20px); pointer-events: none; }
         .hide-ui .overlay { opacity: 0; }
         .hide-ui .brand-logo { opacity: 0; }
         .hide-ui .center-action { opacity: 0; pointer-events: none; }
 
-        /* --- MOBİL UYUM (Medya Sorguları) --- */
+        /* MOBİL CİHAZ UYUMLULUĞU */
         @media (max-width: 768px) {
-            /* Mobilde ses çubuğu gizlenir (fiziksel tuşlar var) */
+            /* Telefonlarda fiziksel tuşlar kullanıldığı için ses çubuğunu gizle */
             #volume-slider { display: none; }
-            .controls-left, .controls-right { gap: 10px; }
-            .controls-container { padding: 8px 10px; width: 92%; }
+            .controls-container { width: 98%; padding: 8px 10px; }
         }
 
         @media (max-width: 480px) {
-            .live-badge span { display: none; } /* "CANLI" yazısını gizle, sadece nokta kalsın */
-            .controls-left, .controls-right { gap: 8px; }
-        }
-
-        /* Telefon Yatay Çevrildiğinde (Landscape) */
-        @media (max-height: 480px) and (orientation: landscape) {
-            .controls-container {
-                bottom: 15px;
-                padding: 5px 15px;
-            }
-            .brand-logo { top: 15px; left: 25px; }
+            /* Çok küçük ekranlarda "CANLI" yazısını gizle, sadece kırmızı nokta kalsın */
+            .live-badge span { display: none; }
         }
     </style>
 </head>
 <body>
 
     <div id="player-wrapper">
+        <!-- Özel Logo -->
+        <div class="brand-logo">SINEO.</div>
+
         <video id="video-player" playsinline></video>
         
         <div class="overlay"></div>
 
-        <!-- sineo Logosu -->
-        <div class="brand-logo">SINEO.</div>
-
-        <!-- Yükleniyor / Ortadaki Play Butonu -->
+        <!-- Merkez Oynatma ve Yükleniyor -->
         <div class="spinner" id="spinner"></div>
         <div class="center-action" id="center-play">
             <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
         </div>
 
-        <!-- Modern Kontrol Barı -->
+        <!-- Alt Kontrol Çubuğu -->
         <div class="controls-container" id="controls">
             <div class="controls-left">
+                <!-- Oynat/Duraklat Butonları -->
                 <button id="play-pause-btn">
                     <svg id="icon-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
                     <svg id="icon-pause" viewBox="0 0 24 24" style="display:none;"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
                 </button>
 
+                <!-- Ses Butonu ve Çubuğu -->
                 <div class="volume-container">
                     <button id="mute-btn">
-                        <svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
+                        <!-- Ses Açık İkonu -->
+                        <svg id="icon-vol-on" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
+                        <!-- Ses Kapalı İkonu -->
+                        <svg id="icon-vol-off" viewBox="0 0 24 24" style="display:none;"><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/></svg>
                     </button>
                     <input type="range" id="volume-slider" min="0" max="1" step="0.05" value="1">
                 </div>
@@ -274,8 +280,10 @@
             </div>
 
             <div class="controls-right">
+                <!-- Kalite Seçici (Gerektiğinde Görünür) -->
                 <select id="quality-selector" style="display: none;"></select>
 
+                <!-- Tam Ekran Butonu -->
                 <button id="fullscreen-btn">
                     <svg viewBox="0 0 24 24"><path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/></svg>
                 </button>
@@ -291,6 +299,8 @@
         const iconPlay = document.getElementById('icon-play');
         const iconPause = document.getElementById('icon-pause');
         const muteBtn = document.getElementById('mute-btn');
+        const iconVolOn = document.getElementById('icon-vol-on');
+        const iconVolOff = document.getElementById('icon-vol-off');
         const volumeSlider = document.getElementById('volume-slider');
         const fullscreenBtn = document.getElementById('fullscreen-btn');
         const qualitySelector = document.getElementById('quality-selector');
@@ -299,7 +309,7 @@
         const streamUrl = 'https://tv-trt1.medya.trt.com.tr/master.m3u8';
         let hideTimer;
 
-        // --- HLS YÜKLEME ---
+        // --- HLS YÜKLEME VE KALİTE MENÜSÜ ---
         if (Hls.isSupported()) {
             const hls = new Hls({ maxBufferLength: 30 });
             hls.loadSource(streamUrl);
@@ -309,7 +319,7 @@
                 const levels = hls.levels;
                 if (levels.length > 1) {
                     qualitySelector.style.display = 'block';
-                    qualitySelector.innerHTML = '<option value="-1">Auto</option>';
+                    qualitySelector.innerHTML = '<option value="-1">Oto</option>';
                     levels.forEach((level, index) => {
                         const opt = document.createElement('option');
                         opt.value = index;
@@ -322,6 +332,7 @@
                 }
             });
         } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+            // Safari ve iPhone için doğrudan oynatma (iOS kaliteleri kendi içinde ayarlar)
             video.src = streamUrl;
         }
 
@@ -347,38 +358,57 @@
             centerPlay.style.display = 'flex';
         });
 
-        // --- YÜKLENİYOR ---
+        // --- YÜKLENİYOR (BUFFERING) ---
         video.addEventListener('waiting', () => {
             spinner.style.display = 'block';
             centerPlay.style.display = 'none';
         });
-        video.addEventListener('playing', () => {
-            spinner.style.display = 'none';
-        });
+        video.addEventListener('playing', () => spinner.style.display = 'none');
 
-        // --- SES ---
+        // --- SES KONTROLÜ ---
+        function updateVolumeIcons() {
+            if(video.muted || video.volume === 0) {
+                iconVolOn.style.display = 'none';
+                iconVolOff.style.display = 'block';
+            } else {
+                iconVolOn.style.display = 'block';
+                iconVolOff.style.display = 'none';
+            }
+        }
+
         volumeSlider.addEventListener('input', (e) => {
             video.volume = e.target.value;
-            video.muted = video.volume === 0;
+            video.muted = video.volume == 0;
+            updateVolumeIcons();
         });
 
         muteBtn.addEventListener('click', () => {
             video.muted = !video.muted;
+            if(!video.muted && video.volume === 0) video.volume = 1;
             volumeSlider.value = video.muted ? 0 : video.volume;
+            updateVolumeIcons();
         });
 
-        // --- TAM EKRAN ---
+        // --- TAM EKRAN (iOS Destekli) ---
         fullscreenBtn.addEventListener('click', () => {
-            if (!document.fullscreenElement) {
-                if (playerWrapper.requestFullscreen) playerWrapper.requestFullscreen();
-                else if (playerWrapper.webkitRequestFullscreen) playerWrapper.webkitRequestFullscreen(); // Safari
+            if (!document.fullscreenElement && !document.webkitFullscreenElement) {
+                if (playerWrapper.requestFullscreen) {
+                    playerWrapper.requestFullscreen();
+                } else if (playerWrapper.webkitRequestFullscreen) {
+                    playerWrapper.webkitRequestFullscreen(); // PC Safari
+                } else if (video.webkitEnterFullscreen) {
+                    video.webkitEnterFullscreen(); // iOS (iPhone) Video Oynatıcısı
+                }
             } else {
-                if (document.exitFullscreen) document.exitFullscreen();
-                else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                } else if (document.webkitExitFullscreen) {
+                    document.webkitExitFullscreen();
+                }
             }
         });
 
-        // --- UI GİZLEME (Dokunmatik ve Fare) ---
+        // --- UI GİZLEME VE GÖSTERME (Fare & Dokunma) ---
         function hideUI() {
             if (!video.paused) playerWrapper.classList.add('hide-ui');
         }
@@ -386,20 +416,17 @@
         function resetTimer() {
             playerWrapper.classList.remove('hide-ui');
             clearTimeout(hideTimer);
-            hideTimer = setTimeout(hideUI, 3000); 
+            hideTimer = setTimeout(hideUI, 3000); // 3 sn sonra gizle
         }
 
-        // Fare hareketleri
+        // Bilgisayar için fare etkinlikleri
         playerWrapper.addEventListener('mousemove', resetTimer);
         playerWrapper.addEventListener('mouseleave', hideUI);
         
-        // Dokunmatik Ekran (Mobil) hareketleri
+        // Mobil için dokunmatik ekran etkinlikleri
         playerWrapper.addEventListener('touchstart', resetTimer);
-        playerWrapper.addEventListener('touchend', () => {
-            clearTimeout(hideTimer);
-            hideTimer = setTimeout(hideUI, 3000); 
-        });
         
+        // Başlangıç tetiklemesi
         resetTimer();
     </script>
 </body>
